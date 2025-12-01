@@ -1,148 +1,149 @@
-# Synthetic RAG Evaluation
+# Multi-Agent RAG System for Synthetic Data Generation
 
-A research project focused on generating and evaluating synthetic datasets for Retrieval-Augmented Generation (RAG) systems in specialized domains.
+A sophisticated multi-agent system for generating high-quality Question-Answer-Context triplets from academic textbooks using state-of-the-art research techniques.
 
-## 📋 Overview
+## Overview
 
-This project explores methods for creating synthetic question-answer pairs to evaluate and improve RAG systems, particularly for domain-specific use cases where labeled data is scarce. The generated datasets will be published on HuggingFace.
+This project implements a RAG (Retrieval-Augmented Generation) benchmarking system that combines five cutting-edge research papers:
+- **Reflexion** (NeurIPS 2023) - Multi-agent cooperative system with self-improvement
+- **HyDE** (ACL 2023) - Query expansion via hypothetical document generation
+- **Constitutional AI** (Anthropic 2022) - Academic validation principles
+- **RAGAS** (arXiv 2023) - Automated evaluation metrics
+- **Self-RAG** (arXiv 2023) - Self-assessment and pre-filtering
 
-## 🎯 Objectives
-
-- Review state-of-the-art synthetic data generation methods
-- Implement and test various generation approaches
-- Evaluate quality of synthetic data (coverage, relevance, diversity)
-- Develop novel methods combining different techniques (graph-based, agentic, RL, active learning)
-- Assess alignment between synthetic and real-world RAG performance
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-Synthetic-Data-Generation-for-RAG-Systems/
-├── generation/              # Data generation methods
-│   └── multi-agent/        # Multi-agent approach (Aziz)
-│       ├── src/            # Source code
-│       ├── tests/          # Tests
-│       ├── notebooks/      # Experiments
-│       └── scripts/        # Utilities
-├── evaluation/              # Evaluation metrics research
-│   ├── metrics/            # Metric implementations
-│   └── benchmarks/         # Benchmark results
-├── taxonomy/                # Question taxonomy research
-│   ├── question-types/     # Type definitions
-│   └── analysis/           # Analysis tools
-├── multimodal/              # Multimodal RAG research
-│   ├── vision/             # Visual processing
-│   └── document-processing/ # Multimodal documents
-├── shared/                  # Shared resources
-│   ├── utils/              # Shared utilities
-│   ├── data/               # Shared datasets
-│   └── configs/            # Shared configurations
-├── docs/                    # Documentation
-│   ├── architecture/       # Architecture docs
-│   ├── tutorials/          # Tutorials
-│   └── a2a_learning/       # A2A materials
-└── .github/                 # CI/CD workflows
+.
+├── src/                    # Source code
+│   ├── agents/            # Agent implementations
+│   ├── mcp/               # Model Context Protocol server
+│   ├── evaluation/        # RAGAS integration
+│   ├── utils/             # Utility functions
+│   ├── config.py          # Configuration management
+│   ├── pdf_processor.py   # PDF text extraction
+│   └── vector_store.py    # ChromaDB integration
+├── tests/                  # Test suite
+├── scripts/                # Utility scripts
+├── notebooks/              # Jupyter experiments
+├── data/                   # PDF textbooks (gitignored)
+├── outputs/                # Generated datasets
+├── docs/                   # Documentation
+│   ├── architecture/      # Architecture documents
+│   ├── tutorials/         # Implementation guides
+│   └── a2a_learning/      # A2A protocol resources
+├── IMPLEMENTATION_PLAN.md  # 16-week development roadmap
+├── GETTING_STARTED.md      # Quick start guide
+├── CURRENT_STATUS.md       # Project progress tracker
+└── requirements.txt        # Python dependencies
 ```
 
-## 🔬 Research Tracks
+## Quick Start
 
-### 1. **Data Generation** (`generation/`)
-Multiple approaches for generating synthetic QA pairs:
-- **Multi-Agent** (Aziz) - LangGraph orchestration with Reflexion, HyDE, Constitutional AI
-- **Graph-Based** - Knowledge graph approaches
-- **Evolutionary** - Genetic algorithms
-
-### 2. **Evaluation Metrics** (`evaluation/`)
-Developing and testing RAG evaluation metrics:
-- RAGAS extensions
-- LLM-as-judge metrics
-- Multimodal metrics
-- Synthetic data quality metrics
-
-### 3. **Question Taxonomy** (`taxonomy/`)
-Classification and analysis of question types:
-- Question type definitions
-- Automatic classifiers
-- Distribution analysis
-- Bloom's taxonomy alignment
-
-### 4. **Multimodal RAG** (`multimodal/`)
-Extending to text + visual documents:
-- Image extraction from PDFs
-- Vision-Language Models
-- Multimodal question generation
-- Visual grounding evaluation
-
-## 🚀 Getting Started
-
-### For All Team Members
+### 1. Setup Environment
 
 ```bash
-# Clone the repository
-git clone https://github.com/Aziz-Benamira/Synthetic-Data-Generation-for-RAG-Systems.git
-cd Synthetic-Data-Generation-for-RAG-Systems
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # On Windows
-
 # Install dependencies
 pip install -r requirements.txt
 
 # Copy environment template
 cp .env.example .env
+
 # Edit .env with your API keys
+# Required: OPENAI_API_KEY
 ```
 
-### Navigate to Your Research Track
+### 2. Add a PDF Textbook
+
+Download a free academic textbook and place it in the data directory:
+```bash
+# Recommended: OpenStax textbooks (https://openstax.org/)
+# Save as: data/sample_textbook.pdf
+```
+
+### 3. Test PDF Processing
 
 ```bash
-# For generation research
-cd generation/multi-agent/
-
-# For evaluation research
-cd evaluation/
-
-# For taxonomy research
-cd taxonomy/
-
-# For multimodal research
-cd multimodal/
+python scripts/test_pdf_processor.py
 ```
 
-Each directory has its own README with specific instructions.
+### 4. Follow the Implementation Plan
 
-## 📚 Documentation
+See `IMPLEMENTATION_PLAN.md` for the complete 16-week roadmap.
 
-### Architecture & Planning
-- [Technical Report](docs/architecture/TECHNICAL_REPORT.md) - Complete system design
-- [Project Roadmap](docs/architecture/PROJECT_ROADMAP.md) - 16-week implementation plan
-- [System Architecture](docs/architecture/ARCHITECTURE.md) - Architecture details
+Start with `GETTING_STARTED.md` for Phase 1 instructions.
 
-### Collaboration
-- [Collaboration Guide](docs/COLLABORATION_GUIDE.md) - **READ THIS FIRST!**
-- [Contributing Guidelines](CONTRIBUTING.md) - Code standards
-- [Research Track READMEs](generation/) - Track-specific guides
+## Current Status
 
-## 🤝 Team Collaboration
+**Phase:** 1 - Foundation  
+**Task:** PDF Processing  
+**Branch:** Aziz_branch
 
-This is a **multi-track research project**. Each team member focuses on a specific area:
+See `CURRENT_STATUS.md` for detailed progress tracking.
 
-- **Folder-based organization** - Each track has its own directory
-- **Feature branches** - Create branches for each feature
-- **Shared resources** - Common utilities in `shared/`
-- **Regular integration** - Combine approaches in final phase
+## Development Approach
 
-**See [COLLABORATION_GUIDE.md](docs/COLLABORATION_GUIDE.md) for detailed workflow!**
+This project is built incrementally with focus on understanding:
+1. Each component is built and tested individually
+2. No moving forward until current component is mastered
+3. Comprehensive testing at every step
+4. Clear documentation for every decision
 
-## 📄 License
+## Documentation
+
+- **IMPLEMENTATION_PLAN.md** - Complete 16-week development roadmap
+- **GETTING_STARTED.md** - Phase 1 step-by-step guide
+- **CURRENT_STATUS.md** - Progress tracking and next steps
+- **TECHNICAL_REPORT.md** - Complete technical architecture
+- **docs/** - Additional documentation and learning resources
+
+## Key Features (Planned)
+
+### Phase 1: Foundation
+- PDF text extraction with structure preservation
+- Semantic chunking strategy
+- Vector store with ChromaDB
+- MCP server for data access
+
+### Phase 2-4: Agents
+- Question Generator with diversity management
+- Answer Generator with HyDE and Self-RAG
+- Critic Agent with RAGAS and Constitutional AI
+
+### Phase 5: Reflexion Loop
+- Iterative improvement through feedback
+- Multi-turn refinement
+- Quality convergence tracking
+
+### Phase 6: Orchestration
+- LangGraph state machine
+- SQLite checkpointing for crash recovery
+- Batch processing with progress tracking
+
+### Phase 7: Advanced Features
+- Multi-dimensional diversity tracking
+- Hard negative generation
+- Advanced semantic chunking
+
+### Phase 8: Evaluation
+- Baseline comparisons
+- Performance benchmarking
+- Final dataset generation
+
+## Technologies
+
+- **LLM**: OpenAI GPT-4 Turbo
+- **Embeddings**: OpenAI text-embedding-3-small
+- **Vector Store**: ChromaDB
+- **Orchestration**: LangGraph
+- **Evaluation**: RAGAS
+- **PDF Processing**: PyMuPDF
+- **Data Layer**: Model Context Protocol (MCP)
+
+## License
 
 TBD
 
-## 👥 Team
+## Contact
 
-Research team - Academic Project
-
-## 📧 Contact
-
-For questions and collaboration: [contact info]
+Research project - Academic collaboration
