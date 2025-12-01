@@ -146,8 +146,9 @@ Research team - Academic Project
 ## 📧 Contact
 
 For questions and collaboration: 
-aziz.ben-amira@ensta-paris.fr
-ameni.hidouri@ensta-paris.fr
-maloe.aymonier@ensta-paris.fr
-yassine.zanned@ensta-paris.fr
-seifeddine.ghozzi@ensta-paris.fr
+
+- aziz.ben-amira@ensta-paris.fr
+- ameni.hidouri@ensta-paris.fr
+- maloe.aymonier@ensta-paris.fr
+- yassine.zanned@ensta-paris.fr
+- seifeddine.ghozzi@ensta-paris.fr
