@@ -23,6 +23,7 @@ ragas==0.2.7
 
 # Document processing
 pymupdf==1.24.13
+PyPDF2==3.0.1
 python-docx==1.0.0
 beautifulsoup4==4.12.0
 
