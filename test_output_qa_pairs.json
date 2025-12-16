@@ -1,0 +1,54 @@
+{
+  "source_chunk": {
+    "chunk_id": "1.1.c2",
+    "chapter": "G'en'eralit'es",
+    "section": "Tribu",
+    "pages": [
+      7,
+      11
+    ],
+    "content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+  },
+  "qa_pairs": [
+    {
+      "question": "Quelle est la propriété d'une intersection de tribus ?",
+      "answer": "Une intersection de tribus est une tribu",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "supporting_quotes": [
+        "Proposition 1.1.1 Une intersection de tribus est une tribu."
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    },
+    {
+      "question": "Comment définir une sous-tribu de F, étant donné que F est une tribu ?",
+      "answer": "Une sous-tribu de F est une tribu G telle que G ⊂ F, où A ∈ G implique A ∈ F",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "supporting_quotes": [
+        "Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F"
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    }
+  ]
+}
