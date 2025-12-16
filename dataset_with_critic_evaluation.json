@@ -1,0 +1,156 @@
+{
+  "summary": {
+    "total_generated": 6,
+    "total_accepted": 6,
+    "total_rejected": 0,
+    "acceptance_rate": 1.0,
+    "average_quality_score": 1.0
+  },
+  "dataset": [
+    {
+      "question": "Qu'est-ce qu'une sous-tribu d'une tribu F ?",
+      "answer": "Une sous-tribu de F est une tribu G telle que G ⊂ F, soit A ∈ G implique A ∈ F",
+      "question_type": "conceptual",
+      "difficulty": "easy",
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu",
+        "page_range": [
+          7,
+          11
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    },
+    {
+      "question": "Qu'est-ce que la plus petite tribu contenant une famille d'ensembles ?",
+      "answer": "La plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui contiennent cette famille",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu",
+        "page_range": [
+          7,
+          11
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    },
+    {
+      "question": "Quel est le type de tribu mentionné dans l'exemple 1.1.1 ?",
+      "answer": "boréliens",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "metadata": {
+        "chunk_id": "1.1.c4",
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu",
+        "page_range": [
+          7,
+          11
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    },
+    {
+      "question": "Qu'est-ce qui caractérise les ensembles de IR mentionnés dans l'exemple 1.1.1 ?",
+      "answer": "Les ensembles de IR mentionnés dans l'exemple 1.1.1 ne sont pas des boréliens et sont difficiles à exhiber",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "metadata": {
+        "chunk_id": "1.1.c4",
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu",
+        "page_range": [
+          7,
+          11
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    },
+    {
+      "question": "Quelle est la condition nécessaire et suffisante pour qu'un processus n-dimensionnel B soit un mouvement Brownien ?",
+      "answer": "Le processus n-dimensionnel B est un mouvement Brownien si et seulement si les processus B(i) et B(i)B(j) −δi,jt sont des martingales",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "metadata": {
+        "chunk_id": "2.3.9.c2",
+        "chapter": "LE MOUVEMENT BROWNIEN",
+        "section": "Le mouvement Brownien",
+        "page_range": [
+          31,
+          33
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    },
+    {
+      "question": "Comment est défini le coefficient de corrélation ρ entre deux mouvements Browniens B1 et B2 ?",
+      "answer": "Le coefficient de corrélation ρ entre deux mouvements Browniens B1 et B2 est défini si B1(t)B2(t) −ρt est une martingale",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "metadata": {
+        "chunk_id": "2.3.9.c2",
+        "chapter": "LE MOUVEMENT BROWNIEN",
+        "section": "Le mouvement Brownien",
+        "page_range": [
+          31,
+          33
+        ],
+        "source_file": "data\\pdfs\\M2_cours.pdf"
+      },
+      "quality_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "overall_quality_score": 1.0
+    }
+  ],
+  "rejected_for_analysis": []
+}

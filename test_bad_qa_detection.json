@@ -1,0 +1,87 @@
+{
+  "test_type": "bad_qa_detection",
+  "total_tested": 6,
+  "correctly_rejected": 6,
+  "false_positives": 0,
+  "detection_rate": 1.0,
+  "details": [
+    {
+      "problem": "HALLUCINATION - Info inventée (Fermat/Pascal)",
+      "question": "Qu'est-ce qu'une tribu en théorie des probabilités ?",
+      "answer": "Une tribu est une collection de sous-ensembles qui a été inventée par le mathématicien français Pierre de Fermat en 1654 lors de sa correspondance avec Blaise Pascal sur les jeux de hasard.",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 0.0,
+        "local_answerability": 0.0,
+        "factual_accuracy": 0.0,
+        "completeness": 0.0,
+        "clarity": 0.0
+      }
+    },
+    {
+      "problem": "NON-ANCRÉ - Réponse hors chunk (mesure de Lebesgue)",
+      "question": "Quelle est la mesure de Lebesgue sur les boréliens ?",
+      "answer": "La mesure de Lebesgue est l'unique mesure sur les boréliens de R qui est invariante par translation et qui attribue la valeur 1 à l'intervalle [0,1].",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 0.0,
+        "local_answerability": 0.0,
+        "factual_accuracy": 0.0,
+        "completeness": 0.0,
+        "clarity": 0.5
+      }
+    },
+    {
+      "problem": "QUESTION VAGUE - 'C'est quoi le truc'",
+      "question": "C'est quoi le truc avec les ensembles ?",
+      "answer": "Les ensembles sont des collections d'objets mathématiques.",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 0.0,
+        "local_answerability": 0.0,
+        "factual_accuracy": 0.5,
+        "completeness": 0.0,
+        "clarity": 0.5
+      }
+    },
+    {
+      "problem": "RÉPONSE INCOMPLÈTE - Juste 'Une sous-tribu.'",
+      "question": "Qu'est-ce qu'une sous-tribu de F et quelles sont ses propriétés ?",
+      "answer": "Une sous-tribu.",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 0.0,
+        "completeness": 0.0,
+        "clarity": 0.0
+      }
+    },
+    {
+      "problem": "ERREUR FACTUELLE - Contredit le chunk",
+      "question": "Qu'est-ce qu'une intersection de tribus ?",
+      "answer": "Une intersection de tribus n'est PAS une tribu, contrairement à une réunion de tribus qui est toujours une tribu.",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 0.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 0.0,
+        "completeness": 0.0,
+        "clarity": 0.0
+      }
+    },
+    {
+      "problem": "HORS CONTEXTE - Nécessite Radon-Nikodym",
+      "question": "En utilisant le théorème de Radon-Nikodym et la définition de tribu, démontrez que toute mesure finie est régulière.",
+      "answer": "La démonstration utilise le fait qu'une tribu est fermée par union dénombrable et complémentation.",
+      "decision": "reject",
+      "scores": {
+        "anchoring": 0.0,
+        "local_answerability": 0.0,
+        "factual_accuracy": 0.0,
+        "completeness": 0.0,
+        "clarity": 0.0
+      }
+    }
+  ]
+}
