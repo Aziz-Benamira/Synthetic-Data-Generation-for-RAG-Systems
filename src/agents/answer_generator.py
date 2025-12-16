@@ -305,6 +305,74 @@ class AnswerGenerator:
                 progress_callback(i + 1, total)
         
         return all_answers
+    
+    def regenerate_with_feedback(
+        self,
+        question: Any,  # CandidateQuestion
+        chunk: Any,     # SemanticChunk
+        previous_answer: str,
+        critic_feedback: str
+    ) -> GeneratedAnswer:
+        """
+        Regenerate an answer based on critic feedback.
+        
+        This is used in the retry loop when the critic rejects a QA pair.
+        The feedback contains specific issues to address.
+        
+        Args:
+            question: CandidateQuestion object
+            chunk: SemanticChunk object (source context)
+            previous_answer: The answer that was rejected
+            critic_feedback: Formatted feedback from CriticAgent.format_feedback_for_retry()
+            
+        Returns:
+            New GeneratedAnswer object
+        """
+        retry_prompt = f"""Tu dois RÉGÉNÉRER une réponse pour corriger les problèmes identifiés par le Critic.
+
+=== QUESTION ===
+{question.question}
+
+=== RÉPONSE REJETÉE ===
+{previous_answer}
+
+{critic_feedback}
+
+=== CONTEXTE SOURCE (seule information autorisée) ===
+Chapitre: {chunk.chapter_title}
+Section: {chunk.section_title}
+Pages: {chunk.page_range[0]}-{chunk.page_range[1]}
+
+Contenu:
+---
+{chunk.content}
+---
+
+=== INSTRUCTIONS ===
+1. Analyse le feedback du Critic
+2. Génère UNE NOUVELLE réponse qui évite les erreurs signalées
+3. Utilise UNIQUEMENT les informations du chunk ci-dessus
+4. N'INVENTE PAS d'exemples ou d'illustrations
+5. N'AJOUTE PAS d'informations externes
+6. Cite des extraits EXACTS du texte source
+
+=== FORMAT DE SORTIE (JSON) ===
+{{
+  "answer": "La réponse corrigée, strictement ancrée dans le chunk",
+  "supporting_quotes": ["citation exacte 1", "citation exacte 2"],
+  "confidence": 0.95,
+  "reasoning": "Comment cette réponse corrige les problèmes signalés"
+}}
+
+Génère UNIQUEMENT le JSON."""
+
+        # Call LLM with retry prompt
+        response = self._call_llm(retry_prompt)
+        
+        # Parse response (same parsing logic)
+        answer = self._parse_response(response, question, chunk)
+        
+        return answer
 
 
 # =============================================================================

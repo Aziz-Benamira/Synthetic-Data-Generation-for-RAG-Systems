@@ -454,8 +454,9 @@ class CriticAgent:
     Design:
     - Uses explicit rubrics for each criterion
     - Binary decision: PASS or REJECT
-    - No reformulation loop - REJECT means discard
+    - DIFFERENT MODEL than generator to avoid self-evaluation bias
     - Provides detailed explanations for transparency
+    - Feedback can be used for retry loops
     """
     
     # Threshold for passing a criterion
@@ -464,7 +465,7 @@ class CriticAgent:
     def __init__(
         self,
         llm_client: Any,
-        model_name: str = "llama-3.3-70b-versatile",
+        model_name: str = "llama-3.1-8b-instant",  # Different from generator (llama-3.3-70b)
         language: str = "fr",
         temperature: float = 0.2,  # Low temperature for consistent evaluation
         strict_mode: bool = True   # If True, ALL criteria must pass
@@ -635,6 +636,53 @@ class CriticAgent:
             "overall_score": 0.5,
             "rejection_reasons": ["Évaluation automatique impossible - rejet par précaution"]
         }
+    
+    def format_feedback_for_retry(self, evaluation: 'CriticEvaluation') -> str:
+        """
+        Format critic feedback into actionable instructions for retry.
+        
+        Args:
+            evaluation: CriticEvaluation object with failed criteria
+            
+        Returns:
+            Formatted feedback string for the generator to improve
+        """
+        feedback_parts = []
+        feedback_parts.append("=== FEEDBACK DU CRITIC (à corriger) ===")
+        
+        # Add specific feedback for each failed criterion
+        for criterion_name in evaluation.failed_criteria:
+            crit_eval = evaluation.criteria_evaluations[criterion_name]
+            
+            if criterion_name == "anchoring":
+                feedback_parts.append(f"❌ ANCRAGE (score: {crit_eval.score:.2f}):")
+                feedback_parts.append(f"   Problème: {crit_eval.explanation}")
+                feedback_parts.append("   → Action: Utilise UNIQUEMENT les informations du chunk. Pas d'exemples inventés.")
+                
+            elif criterion_name == "local_answerability":
+                feedback_parts.append(f"❌ RÉPONDABILITÉ LOCALE (score: {crit_eval.score:.2f}):")
+                feedback_parts.append(f"   Problème: {crit_eval.explanation}")
+                feedback_parts.append("   → Action: Reformule la question pour qu'elle soit répondable UNIQUEMENT avec ce chunk.")
+                
+            elif criterion_name == "factual_accuracy":
+                feedback_parts.append(f"❌ EXACTITUDE FACTUELLE (score: {crit_eval.score:.2f}):")
+                feedback_parts.append(f"   Problème: {crit_eval.explanation}")
+                feedback_parts.append("   → Action: Vérifie que chaque fait est EXACT par rapport au chunk source.")
+                
+            elif criterion_name == "completeness":
+                feedback_parts.append(f"❌ COMPLÉTUDE (score: {crit_eval.score:.2f}):")
+                feedback_parts.append(f"   Problème: {crit_eval.explanation}")
+                feedback_parts.append("   → Action: Réponds à TOUS les aspects de la question. Développe davantage.")
+                
+            elif criterion_name == "clarity":
+                feedback_parts.append(f"❌ CLARTÉ (score: {crit_eval.score:.2f}):")
+                feedback_parts.append(f"   Problème: {crit_eval.explanation}")
+                feedback_parts.append("   → Action: Utilise un style académique précis. Évite les termes vagues.")
+        
+        feedback_parts.append("")
+        feedback_parts.append("Génère une nouvelle paire Q/R qui corrige ces problèmes.")
+        
+        return "\n".join(feedback_parts)
     
     def evaluate_batch(
         self,

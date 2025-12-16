@@ -327,6 +327,72 @@ class QuestionGenerator:
                 progress_callback(i + 1, total)
         
         return all_questions
+    
+    def regenerate_with_feedback(
+        self,
+        chunk: Any,  # SemanticChunk
+        previous_question: str,
+        critic_feedback: str
+    ) -> Optional[CandidateQuestion]:
+        """
+        Regenerate a question based on critic feedback.
+        
+        This is used in the retry loop when the critic rejects a QA pair.
+        The feedback contains specific issues to address.
+        
+        Args:
+            chunk: SemanticChunk object (source context)
+            previous_question: The question that was rejected
+            critic_feedback: Formatted feedback from CriticAgent.format_feedback_for_retry()
+            
+        Returns:
+            New CandidateQuestion or None if generation fails
+        """
+        retry_prompt = f"""Tu dois RÉGÉNÉRER une question pour corriger les problèmes identifiés par le Critic.
+
+=== QUESTION REJETÉE ===
+{previous_question}
+
+{critic_feedback}
+
+=== CONTEXTE SOURCE ===
+Chapitre: {chunk.chapter_title}
+Section: {chunk.section_title}
+Type: {chunk.semantic_type}
+
+Contenu:
+---
+{chunk.content}
+---
+
+=== INSTRUCTIONS ===
+1. Analyse le feedback du Critic
+2. Génère UNE NOUVELLE question qui évite les erreurs signalées
+3. La question DOIT être répondable UNIQUEMENT avec ce chunk
+4. Utilise un style académique et précis
+
+=== FORMAT DE SORTIE (JSON) ===
+{{
+  "questions": [
+    {{
+      "question": "Nouvelle question corrigée",
+      "question_type": "factual|conceptual|procedural|comparative|causal|application",
+      "difficulty": "easy|medium|hard",
+      "key_concepts": ["concept1"],
+      "expected_answer_hints": ["indice1"]
+    }}
+  ]
+}}
+
+Génère UNIQUEMENT le JSON."""
+
+        try:
+            response = self._call_llm(retry_prompt)
+            questions = self._parse_response(response, chunk)
+            return questions[0] if questions else None
+        except Exception as e:
+            print(f"      ⚠️ Erreur régénération question: {e}")
+            return None
 
 
 # =============================================================================

@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "source_file": "M2_cours.pdf",
+    "generation_date": "2025-12-16T02:01:46.011020",
+    "total_entries": 0,
+    "config": {
+      "pdf_path": "data/pdfs/M2_cours.pdf",
+      "output_dir": "output/test_pipeline",
+      "max_chunks": 3,
+      "chunk_types": [
+        "definition",
+        "theorem",
+        "example"
+      ],
+      "min_chunk_length": 300,
+      "questions_per_chunk": 2,
+      "question_types": null,
+      "difficulty_distribution": {
+        "easy": 0.3,
+        "medium": 0.5,
+        "hard": 0.2
+      },
+      "model_name": "llama-3.3-70b-versatile",
+      "temperature": 0.7,
+      "language": "fr",
+      "save_checkpoints": true,
+      "checkpoint_frequency": 10
+    },
+    "stats": {
+      "start_time": "2025-12-16T02:01:30.627251",
+      "end_time": "2025-12-16T02:01:46.010607",
+      "duration_seconds": 15.383356,
+      "total_chunks": 110,
+      "processed_chunks": 0,
+      "total_questions_generated": 4,
+      "total_qa_pairs": 4,
+      "passed_qa_pairs": 4,
+      "rejected_qa_pairs": 0,
+      "pass_rate": 1.0,
+      "questions_per_chunk_avg": 0.0,
+      "errors": [
+        "Chunk 1.1.c2: 'GeneratedAnswer' object has no attribute 'difficulty'",
+        "Chunk 1.1.c3: 'GeneratedAnswer' object has no attribute 'difficulty'",
+        "Chunk 1.1.c4: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kchxy5zkfsja8g06vjpjxerb` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99456, Requested 707. Please try again in 2m20.832s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}"
+      ],
+      "rejection_reasons": {},
+      "criterion_averages": {}
+    }
+  },
+  "data": []
+}
