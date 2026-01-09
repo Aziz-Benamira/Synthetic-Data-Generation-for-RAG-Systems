@@ -40,10 +40,3 @@ SoG demonstrated substantial improvements on the MultiHop-RAG benchmark, outperf
 ## Author
 
 Yassine Zanned
-pdflatex main.tex
-bibtex main
-pdflatex main.tex
-pdflatex main.tex
-```
-
-Or use your preferred LaTeX editor/compiler.
