@@ -1,0 +1,219 @@
+\documentclass[11pt,a4paper]{article}
+
+% Essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+% \usepackage{cite}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Optional but recommended packages
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+
+% Title and authors
+\title{Generation of Synthetic Data for the Improvement and Evaluation of RAG Systems: Bibliographical Report}
+
+\author{
+Yassine Zanned\thanks{Role: Graph-Based Methods} \\
+% Teammate 2\thanks{Role: Agentic Solutions} \\
+% Teammate 3\thanks{Role: Metrics} \\
+% Teammate 4\thanks{Role: Taxonomy and Multimodality} \\
+% Teammate 5\thanks{Role: TBD}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This bibliographical report explores the state-of-the-art methods for generating synthetic data to improve and evaluate Retrieval-Augmented Generation (RAG) systems. We systematically review approaches across five key areas: graph-based generation methods, evolutionary and iterative refinement techniques, agentic solutions, evaluation metrics, and taxonomy/multimodality considerations. The report synthesizes recent advances in the field and identifies promising directions for developing novel synthetic data generation pipelines that address the challenges of limited labeled data in specialized domains.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+Retrieval-Augmented Generation (RAG) systems have emerged as a powerful approach to extend Large Language Model (LLM) knowledge beyond their training data by combining them with external databases. However, evaluating and fine-tuning LLMs to improve RAG systems remains a significant challenge, particularly due to the diversity of use cases and the scarcity of labeled data. Most publicly available datasets are generic and unsuitable for specific industrial applications, while creating and annotating datasets by human experts is both expensive and time-consuming.
+
+A promising solution is to leverage LLMs themselves to generate synthetic datasets adapted to specific use cases. This report reviews the current literature on synthetic data generation methods for RAG systems, with particular emphasis on graph-based approaches, evolutionary techniques, and their integration with other methodologies.
+
+\subsection{Context and Motivation}
+
+Traditional RAG evaluation faces several key challenges:
+\begin{itemize}
+    \item \textbf{Domain Specificity:} Generic public datasets fail to capture the nuances of specialized industrial applications
+    \item \textbf{Data Scarcity:} Limited availability of labeled data in proprietary domains
+    \item \textbf{Annotation Costs:} High expenses associated with expert annotation and dataset creation
+    \item \textbf{Diversity Requirements:} Need for varied question types and reasoning patterns in evaluation datasets
+\end{itemize}
+
+\subsection{Report Organization}
+
+% This report is structured as follows:
+\begin{itemize}
+    \item Section \ref{sec:graph} examines graph-based synthetic data generation methods
+    % \item Section \ref{sec:evolutionary} explores evolutionary and iterative refinement approaches
+    % \item Section \ref{sec:agentic} reviews agentic solutions for data generation
+    % \item Section \ref{sec:metrics} discusses evaluation metrics for synthetic data quality
+    % \item Section \ref{sec:taxonomy} addresses taxonomy and multimodality considerations
+    % \item Section \ref{sec:conclusion} synthesizes findings and proposes future directions
+\end{itemize}
+
+\section{Graph-Based Synthetic Data Generation Methods}
+\label{sec:graph}
+
+\subsection{Overview of Graph-Based Approaches}
+
+Graph-based methods for synthetic data generation leverage knowledge graphs and relationship structures to create contextually connected synthetic datasets. Unlike traditional generation approaches that focus on isolated documents, graph-based methods capture the intricate web of relationships between entities, concepts, and documents, enabling the generation of more diverse and knowledge-rich synthetic data for RAG system evaluation.
+
+\subsection{Evolution from Intra-Document to Cross-Document Methods}
+
+Early graph-based approaches, such as EntiGraph \cite{yang2024synthetic}, primarily focused on intra-document content by decomposing text corpora into entity lists and generating descriptions about entity relationships within individual documents. While this approach attempted to populate the underlying knowledge graph of a corpus, it suffered from significant limitations in content diversity and knowledge depth due to its confinement to single-document boundaries.
+
+The critical limitation of intra-document methods lies in their inability to capture cross-document knowledge associations. In reality, knowledge is inherently interconnected across documents and domains, and relying solely on entity combinations within a single document fails to capture the full spectrum of knowledge complexity. This constraint particularly affects the model's ability to handle multi-hop reasoning problems that require integrating information from multiple sources.
+
+\subsection{Synthesize-on-Graph (SoG): A State-of-the-Art Framework}
+
+\subsubsection{Core Methodology}
+
+Jiang et al. \cite{jiang2025synthesize} proposed Synthesize-on-Graph (SoG), a context-graph-enhanced synthetic data generation framework that addresses the limitations of intra-document methods by incorporating cross-document knowledge associations. SoG represents a significant advancement in graph-based synthetic data generation through its comprehensive two-component architecture:
+
+\paragraph{Context Graph Construction and Cross-Document Sampling.}
+The framework begins by constructing a context graph $G = (E, \mathcal{E})$ where nodes $E$ represent entities and concepts extracted from the original corpus, and edges $\mathcal{E}$ represent cross-document knowledge associations. The edge set is defined as:
+\begin{equation}
+\mathcal{E} = \{(e_x, e_y) \mid \exists i, j \text{ such that } e_x, e_y \in E_{i,j}\}
+\end{equation}
+where $E_{i,j}$ represents the entities extracted from paragraph $j$ of document $i$.
+
+The framework employs a sophisticated two-stage sampling strategy:
+\begin{enumerate}
+    \item \textbf{Graph Traversal with Similarity-Based Selection:} Starting from a root entity $e_{\text{root}}$, the system performs breadth-first search (BFS) traversal up to depth $D$. At each step, neighboring entities are prioritized using a similarity function:
+    \begin{equation}
+    F_{\text{sim}}(q^{(0)}, c) = \text{dot}(\text{embed}(q^{(0)}), \text{embed}(c))
+    \end{equation}
+    where $q^{(0)}$ is the root paragraph and $c$ is a candidate paragraph from neighboring entities.
+    
+    \item \textbf{Secondary Sampling and Controlled Allocation:} To balance knowledge distribution and address long-tail entities, the framework applies secondary sampling that prioritizes paths containing less frequently appearing entities, ensuring more uniform knowledge coverage across the synthetic corpus.
+\end{enumerate}
+
+\paragraph{Combined Chain-of-Thought and Contrastive Clarifying Synthesis.}
+To enhance synthetic data quality, SoG integrates two complementary generation strategies:
+
+\begin{itemize}
+    \item \textbf{Chain-of-Thought (CoT) Generation:} This strategy guides the language model to construct step-by-step narratives where text fragments from different documents are logically connected through causal relationships. The narrative is structured into distinct phases—initiation, development, turning points, and conclusion—with natural transitions that preserve logical flow. Based on the constructed narrative, the system generates questions requiring multi-hop reasoning, with answers provided in a chain-of-thought style.
+    
+    \item \textbf{Contrastive Clarifying (CC) Generation:} Designed specifically for sparse entities with limited graph connections, CC generates comparative analyses that contrast and compare multiple text fragments. This approach explicitly highlights discriminative information and nuances between entities, even when direct similarities are absent. CC is triggered adaptively when entity utilization rates fall below a threshold, helping to balance model bias caused by long-tail entity distribution.
+\end{itemize}
+
+\subsubsection{Key Technical Contributions}
+
+The SoG framework introduces several notable technical innovations:
+
+\begin{enumerate}
+    \item \textbf{Entity-Context Mapping:} For each entity $e_k \in E$, the system maintains a mapping $M: e_k \mapsto P_k$ that associates entities with all paragraphs in which they appear, enabling efficient cross-document relationship discovery.
+    
+    \item \textbf{Multi-Hop Path Construction:} Each traversal results in paths of the form:
+    \begin{equation}
+    P = [(e_{\text{root}}, q^{(0)}), (e_1, c_1), \ldots, (e_n, c_n)], \quad n \leq D
+    \end{equation}
+    where $e_i \in E$ and $c_i$ is the associated paragraph, capturing contextually connected knowledge across multiple documents.
+    
+    \item \textbf{Adaptive Strategy Selection:} The framework dynamically chooses between CoT and CC generation based on entity graph connectivity and utilization rates, optimizing for both common and rare knowledge elements.
+    
+    \item \textbf{Long-Tail Entity Mitigation:} Through secondary sampling and CC generation, SoG effectively addresses the long-tail distribution problem prevalent in most corpora, where a few entities dominate while many remain underrepresented.
+\end{enumerate}
+
+\subsubsection{Experimental Validation}
+
+Jiang et al. conducted comprehensive experiments on two benchmark datasets:
+
+\begin{itemize}
+    \item \textbf{MultiHop-RAG (MHRAG):} A dataset specifically designed to evaluate multi-hop reasoning capabilities, consisting of queries that require integrating evidence from multiple documents. SoG demonstrated substantial performance improvements over the state-of-the-art EntiGraph method, with performance gains increasing proportionally with synthetic data volume up to 9× the original corpus size.
+    
+    \item \textbf{QUALITY:} A long document comprehension dataset where each question focuses on a single narrative document. While SoG showed slightly weaker performance compared to EntiGraph on this dataset, the results remained largely comparable, demonstrating SoG's better generalization capability across different task types.
+\end{itemize}
+
+The experiments revealed several important findings:
+
+\begin{enumerate}
+    \item Cross-document knowledge integration significantly enhances performance on complex multi-hop reasoning tasks, with the most substantial gains occurring when synthetic data volume is within 0 to 1.5× the original corpus size.
+    
+    \item Entity distribution analysis showed that combining CoT and CC strategies transforms the long-tail distribution of the original corpus into a more balanced, near-normal distribution in the synthetic data.
+    
+    \item SoG-based continue pretraining (CPT) achieved performance comparable to retrieval-augmented generation (RAG) on certain tasks, suggesting that parametric knowledge acquired through high-quality synthetic data can potentially reduce or eliminate the need for external retrieval systems.
+\end{enumerate}
+
+\subsection{Implications for RAG System Evaluation}
+
+The SoG framework has significant implications for generating evaluation datasets for RAG systems:
+
+\begin{itemize}
+    \item \textbf{Enhanced Diversity:} Cross-document sampling ensures that synthetic evaluation data covers a broader spectrum of knowledge relationships, better reflecting real-world information-seeking scenarios.
+    
+    \item \textbf{Multi-Hop Reasoning:} The graph-based approach naturally generates questions requiring multi-hop reasoning, which is critical for evaluating advanced RAG systems that must integrate information from multiple sources.
+    
+    \item \textbf{Coverage of Rare Knowledge:} The explicit handling of long-tail entities ensures that evaluation datasets adequately test system performance on less common but potentially important knowledge elements.
+    
+    \item \textbf{Quality-Diversity Trade-off:} The dual generation strategy (CoT + CC) balances the need for high-quality, coherent synthetic data with the requirement for diverse coverage across the knowledge space.
+\end{itemize}
+
+\subsection{Limitations and Future Directions}
+
+Despite its strengths, the SoG framework has several acknowledged limitations that represent opportunities for future research:
+
+\begin{enumerate}
+    \item \textbf{Task-Dependent Hyperparameters:} The optimal path length settings (1-hop, 2-hop, or 3-hop) are task-dependent and require empirical tuning for different datasets and use cases. Developing adaptive methods for automatic hyperparameter selection could improve the framework's applicability.
+    
+    \item \textbf{Computational Requirements:} The framework relies on large language models (GPT-4o-mini in the reported experiments) for synthetic data generation, which may be computationally expensive for large-scale applications. Exploring more efficient generation models or caching strategies could reduce costs.
+    
+    \item \textbf{Output Stability:} Continue pretraining may introduce instability in LLM outputs, potentially requiring additional training techniques or regularization strategies to ensure consistent performance.
+    
+    \item \textbf{Dataset-Specific Adjustments:} As demonstrated by the different configurations required for MHRAG versus QUALITY, the framework may need customization for different types of evaluation tasks, suggesting that developing more robust, task-agnostic sampling strategies is an important direction.
+\end{enumerate}
+
+\subsection{Summary}
+
+Graph-based methods, particularly the recent SoG framework, represent a significant advancement in synthetic data generation for RAG systems. By moving beyond intra-document relationships to capture cross-document knowledge associations, these methods enable the creation of more diverse, comprehensive, and realistic evaluation datasets. The explicit handling of graph structures, combined with sophisticated sampling strategies and adaptive generation techniques, positions graph-based approaches as a promising direction for addressing the challenges of evaluating and improving RAG systems in specialized domains with limited labeled data.
+
+% \section{Evolutionary and Iterative Refinement Methods}
+% \label{sec:evolutionary}
+
+% % TODO: Add content on evolutionary methods (genetic algorithms, RL-based approaches, active learning)
+
+% \section{Agentic Solutions for Synthetic Data Generation}
+% \label{sec:agentic}
+
+% % TODO: Add content on agentic approaches
+
+% \section{Evaluation Metrics for Synthetic Data Quality}
+% \label{sec:metrics}
+
+% % TODO: Add content on metrics (coverage, relevance, diversity, faithfulness)
+
+% \section{Taxonomy and Multimodality Considerations}
+% \label{sec:taxonomy}
+
+% % TODO: Add content on taxonomy and multimodal aspects
+
+% \section{Conclusion and Future Directions}
+% \label{sec:conclusion}
+
+% % TODO: Synthesize findings and propose novel directions
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

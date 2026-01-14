@@ -1,0 +1,14 @@
+\begin{thebibliography}{1}
+
+\bibitem{jiang2025synthesize}
+Xuhui Jiang, Shengjie Ma, Chengjin Xu, Cehao Yang, Liyu Zhang, and Jian Guo.
+\newblock Synthesize-on-graph: Knowledgeable synthetic data generation for
+  continue pre-training of large language models.
+\newblock {\em arXiv preprint arXiv:2505.00979}, 2025.
+
+\bibitem{yang2024synthetic}
+Zitong Yang et~al.
+\newblock Synthetic continued pretraining.
+\newblock {\em arXiv preprint arXiv:2409.07431}, 2024.
+
+\end{thebibliography}

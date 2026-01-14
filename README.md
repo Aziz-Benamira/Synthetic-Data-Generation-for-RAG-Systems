@@ -1,148 +1,61 @@
-# Synthetic RAG Evaluation
+# Synthesize-on-Graph (SoG) Implementation & Research Report
 
-A research project focused on generating and evaluating synthetic datasets for Retrieval-Augmented Generation (RAG) systems in specialized domains.
+This workspace contains a comprehensive implementation of the **Synthesize-on-Graph (SoG)** framework for generating synthetic data to improve and evaluate Retrieval-Augmented Generation (RAG) systems, along with a bibliographical research report on the topic.
 
-## 📋 Overview
-
-This project explores methods for creating synthetic question-answer pairs to evaluate and improve RAG systems, particularly for domain-specific use cases where labeled data is scarce. The generated datasets will be published on HuggingFace.
-
-## 🎯 Objectives
-
-- Review state-of-the-art synthetic data generation methods
-- Implement and test various generation approaches
-- Evaluate quality of synthetic data (coverage, relevance, diversity)
-- Develop novel methods combining different techniques (graph-based, agentic, RL, active learning)
-- Assess alignment between synthetic and real-world RAG performance
-
-## 📁 Project Structure
+## 📁 Workspace Structure
 
 ```
-Synthetic-Data-Generation-for-RAG-Systems/
-├── generation/              # Data generation methods
-│   └── multi-agent/        # Multi-agent approach (Aziz)
-│       ├── src/            # Source code
-│       ├── tests/          # Tests
-│       ├── notebooks/      # Experiments
-│       └── scripts/        # Utilities
-├── evaluation/              # Evaluation metrics research
-│   ├── metrics/            # Metric implementations
-│   └── benchmarks/         # Benchmark results
-├── taxonomy/                # Question taxonomy research
-│   ├── question-types/     # Type definitions
-│   └── analysis/           # Analysis tools
-├── multimodal/              # Multimodal RAG research
-│   ├── vision/             # Visual processing
-│   └── document-processing/ # Multimodal documents
-├── shared/                  # Shared resources
-│   ├── utils/              # Shared utilities
-│   ├── data/               # Shared datasets
-│   └── configs/            # Shared configurations
-├── docs/                    # Documentation
-│   ├── architecture/       # Architecture docs
-│   ├── tutorials/          # Tutorials
-│   └── a2a_learning/       # A2A materials
-└── .github/                 # CI/CD workflows
+ProjetIALatexContainer/
+├── 📄 LaTeX Report Files
+│   ├── main.tex                    # LaTeX source for the bibliographical report
+│   ├── references.bib              # Bibliography entries (SoG paper, EntiGraph)
+│   └── README.md (this file)       # Complete project documentation
+│
+├── 🐍 SoG Framework Implementation
+│   ├── context_graph.py            # Context graph construction module
+│   ├── sampling_strategy.py        # Two-stage sampling strategy
+│   ├── generation_strategies.py    # CoT & CC generation strategies
+│   ├── sog_pipeline.py            # Main pipeline orchestrator
+│   ├── entity_extraction.py        # Entity extraction utilities
+│   ├── text_processing.py         # Text preprocessing utilities
+│   └── example_usage.py           # Usage examples & demonstrations
+│
+├── 📚 Documentation & Config
+│   ├── README_SoG.md              # Detailed SoG implementation guide
+│   ├── requirements.txt            # Python dependencies
+│   └── LICENSE                     # MIT License
+│
+└── 📊 Output (generated when running)
+    └── output/                     # Generated synthetic data files
+        ├── synthetic_data_basic.jsonl
+        ├── synthetic_data_custom.jsonl
+        └── ...
 ```
 
-## 🔬 Research Tracks
+---
 
-### 1. **Data Generation** (`generation/`)
-Multiple approaches for generating synthetic QA pairs:
-- **Multi-Agent** (Aziz) - LangGraph orchestration with Reflexion, HyDE, Constitutional AI
-- **Graph-Based** - Knowledge graph approaches
-- **Evolutionary** - Genetic algorithms
+## 📖 Project Overview
 
-### 2. **Evaluation Metrics** (`evaluation/`)
-Developing and testing RAG evaluation metrics:
-- RAGAS extensions
-- LLM-as-judge metrics
-- Multimodal metrics
-- Synthetic data quality metrics
+### The Research Report
 
-### 3. **Question Taxonomy** (`taxonomy/`)
-Classification and analysis of question types:
-- Question type definitions
-- Automatic classifiers
-- Distribution analysis
-- Bloom's taxonomy alignment
+**File**: `main.tex`
 
-### 4. **Multimodal RAG** (`multimodal/`)
-Extending to text + visual documents:
-- Image extraction from PDFs
-- Vision-Language Models
-- Multimodal question generation
-- Visual grounding evaluation
+A LaTeX document that examines graph-based synthetic data generation methods for improving and evaluating RAG systems, with a focus on the Synthesize-on-Graph (SoG) framework by Jiang et al. (2025).
 
-## 🚀 Getting Started
+**Key Topics Covered:**
+- Evolution from intra-document (EntiGraph) to cross-document methods
+- Context graph construction with cross-document knowledge associations
+- Two-stage sampling strategy (BFS traversal + secondary sampling)
+- Dual generation strategies (Chain-of-Thought & Contrastive Clarifying)
+- Experimental validation on MultiHop-RAG benchmark
+- Implications for RAG system evaluation
 
-### For All Team Members
-
+**Compile the report:**
 ```bash
-# Clone the repository
-git clone https://github.com/Aziz-Benamira/Synthetic-Data-Generation-for-RAG-Systems.git
-cd Synthetic-Data-Generation-for-RAG-Systems
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # On Windows
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Copy environment template
-cp .env.example .env
-# Edit .env with your API keys
+pdflatex main.tex
+bibtex main
+pdflatex main.tex
+pdflatex main.tex
 ```
 
-### Navigate to Your Research Track
-
-```bash
-# For generation research
-cd generation/multi-agent/
-
-# For evaluation research
-cd evaluation/
-
-# For taxonomy research
-cd taxonomy/
-
-# For multimodal research
-cd multimodal/
-```
-
-Each directory has its own README with specific instructions.
-
-## 📚 Documentation
-
-### Architecture & Planning
-- [Technical Report](docs/architecture/TECHNICAL_REPORT.md) - Complete system design
-- [Project Roadmap](docs/architecture/PROJECT_ROADMAP.md) - 16-week implementation plan
-- [System Architecture](docs/architecture/ARCHITECTURE.md) - Architecture details
-
-### Collaboration
-- [Collaboration Guide](docs/COLLABORATION_GUIDE.md) - **READ THIS FIRST!**
-- [Contributing Guidelines](CONTRIBUTING.md) - Code standards
-- [Research Track READMEs](generation/) - Track-specific guides
-
-## 🤝 Team Collaboration
-
-This is a **multi-track research project**. Each team member focuses on a specific area:
-
-- **Folder-based organization** - Each track has its own directory
-- **Feature branches** - Create branches for each feature
-- **Shared resources** - Common utilities in `shared/`
-- **Regular integration** - Combine approaches in final phase
-
-**See [COLLABORATION_GUIDE.md](docs/COLLABORATION_GUIDE.md) for detailed workflow!**
-
-## 📄 License
-
-TBD
-
-## 👥 Team
-
-Research team - Academic Project
-
-## 📧 Contact
-
-For questions and collaboration: [contact info]
+Or use your preferred LaTeX editor/compiler.
