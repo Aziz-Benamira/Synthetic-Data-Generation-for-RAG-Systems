@@ -18,6 +18,9 @@ mcp>=0.9.1
 chromadb==0.5.20
 sentence-transformers==2.2.2
 
+# UI and Visualization
+gradio>=4.0.0
+
 # RAG evaluation
 ragas==0.2.7
 

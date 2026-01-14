@@ -13,8 +13,10 @@
 ## Validation Test Results
 
 ### Final Test Run: test_quick_validation.py
+
 **Date:** January 14, 2026  
 **Configuration:**
+
 - PDF: M2_cours.pdf (Probability Theory)
 - Chunks processed: 3
 - Questions per chunk: 3 (target: 9 total)
@@ -25,6 +27,7 @@
 ### Results Summary:
 
 **Overall Statistics:**
+
 - Questions generated: 6
 - QA pairs passed (final): 4
 - QA pairs rejected (final): 0
@@ -35,18 +38,24 @@
 ### Detailed Breakdown by Chunk:
 
 **Chunk 1/3: 1.1.c1 (text)**
+
 1. ✅ PASS: "Qu'est-ce qu'une tribu selon ce chapitre..."
 2. 🔄 **RETRY 1/2**: "Sachant que l'espace de probabilité est..." → ⚠️ Échec régénération
 3. ✅ PASS: "Quelle est la définition d'une union d'e..."
+
 - Result: 2/3 accepted
 
 **Chunk 2/3: 1.1.c2 (definition)**
+
 1. ✅ PASS: "Quelle est la différence entre une réuni..."
 2. 🔄 **RETRY 1/2**: "Comment peut-on définir une sous-tribu d..." → ⚠️ Échec régénération
+
 - Result: 1/2 accepted
 
 **Chunk 3/3: 1.1.c3 (definition)**
+
 1. ✅ PASS: "Quelle est la définition d'une sous-trib..."
+
 - Result: 1/1 accepted
 
 ---
@@ -54,6 +63,7 @@
 ## Rejection Analysis
 
 ### Achieved Metrics:
+
 - **Initial rejection rate: 33.3% (2/6 questions)**
 - **Target range: 30-50%**
 - **Status: ✅ TARGET ACHIEVED**
