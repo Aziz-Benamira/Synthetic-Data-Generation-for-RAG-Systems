@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "source_file": "M2_cours.pdf",
+    "generation_date": "2026-01-14T21:53:03.027879",
+    "total_entries": 4,
+    "config": {
+      "pdf_path": "data/pdfs/M2_cours.pdf",
+      "output_dir": "output/quick_test",
+      "max_chunks": 3,
+      "chunk_types": null,
+      "min_chunk_length": 200,
+      "questions_per_chunk": 3,
+      "question_types": null,
+      "difficulty_distribution": {
+        "easy": 0.3,
+        "medium": 0.5,
+        "hard": 0.2
+      },
+      "generator_model": "mistral:latest",
+      "critic_model": "llama3:8b",
+      "temperature": 0.7,
+      "max_retries": 2,
+      "language": "fr",
+      "save_checkpoints": true,
+      "checkpoint_frequency": 10
+    },
+    "stats": {
+      "start_time": "2026-01-14T21:50:08.895410",
+      "end_time": "2026-01-14T21:53:03.027879",
+      "duration_seconds": 174.132469,
+      "total_chunks": 110,
+      "processed_chunks": 3,
+      "total_questions_generated": 6,
+      "total_qa_pairs": 6,
+      "passed_qa_pairs": 4,
+      "rejected_qa_pairs": 0,
+      "total_retries": 2,
+      "passed_after_retry": 0,
+      "pass_rate": 0.6666666666666666,
+      "questions_per_chunk_avg": 2.0,
+      "errors": [],
+      "rejection_reasons": {},
+      "criterion_averages": {}
+    }
+  },
+  "data": [
+    {
+      "question": "Qu'est-ce qu'une tribu selon ce chapitre? [Definition 1.1.1]",
+      "answer": "Une tribu, selon ce chapitre, est une famille de parties de l'espace abstrait Ω, contenant l'ensemble vide, stable par passage au complémentaire, union d'enombrable et intersection d'enombrable. Une tribu contient donc l'espace Ω.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "easy",
+      "critic_score": 1.0,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "Définition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant l’ensemble vide, stable par passage au complémentaire, union d’enombrable et intersection d’enombrable."
+      ],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Quelle est la définition d'une union d'enombrable dans le contexte d'une tribu? [Définition 1.1.1]",
+      "answer": "Une tribu (σ-algebra en Anglais) sur Ω est une famille de parties de Ω, contenant l'ensemble vide, stable par passage au complémentaire, union d'enombrable et intersection d'enombrable. Une tribu contient donc l'espace Ω.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "factual",
+      "difficulty": "hard",
+      "critic_score": 1.0,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "Définition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ω est une famille de parties de Ω, contenant l’ensemble vide, stable par passage au complémentaire, union d'enombrable et intersection d'enombrable. Une tribu contient donc l’espace Ω."
+      ],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Quelle est la différence entre une réunion et une intersection de tribus?",
+      "answer": "Une réunion de tribus n'est pas une tribu, alors qu'une intersection de tribus est une tribu.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "comparative",
+      "difficulty": "medium",
+      "critic_score": 0.8600000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 0.9,
+        "completeness": 0.7,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Attention : ce n’est pas vrai pour la réunion : une réunion de tribus n’est pas une tribu."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Quelle est la définition d'une sous-tribu? (Utilisez les informations fournies)",
+      "answer": "Une sous-tribu est une tribu qui est incluse dans une autre tribu et dont tous les éléments sont également présents dans cette dernière.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c3",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "procedural",
+      "difficulty": "hard",
+      "critic_score": 0.8800000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.7,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Soit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ínF."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    }
+  ]
+}

@@ -27,6 +27,7 @@ from typing import List, Optional, Dict, Any, Tuple
 from enum import Enum
 import json
 import re
+import logging
 
 
 # =============================================================================
@@ -746,22 +747,24 @@ class CriticAgent:
         unexpected_numbers = answer_numbers - chunk_numbers
         
         if unexpected_numbers:
+            logging.info(f"[HARD RULE 1] Numbers rule triggered: {unexpected_numbers} not in chunk")
             criteria_evaluations["anchoring"] = CriterionEvaluation(
                 criterion="anchoring",
                 result=CriterionResult.FAIL,
                 score=0.0,
-                explanation=f"🔴 HARD RULE: Nombres dans la réponse absents du chunk: {unexpected_numbers}",
+                explanation=f"🔴 HARD RULE 1: Nombres dans la réponse absents du chunk: {unexpected_numbers}",
                 evidence=[]
             )
         
         # RULE 2: Why/How questions need causal markers in chunk
         if is_why_how_question(qa_pair.question):
             if not has_causal_markers(chunk_content):
+                logging.info(f"[HARD RULE 2] Why/How question without causal markers: '{qa_pair.question[:50]}...'")
                 criteria_evaluations["local_answerability"] = CriterionEvaluation(
                     criterion="local_answerability",
                     result=CriterionResult.FAIL,
                     score=0.0,
-                    explanation="🔴 HARD RULE: Question 'Pourquoi/Comment' mais le chunk ne contient pas d'explication causale (car, donc, entraîne, etc.)",
+                    explanation="🔴 HARD RULE 2: Question 'Pourquoi/Comment' mais le chunk ne contient pas d'explication causale (car, donc, entraîne, etc.)",
                     evidence=[]
                 )
         
@@ -770,11 +773,12 @@ class CriticAgent:
         answer_char_count = len(answer)
         
         if question_word_count > 10 and answer_char_count < 50:
+            logging.info(f"[HARD RULE 3] Short answer rule: {answer_char_count} chars for {question_word_count} word question")
             criteria_evaluations["completeness"] = CriterionEvaluation(
                 criterion="completeness",
                 result=CriterionResult.FAIL,
                 score=0.3,
-                explanation=f"🔴 HARD RULE: Réponse trop courte ({answer_char_count} car) pour question complexe ({question_word_count} mots)",
+                explanation=f"🔴 HARD RULE 3: Réponse trop courte ({answer_char_count} car) pour question complexe ({question_word_count} mots)",
                 evidence=[]
             )
         
@@ -790,22 +794,25 @@ class CriticAgent:
         if len(question_words) > 0:
             overlap = len(question_words & answer_words) / len(question_words)
             if overlap > 0.7 and len(answer.split()) < 15:
+                logging.info(f"[HARD RULE 4] Question repetition: {overlap*100:.0f}% word overlap")
                 criteria_evaluations["completeness"] = CriterionEvaluation(
                     criterion="completeness",
                     result=CriterionResult.FAIL,
                     score=0.2,
-                    explanation=f"🔴 HARD RULE: Réponse répète la question ({overlap*100:.0f}% mots communs) sans apporter de contenu nouveau",
+                    explanation=f"🔴 HARD RULE 4: Réponse répète la question ({overlap*100:.0f}% mots communs) sans apporter de contenu nouveau",
                     evidence=[]
                 )
         
         # RULE 5: Oral/informal language in question → CLARITY FAIL
         oral_markers = ['truc', 'machin', 'chose', "c'est quoi", 'ça', 'y a']
-        if any(marker in question for marker in oral_markers):
+        detected_markers = [m for m in oral_markers if m in question]
+        if detected_markers:
+            logging.info(f"[HARD RULE 5] Oral language detected: {detected_markers}")
             criteria_evaluations["clarity"] = CriterionEvaluation(
                 criterion="clarity",
                 result=CriterionResult.FAIL,
                 score=0.1,
-                explanation=f"🔴 HARD RULE: Langage oral/familier détecté dans la question",
+                explanation=f"🔴 HARD RULE 5: Langage oral/familier détecté dans la question: {detected_markers}",
                 evidence=[]
             )
         
