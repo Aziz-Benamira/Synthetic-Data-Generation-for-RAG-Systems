@@ -162,8 +162,8 @@ class QuestionGenerator:
     
     def __init__(
         self,
-        llm_client: Any,  # OpenAI/Anthropic client
-        model_name: str = "gpt-4o-mini",
+        llm_client: Any,  # OpenAI-compatible client (Ollama local)
+        model_name: str = "mistral:latest",  # Mistral 7B local
         language: str = "fr",
         default_num_questions: int = 3,
         temperature: float = 0.7

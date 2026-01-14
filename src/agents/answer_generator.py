@@ -151,7 +151,7 @@ class AnswerGenerator:
     def __init__(
         self,
         llm_client: Any,
-        model_name: str = "llama-3.3-70b-versatile",
+        model_name: str = "mistral:latest",  # Mistral 7B local
         language: str = "fr",
         answer_style: AnswerStyle = AnswerStyle.DETAILED,
         temperature: float = 0.3  # Lower temperature for more factual answers

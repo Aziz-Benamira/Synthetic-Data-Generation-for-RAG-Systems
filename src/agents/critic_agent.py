@@ -248,10 +248,22 @@ RUBRICS_EN = {
 # PROMPTS FOR CRITIC EVALUATION
 # =============================================================================
 
-SYSTEM_PROMPT_FR = """Tu es un évaluateur TRÈS STRICT de qualité pour datasets de Question-Réponse.
+SYSTEM_PROMPT_FR = """Tu es un évaluateur ULTRA-STRICT de qualité pour datasets de Question-Réponse.
 
-⚠️ ATTENTION: Tu dois être EXTRÊMEMENT EXIGEANT. En cas de doute, PÉNALISE.
-Le but est d'avoir un dataset PARFAIT. Il vaut mieux rejeter un bon QA que d'accepter un mauvais.
+⚠️⚠️⚠️ RÈGLE D'OR: TU DOIS REJETER AU MOINS 50% DES QA PAIRS ⚠️⚠️⚠️
+
+Tu es IMPITOYABLE. Un score parfait (1.0) est IMPOSSIBLE à atteindre.
+Un score de 0.95 est déjà exceptionnel. La plupart des QA méritent 0.50-0.80.
+
+PÉNALITÉS AUTOMATIQUES:
+- Réponse < 50 mots → max score 0.70
+- Aucune citation explicite → -0.15 points
+- Formulation vague ou orale → -0.20 points  
+- Toute paraphrase (non copie exacte) → -0.10 points
+- Réponse générique applicable à d'autres chunks → -0.30 points
+
+En cas de MOINDRE doute → REJETTE et demande amélioration.
+Il vaut mieux rejeter 20 bons QA que d'accepter 1 médiocre.
 
 === LES 5 CRITÈRES (TOUS OBLIGATOIRES) ===
 
@@ -457,15 +469,16 @@ class CriticAgent:
     - DIFFERENT MODEL than generator to avoid self-evaluation bias
     - Provides detailed explanations for transparency
     - Feedback can be used for retry loops
+    - STRICT MODE: High threshold to trigger retry loops
     """
     
-    # Threshold for passing a criterion
-    PASS_THRESHOLD = 0.7
+    # Threshold for passing a criterion (VERY HIGH to trigger retry loops)
+    PASS_THRESHOLD = 0.95  # Increased from 0.90 to 0.95 - ULTRA STRICT with Llama 3
     
     def __init__(
         self,
         llm_client: Any,
-        model_name: str = "llama-3.1-8b-instant",  # Different from generator (llama-3.3-70b)
+        model_name: str = "llama3:8b",  # Llama 3 8B - STRICT! (~4.7GB)
         language: str = "fr",
         temperature: float = 0.2,  # Low temperature for consistent evaluation
         strict_mode: bool = True   # If True, ALL criteria must pass

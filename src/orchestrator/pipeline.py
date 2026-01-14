@@ -68,9 +68,9 @@ class PipelineConfig:
         "easy": 0.3, "medium": 0.5, "hard": 0.2
     })
     
-    # LLM settings
-    generator_model: str = "llama-3.3-70b-versatile"  # For Q&A generation
-    critic_model: str = "llama-3.1-8b-instant"  # Smaller/different model for evaluation
+    # LLM settings (Ollama Local)
+    generator_model: str = "mistral:latest"  # Mistral 7B Instruct (~4.5GB)
+    critic_model: str = "llama3:8b"  # Llama 3 8B - STRICT! (~4.7GB)
     temperature: float = 0.7
     
     # Retry settings (AGENTIC WORKFLOW)
@@ -478,7 +478,10 @@ class DatasetPipeline:
                     # SUCCESS!
                     passed.append((current_qa, evaluation))
                     self.stats.passed_qa_pairs += 1
+                    
+                    # Track if success came after retry
                     if attempt > 1:
+                        self.stats.passed_after_retry += 1
                         self._log(f"      ✅ PASS (après {attempt-1} retry): {current_qa.question[:40]}...")
                     else:
                         self._log(f"      ✅ PASS: {current_qa.question[:40]}...")
@@ -487,6 +490,9 @@ class DatasetPipeline:
                 else:
                     # REJECTED - should we retry?
                     if attempt < max_attempts:
+                        # INCREMENT RETRY COUNTER
+                        self.stats.total_retries += 1
+                        
                         # Format feedback and retry
                         self._log(f"      🔄 RETRY {attempt}/{self.config.max_retries}: {current_qa.question[:40]}...")
                         feedback = self.critic.format_feedback_for_retry(evaluation)
