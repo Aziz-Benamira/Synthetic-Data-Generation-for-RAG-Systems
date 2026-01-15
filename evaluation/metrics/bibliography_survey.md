@@ -76,7 +76,7 @@ Cette section concerne l'évaluation de la qualité du texte généré par rappo
 | Nom | Fonctionnement | Avantages | Inconvénients |
 | :--- | :--- | :--- | :--- |
 | **BERTScore** | Calcule la Précision, le Rappel et le F1 sur les *embeddings* contextuels (vecteurs) produits par un modèle BERT. | Prend en compte le contexte sémantique. Très bons résultats généraux. | Coûteux en calcul (nécessite un GPU).  |
-| **RAGAS** | Génère une représentation latente de l'output avec un LLM puis utilise la similarité cosinus. | Considérée comme "probablement la meilleure métrique" actuelle. | Encore plus coûteux et "Black box" (difficile à expliquer/justifier).  |
+| **RAGAS** | Génère une représentation latente de l'output avec un LLM puis utilise la similarité cosinus. | Considérée comme "probablement la meilleure métrique" actuelle. | Encore plus coûteux et Black box (difficile à expliquer/justifier).  |
 
 ### 2.3 Métriques "LLM Based"
 
