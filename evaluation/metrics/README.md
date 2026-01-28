@@ -6,14 +6,132 @@ A more in-depth explaination of the metrics is in [bibliography_survey.md](bibli
 
 ## Table of Contents
 
-1. [Retriever Metrics - Non-Rank Based](#retriever-metrics---non-rank-based)
-2. [Retriever Metrics - Rank Based](#retriever-metrics---rank-based)
-3. [Generation Metrics - Traditional](#generation-metrics---traditional)
-4. [Risk-Aware Metrics](#risk-aware-metrics)
-5. [Efficiency Metrics](#efficiency-metrics)
-6. [Helper Functions](#helper-functions)
+1. [Evaluator Framework](#evaluator-framework)
+2. [Retriever Metrics - Non-Rank Based](#retriever-metrics---non-rank-based)
+3. [Retriever Metrics - Rank Based](#retriever-metrics---rank-based)
+4. [Generation Metrics - Traditional](#generation-metrics---traditional)
+5. [Risk-Aware Metrics](#risk-aware-metrics)
+6. [Efficiency Metrics](#efficiency-metrics)
+7. [Helper Functions](#helper-functions)
 
 ---
+
+## Evaluator Framework
+
+Flexible, extensible architecture for RAG system evaluation with modular, composable evaluators.
+
+### Architecture
+
+The framework consists of specialized evaluators, each handling a specific evaluation dimension:
+
+- **`RetrieverEvaluator`** - Ranking metrics (MRR, NDCG@k, MAP@k)
+- **`GenerationEvaluator`** - Text quality (Exact Match, METEOR)
+- **`LLMEvaluator`** - Semantic evaluation (context support, relevance, coherence)
+- **`PerplexityEvaluator`** - Model confidence and abstention
+- **`RiskAwareEvaluator`** - Risk metrics (risk, prudence, alignment, coverage)
+- **`EfficiencyEvaluator`** - Performance metrics (latency, cost, ROI)
+- **`ComprehensiveEvaluator`** - Orchestrates all evaluators for full pipeline evaluation
+
+### Quick Start
+
+Simple usage with the comprehensive evaluator:
+
+```python
+from evaluator import ComprehensiveEvaluator
+
+# Initialize evaluator
+evaluator = ComprehensiveEvaluator(llm_model="gpt-4")
+
+# Evaluate a single response
+report = evaluator.evaluate_full_pipeline(
+    query="What is machine learning?",
+    response="Machine learning is a field of AI that enables systems to learn...",
+    context="Machine learning involves algorithms that improve through experience...",
+    references=["Machine learning is a subset of artificial intelligence..."],
+    ttft_ms=150.0,
+    total_latency_ms=1200.0
+)
+
+# Get results
+print(evaluator.to_json(report, pretty=True))
+```
+
+### Individual Evaluators
+
+For focused evaluation on specific dimensions:
+
+```python
+# Retriever evaluation
+from evaluator import RetrieverEvaluator
+
+retriever = RetrieverEvaluator()
+result = retriever.evaluate(
+    predictions_list=[[1, 2, 3, 5, 8]],  # Ranked doc IDs
+    ground_truth_list=[[1, 2, 3]],        # Relevant docs
+    k_values=[5, 10]
+)
+print(result.metrics)  # {'rank_based': {'mrr': 1.0, 'ndcg@5': 0.92, ...}}
+
+
+# Generation evaluation
+from evaluator import GenerationEvaluator
+
+generation = GenerationEvaluator()
+result = generation.evaluate(
+    predictions=["The capital of France is Paris"],
+    references=["Paris is the capital of France"]
+)
+print(result.metrics)  # {'exact_match': 0.0, 'meteor': 0.85}
+
+
+# LLM-as-judge evaluation
+from evaluator import LLMEvaluator
+
+llm = LLMEvaluator(model="gpt-4")
+result = llm.evaluate(
+    query="What is ML?",
+    response="Machine learning enables...",
+    context="ML is a field of AI..."
+)
+print(result.metrics)  # {'context_support': 0.95, 'relevance': 0.92, ...}
+```
+
+### Configuration
+
+Customize evaluators via `EvaluatorConfig`:
+
+```python
+from evaluator import ComprehensiveEvaluator, EvaluatorConfig
+
+# Custom configurations
+configs = {
+    "retriever": EvaluatorConfig(
+        name="RetrieverEvaluator",
+        additional_params={"k_values": [3, 5, 10]}
+    ),
+    "perplexity": EvaluatorConfig(
+        name="PerplexityEvaluator",
+        additional_params={"confidence_threshold": 1.5}
+    )
+}
+
+evaluator = ComprehensiveEvaluator(config=configs, llm_model="claude-3")
+```
+
+### Result Format
+
+All evaluations return `EvaluationResult` objects with standardized structure:
+
+```python
+result.evaluator_name      # "RetrieverEvaluator"
+result.metrics             # Dict of computed metrics
+result.success             # True if evaluation succeeded
+result.error_message       # Error details if failed
+result.metadata            # Additional info (num_samples, k_values, etc.)
+```
+
+---
+
 
 ## Retriever Metrics - Non-Rank Based
 
