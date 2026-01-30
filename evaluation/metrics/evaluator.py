@@ -32,6 +32,7 @@ from llm_metrics import (
     llm_as_judge_context_support,
     llm_as_judge_answer_relevance,
     llm_as_judge_coherence,
+    llm_as_judge_answer_accuracy,
     llm_as_judge_batch,
     semantic_perplexity,
     semantic_perplexity_batch,
@@ -406,6 +407,32 @@ class LLMEvaluator(BaseEvaluator):
             Score 0-1 or detailed dict
         """
         return llm_as_judge_coherence(self.model, response, detailed)
+
+    def evaluate_answer_accuracy(self,
+                                query: str,
+                                response: str,
+                                reference_response: str,
+                                detailed: bool = False) -> Union[float, Dict]:
+        """
+        Evaluate answer accuracy against a reference answer using dual templates.
+        
+        Uses two distinct templates to ensure robust assessment:
+        - Template 1: Compare response with reference (normal order)
+        - Template 2: Compare response with reference (swapped order)
+        
+        Args:
+            query: User query
+            response: Generated response
+            reference_response: Reference/ground truth response
+            detailed: If True, return full details; if False, return only score
+        
+        Returns:
+            float: Score 0-1 (if detailed=False)
+            dict: Score and detailed information (if detailed=True)
+        """
+        return llm_as_judge_answer_accuracy(
+            self.model, query, response, reference_response, detailed
+        )
 
     def evaluate_comprehensive(self,
                               query: str,

@@ -24,6 +24,119 @@ def placeholder_llm_call(model, input_text: str, warning=True) -> Dict:
 # 1. LLM-AS-JUDGE METRICS
 # =====================================================================
 
+def llm_as_judge_answer_accuracy(model: str,
+                                query: str,
+                                response: str,
+                                reference_response: str,
+                                detailed: bool = False) -> Union[float, Dict]:
+    """
+    LLM-as-judge: Evaluate answer accuracy against a reference answer using dual templates.
+    
+    Uses two distinct templates to ensure robust assessment:
+    - Template 1: Compare response with reference (normal order)
+    - Template 2: Compare response with reference (swapped order - reference vs response)
+    
+    Each template rates on a scale of 0, 2, or 4:
+    - 0: No match / inaccurate
+    - 2: Partial match / mostly aligned
+    - 4: Exact match / fully consistent
+    
+    The final score converts to [0,1] scale (0→0, 2→0.5, 4→1) and averages both ratings.
+    
+    Args:
+        model: LLM model identifier (e.g., "gpt-4", "claude-3")
+        query: Original user query
+        response: Generated response to evaluate
+        reference_response: Reference/ground truth response
+        detailed: If True, return full details; if False, return only score
+    
+    Returns:
+        float: Score 0-1 (if detailed=False)
+        dict: Score and detailed information (if detailed=True)
+            - "score": float 0-1 (final answer accuracy score)
+            - "score1": float score from template 1
+            - "score2": float score from template 2
+            - "rating1": int raw rating from template 1 (0, 2, or 4)
+            - "rating2": int raw rating from template 2 (0, 2, or 4)
+    """
+    from prompts import AnswerAccuracyJudge1Prompt, AnswerAccuracyJudge2Prompt
+    
+    def rating_to_score(rating):
+        """Convert rating scale (0, 2, 4) to [0, 1] scale."""
+        if rating == 0:
+            return 0.0
+        elif rating == 2:
+            return 0.5
+        elif rating == 4:
+            return 1.0
+        else:
+            return None
+    
+    def extract_rating(llm_response: str) -> Optional[int]:
+        """Extract rating from LLM response JSON."""
+        try:
+            if isinstance(llm_response, str):
+                parsed = json.loads(llm_response)
+            else:
+                parsed = llm_response
+            
+            rating = parsed.get("rating")
+            if rating in [0, 2, 4]:
+                return rating
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            pass
+        return None
+    
+    # Template 1: Normal order (response vs reference)
+    prompt1 = f"""Query: {query}
+
+        User Answer: {response}
+
+        Reference Answer: {reference_response}
+
+        {AnswerAccuracyJudge1Prompt.instruction}"""
+    
+    result1 = placeholder_llm_call(model, prompt1, warning=False)
+    rating1 = extract_rating(result1.get("response", ""))
+    
+    # Template 2: Swapped order (reference vs response)
+    prompt2 = f"""Query: {query}
+
+        User Answer: {reference_response}
+
+        Reference Answer: {response}
+
+        {AnswerAccuracyJudge2Prompt.instruction}"""
+    
+    result2 = placeholder_llm_call(model, prompt2, warning=False)
+    rating2 = extract_rating(result2.get("response", ""))
+    
+    # Convert ratings to [0,1] scale
+    score1 = rating_to_score(rating1)
+    score2 = rating_to_score(rating2)
+    
+    # Calculate final score
+    valid_scores = [s for s in [score1, score2] if s is not None]
+    
+    if len(valid_scores) == 2:
+        final_score = (score1 + score2) / 2
+    elif len(valid_scores) == 1:
+        final_score = valid_scores[0]
+    else:
+        final_score = 0  # Fallback if both ratings are invalid
+    
+    if detailed:
+        return {
+            "score": final_score,
+            "score1": score1,
+            "score2": score2,
+            "rating1": rating1,
+            "rating2": rating2
+        }
+    else:
+        return {"score": final_score }
+
+
 def llm_as_judge_context_support(model: str,
                                  query: str,
                                  response: str,
@@ -35,8 +148,6 @@ def llm_as_judge_context_support(model: str,
     Uses an LLM to assess whether the generated answer is grounded in and supported
     by the provided context. This catches hallucinations where the model invents
     facts not found in retrieved documents.
-    
-    Example prompt: "Check if the response is supported by the retrieved context."
     
     Args:
         model: LLM model identifier (e.g., "gpt-4", "claude-3")
@@ -51,21 +162,16 @@ def llm_as_judge_context_support(model: str,
             - "score": float 0-1 (1=fully supported, 0=contradicted/hallucinated)
             - "reasoning": str explanation
     """
-    prompt = f"""Evaluate if the following response is well-supported by the provided context.
+    from prompts import ContextSupportPrompt
     
-Query: {query}
+    prompt = f"""Query: {query}
 
 Retrieved Context:
 {retrieved_context}
 
 Response: {response}
 
-Provide your assessment as a JSON object with:
-- "supported": boolean (true if response is well-grounded in context)
-- "score": float between 0 and 1 (0=hallucinated/contradicted, 1=fully supported)
-- "reasoning": brief explanation of your assessment
-
-Return ONLY the JSON object, no other text."""
+{ContextSupportPrompt.instruction}"""
 
     result = placeholder_llm_call(model, prompt, warning=False)
     
@@ -116,18 +222,13 @@ def llm_as_judge_answer_relevance(model: str,
             - "score": float 0-1 (1=directly answers query, 0=completely irrelevant)
             - "reasoning": str explanation
     """
-    prompt = f"""Evaluate if the response directly and completely answers the user's query.
+    from prompts import AnswerRelevancePrompt
     
-Query: {query}
+    prompt = f"""Query: {query}
 
 Response: {response}
 
-Provide your assessment as a JSON object with:
-- "relevant": boolean (true if response answers the query)
-- "score": float between 0 and 1 (0=irrelevant, 1=directly answers)
-- "reasoning": brief explanation of your assessment
-
-Return ONLY the JSON object, no other text."""
+{AnswerRelevancePrompt.instruction}"""
 
     result = placeholder_llm_call(model, prompt, warning=False)
     
@@ -173,16 +274,11 @@ def llm_as_judge_coherence(model: str,
             - "score": float 0-1 (1=highly coherent, 0=incoherent)
             - "reasoning": str explanation
     """
-    prompt = f"""Evaluate the coherence, clarity, and writing quality of the following text.
+    from prompts import CoherencePrompt
     
-Response: {response}
+    prompt = f"""Response: {response}
 
-Provide your assessment as a JSON object with:
-- "coherent": boolean (true if text is clear and well-structured)
-- "score": float between 0 and 1 (0=incoherent/confusing, 1=clear and well-written)
-- "reasoning": brief explanation of your assessment
-
-Return ONLY the JSON object, no other text."""
+{CoherencePrompt.instruction}"""
 
     result = placeholder_llm_call(model, prompt, warning=False)
     
@@ -372,11 +468,13 @@ def comprehensive_llm_evaluation(model: str,
                                 query: str,
                                 response: str,
                                 retrieved_context: str,
+                                reference_response: Optional[str] = None,
                                 logits: Optional[List[float]] = None) -> Dict:
     """
     Full LLM-based evaluation combining multiple dimensions.
     
     Evaluates response across multiple aspects:
+    - Answer accuracy (against reference if provided)
     - Context support (grounding)
     - Answer relevance (does it answer the question)
     - Coherence (clarity and fluency)
@@ -387,10 +485,12 @@ def comprehensive_llm_evaluation(model: str,
         query: Original user query
         response: Generated response
         retrieved_context: Retrieved context chunks
+        reference_response: Optional reference/ground truth response for accuracy evaluation
         logits: Optional token logits for perplexity calculation
     
     Returns:
         dict: Comprehensive evaluation report
+            - "answer_accuracy": float 0-1 (if reference_response provided)
             - "context_support": float 0-1
             - "relevance": float 0-1
             - "coherence": float 0-1
@@ -399,15 +499,25 @@ def comprehensive_llm_evaluation(model: str,
             - "evaluation_summary": human-readable summary
     """
     # Get individual scores
-    context_support = llm_as_judge_context_support(model, query, response, retrieved_context)
     relevance = llm_as_judge_answer_relevance(model, query, response)
     coherence = llm_as_judge_coherence(model, response)
+    context_support = llm_as_judge_context_support(model, query, response, retrieved_context)
     
     result = {
-        "context_support": context_support,
         "relevance": relevance,
-        "coherence": coherence
+        "coherence": coherence,
+        "context_support": context_support
     }
+    
+    # Add answer accuracy if reference response provided
+    if reference_response is not None:
+        answer_accuracy = llm_as_judge_answer_accuracy(model, query, response, reference_response)
+        # Extract score if it's a dict (detailed mode)
+        if isinstance(answer_accuracy, dict):
+            result["answer_accuracy"] = answer_accuracy.get("score", 0.5)
+            result["answer_accuracy_details"] = answer_accuracy
+        else:
+            result["answer_accuracy"] = answer_accuracy
     
     # Add perplexity if logits provided
     if logits is not None:
@@ -416,14 +526,29 @@ def comprehensive_llm_evaluation(model: str,
         confidence = 1.0 / (1.0 + perplexity)
         result["confidence"] = confidence
         result["perplexity"] = perplexity
-        
-        # Weighted overall score
+    
+    # Calculate weighted overall score
+    if reference_response is not None and logits is not None:
+        # All metrics available
+        overall_score = (0.25 * result.get("answer_accuracy", 0.5) +
+                        0.25 * context_support + 
+                        0.20 * relevance + 
+                        0.15 * coherence + 
+                        0.15 * result.get("confidence", 0.5))
+    elif reference_response is not None:
+        # With answer accuracy but no perplexity
+        overall_score = (0.30 * result.get("answer_accuracy", 0.5) +
+                        0.30 * context_support + 
+                        0.20 * relevance + 
+                        0.20 * coherence)
+    elif logits is not None:
+        # With perplexity but no answer accuracy
         overall_score = (0.35 * context_support + 
                         0.30 * relevance + 
                         0.20 * coherence + 
-                        0.15 * confidence)
+                        0.15 * result.get("confidence", 0.5))
     else:
-        # Weighted overall score without confidence
+        # Only basic metrics
         overall_score = (0.40 * context_support + 
                         0.35 * relevance + 
                         0.25 * coherence)
@@ -432,11 +557,11 @@ def comprehensive_llm_evaluation(model: str,
     
     # Generate summary
     if overall_score >= 0.8:
-        summary = "Excellent: Well-grounded, relevant, and coherent response."
+        summary = "Excellent: Well-grounded, relevant, coherent, and accurate response."
     elif overall_score >= 0.6:
         summary = "Good: Generally accurate and relevant, minor issues."
     elif overall_score >= 0.4:
-        summary = "Fair: Some concerns with grounding or relevance."
+        summary = "Fair: Some concerns with grounding, relevance, or accuracy."
     else:
         summary = "Poor: Significant concerns with factuality or relevance. Consider abstention."
     
