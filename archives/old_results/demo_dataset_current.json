@@ -1,0 +1,278 @@
+{
+  "metadata": {
+    "source_file": "M2_cours.pdf",
+    "generation_date": "2026-01-15T14:05:08.849955",
+    "total_entries": 9,
+    "config": {
+      "pdf_path": "data/pdfs/M2_cours.pdf",
+      "output_dir": "output_demo_current",
+      "max_chunks": 5,
+      "chunk_types": null,
+      "min_chunk_length": 200,
+      "questions_per_chunk": 2,
+      "question_types": null,
+      "difficulty_distribution": {
+        "easy": 0.3,
+        "medium": 0.5,
+        "hard": 0.2
+      },
+      "generator_model": "mistral:latest",
+      "critic_model": "llama3:8b",
+      "temperature": 0.7,
+      "max_retries": 2,
+      "language": "fr",
+      "save_checkpoints": true,
+      "checkpoint_frequency": 10
+    },
+    "stats": {
+      "start_time": "2026-01-15T14:02:10.676634",
+      "end_time": "2026-01-15T14:05:08.844596",
+      "duration_seconds": 178.167962,
+      "total_chunks": 110,
+      "processed_chunks": 5,
+      "total_questions_generated": 9,
+      "total_qa_pairs": 9,
+      "passed_qa_pairs": 9,
+      "rejected_qa_pairs": 0,
+      "total_retries": 1,
+      "passed_after_retry": 1,
+      "pass_rate": 1.0,
+      "questions_per_chunk_avg": 1.8,
+      "errors": [],
+      "rejection_reasons": {},
+      "criterion_averages": {}
+    }
+  },
+  "data": [
+    {
+      "question": "Quel est l'espace abstrait dont les éléments sont notés ω dans le chapitre généralités ?",
+      "answer": "L'espace abstrait dont les éléments sont notés ω est l'espace Ω",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "critic_score": 1.0,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "1.1 Tribu - L’espace Ωest un espace abstrait dont les éléments sont notés ω."
+      ],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Qu'est-ce qu'une tribu dans le contexte de ce chapitre ? Donnez l'ensemble des propriétés qu'elle doit satisfaire.",
+      "answer": " {\n  \"answer\": \"La tribu est une famille de parties de l'espace abstrait Ω, contenant l'ensemble vide, stable par passage au complémentaire, union d'enombrable et intersection d'enombrable. Une tribu contient donc l'espace Ω.\",\n  \"supporting_quotes\": [\"\\\"Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant l’ensemble vide, stable par passage au complémentaire, union d\\'enombrable et intersection d\\'enombrable. Une tribu contient donc l’espace Ω.\\\"\"],\n  \"confidence\": 1.0,\n  \"reasoning\": \"La définition de la tribu est fournie dans le texte sous la forme de la définition 1.1.1\"\n}",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 1.0,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Qu'est-ce qu'une sous-tribu d'une tribu?",
+      "answer": "Une sous-tribu d'une tribu F est une tribu G telle que G est un sous-ensemble de F et toute partie A de G appartient également à F.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 0.9199999999999999,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.9,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Soit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Comment définir une tribu?",
+      "answer": "Une tribu G est une sous-tribu de F si G est une tribu contenant exclusivement des éléments de F et si tout élément de G appartient également à F.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "procedural",
+      "difficulty": "hard",
+      "critic_score": 0.8800000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.7,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Soit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Quelle est la différence entre une intersection de tribus et une réunion de tribus?",
+      "answer": "Une intersection de tribus est une tribu et une réunion de tribus n'est pas une tribu.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c3",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "comparative",
+      "difficulty": "medium",
+      "critic_score": 0.86,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 1.0,
+        "completeness": 0.7,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "\"Une intersection de tribus est une tribu.\""
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Quelle est la tribu de Boréliens dans l'ensemble des intervalles de IR qui ne sont pas des Boréliens et sont difficiles à exhiber?",
+      "answer": "La tribu de Boréliens dans l'ensemble des intervalles de IR qui ne sont pas des Boréliens et sont difficiles à exhiber n'est pas spécifiée explicitement dans le contexte fourni, mais elle est décrite comme étant la plus petite tribu contenant tous les intervalles ensembles de IR qui ne sont pas des boréliens.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c4",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "hard",
+      "critic_score": 0.9199999999999999,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.9,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Exemple 1.1.1 Tribu des bor´eliens de IR. C’est la plus petite tribu contenant tous les intervalles ensemble de IR qui ne sont pas des bor´eliens"
+      ],
+      "chunk_content": "Exemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7\n\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Que contient la tribu des boréliens de l'ensemble des intervalles de IR ?",
+      "answer": "La plus petite tribu contenant tous les intervalles ensembles de IR qui ne sont pas des boréliens est celle que l'on appelle la tribu des boréliens de IR, comme indiqué dans l'exemple 1.1.1 du chunk.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c4",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 0.9400000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Exemple 1.1.1 Tribu des boréliens de IR."
+      ],
+      "chunk_content": "Exemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7\n\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Qu'est-ce qu'une application mesurable dans un contexte de théorie des probabilités ?",
+      "answer": "Une application mesurable dans un contexte de théorie des probabilités est une fonction qui respecte les conditions suivantes : pour tout A appartenant à E (un espace mesurable), l'application inversée f−1(A) doit être un élément de F (l'espace mesurable cible).",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c5",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 0.86,
+      "criterion_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.8,
+        "factual_accuracy": 1.0,
+        "completeness": 0.7,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "\"Une application f de Ω dans E est dite (F, E) mesurable si f −1(A) ∈ F, pour tout A ∈ E.\""
+      ],
+      "chunk_content": "8\nG´en´eralit´es\n1.1.2\nMesurabilit´e\nD´eﬁnition 1.1.2 Soit (Ω, F) et (E, E) deux espaces mesurables. Une application f de Ωdans E est\ndite (F, E) mesurable si f −1(A) ∈F,\n∀A ∈E, o`u\nf −1(A)\ndef\n= {ω ∈Ω|f(ω) ∈A}.\nLorsqu’il n’y a pas d’ambigu¨ıt´e sur les tribus employ´ees, on dit simplement que f est mesurable.\nUne fonction f de IR dans IR est bor´elienne si elle est (BIR, BIR)-mesurable, soit f −1(A) ∈BIR,\n∀A ∈\nBIR. Il suﬃt que cette propri´et´e soit v´eriﬁ´ee pour les intervalles A.\nLes fonctions continues sont bor´eliennes.\nD´eﬁnition 1.1.3 Soit (Ω, F) un espace mesurable. Une variable al´eatoire r´eelle (v.a.r.) X est une"
+    },
+    {
+      "question": "Quels sont les espaces sur lesquels une fonction continue à partir de R dans R est borélienne ?",
+      "answer": " {\n  \"answer\": \"Les espaces sur lesquels une fonction continue à partir de R dans R est borélienne sont les espaces BIR.\",\n  \"supporting_quotes\": [\"\\\"Une fonction f de IR dans IR est borélienne si elle est (BIR, BIR)-mesurable,\\\"\", \"\\\"\"Les fonctions continues sont boréliennes.\\\"\"],\n  \"confidence\": 1.0,\n  \"reasoning\": \"La réponse est dérivée du texte en combinant les définitions de fonction borélienne et de fonction continue.\"\n}",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c5",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "application",
+      "difficulty": "hard",
+      "critic_score": 0.9400000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [],
+      "chunk_content": "8\nG´en´eralit´es\n1.1.2\nMesurabilit´e\nD´eﬁnition 1.1.2 Soit (Ω, F) et (E, E) deux espaces mesurables. Une application f de Ωdans E est\ndite (F, E) mesurable si f −1(A) ∈F,\n∀A ∈E, o`u\nf −1(A)\ndef\n= {ω ∈Ω|f(ω) ∈A}.\nLorsqu’il n’y a pas d’ambigu¨ıt´e sur les tribus employ´ees, on dit simplement que f est mesurable.\nUne fonction f de IR dans IR est bor´elienne si elle est (BIR, BIR)-mesurable, soit f −1(A) ∈BIR,\n∀A ∈\nBIR. Il suﬃt que cette propri´et´e soit v´eriﬁ´ee pour les intervalles A.\nLes fonctions continues sont bor´eliennes.\nD´eﬁnition 1.1.3 Soit (Ω, F) un espace mesurable. Une variable al´eatoire r´eelle (v.a.r.) X est une"
+    }
+  ]
+}

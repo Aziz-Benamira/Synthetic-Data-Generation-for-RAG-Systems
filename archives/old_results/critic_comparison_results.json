@@ -1,0 +1,106 @@
+{
+  "current": {
+    "version": "CURRENT",
+    "total_cases": 10,
+    "passed": 0,
+    "rejected": 0,
+    "pass_rate": 0.0,
+    "rejection_rate": 0.0,
+    "score_mean": 0,
+    "score_std": 0,
+    "score_min": 0,
+    "score_max": 0,
+    "hard_rule_triggers": 0,
+    "results": []
+  },
+  "seif": {
+    "version": "SEIF",
+    "total_cases": 10,
+    "passed": 3,
+    "rejected": 7,
+    "pass_rate": 0.3,
+    "rejection_rate": 0.7,
+    "score_mean": 0.5239999999999999,
+    "score_std": 0.25148359787469243,
+    "score_min": 0.3,
+    "score_max": 0.88,
+    "hard_rule_triggers": 5,
+    "results": [
+      {
+        "case": "Perfect QA",
+        "expected": "PASS",
+        "result": "PASS",
+        "score": 0.88,
+        "reason": "Passed checks"
+      },
+      {
+        "case": "Hallucinated Number",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.3,
+        "reason": "HARD RULE 1: Numbers {'256'}"
+      },
+      {
+        "case": "Why Question No Causality",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.3,
+        "reason": "HARD RULE 2: Why/How no causality"
+      },
+      {
+        "case": "Short Answer Complex Question",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.3,
+        "reason": "HARD RULE 3: Too short"
+      },
+      {
+        "case": "Answer Repeats Question",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.55,
+        "reason": "Adversarial prompt"
+      },
+      {
+        "case": "Oral Language",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.3,
+        "reason": "HARD RULE 5: Oral language"
+      },
+      {
+        "case": "Added Example",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.3,
+        "reason": "HARD RULE 1: Numbers {'1.2'}"
+      },
+      {
+        "case": "Inference Not Explicit",
+        "expected": "REJECT",
+        "result": "REJECT",
+        "score": 0.55,
+        "reason": "Adversarial prompt"
+      },
+      {
+        "case": "Borderline Good QA",
+        "expected": "PASS",
+        "result": "PASS",
+        "score": 0.88,
+        "reason": "Passed checks"
+      },
+      {
+        "case": "Perfect Technical QA",
+        "expected": "PASS",
+        "result": "PASS",
+        "score": 0.88,
+        "reason": "Passed checks"
+      }
+    ]
+  },
+  "improvements": {
+    "rejection_rate_increase_pct": Infinity,
+    "score_variance_increase_pct": 0,
+    "hard_rule_catches": 5
+  }
+}

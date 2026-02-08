@@ -1,0 +1,140 @@
+{
+  "summary": {
+    "total_qa_pairs": 6,
+    "types": {
+      "conceptual": 4,
+      "comparative": 1,
+      "factual": 1
+    },
+    "difficulties": {
+      "easy": 2,
+      "medium": 3,
+      "hard": 1
+    },
+    "avg_confidence": 0.9916666666666667
+  },
+  "qa_pairs": [
+    {
+      "question": "Qu'est-ce qu'une sous-tribu de F, où F est une tribu ?",
+      "answer": "Une sous-tribu de F est une tribu G telle que G ⊂ F, soit A ∈ G implique A ∈ F",
+      "question_type": "conceptual",
+      "difficulty": "easy",
+      "supporting_quotes": [
+        "Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F"
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    },
+    {
+      "question": "Quelle est la propriété d'une intersection de tribus, contrairement à une réunion de tribus ?",
+      "answer": "Une intersection de tribus est une tribu, contrairement à une réunion de tribus qui n'est pas une tribu",
+      "question_type": "comparative",
+      "difficulty": "medium",
+      "supporting_quotes": [
+        "Une intersection de tribus est une tribu.",
+        "une r´eunion de tribus n’est pas une tribu."
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "1.1.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    },
+    {
+      "question": "Quel est le type de tribu mentionnée dans l'exemple 1.1.1 ?",
+      "answer": "Tribu des boréliens de IR",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "supporting_quotes": [
+        "Exemple 1.1.1 Tribu des bor´eliens de IR.",
+        "C’est la plus petite tribu contenant tous les intervalles ensembles de IR qui ne sont pas des bor´eliens"
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "1.1.c4",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    },
+    {
+      "question": "Pourquoi les ensembles de IR qui ne sont pas des boréliens sont-ils difficiles à exhiber ?",
+      "answer": "Les ensembles de IR qui ne sont pas des boréliens sont difficiles à exhiber",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "supporting_quotes": [
+        "ensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?]"
+      ],
+      "confidence": 0.95,
+      "metadata": {
+        "chunk_id": "1.1.c4",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          7,
+          11
+        ],
+        "chapter": "G'en'eralit'es",
+        "section": "Tribu"
+      }
+    },
+    {
+      "question": "Quelle est la condition pour qu'un processus soit considéré comme un mouvement Brownien n-dimensionnel ?",
+      "answer": "Un processus n-dimensionnel B est un mouvement Brownien si et seulement si les processus B(i) et B(i)B(j) −δi,jt sont des martingales",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "supporting_quotes": [
+        "Le processus n-dimensionnel B est un mouvement Brownien si et seulement si les processus B(i) et B(i)B(j) −δi,jt sont des martingales"
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "2.3.9.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          31,
+          33
+        ],
+        "chapter": "LE MOUVEMENT BROWNIEN",
+        "section": "Le mouvement Brownien"
+      }
+    },
+    {
+      "question": "Comment deux mouvements Browniens à valeurs réelles sont-ils considérés comme corrélés, et quel est le rôle du coefficient de corrélation ρ dans cette définition ?",
+      "answer": "Deux mouvements Browniens à valeurs réelles sont considérés comme corrélés si B1(t)B2(t) −ρt est une martingale, où ρ est le coefficient de corrélation. Le rôle du coefficient de corrélation ρ est de définir la relation entre les deux mouvements Browniens de telle sorte que leur produit moins ρt soit une martingale.",
+      "question_type": "conceptual",
+      "difficulty": "hard",
+      "supporting_quotes": [
+        "D´eﬁnition 2.3.2 Les mouvements Browniens `a valeurs r´eelles B1 et B2 sont corr´el´es de coeﬃcient de corrélation ρ si B1(t)B2(t) −ρt est une martingale."
+      ],
+      "confidence": 1.0,
+      "metadata": {
+        "chunk_id": "2.3.9.c2",
+        "source_file": "data\\pdfs\\M2_cours.pdf",
+        "page_range": [
+          31,
+          33
+        ],
+        "chapter": "LE MOUVEMENT BROWNIEN",
+        "section": "Le mouvement Brownien"
+      }
+    }
+  ]
+}

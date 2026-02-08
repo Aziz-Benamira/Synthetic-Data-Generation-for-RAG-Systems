@@ -1,0 +1,284 @@
+{
+  "metadata": {
+    "source_file": "M2_cours.pdf",
+    "generation_date": "2026-01-04T16:33:29.791456",
+    "total_entries": 9,
+    "config": {
+      "pdf_path": "data/pdfs/M2_cours.pdf",
+      "output_dir": "output_strict_critic",
+      "max_chunks": 5,
+      "chunk_types": null,
+      "min_chunk_length": 200,
+      "questions_per_chunk": 3,
+      "question_types": null,
+      "difficulty_distribution": {
+        "easy": 0.3,
+        "medium": 0.5,
+        "hard": 0.2
+      },
+      "generator_model": "mistralai/mistral-small-3.1-24b-instruct:free",
+      "critic_model": "meta-llama/llama-3.3-70b-instruct:free",
+      "temperature": 0.7,
+      "max_retries": 2,
+      "language": "fr",
+      "save_checkpoints": true,
+      "checkpoint_frequency": 10
+    },
+    "stats": {
+      "start_time": "2026-01-04T16:31:13.579725",
+      "end_time": "2026-01-04T16:33:29.784241",
+      "duration_seconds": 136.204516,
+      "total_chunks": 110,
+      "processed_chunks": 3,
+      "total_questions_generated": 9,
+      "total_qa_pairs": 9,
+      "passed_qa_pairs": 9,
+      "rejected_qa_pairs": 0,
+      "total_retries": 0,
+      "passed_after_retry": 0,
+      "pass_rate": 1.0,
+      "questions_per_chunk_avg": 3.0,
+      "errors": [
+        "Chunk 1.1.c4: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1767571200000'}, 'provider_name': None}}, 'user_id': 'user_37nMdrYhKdNcguZvwdVdFkBXf6x'}",
+        "Chunk 1.1.c5: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1767571200000'}, 'provider_name': None}}, 'user_id': 'user_37nMdrYhKdNcguZvwdVdFkBXf6x'}"
+      ],
+      "rejection_reasons": {},
+      "criterion_averages": {}
+    }
+  },
+  "data": [
+    {
+      "question": "Quelle famille de parties d'un ensemble ω contient l'ensemble vide, est stable par passage au complémentaire, union dénombrable et intersection dénombrable ?",
+      "answer": "La famille de parties d'un ensemble ω qui contient l'ensemble vide, est stable par passage au complémentaire, union dénombrable et intersection dénombrable est appelée une tribu.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "critic_score": 0.8800000000000001,
+      "criterion_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant l'ensemble vide, stable par passage au complémentaire, union dénombrable et intersection dénombrable."
+      ],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Expliquez pourquoi il est crucial de choisir judicieusement l'espace Ω lorsqu'on veut construire une variable aléatoire de loi donnée.",
+      "answer": "Il est crucial de choisir judicieusement l'espace Ω lorsqu'on veut construire une variable aléatoire de loi donnée car il est impossible de construire une variable aléatoire sur un espace quelconque donné à l'avance. Un choix judicieux de Ω est nécessaire pour surmonter cette difficulté, surtout lorsqu'il s'agit de construire plusieurs variables aléatoires indépendantes.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 0.8400000000000001,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.8
+      },
+      "supporting_quotes": [
+        "il est impossible de construire une v.a. sur un espace quelconque donné à l’avance",
+        "un choix judicieux de Ωs’impose : il est impossible de construire une v.a. sur un espace quelconque donné à l’avance"
+      ],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Comparez les caractéristiques d'une tribu et d'un espace mesurable. En quoi diffèrent-ils ?",
+      "answer": "```json\n{\n  \"answer\": \"Une tribu est une famille de parties de Ω qui contient l’ensemble vide, est stable par passage au complémentaire, union dénombrable et intersection dénombrable. Un espace mesurable est un espace muni d’une tribu. Ainsi, une tribu est une structure abstraite définie sur un espace Ω, tandis qu'un espace mesurable est un espace qui est équipé de cette structure.\",\n  \"supporting_quotes\": [\"Une tribu (...) stable par passage au compl\\'ementaire, union d\\'enombrable et intersection d\\'enombrable.\", \"Un espace mesurable est un espace muni d’une tribu.\"],\n  \"confidence\": 1.0,\n  \"reasoning\": \"La réponse est directement dérivée des définitions fournies dans le texte. Une tribu est définie comme une famille de parties de Ω avec des propriétés spécifiques, tandis qu'un espace mesurable est simplement un espace équipé d'une telle tribu.\"\n}\n```",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "comparative",
+      "difficulty": "medium",
+      "critic_score": 0.86,
+      "criterion_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [],
+      "chunk_content": "Chapter 1\nG´en´eralit´es\nDans ce chapitre aride sont rassembl´ees les notions de base de th´eorie des probabilit´es qui seront utilis´ees\ndans tout le cours1. Ces notions ne seront pas reprises dans le cours. L’espace de probabilit´e sur lequel\non travaille est not´e Ω. Pour les d´emonstrations et de plus amples informations, consulter les ouvrages\nde Breiman [?], Grimmett et Stirzaker [?], Jacod et Protter [?] ou encore Williams [?]. Voir aussi des\nexercices dans [?] ou dans [?].\n1.1\nTribu\nL’espace Ωest un espace abstrait dont les ´el´ements sont not´es ω.\nUn sous-ensemble de Ωest un\n´ev´enement. Dans certaines parties de cours, on pr´ecisera la structure de Ωen construisant explicitement\ncet espace. Dans la plupart des cas, la structure de Ωn’a pas de rˆole `a jouer. Par contre, lorsque l’on\nveut construire une variable al´eatoire de loi donn´ee, un choix judicieux de Ωs’impose : il est impossible\nde construire une v.a. sur un espace quelconque donn´e `a l’avance. Cette diﬃcult´e s’accroit quand il\ns’agit de construire plusieurs v.a. (ou une suite) ind´ependantes. Nous n’aborderons pas ces probl`emes ici\n(Voir Breiman [?]). On pourra regarder le paragraphe concernant l’existence d’une v.a. (voir ci-dessous)\npour une approche du probl`eme.\n1.1.1\nD´eﬁnition d’une tribu\nD´eﬁnition 1.1.1 Une tribu (σ-algebra en Anglais) sur Ωest une famille de parties de Ω, contenant\nl’ensemble vide, stable par passage au compl´ementaire, union d´enombrable et intersection d´enombrable.\nUne tribu contient donc l’espace Ω.\nUn espace mesurable est un espace muni d’une tribu."
+    },
+    {
+      "question": "Qu'est-ce qu'une sous-tribu dans le contexte d'une tribu donnée ?",
+      "answer": "Une sous-tribu de F est une tribu G telle que G est inclus dans F. Autrement dit, si A appartient à G, alors A appartient également à F.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "easy",
+      "critic_score": 1.0,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 1.0,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F"
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Pourquoi une réunion de tribus n'est-elle pas nécessairement une tribu ?",
+      "answer": "Une réunion de tribus n'est pas nécessairement une tribu parce que la propriété d'être une tribu ne s'applique pas à la réunion d'ensembles qui sont eux-mêmes des tribus.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "causal",
+      "difficulty": "medium",
+      "critic_score": 0.8800000000000001,
+      "criterion_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Comment peut-on décrire la plus petite tribu contenant une famille d'ensembles ?",
+      "answer": "La plus petite tribu contenant une famille d'ensembles est décrite comme l'intersection de toutes les tribus qui contiennent cette famille.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c2",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "procedural",
+      "difficulty": "hard",
+      "critic_score": 0.96,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.8,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "La plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui contiennent cette famille."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Quelle est la propriété de l'intersection de tribus mentionnée dans le contenu?",
+      "answer": "Une intersection de tribus est une tribu.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c3",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "factual",
+      "difficulty": "easy",
+      "critic_score": 0.96,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.8,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "Une intersection de tribus est une tribu."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Pourquoi l'union de tribus ne forme-t-elle pas nécessairement une tribu ?",
+      "answer": "Une réunion de tribus n'est pas nécessairement une tribu. Le contenu spécifie explicitement que \"ce n’est pas vrai pour la réunion: une réunion de tribus n’est pas une tribu.\"",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c3",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "conceptual",
+      "difficulty": "medium",
+      "critic_score": 0.96,
+      "criterion_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.8,
+        "clarity": 1.0
+      },
+      "supporting_quotes": [
+        "ce n’est pas vrai pour la réunion : une réunion de tribus n’est pas une tribu."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    },
+    {
+      "question": "Comment décrire la plus petite tribu contenant une famille d'ensembles, et pourquoi est-ce difficile à décrire précisément ?",
+      "answer": "La plus petite tribu contenant une famille d'ensembles est l'intersection de toutes les tribus qui contiennent cette famille. Elle est généralement difficile, voire impossible, à décrire plus précisément.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c3",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "question_type": "procedural",
+      "difficulty": "hard",
+      "critic_score": 0.8800000000000001,
+      "criterion_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "supporting_quotes": [
+        "La plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui contiennent cette famille. Elle est en général difficile (voire impossible) à décrire plus précisément."
+      ],
+      "chunk_content": "Proposition 1.1.1 Une intersection de tribus est une tribu.\nAttention : ce n’est pas vrai pour la r´eunion : une r´eunion de tribus n’est pas une tribu.\nSoit F une tribu. Une sous-tribu de F est une tribu G telle que G ⊂F, soit A ∈G implique A ∈F.\nLa plus petite tribu contenant une famille d’ensembles est l’intersection de toutes les tribus qui conti-\nennent cette famille. Elle est en g´en´eral diﬃcile (voire impossible) `a d´ecrire plus pr´ecisement.\nExemple 1.1.1 Tribu des bor´eliens de IR.\nC’est la plus petite tribu contenant tous les intervalles\nensembles de IR qui ne sont pas des bor´eliens, mais ils sont diﬃciles `a exhiber. Voir Neveu [?].\n1Give us the tools, and we will ﬁnish the work. Winston Churchill, February 9, 1941.\n7"
+    }
+  ]
+}

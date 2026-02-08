@@ -1,0 +1,228 @@
+{
+  "test_type": "borderline_qa_discrimination",
+  "total_tested": 10,
+  "score_distribution": {
+    "0-0.3": 0,
+    "0.3-0.5": 0,
+    "0.5-0.7": 2,
+    "0.7-0.9": 7,
+    "0.9-1.0": 1
+  },
+  "unique_scores": 8,
+  "passed": 7,
+  "rejected": 3,
+  "criteria_stats": {
+    "anchoring": {
+      "min": 0.4,
+      "max": 1.0,
+      "avg": 0.72,
+      "variance": 0.047599999999999996
+    },
+    "local_answerability": {
+      "min": 0.3,
+      "max": 1.0,
+      "avg": 0.8400000000000001,
+      "variance": 0.036399999999999995
+    },
+    "factual_accuracy": {
+      "min": 0.5,
+      "max": 1.0,
+      "avg": 0.8300000000000001,
+      "variance": 0.028100000000000003
+    },
+    "completeness": {
+      "min": 0.6,
+      "max": 0.8,
+      "avg": 0.73,
+      "variance": 0.008100000000000007
+    },
+    "clarity": {
+      "min": 0.8,
+      "max": 1.0,
+      "avg": 0.8700000000000001,
+      "variance": 0.004099999999999998
+    }
+  },
+  "details": [
+    {
+      "label": "LÉGÈREMENT IMPRÉCIS - Bonne idée, formulation floue",
+      "expected_issues": [
+        "completeness ou clarity faible"
+      ],
+      "question": "Qu'est-ce qu'une sous-tribu ?",
+      "answer": "Une sous-tribu c'est quand on a une tribu qui est contenue dans une autre tribu plus grande.",
+      "decision": "pass",
+      "overall_score": 0.8800000000000001,
+      "criteria_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 1.0,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "PARTIELLEMENT ANCRÉ - Réponse va légèrement au-delà",
+      "expected_issues": [
+        "anchoring moyen"
+      ],
+      "question": "Pourquoi une intersection de tribus est-elle une tribu ?",
+      "answer": "Une intersection de tribus est une tribu car elle hérite des propriétés de fermeture par complémentation et union dénombrable de chaque tribu composante. C'est une conséquence directe de la définition axiomatique.",
+      "decision": "reject",
+      "overall_score": 0.64,
+      "criteria_scores": {
+        "anchoring": 0.4,
+        "local_answerability": 0.8,
+        "factual_accuracy": 0.5,
+        "completeness": 0.6,
+        "clarity": 0.9
+      },
+      "criteria_passed": 2
+    },
+    {
+      "label": "RÉPONSE TROP SUCCINCTE - Correcte mais manque de détail",
+      "expected_issues": [
+        "completeness faible"
+      ],
+      "question": "Quelle est la différence entre une intersection et une réunion de tribus ?",
+      "answer": "L'intersection de tribus est une tribu, mais pas la réunion.",
+      "decision": "pass",
+      "overall_score": 0.96,
+      "criteria_scores": {
+        "anchoring": 1.0,
+        "local_answerability": 1.0,
+        "factual_accuracy": 1.0,
+        "completeness": 0.8,
+        "clarity": 1.0
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "FORMULATION CONFUSE - Fond correct, forme maladroite",
+      "expected_issues": [
+        "clarity faible"
+      ],
+      "question": "Comment définit-on la plus petite tribu contenant une famille d'ensembles ?",
+      "answer": "Eh bien, pour avoir la plus petite tribu, on prend toutes les tribus qui contiennent cette famille, et puis on fait l'intersection de toutes ces tribus-là, et ça donne la plus petite tribu parce que l'intersection de tribus c'est une tribu.",
+      "decision": "pass",
+      "overall_score": 0.8400000000000001,
+      "criteria_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.8
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "LÉGÈRE EXTRAPOLATION - Déduit quelque chose non explicite",
+      "expected_issues": [
+        "local_answerability ou anchoring moyen"
+      ],
+      "question": "Que peut-on déduire sur les opérations ensemblistes appliquées aux tribus ?",
+      "answer": "On peut déduire que les tribus sont stables par intersection mais pas par réunion. Cela suggère que l'intersection préserve les propriétés de fermeture tandis que la réunion peut les détruire.",
+      "decision": "reject",
+      "overall_score": 0.52,
+      "criteria_scores": {
+        "anchoring": 0.4,
+        "local_answerability": 0.3,
+        "factual_accuracy": 0.5,
+        "completeness": 0.6,
+        "clarity": 0.8
+      },
+      "criteria_passed": 1
+    },
+    {
+      "label": "CITATION MAL UTILISÉE - Citation correcte, interprétation douteuse",
+      "expected_issues": [
+        "factual_accuracy moyen"
+      ],
+      "question": "Pourquoi dit-on qu'une sous-tribu est 'plus petite' ?",
+      "answer": "Une sous-tribu G de F est dite plus petite car elle est contenue dans F. Donc tous les éléments de G sont aussi dans F, ce qui fait que G a moins d'éléments que F en général.",
+      "decision": "pass",
+      "overall_score": 0.86,
+      "criteria_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "QUESTION AMBIGUË - Interprétation discutable",
+      "expected_issues": [
+        "local_answerability ou clarity"
+      ],
+      "question": "Qu'est-ce qui se passe avec les tribus quand on les combine ?",
+      "answer": "Quand on combine des tribus, le résultat dépend de l'opération : une intersection donne toujours une tribu, mais une réunion ne donne pas forcément une tribu.",
+      "decision": "pass",
+      "overall_score": 0.8800000000000001,
+      "criteria_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "TROP TRIVIAL - Réponse correcte mais n'apporte rien",
+      "expected_issues": [
+        "completeness très faible"
+      ],
+      "question": "Qu'est-ce qu'une tribu engendré par une famille d'ensembles ?",
+      "answer": "C'est la plus petite tribu qui contient cette famille.",
+      "decision": "pass",
+      "overall_score": 0.8800000000000001,
+      "criteria_scores": {
+        "anchoring": 0.9,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.8,
+        "clarity": 0.9
+      },
+      "criteria_passed": 5
+    },
+    {
+      "label": "EXEMPLE INVENTÉ - Concept correct, exemple non dans le chunk",
+      "expected_issues": [
+        "anchoring faible"
+      ],
+      "question": "Comment fonctionne une intersection de tribus ?",
+      "answer": "Une intersection de tribus est une tribu. Par exemple, si on prend la tribu des boréliens et la tribu de Lebesgue sur R, leur intersection est aussi une tribu.",
+      "decision": "reject",
+      "overall_score": 0.7,
+      "criteria_scores": {
+        "anchoring": 0.4,
+        "local_answerability": 0.8,
+        "factual_accuracy": 0.9,
+        "completeness": 0.6,
+        "clarity": 0.8
+      },
+      "criteria_passed": 3
+    },
+    {
+      "label": "TERMINOLOGIE APPROXIMATIVE - Sens correct, mots imprécis",
+      "expected_issues": [
+        "factual_accuracy ou clarity"
+      ],
+      "question": "Qu'est-ce qui caractérise une sous-tribu ?",
+      "answer": "Une sous-tribu est un sous-ensemble d'une tribu qui garde les mêmes propriétés de tribu. C'est quand une tribu G est incluse dans une tribu F.",
+      "decision": "pass",
+      "overall_score": 0.82,
+      "criteria_scores": {
+        "anchoring": 0.8,
+        "local_answerability": 0.9,
+        "factual_accuracy": 0.9,
+        "completeness": 0.7,
+        "clarity": 0.8
+      },
+      "criteria_passed": 5
+    }
+  ]
+}

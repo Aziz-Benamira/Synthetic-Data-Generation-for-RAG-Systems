@@ -1,0 +1,33 @@
+{
+  "version": "CURRENT",
+  "timestamp": "2026-01-15T14:05:08.848843",
+  "duration_seconds": 178.16916751861572,
+  "duration_minutes": 2.969486125310262,
+  "total_chunks": 110,
+  "processed_chunks": 5,
+  "total_questions": 9,
+  "total_qa_pairs": 9,
+  "passed": 9,
+  "rejected": 0,
+  "pass_rate": 1.0,
+  "rejection_rate": 0.0,
+  "total_retries": 1,
+  "passed_after_retry": 1,
+  "score_mean": 0.9244444444444445,
+  "score_std": 0.04969039949999532,
+  "score_min": 0.86,
+  "score_max": 1.0,
+  "scores": [
+    1.0,
+    1.0,
+    0.9199999999999999,
+    0.8800000000000001,
+    0.86,
+    0.9199999999999999,
+    0.9400000000000001,
+    0.86,
+    0.9400000000000001
+  ],
+  "rejection_reasons": {},
+  "final_dataset_size": 9
+}
