@@ -1,0 +1,332 @@
+[
+    {
+        "Question": "What is the mathematical expression for the principle of virtual work?",
+        "Chunks": [
+            {
+                "chunk": "We therefore have as the condition for equilibrium of a system that the virtual work of the applied forces vanishes: Σi F(a)_i · δr_i = 0.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "17"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Σi F(a)_i · δr_i = 0"
+    },
+    {
+        "Question": "What is the equation for D'Alembert’s principle?",
+        "Chunks": [
+            {
+                "chunk": "D’Alembert’s principle states that instead of Fi = ṗi, we can write Fi - ṗi = 0, leading to the equation: Σi (Fi - ṗi) · δr_i = 0.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "18"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Σi (Fi - ṗi) · δr_i = 0"
+    },
+    {
+        "Question": "What is the expression for the energy function h in terms of the Lagrangian?",
+        "Chunks": [
+            {
+                "chunk": "The quantity in parentheses is oftentimes called the energy function* and will be denoted by h: h(q1, . . . , qn; ˙q1, . . . , ˙ qn; t) = Σj ˙ q j ∂L/∂ ˙ q j − L. (2.53)",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "62"
+                    }
+                ]
+            }
+        ],
+        "Answer": "h = Σj ˙ q j ∂L/∂ ˙ q j − L"
+    },
+    {
+        "Question": "How many independent coordinates are needed to fully specify the configuration of a rigid body in space, and why?",
+        "Chunks": [
+            {
+                "chunk": "A rigid body in space thus needs six independent generalized coordinates to specify its configuration, no matter how many particles it may contain—even in the limit of a continuous body. Of course, there may be additional constraints on the body besides the constraint of rigidity. For example, the body may be constrained to move on a surface, or with one point fixed. In such case, the additional constraints will further reduce the number of degrees of freedom, and hence the number of independent coordinates.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "135"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A rigid body requires six independent coordinates to specify its configuration: three coordinates to determine the position of a reference point in the body and three more to define its orientation relative to external coordinates."
+    },
+    {
+        "Question": "Why are the nine direction cosines not independent coordinates for describing a rigid body's orientation?",
+        "Chunks": [
+            {
+                "chunk": "If the primed axes are taken as fixed in the body, then the nine direction cosines will be functions of time as the body changes its orientation in the course of the motion. In this sense, the direction cosines can be considered as coordinates describing the instantaneous orientation of the body, relative to a coordinate system fixed in space but with origin in common with the body system. But, clearly, they are not independent coordinates, for there are nine of them and it has been shown that only three coordinates are needed to specify an orientation.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "137"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The nine direction cosines are not independent because they are constrained by six orthogonality conditions, reducing the number of independent parameters to three, which are needed to fully specify a rigid body's orientation."
+    },
+    {
+        "Question": "How does Chasles’ theorem help in analyzing the motion of a rigid body, and how does this lead to the separation of translational and rotational motion?",
+        "Chunks": [
+            {
+                "chunk": "Chasles’ theorem states that any general displacement of a rigid body can be represented by a translation plus a rotation. The theorem suggests that it ought to be possible to split the problem of rigid body motion into two separate phases, one concerned solely with the translational motion of the body, the other, with its rotational motion. If one point of the body is fixed, the separation is obvious, for then there is only a rotational motion about the fixed point, without any translation. Even for a general type of motion, such a separation is often possible. If the origin of the body system is chosen to be the center of mass, then the total angular momentum divides naturally into contributions from the translation of the center of mass and from the rotation about the center of mass.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "184"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Chasles’ theorem states that any displacement of a rigid body can be described as a combination of translation and rotation. This allows the motion of a rigid body to be divided into translational and rotational components. When the center of mass is chosen as the reference point, the total angular momentum and kinetic energy can be naturally separated into these two contributions."
+    },
+    {
+        "Question": "How is angular momentum expressed in terms of the angular velocity and moment of inertia, and what does this relationship imply?",
+        "Chunks": [
+            {
+                "chunk": "When a rigid body moves with one point stationary, the total angular momentum about that point is given by L = mi (ri × vi). Since ri is a fixed vector relative to the body, the velocity vi with respect to the space set of axes arises solely from the rotational motion of the rigid body about the fixed point. This leads to the expression L = Iω, where I is the moment of inertia tensor and ω is the angular velocity vector. This equation establishes that the angular momentum is related to angular velocity through a linear transformation dependent on the inertia properties of the body.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "186"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The relationship L = Iω implies that the angular momentum of a rigid body is a function of both its angular velocity and its distribution of mass. The inertia tensor determines how different components of angular velocity contribute to angular momentum, demonstrating that L and ω are not necessarily parallel unless the body rotates about a principal axis of inertia."
+    },
+    {
+        "Question": "What conditions define a conservative system in classical mechanics, particularly regarding potential energy and equilibrium?",
+        "Chunks": [
+            {
+                "chunk": "We consider conservative systems in which the potential energy is a function of position only. It will be assumed that the transformation equations defining the generalized coordinates of the system, q1, . . . , qn, do not involve the time explicitly.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "238"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A conservative system is characterized by potential energy that depends only on position, with no explicit time dependence in the transformation equations of the generalized coordinates."
+    },
+    {
+        "Question": "How is the stability of equilibrium classified in mechanical systems, and what determines stable versus unstable equilibrium?",
+        "Chunks": [
+            {
+                "chunk": "An equilibrium position is classified as stable if a small disturbance of the system from equilibrium results only in small bounded motion about the rest position. The equilibrium is unstable if an infinitesimal disturbance eventually produces unbounded motion.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "238"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Equilibrium is stable if disturbances lead to bounded motion, while it is unstable if even small disturbances result in unbounded motion."
+    },
+    {
+        "Question": "What are the basic postulates of the special theory of relativity, and how do they relate to the concept of spacetime?",
+        "Chunks": [
+        {
+            "chunk": "Einstein used two postulates to develop the special theory: the laws of physics are the same for all inertial observers, and the speed of light is the same for all inertial observers. The space and time of the special theory consist of a single entity known as spacetime, which serves as the geometric framework for physics.",
+            "metadata": [
+            {
+                "source": "Classical Mechanics",
+                "page": "277"
+            }
+            ]
+        }
+        ],
+        "Answer": "The two basic postulates of the special theory of relativity are that the laws of physics are invariant across all inertial frames, and the speed of light remains constant for all observers. These postulates lead to the concept of spacetime, which integrates space and time into a single continuum."
+    },
+    {
+        "Question": "What defines a cyclic coordinate in the context of Lagrangian mechanics, and how does it relate to the conservation of momentum?",
+        "Chunks": [
+            {
+                "chunk": "According to the definition given in Section 2.6, a cyclic coordinate q_j is one that does not appear explicitly in the Lagrangian; by virtue of Lagrange’s equations its conjugate momentum p_j is then a constant. A coordinate that is cyclic will thus also be absent from the Hamiltonian. Conversely, if a generalized coordinate does not occur in H, the conjugate momentum is conserved.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "343"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A cyclic coordinate is one that does not appear explicitly in the Lagrangian, leading to the conservation of its conjugate momentum, which is also absent from the Hamiltonian."
+    },
+    {
+        "Question": "How does the invariance of a physical system under rigid displacement affect the conservation of momentum in Hamiltonian mechanics?",
+        "Chunks": [
+            {
+                "chunk": "If a system is completely self-contained, with only internal forces between the particles, then the system can be moved as a rigid ensemble without affecting the forces or subsequent motion. The system is said to be invariant under a rigid displacement. Hence, a generalized coordinate describing such a rigid motion will not appear explicitly in the Hamiltonian, and the corresponding conjugate momentum will be conserved.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "344"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Invariance under rigid displacement implies that a generalized coordinate related to that motion does not appear in the Hamiltonian, leading to the conservation of the corresponding conjugate momentum."
+    },
+    {
+        "Question": "What conditions must be met for Hamilton's equations to have trivial solutions in canonical transformations?",
+        "Chunks": [
+            {
+                "chunk": "Consider a situation in which the Hamiltonian is a constant of the motion, and where all coordinates qi are cyclic. Under these conditions, the conjugate momenta pi are all constant: pi = αi. Consequently, the Hamilton’s equations for ˙ qi are simply ˙ qi = ∂H/∂αi = ωi, where the ωi ’s are functions of the αi ’s only and therefore are also constant in time.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "368"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Hamilton's equations have trivial solutions when the Hamiltonian is a constant of motion and all coordinates are cyclic."
+    },
+    {
+        "Question": "How can generalized coordinates influence the cyclic nature of coordinates in Hamiltonian mechanics?",
+        "Chunks": [
+            {
+                "chunk": "A given system can be described by more than one set of generalized coordinates. For example, to discuss motion of a particle in a plane, we may use either the Cartesian coordinates q1 = x, q2 = y, or the plane polar coordinates q1 = r, q2 = θ. Both choices are equally valid, but one set may be more convenient for the problem under consideration.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "369"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Generalized coordinates can affect which coordinates are cyclic; for instance, in central forces, Cartesian coordinates are not cyclic, while polar coordinates contain a cyclic coordinate."
+    },
+    {
+        "Question": "How does the Hamilton–Jacobi equation relate the transformed Hamiltonian to the equations of motion, and what is the significance of Hamilton's principal function in this context?",
+        "Chunks": [
+            {
+                "chunk": "We can automatically ensure that the new variables are constant in time by requiring that the transformed Hamiltonian, K, shall be identically zero, for then the equations of motion are ∂K/∂ Pi = ˙Q i = 0, − ∂K/∂Qi = ˙Pi = 0. K must be related to the old Hamiltonian and to the generating function by the equation K = H + ∂F/∂t, and hence will be zero if F satisfies the equation H(q, p, t) + ∂F/∂t = 0.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "430"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Hamilton–Jacobi equation relates the transformed Hamiltonian K to the equations of motion by ensuring that K is identically zero, resulting in constant new variables. Hamilton's principal function serves as a generating function that simplifies the equations of motion."
+    },
+    {
+        "Question": "What is the mathematical form of the Hamilton–Jacobi equation, and how does it provide a complete solution to Hamilton's equations of motion?",
+        "Chunks": [
+            {
+                "chunk": "Equation (10.3), known as the Hamilton–Jacobi equation, constitutes a partial differential equation in (n+1) variables, q1, . . . , qn; t, for the desired generating function. The integration of Eq. (10.3) only provides the dependence on the old coordinates and time; it would not appear to tell how the new momenta are contained in S.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "431"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Hamilton–Jacobi equation is a partial differential equation in (n+1) variables. It provides a complete solution to Hamilton's equations of motion by allowing the calculation of coordinates and momenta through the integration process."
+    },
+    {
+        "Question": "What is the significance of periodic motion in classical mechanics, and how does it relate to the simple harmonic oscillator and the Kepler problem?",
+        "Chunks": [
+            {
+                "chunk": "In Chapter 3, we discussed bounded motion with an emphasis on motion in which the orbits are closed; that is, the trajectory repeats itself every period. The simple harmonic oscillator and the Kepler problem are examples of closed periodic motion.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "484"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Periodic motion is significant in classical mechanics as it describes systems where the motion repeats after a certain period, exemplified by the simple harmonic oscillator and the Kepler problem."
+    },
+    {
+        "Question": "How do the periods of radial and angular motions relate in the context of the Kepler problem?",
+        "Chunks": [
+            {
+                "chunk": "In the latter case there are two periodicities, the radial coordinate r varies from its minimum value r1 at perihelion to its maximum r2 at aphelion and then back to perihelion during the time that the angular motion goes from θ = 0 to θ = 2π. Hence, the periods for the radial and the angular motions are the same.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "484"
+                    }
+                ]
+            }
+        ],
+        "Answer": "In the Kepler problem, the periods of radial and angular motions are the same, with the radial coordinate varying between its minimum and maximum values while the angular motion completes a full cycle."
+    },
+    {
+        "Question": "What are action-angle variables and their role in representing periodic motion in classical mechanics?",
+        "Chunks": [
+            {
+                "chunk": "A convenient way to represent periodic motion is to carry out a variant of the Hamilton–Jacobi procedure and transform the Hamiltonian to action-angle variables. The new momentum, called the action variable J = ∫ p dq is a constant of the motion, and the new conjugate coordinate w depends linearly upon the time: w = ωt + β.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "485"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Action-angle variables are used to represent periodic motion by transforming the Hamiltonian, allowing the system's momentum to remain constant while the conjugate coordinate evolves linearly with time."
+    },
+    {
+        "Question": "How does the transition from a discrete system of mass points connected by springs to a continuous elastic rod illustrate the concepts of kinetic and potential energy?",
+        "Chunks": [
+            {
+                "chunk": "We shall apply this procedure to an infinitely long elastic rod that can undergo small longitudinal vibrations, that is, oscillatory displacements of the particles of the rod parallel to the axis of the rod. A system composed of discrete particles that approximates the continuous rod is an infinite chain of equal mass points spaced a distance a apart and connected by uniform massless springs having force constants k.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "558"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The transition from a discrete system to a continuous rod allows the use of customary techniques for small oscillations, as illustrated by the equations describing the motion and the Lagrangian formulation that combines kinetic and potential energies."
+    },
+    {
+        "Question": "What is the significance of the Lagrangian density in the context of the longitudinal vibrations of a continuous elastic rod?",
+        "Chunks": [
+            {
+                "chunk": "For the longitudinal vibrations of the continuous rod the Lagrangian density is L = 1/2 (μ (dη/dt)² - Y (dη/dx)²), corresponding to the continuous limit of the quantity Li.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "561"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Lagrangian density plays a crucial role in describing the motion of the system in the continuous limit, allowing for a comprehensive formulation of the dynamics involved."
+    },
+    {
+        "Question": "Explain the process of obtaining the wave equation for a continuous elastic rod from the discrete model of mass points.",
+        "Chunks": [
+            {
+                "chunk": "In going from the discrete to the continuous case, the integer index i identifying the particular mass point becomes the continuous position coordinate x; instead of the discrete variable ηi we have a continuous field variable η(x). The resulting equation of motion for the continuous elastic rod is μ (d²η/dt²) - Y (d²η/dx²) = 0, which represents the familiar wave equation in one dimension.",
+                "metadata": [
+                    {
+                        "source": "Classical Mechanics",
+                        "page": "560"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The wave equation is derived by transitioning from discrete indices to continuous coordinates, leading to a formulation that encapsulates the dynamics of longitudinal elastic waves in a continuous medium."
+    }
+]

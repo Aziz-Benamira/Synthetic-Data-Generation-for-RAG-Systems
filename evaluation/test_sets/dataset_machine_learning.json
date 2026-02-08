@@ -1,0 +1,149 @@
+[
+    {
+        "Question": "What is a gaussian distribution ?",
+        "Chunks": [
+            {
+                "chunk": "The Gaussian is the most widely used distribution for continuous variables.",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 708
+                    }
+                ]
+            },
+            {
+                "chunk": "The Gaussian is the distribution that maximizes the entropy for a given variance",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 709
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "What is the difference between a loss function and a utility function ?",
+        "Chunks": [
+            {
+                "chunk": "a loss function, also called a cost function, which is a single, overall measure of loss incurred in taking any of the available decisions or actions.",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 61
+                    }
+                ]
+            },
+            {
+                "chunk": "a utility function, whose value they aim to maximize",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 61
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "How is over-fitting when we add data in the training ?",
+        "Chunks": [
+            {
+                "chunk": "over-fitting problem become less severe as the size of the data set increases",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 29
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "What is weight decay in machine learning ?",
+        "Chunks": [
+            {
+                "chunk": "regularizer is known in the machine learning literature as weight decay",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 164
+                    }
+                ]
+            },
+            {
+                "chunk": "One of the simplest forms of regularizer is given by the sum-of-squares of the weight vector elements",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 164
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "What is the activation function associated to a binary classification problem ?",
+        "Chunks": [
+            {
+                "chunk": "multiple binary classification problems, each output unit activation is transformed using a logistic sigmoid",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 248
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "How to perform optimization using gradient information ?",
+        "Chunks": [
+            {
+                "chunk": "simplest approach to using gradient information is to choose the weight update in (5.27) to comprise a small step in the direction of the negative gradient",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 260
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "What is steepest descent ?",
+        "Chunks": [
+            {
+                "chunk": "At each step the weight vector is moved in the direction of the greatest rate of decrease of the error function, and so this approach is known as gradient descent or steepest descent.",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 260
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    },
+    {
+        "Question": "What is a Markov random field ?",
+        "Chunks": [
+            {
+                "chunk": "A Markov random field, also known as a Markov network or an undirected graphical model (Kindermann and Snell, 1980), has a set of nodes each of which corresponds to a variable or group of variables, as well as a set of links each of which connects a pair of nodes. The links are undirected, that is they do not carry arrows. In the case of undirected graphs, it is convenient to begin with a discussion of conditional independence properties.",
+                "metadata": [
+                    {
+                        "source": "Bishop",
+                        "page": 403
+                    }
+                ]
+            }
+        ],
+        "Answer": ""
+    }
+]

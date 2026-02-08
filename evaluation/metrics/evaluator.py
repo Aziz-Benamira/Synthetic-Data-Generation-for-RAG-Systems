@@ -6,6 +6,7 @@ Provides a hierarchical structure of evaluators for different metric types:
 - GenerationEvaluator: Traditional text generation metrics
 - LLMEvaluator: LLM-as-judge semantic metrics
 - RiskAwareEvaluator: Risk, prudence, and abstention metrics
+- DatasetEvaluator: RAG test set quality evaluation
 - ComprehensiveEvaluator: Orchestrates multiple evaluators
 """
 
@@ -14,6 +15,10 @@ from typing import List, Dict, Union, Optional, Any
 import json
 from dataclasses import dataclass, asdict
 import logging
+import re
+import math
+from collections import Counter
+import numpy as np
 
 from trad_metrics import (
     unrankedMetrics,
@@ -245,7 +250,7 @@ class RetrieverEvaluator(BaseEvaluator):
             )
         
         except Exception as e:
-            self.logger.error(f"Error in retriever evaluation: {str(e)}")
+            self.logger.error(f"RetrieverEvaluator: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def validate_inputs(self, predictions_list: List, 
@@ -306,7 +311,7 @@ class GenerationEvaluator(BaseEvaluator):
             )
         
         except Exception as e:
-            self.logger.error(f"Error in generation evaluation: {str(e)}")
+            self.logger.error(f"GenerationEvaluator: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def validate_inputs(self, predictions: List, 
@@ -491,7 +496,7 @@ class LLMEvaluator(BaseEvaluator):
             )
         
         except Exception as e:
-            self.logger.error(f"Error in LLM batch evaluation: {str(e)}")
+            self.logger.error(f"LLMEvaluator.batch: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def evaluate(self, **kwargs) -> EvaluationResult:
@@ -573,7 +578,7 @@ class PerplexityEvaluator(BaseEvaluator):
             )
         
         except Exception as e:
-            self.logger.error(f"Error in perplexity evaluation: {str(e)}")
+            self.logger.error(f"PerplexityEvaluator: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def evaluate_abstention(self,
@@ -660,7 +665,7 @@ class RiskAwareEvaluator(BaseEvaluator):
             )
         
         except Exception as e:
-            self.logger.error(f"Error in risk-aware evaluation: {str(e)}")
+            self.logger.error(f"RiskAwareEvaluator: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
 
@@ -700,7 +705,7 @@ class EfficiencyEvaluator(BaseEvaluator):
             metrics = latency_metrics(ttft_ms, total_latency_ms)
             return self.create_result(metrics)
         except Exception as e:
-            self.logger.error(f"Error in latency evaluation: {str(e)}")
+            self.logger.error(f"EfficiencyEvaluator.latency: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def evaluate_cost(self,
@@ -727,7 +732,7 @@ class EfficiencyEvaluator(BaseEvaluator):
             )
             return self.create_result(metrics)
         except Exception as e:
-            self.logger.error(f"Error in cost evaluation: {str(e)}")
+            self.logger.error(f"EfficiencyEvaluator.cost: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def evaluate_retriever_roi(self,
@@ -754,7 +759,7 @@ class EfficiencyEvaluator(BaseEvaluator):
             )
             return self.create_result(metrics)
         except Exception as e:
-            self.logger.error(f"Error in ROI evaluation: {str(e)}")
+            self.logger.error(f"EfficiencyEvaluator.roi: {str(e)}", exc_info=True)
             return self.create_result({}, success=False, error_message=str(e))
 
     def evaluate(self, **kwargs) -> EvaluationResult:
@@ -771,6 +776,154 @@ class EfficiencyEvaluator(BaseEvaluator):
         else:
             return self.create_result({}, success=False,
                                     error_message="Invalid arguments")
+
+
+# =====================================================================
+# Dataset Evaluator
+# =====================================================================
+
+class DatasetEvaluator(BaseEvaluator):
+    """
+    Evaluates RAG test set quality (question diversity, source diversity, 
+    chunk diversity, answer-chunk alignment).
+    """
+
+    def __init__(self, config: Optional[EvaluatorConfig] = None):
+        if config is None:
+            config = EvaluatorConfig(name="DatasetEvaluator")
+        super().__init__(config)
+
+    def evaluate(self, 
+                dataset: List[Dict[str, Any]],
+                sources: Optional[List[str]] = None) -> EvaluationResult:
+        """
+        Evaluate RAG test set quality.
+        
+        Args:
+            dataset: List of dicts with 'question', 'chunks', 'answer'
+            sources: List of source document names
+        
+        Returns:
+            EvaluationResult with diversity and alignment metrics
+        """
+        try:
+            if not self.validate_inputs(dataset=dataset):
+                return self.create_result({}, success=False, 
+                                        error_message="Invalid dataset format")
+            
+            metrics = {}
+            
+            # Extract questions, chunks, and answers
+            questions = [item['question'] for item in dataset]
+            all_chunk_texts = []
+            answers = [item['answer'] for item in dataset]
+            chunk_sources = []
+            
+            for item in dataset:
+                for chunk in item['chunks']:
+                    all_chunk_texts.append(chunk['chunk'])
+                    if 'metadata' in chunk:
+                        chunk_sources.append(chunk['metadata'].get('source', 'unknown'))
+            
+            # Calculate diversity metrics
+            metrics['question_diversity'] = self._calculate_diversity(questions)
+            metrics['chunk_diversity'] = self._calculate_diversity(all_chunk_texts)
+            metrics['source_diversity'] = self._calculate_source_diversity(chunk_sources)
+            metrics['answer_chunk_alignment'] = self._check_alignment(dataset)
+            
+            return self.create_result(
+                metrics,
+                metadata={
+                    'num_samples': len(dataset),
+                    'num_unique_sources': len(set(chunk_sources)) if chunk_sources else 0,
+                    'total_chunks': len(all_chunk_texts)
+                }
+            )
+        
+        except Exception as e:
+            self.logger.error(f"DatasetEvaluator: {str(e)}", exc_info=True)
+            return self.create_result({}, success=False, error_message=str(e))
+
+    def validate_inputs(self, dataset: List[Dict]) -> bool:
+        """Validate dataset format."""
+        if not dataset or not isinstance(dataset, list):
+            return False
+        for item in dataset:
+            if 'question' not in item or 'chunks' not in item or 'answer' not in item:
+                return False
+            if not isinstance(item['chunks'], list) or not item['chunks']:
+                return False
+            for chunk in item['chunks']:
+                if 'chunk' not in chunk:
+                    return False
+                if isinstance(chunk['metadata'], list): 
+                    chunk['metadata'] = chunk['metadata'][0]
+                if 'source' not in chunk['metadata']:
+                    return False
+                if 'page' not in chunk['metadata']:
+                    return False
+        return True
+
+    def _calculate_diversity(self, texts: List[str]) -> float:
+        """
+        Calculate lexical diversity using vocabulary coverage.
+        Returns ratio of unique vocabulary to total words.
+        """
+        if not texts or not any(texts):
+            return 0.0
+        
+        all_words = []
+        for text in texts:
+            words = re.findall(r'\b\w+\b', text.lower())
+            all_words.extend(words)
+        
+        if not all_words:
+            return 0.0
+        
+        unique_words = len(set(all_words))
+        total_words = len(all_words)
+        return unique_words / total_words if total_words > 0 else 0.0
+
+    def _calculate_source_diversity(self, sources: List[str]) -> float:
+        """
+        Calculates normalized shannon entropy 
+        Returns 1.0 if all sources are used equally, lower values for skewed distribution. 
+        """
+        counts = np.array(list(Counter(sources).values()))
+        if len(counts) <= 1: return 0.0
+        probs = counts / counts.sum()
+        shannon = -np.sum(probs * np.log(probs))
+        return shannon / np.log(len(counts))
+
+
+
+    def _check_alignment(self, dataset: List[Dict[str, Any]]) -> Dict[str, float]:
+        """
+        Check if answer keywords appear in retrieved chunks.
+        Returns coverage: average ratio of answer keywords found in chunks.
+        """
+        alignments = []
+        
+        for item in dataset:
+            answer = item['answer']
+            answer_keywords = set(re.findall(r'\b\w+\b', answer.lower()))
+            
+            if not answer_keywords:
+                alignments.append(0.0)
+                continue
+            
+            chunk_texts = ' '.join([c['chunk'] for c in item['chunks']])
+            chunk_keywords = set(re.findall(r'\b\w+\b', chunk_texts.lower()))
+            
+            intersection = len(answer_keywords & chunk_keywords)
+            coverage = intersection / len(answer_keywords) if answer_keywords else 0.0
+            alignments.append(coverage)
+        
+        return {
+            'mean_coverage': sum(alignments) / len(alignments) if alignments else 0.0,
+            'min_coverage': min(alignments) if alignments else 0.0,
+            'max_coverage': max(alignments) if alignments else 0.0
+        }
 
 
 # =====================================================================
@@ -917,7 +1070,7 @@ class ComprehensiveEvaluator:
             report["summary"] = self._generate_summary(report["results"])
         
         except Exception as e:
-            self.logger.error(f"Error in comprehensive evaluation: {str(e)}")
+            self.logger.error(f"ComprehensiveEvaluator: {str(e)}", exc_info=True)
             report["success"] = False
             report["error"] = str(e)
         
