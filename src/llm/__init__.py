@@ -47,6 +47,10 @@ from .providers import (
     LlamaCppProvider
 )
 
+from .direct_provider import (
+    DirectLlamaCppProvider
+)
+
 from .manager import (
     LLMManager,
     create_ollama_manager,
@@ -68,6 +72,7 @@ __all__ = [
     "OllamaProvider",
     "OpenRouterProvider",
     "LlamaCppProvider",
+    "DirectLlamaCppProvider",
     
     # Manager
     "LLMManager",

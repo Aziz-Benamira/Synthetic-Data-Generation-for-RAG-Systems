@@ -17,11 +17,15 @@ dist/
 *.swp
 *.swo
 
-# Data
+# Data & PDFs
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+data/pdfs/*
+!data/pdfs/.gitkeep
+data/*.json
+data/chunks_*.json
 outputs/logs/*
 !outputs/logs/.gitkeep
 
@@ -40,6 +44,68 @@ mlartifacts/
 # Jupyter
 .ipynb_checkpoints/
 
-# A2A samples (keep separate)
+# A2A samples
 a2a-samples/
+
+# ============================================
+# Project-specific ignores
+# ============================================
+
+# Archived/Temporary files
+.archived_temp/
+archives/
+
+# Test files
+tests/test_*.py
+**/test_*.py
+**/*_test.py
+
+# Batch/SLURM files
+*.sbatch
+*.sh
+logs/
+slurm-*.out
+*.log
+
+# Results & Outputs
+output/
+output_*/
+results/
+experiments/**/results/
+experiments/**/logs/
+experiments/**/output*/
+experiments/**/*.txt
+experiments/**/*.jsonl
+**/dataset_*.json
+**/dataset_*.jsonl
+
+# Documentation (non-essential)
+COMPARISON_*.md
+SEMANTIC_*.md
+EXECUTIVE_*.md
+TUTOR_*.md
+QUICK_*.md
+RESEARCH_*.md
+PROJECT_ARCHITECTURE.md
+PROJECT_STRUCTURE.md
+CONTRIBUTING.md
+**/*.txt
+
+# Scripts & demos (temporary)
+demo_*.py
+show_*.py
+verify_*.py
+scripts/
+
+# Critic V2 experiment outputs
+experiments/critic_v2_baseline/*.json
+experiments/critic_v2_baseline/*.jsonl
+experiments/critic_v2_baseline/feedback_*.txt
+experiments/critic_v2_baseline/config.json
+
+# Models (large files)
+*.gguf
+*.bin
+*.safetensors
+models/
 enstrag-main/

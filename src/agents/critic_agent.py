@@ -477,22 +477,25 @@ class CriticAgent:
     
     def __init__(
         self,
-        llm_client: Any,
-        model_name: str = "llama3:8b",  # Llama 3 8B - STRICT! (~4.7GB)
+        llm_client: Any = None,
+        model_name: str = "llama3:8b",
         language: str = "fr",
-        temperature: float = 0.2,  # Low temperature for consistent evaluation
-        strict_mode: bool = True   # If True, ALL criteria must pass
+        temperature: float = 0.2,
+        strict_mode: bool = True,
+        llm_manager: Any = None  # New: LLMManager from src.llm
     ):
         """
         Initialize the critic agent.
         
         Args:
-            llm_client: LLM API client
-            model_name: Model to use for evaluation
+            llm_client: Legacy LLM API client
+            model_name: Model to use for evaluation (legacy mode)
             language: "fr" or "en" for prompts
             temperature: LLM temperature (lower = more consistent)
             strict_mode: If True, all 5 criteria must pass. If False, majority vote.
+            llm_manager: LLMManager instance from src.llm (preferred)
         """
+        self.llm_manager = llm_manager
         self.llm_client = llm_client
         self.model_name = model_name
         self.language = language
@@ -541,8 +544,28 @@ class CriticAgent:
         return evaluation
     
     def _call_llm(self, user_prompt: str) -> str:
-        """Call the LLM API."""
-        if hasattr(self.llm_client, 'chat'):
+        """Call the LLM API.
+        
+        Supports:
+        1. LLMManager (new centralized module) - preferred
+        2. Legacy OpenAI client - backward compatible
+        """
+        # New: LLMManager from src.llm
+        if self.llm_manager is not None:
+            from src.llm import LLMConfig
+            config = LLMConfig(
+                temperature=self.temperature,
+                max_tokens=1500
+            )
+            response = self.llm_manager.generate(
+                prompt=user_prompt,
+                system_prompt=self.system_prompt,
+                config=config
+            )
+            return response.content
+        
+        # Legacy: OpenAI-style
+        elif self.llm_client is not None and hasattr(self.llm_client, 'chat'):
             response = self.llm_client.chat.completions.create(
                 model=self.model_name,
                 messages=[
@@ -553,8 +576,9 @@ class CriticAgent:
                 max_tokens=1500
             )
             return response.choices[0].message.content
+        
         else:
-            raise ValueError("Unsupported LLM client type")
+            raise ValueError("No LLM configured. Pass llm_manager or llm_client.")
     
     def _parse_response(
         self,

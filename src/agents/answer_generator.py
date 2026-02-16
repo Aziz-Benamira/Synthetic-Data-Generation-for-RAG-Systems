@@ -146,26 +146,33 @@ class AnswerGenerator:
     - Strictly anchored: no external knowledge
     - Traceable: all metadata preserved
     - Verifiable: includes supporting quotes
+    
+    Supports both:
+    - New LLMManager (from src.llm) → preferred
+    - Legacy OpenAI-compatible client → backward compatible
     """
     
     def __init__(
         self,
-        llm_client: Any,
-        model_name: str = "mistral:latest",  # Mistral 7B local
+        llm_client: Any = None,
+        model_name: str = "mistral:latest",
         language: str = "fr",
         answer_style: AnswerStyle = AnswerStyle.DETAILED,
-        temperature: float = 0.3  # Lower temperature for more factual answers
+        temperature: float = 0.3,
+        llm_manager: Any = None  # New: LLMManager from src.llm
     ):
         """
         Initialize the answer generator.
         
         Args:
-            llm_client: LLM API client (OpenAI, Groq, etc.)
-            model_name: Model to use for generation
+            llm_client: Legacy LLM API client (OpenAI, Groq, etc.)
+            model_name: Model to use for generation (legacy mode)
             language: "fr" or "en" for prompt language
             answer_style: Style of answers to generate
             temperature: LLM temperature (lower = more deterministic)
+            llm_manager: LLMManager instance from src.llm (preferred)
         """
+        self.llm_manager = llm_manager
         self.llm_client = llm_client
         self.model_name = model_name
         self.language = language
@@ -212,9 +219,28 @@ class AnswerGenerator:
         return answer
     
     def _call_llm(self, user_prompt: str) -> str:
-        """Call the LLM API."""
-        # Groq/OpenAI-style API
-        if hasattr(self.llm_client, 'chat'):
+        """Call the LLM API.
+        
+        Supports:
+        1. LLMManager (new centralized module) - preferred
+        2. Legacy OpenAI/Anthropic clients - backward compatible
+        """
+        # New: LLMManager from src.llm
+        if self.llm_manager is not None:
+            from src.llm import LLMConfig
+            config = LLMConfig(
+                temperature=self.temperature,
+                max_tokens=1000
+            )
+            response = self.llm_manager.generate(
+                prompt=user_prompt,
+                system_prompt=self.system_prompt,
+                config=config
+            )
+            return response.content
+        
+        # Legacy: Groq/OpenAI-style API
+        elif self.llm_client is not None and hasattr(self.llm_client, 'chat'):
             response = self.llm_client.chat.completions.create(
                 model=self.model_name,
                 messages=[
@@ -226,8 +252,8 @@ class AnswerGenerator:
             )
             return response.choices[0].message.content
         
-        # Anthropic-style API
-        elif hasattr(self.llm_client, 'messages'):
+        # Legacy: Anthropic-style API
+        elif self.llm_client is not None and hasattr(self.llm_client, 'messages'):
             response = self.llm_client.messages.create(
                 model=self.model_name,
                 max_tokens=1000,
@@ -239,7 +265,7 @@ class AnswerGenerator:
             return response.content[0].text
         
         else:
-            raise ValueError("Unsupported LLM client type")
+            raise ValueError("No LLM configured. Pass llm_manager or llm_client.")
     
     def _parse_response(
         self,

@@ -158,26 +158,33 @@ class QuestionGenerator:
     - Stateless: each call is independent
     - Configurable: number of questions, types, difficulty distribution
     - Traceable: all metadata preserved
+    
+    Supports both:
+    - New LLMManager (from src.llm) → preferred
+    - Legacy OpenAI-compatible client → backward compatible
     """
     
     def __init__(
         self,
-        llm_client: Any,  # OpenAI-compatible client (Ollama local)
-        model_name: str = "mistral:latest",  # Mistral 7B local
+        llm_client: Any = None,  # Legacy: OpenAI-compatible client
+        model_name: str = "mistral:latest",
         language: str = "fr",
         default_num_questions: int = 3,
-        temperature: float = 0.7
+        temperature: float = 0.7,
+        llm_manager: Any = None  # New: LLMManager from src.llm
     ):
         """
         Initialize the question generator.
         
         Args:
-            llm_client: LLM API client (OpenAI, Anthropic, etc.)
-            model_name: Model to use for generation
+            llm_client: Legacy LLM API client (OpenAI, Anthropic, etc.)
+            model_name: Model to use for generation (legacy mode)
             language: "fr" or "en" for prompt language
             default_num_questions: Default number of questions per chunk
             temperature: LLM temperature (higher = more creative)
+            llm_manager: LLMManager instance from src.llm (preferred)
         """
+        self.llm_manager = llm_manager
         self.llm_client = llm_client
         self.model_name = model_name
         self.language = language
@@ -226,10 +233,26 @@ class QuestionGenerator:
         """
         Call the LLM API.
         
-        This is a placeholder - implement based on your LLM client.
+        Supports:
+        1. LLMManager (new centralized module) - preferred
+        2. Legacy OpenAI/Anthropic clients - backward compatible
         """
-        # OpenAI-style API
-        if hasattr(self.llm_client, 'chat'):
+        # New: LLMManager from src.llm
+        if self.llm_manager is not None:
+            from src.llm import LLMConfig
+            config = LLMConfig(
+                temperature=self.temperature,
+                max_tokens=2000
+            )
+            response = self.llm_manager.generate(
+                prompt=user_prompt,
+                system_prompt=self.system_prompt,
+                config=config
+            )
+            return response.content
+        
+        # Legacy: OpenAI-style API
+        elif self.llm_client is not None and hasattr(self.llm_client, 'chat'):
             response = self.llm_client.chat.completions.create(
                 model=self.model_name,
                 messages=[
@@ -241,8 +264,8 @@ class QuestionGenerator:
             )
             return response.choices[0].message.content
         
-        # Anthropic-style API
-        elif hasattr(self.llm_client, 'messages'):
+        # Legacy: Anthropic-style API
+        elif self.llm_client is not None and hasattr(self.llm_client, 'messages'):
             response = self.llm_client.messages.create(
                 model=self.model_name,
                 max_tokens=2000,
@@ -254,7 +277,7 @@ class QuestionGenerator:
             return response.content[0].text
         
         else:
-            raise ValueError("Unsupported LLM client type")
+            raise ValueError("No LLM configured. Pass llm_manager or llm_client.")
     
     def _parse_response(
         self,

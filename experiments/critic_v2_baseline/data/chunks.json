@@ -1,0 +1,117 @@
+{
+  "metadata": {
+    "num_chunks": 6,
+    "extraction_date": "2026-02-09",
+    "source": "tipler_mosca_chapitre_m2.pdf"
+  },
+  "chunks": [
+    {
+      "chunk_id": "5.6.3.c1",
+      "content": "66\nExemples\n5.6.3\nCIR model for spot rate\nThe Cox-Ingersoll-Ross model for interest rate is the object of many studies since the seminal paper of\nCox et al. [?] where the authors assume that the riskless rate r follows a square root process under the\nhistorical probability given by\ndrt = ˜k(˜θ −rt) dt + σ√rtd ˜Wt\nwhere ˜k(˜θ −r) deﬁnes a mean reverting drift pulling the interest rate toward its long term value θ with\na speed of adjustment equal to ˜k. In the risk adjusted economy, the dynamics are supposed to be given\nby :\ndrt = (˜k(˜θ −rt) −λrt)dt + σ√rtdWt = k(θ −rt)dt + σ√rtdWt\nwhere (Wt, t ≥0) is a Brownian motion under the risk adjusted probability Q, k = ˜k + λ, θ = ˜k(˜θ/k),\nand where λ denotes the market price of risk. Therefore, we shall establish formulae under a general\ndynamics of the form (??). Even if no closed-form expression can be written for rt, it is remarkable\nthat the Laplace transform of the process, i.e.\nE\n·\nexp\nµZ t\n0\nduφ(u)ru\n¶¸\nis known (See Exercise 5.5.4). In particular, the expectation and the variance of the random variable\nrt can be computed. Dufresne has obtained formulae for the moments.",
+      "chapter": "EXEMPLES DE PROCESSUS D’ITO",
+      "section": "Properties",
+      "subsection": "CIR model for spot rate",
+      "page_range": [
+        66,
+        66
+      ],
+      "semantic_type": "text",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 1137,
+        "pdf_pages": 84
+      }
+    },
+    {
+      "chunk_id": "2.3.9.c2",
+      "content": "aB(1)\nt\n+ bB(2)\nt\nest un processus gaussien. Il est facile de v´eriﬁer que Bt\ndef\n=\n1\n√\na2 + b2 (aB(1)\nt\n+ bB(2)\nt\n) est\nun MB (C4est un processus Gaussien, calculer son esp´erance et sa covariance).\nSi B est un brownien n-dimensionnel, on a E(BT\nt Bs) = n(s ∧t).\nLe processus n-dimensionnel B est un mouvement Brownien si et seulement si les processus B(i) et\nB(i)B(j) −δi,jt sont des martingales (avec δi,j = 0 pour i ̸= j et δi,i = 1.\nD´eﬁnition 2.3.2 Les mouvements Browniens `a valeurs r´eelles B1 et B2 sont corr´el´es de coeﬃcient de\ncorr´elation ρ si B1(t)B2(t) −ρt est une martingale.",
+      "chapter": "LE MOUVEMENT BROWNIEN",
+      "section": "Le mouvement Brownien",
+      "subsection": "Brownien multidimensionnel",
+      "page_range": [
+        31,
+        33
+      ],
+      "semantic_type": "text",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 593,
+        "pdf_pages": 84
+      }
+    },
+    {
+      "chunk_id": "2.3.5.c2",
+      "content": "Proposition 2.3.2 Si (Bt, t ≥0) est un mouvement Brownien, alors\ni) le processus ˆB d´eﬁni par ˆBt = −Bt est un mouvement Brownien.\nii) le processus ˜B d´eﬁni par ˜Bt = 1\ncBc2t est un mouvement Brownien. (Propri´et´e de scaling)\niii) le processus ¯B d´eﬁni par ¯Bt = tB 1\nt , ∀t > 0 , ¯B0 = 0 est un mouvement Brownien.\nD´emonstration: Il suﬃt de v´eriﬁer le caract`ere Gaussien de ces processus et d’en calculer esp´erance\net covariance.\n△\n2.3.4\nPropri´et´e de Markov\nLa propri´et´e de Markov du mouvement Brownien est utilis´ee sous la forme (un peu plus forte que\nla propri´et´e de Markov) : pour tout s, le processus (Wt, t ≥0) d´eﬁni par Wt\ndef\n= Bt+s −Bs est un\nmouvement Brownien ind´ependant de Fs.\nTh´eor`eme 2.3.1 Pour f bor´elienne born´ee, E(f(Bu) |Ft ) = E(f(Bu) |σ(Bt)) pour u > t.\nD´emonstration: On fait apparaitre les accroissements et on utilise les propri´et´es de l’esp´erance con-\nditionnelle :\nE(f(Bu) |Ft ) = E(f(Bu −Bt + Bt) |Ft ) = Φ(u −t, Bt)\navec Φ(u −t, x) = E(f(Bu −Bt + x)) = E(f(Y + x)) o`u Y a mˆeme loi que Bu −Bt, soit une loi\nN(0, u −t). Par les mˆemes arguments, E(f(Bu) |σ(Bt)) = Φ(u −t, Bt). On a tr`es pr´ecisement\nΦ(s, x) =\n1\n√\n2πs\nZ\nIR\nf(y) exp −(y −x)2\n2s\ndy\n△\nUne autre fa¸con de d´ecrire cette propri´et´e est de dire que, pour u > t, conditionnellement `a Bt, la\nv.a. Bu est de loi gaussienne d’esp´erance Bt et de variance u −t. Alors\nE(11Bu≤x |Ft ) = E(11Bu≤x |σ(Bt)) = E(11Bu≤x |Bt )\npour t ≤u.\nProposition 2.3.3 Propri´et´e de Markov forte:\nSoit T un temps d’arrˆet `a valeurs ﬁnies.\nOn a alors E(f(BT +s) |FT ) = E(f(BT +s) |σ(BT )).\nEn\nparticulier, pour tout temps d’arrˆet ﬁni T, le processus (Wt, t ≥0) d´eﬁni par Wt\ndef\n= Bt+T −BT est un\nmouvement Brownien ind´ependant de FT .\n2.3.5\nEquation de la chaleur\nSoit g(t, x) la densit´e gaussienne centr´ee de variance t. On note\nq(t, x, y) =\n1\n√\n2πt exp −(y −x)2\n2t\n= g(t, x −y)\nla densit´e de transition du mouvement Brownien. C’est de fa¸con heuristique, la probabilit´e pour que",
+      "chapter": "LE MOUVEMENT BROWNIEN",
+      "section": "Le mouvement Brownien",
+      "subsection": "Equation de la chaleur",
+      "page_range": [
+        26,
+        27
+      ],
+      "semantic_type": "definition",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 1981,
+        "pdf_pages": 84
+      }
+    },
+    {
+      "chunk_id": "5.5.5.c3",
+      "content": "Proposition 5.5.2\nE(ν)\nr\n·\nexp(−aR2\nt −µ2\n2\nZ t\n0\nds\nR2s\n)\n¸\n= E(γ)\nr\n·µRt\nr\n¶ν−γ\nexp(−aR2\nt )\n¸\n(5.12)\nwhere γ2 = µ2 + ν2.\nD´emonstration: Let (Rt, t ≥0) be a BES(ν)starting from r > 0.\nFrom 1\nxα =\n1\nΓ(α)\nZ ∞\n0\ndv exp(−vx)vα−1, it follows that\nE(ν)\nr\n·\n1\n(Rt)2α\n¸\n=\n1\nΓ(α)\nZ ∞\n0\ndv vα−1E(ν)\nr\n[exp(−vR2\nt )] .\nTherefore, for any α ≥0, the equality\nE(ν)\nr\nµ\n1\n(Rt)2α\n¶\n=\n1\nΓ(α)\nZ 1/2t\n0\ndv vα−1(1 −2tv)ν−α exp(−r2v)\nfollows from the identity E(ν)\nr\n[exp(−vR2\nt )] =\n1\n(1 + 2vt)1+ν exp\nµ\n−\nr2v\n1 + 2vt\n¶\nand a change of variable.\nWe can also compute, using (5.6)\nE(ν)\nr\n·\nexp(−aR2\nt −µ2\n2\nZ t\n0\nds\nR2s\n)\n¸\n=\nE(0)\nr\n·µRt\nr\n¶ν\nexp(−aR2\nt −µ2 + ν2\n2\nZ t\n0\nds\nR2s\n)\n¸\n=\nE(γ)\nr\n·µRt\nr\n¶ν−γ\nexp(−aR2\nt )\n¸\nwhere γ =\np\nµ2 + ν2. The quantity E(γ)\nr\n·µRt\nr\n¶ν−γ\nexp(−aR2\nt )\n¸\ncan be computed with the help of the\nﬁrst part of this section\nE(γ)\nr\n·µ 1\nRt\n¶2α\nexp(−aR2\nt )\n¸\n=\n1\nΓ(α)\nZ ∞\n0\ndvvα−1E(γ)\nr\n[exp(−(v + a)R2\nt )]\n=\n1\nΓ(α)\nZ ∞\n0\ndv vα−1(1 + 2(v + a)t)−(1+γ) exp\nµ\n−\nr2(v + a)\n1 + 2(v + a)t\n¶\ntherefore\nE(ν)\nr\n·\nexp\nµ\n−aR2\nt −µ2\n2\nZ t\n0\nds\nR2s\n¶¸\n=\n1\nΓ(α) rν−γ\nZ ∞\n0\ndv vα−1(1 + 2(v + a)t)−(1+γ) exp\nµ\n−\nr2(v + a)\n1 + 2(v + a)t\n¶\nwhere α = 1\n2(γ −ν) = 1\n2(\np\nµ2 + ν2 −ν).\nExercice 5.5.3 Prove, using the same method that\nE(ν)\nr\n· 1\nRα\nt\nexp(−µ2\n2\nZ t\n0\nds\nR2s\n)\n¸\n=\nE(0)\nr\n· Rν\nt\nrνRα\nt\nexp(−µ2 + ν2\n2\nZ t\n0\nds\nR2s\n)\n¸\n=\nE(γ)\n·Rν−γ−α\nt\nrν−γ\n¸\nProposition 5.5.3 For a BESQδ, we have\nQδ\nx\n·\nexp(−1\n2b2\nZ 1\n0\nρsds)\n¸\n= (cosh b)−δ/2 exp\nµ\n−1\n2xb tanh b\n¶\n.\n(5.13)",
+      "chapter": "EXEMPLES DE PROCESSUS D’ITO",
+      "section": "Properties",
+      "subsection": "Laplace transforms",
+      "page_range": [
+        63,
+        64
+      ],
+      "semantic_type": "definition",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 1457,
+        "pdf_pages": 84
+      }
+    },
+    {
+      "chunk_id": "1.1.c6",
+      "content": "application mesurable de (Ω, F) dans IR ( donc telle que X−1(A) ∈F,\n∀A ∈BIR).\nUne constante est une v.a. de mˆeme qu’une fonction indicatrice d’ensemble de la tribu F.\nProposition 1.1.2 Si X est une v.a.r. G-mesurable et f une fonction bor´elienne, f(X) est G-mesurable.\nUne v.a. G mesurable est limite croissante de v.a. du type\nn\nX\ni=1\nai11Ai avec Ai ∈G. Une fonction\nbor´elienne est limite croissante de fonctions du type\nn\nX\ni=1\nai11Ai o`u Ai est un intervalle.\n1.1.3\nTribu engendr´ee\nD´eﬁnition 1.1.4 La tribu engendr´ee par une famille d’ensembles A est la plus petite tribu contenant\ncette famille, on la note σ(A). Elle est l’intersection de toutes les tribus contenant A.\nSi F1 et F2 sont deux tribus, on note F1 ∨F2 la tribu engendr´ee par F1 ∪F2. C’est la plus petite tribu\ncontenant les deux tribus F1 et F2.\nD´eﬁnition 1.1.5 La tribu engendr´ee par une variable al´eatoire X d´eﬁnie sur (Ω, F) est l’ensemble des\nparties de Ωqui s’´ecrivent X−1(A) o`u A ∈BIR. On note cette tribu σ(X).\nLa tribu σ(X) est contenue dans F. C’est la plus petite tribu sur Ωrendant X mesurable.\nUne v.a.r. X est G-mesurable si σ(X) ⊂G.\nPropri´et´e: si Y est une application de Ωdans IR, σ(X) mesurable (c’est-`a-dire telle que Y −1(A) ∈\nσ(X),\n∀A ∈BIR ou encore σ(Y ) ⊂σ(X)), il existe une fonction bor´elienne f, de IR dans IR telle que\nY = f(X), et r´eciproquement.\nD´eﬁnition 1.1.6 La tribu engendr´ee par une famille de variables al´eatoires (Xt, t ∈[0, T]) est la plus\npetite tribu contenant les ensembles {X−1\nt\n(A)} pour tout t ∈[0, T] et A ∈BIR. On la note σ(Xt, t ≤T).\n1.2\nProbabilit´e\n1.2.1\nD´eﬁnition\nUne probabilit´e sur (Ω, F) est une application P de F dans [0, 1] telle que\na) P(Ω) = 1,\nb) P(∪∞\nn=0An) = P∞\nn=0 P(An) pour des An appartenant `a F deux `a deux disjoints.\nNotation: P(A) =\nR\nA dP =\nR\nΩ11AdP o`u 11A (fonction indicatrice) est la fonction d´eﬁnie sur Ωpar\n11A(ω) = 1 si ω ∈A et 11A(ω) = 0 si ω /∈A.",
+      "chapter": "G'en'eralit'es",
+      "section": "Tribu",
+      "subsection": null,
+      "page_range": [
+        7,
+        11
+      ],
+      "semantic_type": "example",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 1917,
+        "pdf_pages": 84
+      }
+    },
+    {
+      "chunk_id": "5.5.4.c2",
+      "content": "Exercice 5.5.1 (from Az´ema-Yor [?]). Let X be a BES3. Prove that 1/X is a local martingale, but\nnot a martingale. Establish that\nE(1/X1|Ru) =\n1\nXu\nr\n2\nπ Φ( Xu\n1 −u) ,\nwhere Φ(a) =\nZ a\n0\ndye−y2/2.\n5.5.4\nHitting times for Bessel processes\nFor a BESδ(See, e.g. Kent [?] or Pitman-Yor [?] prop. 2.3)\nE(ν)\na (e−λTb)\n=\nµ b\na\n¶ν Kν(a\n√\n2λ)\nKν(b\n√\n2λ)\n,\nfor b < a\n(5.10)\nE(ν)\na (e−λTb)\n=\nµ b\na\n¶ν Iν(a\n√\n2λ)\nIν(b\n√\n2λ)\n,\nfor a < b\n(5.11)\nRemark that, for a > b, P (ν)\na\n(Tb < ∞) = (b/a)2ν. Indeed, P (ν)\na\n(Tb < ∞) = limλ→0 E(ν)\na (e−λTb), and it\nis well known that Kν(z) ∼c(ν)z−ν for z close to 0.\nIn particular, for a 3-dimensional Bessel process\nE3\n0(exp −λ2\n2 Tb) =\nλb\nsinh λb\nand, more generally\nE3\na(exp −λ2\n2 Tb) = b\na\nsinh λa\nsinh λb\nFrom inversion of Laplace transform,\nP 3\n0 (Tb ∈dt) = π2\n2b2\n³\nΣn∈Z(−1)n+1n2e−n2π2t/(2b2)´\ndt\nExercice 5.5.2 The power of a Bessel process is another Bessel process time-changed\nq[R(ν)\nt\n]1/q loi\n= R(νq)(\nZ t\n0\nds\n[R(ν)\ns ]2/p )\nwhere 1\np + 1\nq = 1, ν > −1\nq .",
+      "chapter": "EXEMPLES DE PROCESSUS D’ITO",
+      "section": "Properties",
+      "subsection": "Hitting times for Bessel processes",
+      "page_range": [
+        62,
+        62
+      ],
+      "semantic_type": "example",
+      "source_file": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+      "metadata": {
+        "source": "/home/ensta/ensta-ben-amira/projects/Agentic_AI/data/pdfs/M2_cours.pdf",
+        "chunk_size": 995,
+        "pdf_pages": 84
+      }
+    }
+  ]
+}

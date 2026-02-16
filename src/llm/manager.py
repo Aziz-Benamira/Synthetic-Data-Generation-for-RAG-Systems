@@ -20,6 +20,9 @@ from .providers import (
     OpenRouterProvider,
     LlamaCppProvider
 )
+from .direct_provider import (
+    DirectLlamaCppProvider
+)
 
 logger = logging.getLogger(__name__)
 
@@ -118,6 +121,31 @@ class LLMManager:
             LLMManager configuré avec llama.cpp
         """
         provider = LlamaCppProvider(model, base_url, config)
+        return cls(provider)
+    
+    @classmethod
+    def from_direct_llamacpp(
+        cls,
+        model_path: str,
+        n_gpu_layers: int = -1,
+        n_ctx: int = 4096,
+        config: Optional[LLMConfig] = None,
+        verbose: bool = False
+    ) -> "LLMManager":
+        """
+        Créer un manager avec chargement direct du modèle GGUF (sans serveur HTTP).
+        
+        Args:
+            model_path: Chemin vers le fichier GGUF
+            n_gpu_layers: Nombre de layers sur GPU (-1 = tous)
+            n_ctx: Taille du contexte
+            config: Configuration optionnelle
+            verbose: Mode verbose
+            
+        Returns:
+            LLMManager configuré avec DirectLlamaCppProvider
+        """
+        provider = DirectLlamaCppProvider(model_path, n_gpu_layers, n_ctx, config, verbose)
         return cls(provider)
     
     def generate(

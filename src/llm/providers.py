@@ -9,7 +9,15 @@ import os
 import json
 import logging
 from typing import List, Optional, Dict, Any
-from openai import OpenAI, AsyncOpenAI
+
+# Make OpenAI optional
+try:
+    from openai import OpenAI, AsyncOpenAI
+    HAS_OPENAI = True
+except ImportError:
+    HAS_OPENAI = False
+    OpenAI = None
+    AsyncOpenAI = None
 
 from .base import (
     BaseLLMProvider,
