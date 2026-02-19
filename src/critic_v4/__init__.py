@@ -12,7 +12,20 @@ Phase 2 (Answer Validation):
 """
 
 from .question_evaluator import QuestionEvaluator
-from .metrics import ContextualAnswerability, PedagogicalValue
+from .critic_v4 import CriticV4
+from .metrics import (
+    ContextualAnswerability,
+    PedagogicalValue,
+    AnswerCompleteness,
+    AnswerAnchoring,
+)
 
 __version__ = "4.0.0"
-__all__ = ["QuestionEvaluator", "ContextualAnswerability", "PedagogicalValue"]
+__all__ = [
+    "CriticV4",
+    "QuestionEvaluator",
+    "ContextualAnswerability",
+    "PedagogicalValue",
+    "AnswerCompleteness",
+    "AnswerAnchoring",
+]

@@ -12,8 +12,12 @@ Phase 2 (Answer Validation):
 
 from .contextual_answerability_prompt import get_contextual_answerability_prompt
 from .pedagogical_value_prompt import get_pedagogical_value_prompt
+from .answer_completeness_prompt import get_answer_completeness_prompt
+from .answer_anchoring_prompt import get_answer_anchoring_prompt
 
 __all__ = [
     "get_contextual_answerability_prompt",
     "get_pedagogical_value_prompt",
+    "get_answer_completeness_prompt",
+    "get_answer_anchoring_prompt",
 ]

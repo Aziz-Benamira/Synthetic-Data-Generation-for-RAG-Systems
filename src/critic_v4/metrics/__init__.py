@@ -12,8 +12,12 @@ Phase 2 (Answer Validation):
 
 from .contextual_answerability import ContextualAnswerability
 from .pedagogical_value import PedagogicalValue
+from .answer_completeness import AnswerCompleteness
+from .answer_anchoring import AnswerAnchoring
 
 __all__ = [
     "ContextualAnswerability",
     "PedagogicalValue",
+    "AnswerCompleteness",
+    "AnswerAnchoring",
 ]
