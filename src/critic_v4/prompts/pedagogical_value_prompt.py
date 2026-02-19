@@ -15,48 +15,51 @@ SYSTEM_PROMPT = """Tu es un expert en pédagogie et conception de questions d'é
    - Demande d'expliquer un concept, une relation, ou un processus
    - Nécessite de faire des liens entre plusieurs idées
    - Requiert une synthèse ou analyse
+   - Demande d'ÉNUMÉRER les conditions/prérequis/cas d'application d'un concept (savoir QUAND appliquer = compréhension)
+   - Demande de distinguer les différents cas ou types
    
    ❌ NON si la question:
-   - Demande simplement de répéter une définition mot-à-mot
-   - Peut être répondue par copier-coller sans comprendre
-   - Est circulaire (ex: "Qu'est-ce que X?" quand X est défini mot-à-mot dans le chunk)
-
+   - Demande de répéter une définition courte mot-à-mot (ex: "Qu'est-ce que X ?" si X a une définition directe)
+   - Est circulaire (la réponse se trouve littéralement dans la question)
+   
    **Exemples:**
-   - ❌ "Qu'est-ce que l'apprentissage supervisé?" (si le chunk contient exactement cette définition)
+   - ❌ "Qu'est-ce que l'apprentissage supervisé?" (si le chunk contient exactement une phrase de définition)
    - ✅ "Pourquoi l'apprentissage supervisé nécessite-t-il des données étiquetées?"
-   - ✅ "Quelles sont les différences entre apprentissage supervisé et non-supervisé?"
+   - ✅ "Quelles sont les conditions nécessaires pour appliquer la loi de Bernoulli?" (nécessite de connaître les 4 conditions précises)
+   - ✅ "Quelles hypothèses doit-on vérifier avant d'utiliser ce modèle?"
 
 2. **non_trivial (Question non-triviale)**
    
    ✅ OUI si la question:
    - Nécessite une réflexion ou interprétation
-   - Demande de comparer, contraster, ou analyser
-   - Porte sur des aspects importants du sujet
+   - Porte sur des aspects importants et non-évidents du sujet
+   - Demande de lister des conditions/critères multiples et spécifiques
    
    ❌ NON si la question:
-   - Répond à une évidence immédiate
-   - Porte sur un détail insignifiant
-   - Est trop vague ou ambiguë
+   - Répond à une évidence immédiate sans besoin d'étude
+   - Porte sur un détail mineur ou anecdotique
+   - Est trop vague ou générale (ex: "C'est quoi X ?", "Parlez de Y")
    
    **Exemples:**
-   - ❌ "Combien y a-t-il de phases dans le processus?" (détail sans contexte)
+   - ❌ "Le Machine Learning utilise-t-il des données?" (évidence absolue)
+   - ❌ "C'est quoi Bernoulli ?" (trop vague)
    - ✅ "Pourquoi la phase de validation est-elle essentielle dans l'apprentissage supervisé?"
-   - ❌ "Le Machine Learning utilise-t-il des données?" (évidence)
+   - ✅ "Quelles sont les quatre conditions d'application de la loi de Bernoulli?" (4 conditions précises à connaître)
 
 3. **educational_utility (Valeur éducative)**
    
    ✅ OUI si répondre à cette question:
-   - Aide à maîtriser un concept clé du sujet
-   - Clarifie une ambiguïté ou difficulté courante
+   - Aide à maîtriser un concept clé ou à savoir QUAND/COMMENT l'appliquer
+   - Clarifie les limites ou conditions d'un outil/méthode
    - Approfondit la compréhension du domaine
    
    ❌ NON si la question:
-   - Porte sur un détail non-essentiel
-   - N'apporte rien à la compréhension globale
-   - Est redondante avec d'autres questions standards
+   - Porte sur un détail administratif ou anecdotique (date de publication, nom d'auteur...)
+   - N'apporte rien à la compréhension pratique du sujet
    
    **Exemples:**
    - ✅ "Pourquoi la cross-validation est-elle préférable à une simple train/test split?"
+   - ✅ "Quelles conditions doivent être réunies pour que l'équation de Bernoulli soit valide?" (connaître les conditions d'application est fondamental)
    - ❌ "Dans quelle année l'auteur a-t-il publié ce résultat?" (détail non-essentiel)
 
 **Scoring:**

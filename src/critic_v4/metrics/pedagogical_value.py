@@ -16,7 +16,6 @@ Seuil: ≥0.67 pour PASS (au moins 2/3 critères)
 import json
 import logging
 from typing import Dict, Any, Optional
-from llama_cpp import Llama
 
 from ..prompts.pedagogical_value_prompt import get_pedagogical_value_prompt
 
@@ -43,7 +42,7 @@ class PedagogicalValue:
     
     def __init__(
         self,
-        llm: Optional[Llama] = None,
+        llm: Optional[Any] = None,
         temperature: float = 0.1,
         max_tokens: int = 1000,
     ):
@@ -63,7 +62,7 @@ class PedagogicalValue:
         self,
         chunk_content: str,
         question: str,
-        llm: Optional[Llama] = None,
+        llm: Optional[Any] = None,
     ) -> Dict[str, Any]:
         """
         Évalue la qualité pédagogique de la question.
@@ -176,6 +175,16 @@ class PedagogicalValue:
             # Parser le JSON
             evaluation = json.loads(cleaned)
             
+            # Normaliser les clés connues susceptibles de fautes de frappe
+            # "educational_utily", "educational_utiliy", etc. → "educational_utility"
+            normalized: Dict[str, Any] = {}
+            for k, v in evaluation.items():
+                if k.startswith("educational_util"):
+                    normalized["educational_utility"] = v
+                else:
+                    normalized[k] = v
+            evaluation = normalized
+
             # Valider les champs requis
             required_fields = ["tests_understanding", "non_trivial", "educational_utility"]
             for field in required_fields:
@@ -183,7 +192,7 @@ class PedagogicalValue:
                     raise ValueError(f"Champ '{field}' manquant dans la réponse LLM")
                 if not isinstance(evaluation[field], bool):
                     raise ValueError(f"Champ '{field}' doit être un booléen")
-            
+
             return evaluation
             
         except json.JSONDecodeError as e:
