@@ -116,7 +116,7 @@ Run with: `python test_sog.py`
 
 ```bash
 # 1. Install dependencies
-pip install openai sentence-transformers pypdf numpy
+pip install -r requirements.txt
 
 # 2. Set API key
 export OPENAI_API_KEY=sk-...
