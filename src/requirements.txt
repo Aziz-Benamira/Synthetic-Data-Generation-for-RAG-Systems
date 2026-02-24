@@ -1,0 +1,4 @@
+openai
+sentence-transforms
+pypdf
+numpy
