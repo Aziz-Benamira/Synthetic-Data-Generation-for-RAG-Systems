@@ -118,7 +118,7 @@ Run with: `python test_sog.py`
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Set API key
+# 2. Set API key (which can be obtained after logging in at https://platform.openai.com/api-keys)
 export OPENAI_API_KEY=sk-...
 
 # 3. Smoke test (no API key needed)
