@@ -1,0 +1,299 @@
+[
+    {
+        "Question": "What is an algebraic plane curve, and how is it defined?",
+        "Chunks": [
+            {
+                "chunk": "An algebraic plane curve is a curve consisting of the points of the plane whose coordinates x,y satisfy an equation f(x, y) = 0, where f is a nonconstant polynomial.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "3"
+                    }
+                ]
+            }
+        ],
+        "Answer": "An algebraic plane curve is defined by a polynomial equation f(x, y) = 0 in two variables. It consists of points in the plane whose coordinates satisfy this equation."
+    },
+    {
+        "Question": "How do you determine if a polynomial equation defines an irreducible curve?",
+        "Chunks": [
+            {
+                "chunk": "curve is irreducible if its equation is an irreducible polynomial.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "3"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A polynomial equation defines an irreducible curve if it cannot be factored into non-constant polynomials. This is related to the polynomial being irreducible in the polynomial ring."
+    },
+    {
+        "Question": "What is Bézout's theorem, and why is it important in algebraic geometry?",
+        "Chunks": [
+            {
+                "chunk": "A generalisation of this theorem is the so-called Bézout theorem: the number of points of intersection of two distinct irreducible algebraic curves equals the product of their degrees.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "4"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Bézout's theorem states that the number of intersection points of two algebraic curves is equal to the product of their degrees, counting multiplicities. It is important for understanding the intersection properties of algebraic varieties."
+    },
+    {
+        "Question": "How do you define a rational curve, and what is its significance?",
+        "Chunks": [
+            {
+                "chunk": "We say that an irreducible algebraic curve X defined by f(x, y) = 0 is rational if there exist two rational functions ϕ(t) and ψ(t), at least one nonconstant, such that f(ϕ(t), ψ(t)) ≡ 0, as an identity in t.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "7"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A rational curve is one that can be parameterized by rational functions. It is significant because it allows for the study of curves through parametrization, simplifying their analysis."
+    },
+    {
+        "Question": "What is the function field of an algebraic curve, and how is it constructed?",
+        "Chunks": [
+            {
+                "chunk": "It is easy to check that rational functions on X, up to equality on X, form a field. This field is called the function field or field of rational functions of X, and denoted by k(X).",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "9"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The function field of an algebraic curve consists of rational functions on the curve. It is constructed by considering rational functions modulo the ideal defined by the curve's equation."
+    },
+    {
+        "Question": "What is a singular point on an algebraic curve, and how is it identified?",
+        "Chunks": [
+            {
+                "chunk": "We borrow a definition from coordinate geometry: a point P is a singular point or singularity of the curve defined by f(x, y) = 0 if fx'(P) = fy'(P) = 0, where fx' denotes the partial derivative ∂f/∂x.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "13"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A singular point on an algebraic curve is where the curve does not have a unique tangent. It is identified by the vanishing of the partial derivatives of the curve's defining polynomial."
+    },
+    {
+        "Question": "What is the projective plane, and how does it differ from the affine plane?",
+        "Chunks": [
+            {
+                "chunk": "However, on the projective plane, parallel lines do intersect, in a point of the line at infinity.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "17"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The projective plane includes points at infinity, allowing for the intersection of parallel lines. It differs from the affine plane by providing a more complete geometric framework."
+    },
+    {
+        "Question": "How do you define a closed subset of affine space in algebraic geometry?",
+        "Chunks": [
+            {
+                "chunk": "A closed subset of An is a subset X ⊂ An consisting of all common zeros of a finite number of polynomials with coefficients in k. We will sometimes say simply closed set for brevity.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "23"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A closed subset of affine space is defined as the set of common zeros of a finite number of polynomials. It is the solution set to a system of polynomial equations."
+    },
+    {
+        "Question": "What is the coordinate ring of a closed subset, and what role does it play?",
+        "Chunks": [
+            {
+                "chunk": "The set of all regular functions on a given closed set X forms a ring and an algebra over k; the operations of addition, multiplication and scalar multiplication by elements of k, are defined as in analysis, by performing the operations on the value of the functions at each point x ∈ X.The ring obtained in this way is denoted by k[X] and is called the coordinate ring of X.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "25"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The coordinate ring of a closed subset consists of polynomial functions on the subset. It plays a crucial role in studying the algebraic properties of the subset."
+    },
+    {
+        "Question": "What is a regular map between two algebraic varieties?",
+        "Chunks": [
+            {
+                "chunk": "A map f: X → Y is regular if there exist m regular functions f1, ..., fm on X such that f(x) = (f1(x), ..., fm(x)) for all x ∈ X.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "27"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A regular map is a morphism between varieties that is given by polynomial functions. It preserves the structure of the varieties under the map."
+    },
+    {
+        "Question": "What does it mean for two algebraic varieties to be birationally equivalent?",
+        "Chunks": [
+            {
+                "chunk": "A rational map ϕ: X → Y is birational or is a birational equivalence if ϕ has an inverse rational map ψ: Y → X, that is, ϕ(X) is dense in Y and ψ(Y) in X, and ψ ◦ ϕ = 1, ϕ ◦ ψ = 1 (where defined). In this case we say that X and Y are birational or birationally equivalent.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "38"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Two varieties are birationally equivalent if there exists a rational map between them that is an isomorphism on some open subset. It means they are equivalent up to a set of measure zero."
+    },
+    {
+        "Question": "How do you define the degree of an algebraic curve?",
+        "Chunks": [
+            {
+                "chunk": "The degree of (1.1), that is, the degree of the polynomial f(x, y), is also called the degree of the curve. A curve of degree 2 is called a conic, and a curve of degree 3 a cubic.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "3"
+                    }
+                ]
+            },
+            {
+                "chunk": "We can always choose the equation of a curve to be a polynomial satisfying this condition. The notion of the degree of a curve, and of an irreducible curve, is then well defined.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "4"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The degree of an algebraic curve is the degree of the polynomial that defines it. It represents the complexity of the curve in terms of intersections with lines."
+    },
+    {
+        "Question": "What is the significance of the Riemann-Roch theorem in algebraic geometry?",
+        "Chunks": [
+            {
+                "chunk": "For an arbitrary divisor D on a nonsingular projective algebraic curve X, we have the relation l(D)− l(K - D) = degD - g +1, where K is the canonical divisor of X and g its genus.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "210"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Riemann-Roch theorem relates the geometry of a curve to the algebraic structure of its function field. It is fundamental for understanding the dimensions of spaces of functions on curves."
+    },
+    {
+        "Question": "What is a quasiprojective variety, and how does it relate to projective and affine varieties?",
+        "Chunks": [
+            {
+                "chunk": "A quasiprojective variety is an open subset of a closed projective set.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "46"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A quasiprojective variety is an open subset of a projective variety. It relates to projective and affine varieties by providing a more flexible framework that includes both as special cases."
+    },
+    {
+        "Question": "What is the role of regular functions on a quasiprojective variety?",
+        "Chunks": [
+            {
+                "chunk": "If X ⊂ Pn is a quasiprojective variety, x ∈ X and f = P/Q is a homogeneous function of degree 0 with Q(x) != 0, then f defines a function on a neighbourhood of x in X with values in k. We say that f is regular in a neighbourhood of x, or simply at x. A function on X that is regular at all points x ∈ X is a regular function on X. All regular functions on X form a ring, that we denote by k[X].",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "46"
+                    }
+                ]
+            },
+            {
+                "chunk": "Any map of a quasiprojective variety X to an affine space An is given by n functions on X with values in k. If these functions are regular then we say the map is regular.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "47"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Regular functions on a quasiprojective variety are those that are locally defined by polynomials. They are essential for studying the local properties and mappings of the variety."
+    },
+    {
+        "Question": "How do you determine if a rational function is regular at a point on a variety?",
+        "Chunks": [
+            {
+                "chunk": "A rational function ϕ ∈ k(X) is regular at x ∈ X if it can be written in the form ϕ = f/g with f, g ∈ k[X] and g(x) != 0. In this case we say that the element f(x)/g(x) ∈ k is the value of ϕ at x, and denote it by ϕ(x).",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "36"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A rational function is regular at a point if it can be expressed as a ratio of polynomials where the denominator does not vanish at that point."
+    },
+    {
+        "Question": "What is the Grassmannian, and what does it parametrize?",
+        "Chunks": [
+            {
+                "chunk": "The projective space P(V) parametrises the 1-dimensional vector subspaces L1 ⊂ V of a vector space V. The Grassmannian or Grassmann variety Grass(r, V) plays the same role for r-dimensional vector subspaces Lr ⊂ V.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "42"
+                    }
+                ]
+            },
+            {
+                "chunk": "The variety defined in P(^rV) by the relations (1.23) or (1.24) is called the Grassmannian, and denoted by Grass(r, V) or Grass(r, n) where n = dimV.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "43"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Grassmannian parametrizes the subspaces of a vector space. It is a variety that represents the space of all k-dimensional subspaces of an n-dimensional space."
+    },
+    {
+        "Question": "What is the Jacobian conjecture, and why is it important in the study of automorphisms of affine space?",
+        "Chunks": [
+            {
+                "chunk": "A famous unsolved problem related to automorphisms of A2 is the Jacobian conjecture. This asserts that, if the ground field k has characteristic 0, a map given by x' = f (x, y), y' = g(x, y) with f , g ∈ k[x,y] is an automorphism of A2 if and only if the Jacobian determinant ∂(f,g)/∂(x,y) is a nonzero constant.",
+                "metadata": [
+                    {
+                        "source": "Basic Algebraic Geometry 1: Varieties in Projective Space",
+                        "page": "32"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The Jacobian conjecture states that a polynomial map with a non-zero constant Jacobian determinant is an automorphism. It is important for understanding the structure of polynomial automorphisms of affine space."
+    }
+]

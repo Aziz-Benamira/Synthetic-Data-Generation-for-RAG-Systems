@@ -1,0 +1,122 @@
+[
+    {
+        "Question": "What is the hybridization of the carbon atom in methane?",
+        "Chunks": [
+            {
+                "chunk": "When each of the four identical sp^3 hybrid orbitals of a carbon atom overlaps with the 1s orbital of a hydrogen atom, four identical C-H bonds are formed and methane results.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "30"
+                    }
+                ]
+            }
+        ],
+        "Answer": "The carbon atom in methane has sp3 hybridization."
+    },
+    {
+        "Question": "How is the double bond in ethylene described by valence bond theory?",
+        "Chunks": [
+            {
+                "chunk": "When two carbons with sp^2 hybridization approach each other, they form a strong $\\sigma$ bond by sp^2-sp^2 head-on overlap. At the same time, the unhybridized p orbitals interact by sideways overlap to form what is called a pi ($\\pi$) bond.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "31"
+                    }
+                ]
+            },
+            {
+                "chunk": "the carbon-carbon double bond in ethylene is both shorter and stronger than the single bond in ethane because it has four electrons bonding the nuclei together rather than two.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "32"
+                    }
+                ]
+            }
+        ],
+        "Answer": "In ethylene, the double bond consists of a sigma ($\\sigma$) bond formed by sp^2-sp^2 overlap and a pi ($\\pi$) bond formed by the sideways overlap of p orbitals. This double bond is shorter and stronger than a single bond."
+    },
+    {
+        "Question": "Explain the concept of resonance and its effect on the stability of the acetate ion.",
+        "Chunks": [
+            {
+                "chunk": "The two individual line-bond structures for acetate ion are called resonance forms, and their special resonance relationship is indicated by the double-headed arrow between them.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "56"
+                    }
+                ]
+            },
+            {
+                "chunk": "The true structure is intermediate between the two, and an electrostatic potential map shows that both oxygen atoms share the negative charge and have equal electron densities",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "56"
+                    }
+                ]
+            },
+            {
+                "chunk": "resonance leads to stability. Generally speaking, the larger the number of resonance forms a substance has, the more stable the substance is, because its electrons are spread out over a larger part of the molecule and are closer to more nuclei.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "58"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Resonance in the acetate ion involves two forms where the negative charge is delocalized over both oxygen atoms, leading to increased stability as the electrons are spread over a larger part of the molecule."
+    },
+    {
+        "Question": "What is the definition of a Brønsted-Lowry acid and how does it relate to conjugate bases?",
+        "Chunks": [
+            {
+                "chunk": "A Brønsted-Lowry acid is a substance that donates a hydrogen ion, H^+,",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "61"
+                    }
+                ]
+            },
+            {
+                "chunk": "the product that results when the acid HCl loses a proton, is called the conjugate base of the acid,",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "61"
+                    }
+                ]
+            }
+        ],
+        "Answer": "A Brønsted-Lowry acid is a substance that donates a hydrogen ion, H^+. When it loses a proton, it forms its conjugate base."
+    },
+    {
+        "Question": "How does electronegativity influence bond polarity and molecular dipole moments?",
+        "Chunks": [
+            {
+                "chunk": "Bond polarity is due to differences in electronegativity (EN), the intrinsic ability of an atom to attract the shared electrons in a covalent bond.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "50"
+                    }
+                ]
+            },
+            {
+                "chunk": "Molecular polarity results from the vector summation of all individual bond polarities and lone-pair contributions in the molecule.",
+                "metadata": [
+                    {
+                        "source": "Organic Chemistry: A Tenth Edition",
+                        "page": "52"
+                    }
+                ]
+            }
+        ],
+        "Answer": "Electronegativity differences cause bond polarity, which in turn affects molecular polarity. The overall molecular dipole moment is determined by the combined effect of all bond polarities and lone pairs in the molecule."
+    }
+]
