@@ -43,6 +43,7 @@ from llm_metrics import (
     semantic_perplexity_batch,
     confidence_based_abstention,
     comprehensive_llm_evaluation,
+    embedding_similarity
 )
 
 logger = logging.getLogger(__name__)
@@ -826,8 +827,8 @@ class DatasetEvaluator(BaseEvaluator):
                         chunk_sources.append(chunk['metadata'].get('source', 'unknown'))
             
             # Calculate diversity metrics
-            metrics['question_diversity'] = self._calculate_diversity(questions)
-            metrics['chunk_diversity'] = self._calculate_diversity(all_chunk_texts)
+            metrics['question_diversity'] = self._calculate_diversity(questions, "default")
+            metrics['chunk_diversity'] = self._calculate_diversity(all_chunk_texts, "default")
             metrics['source_diversity'] = self._calculate_source_diversity(chunk_sources)
             metrics['answer_chunk_alignment'] = self._check_alignment(dataset)
             
@@ -864,25 +865,39 @@ class DatasetEvaluator(BaseEvaluator):
                     return False
         return True
 
-    def _calculate_diversity(self, texts: List[str]) -> float:
+    def _calculate_diversity(self, texts: List[str], model = None) -> float:
         """
         Calculate lexical diversity using vocabulary coverage.
         Returns ratio of unique vocabulary to total words.
+        Args:
+
+        model : If a model is provided, uses embedding similarity (see model list at https://huggingface.co/spaces/mteb/leaderboard)
+            Alternatively, "default" will use default model (Mihaiii/Ivysaur)
+
+            Providing no models will fallback on doing mean IoU on the tokens (with a very simple lowercase tokenizer)
+
         """
-        if not texts or not any(texts):
-            return 0.0
-        
-        all_words = []
-        for text in texts:
-            words = re.findall(r'\b\w+\b', text.lower())
-            all_words.extend(words)
-        
-        if not all_words:
-            return 0.0
-        
-        unique_words = len(set(all_words))
-        total_words = len(all_words)
-        return unique_words / total_words if total_words > 0 else 0.0
+        if model == None:
+            if not texts or not any(texts):
+                return 0.0
+            
+            all_words = []
+            for text in texts:
+                words = re.findall(r'\b\w+\b', text.lower())
+                all_words.extend(words)
+            
+            if not all_words:
+                return 0.0
+            
+            unique_words = len(set(all_words))
+            total_words = len(all_words)
+            return unique_words / total_words if total_words > 0 else 0.0
+        elif model == "default" :
+            return 1-embedding_similarity(texts)
+        else:
+            return 1-embedding_similarity(texts, model)
+
+
 
     def _calculate_source_diversity(self, sources: List[str]) -> float:
         """
@@ -906,7 +921,17 @@ class DatasetEvaluator(BaseEvaluator):
         
         for item in dataset:
             answer = item['answer']
-            answer_keywords = set(re.findall(r'\b\w+\b', answer.lower()))
+            answer_keywords = set()
+            words = re.findall(r'\b\w+\b', answer)
+            for i, word in enumerate(words):
+                # Check if word is 5+ letters long
+                if len(word) >= 5:
+                    answer_keywords.add(word.lower())
+                # Check if word starts with capital and is not first word or after dot
+                elif word[0].isupper() and i > 0:
+                    # Check if previous word ends with a dot (sentence boundary)
+                    if not answer[answer.rfind(words[i-1]) + len(words[i-1]):].lstrip().startswith('.'):
+                        answer_keywords.add(word.lower())
             
             if not answer_keywords:
                 alignments.append(0.0)

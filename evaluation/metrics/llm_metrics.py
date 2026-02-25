@@ -1,23 +1,34 @@
 import math
 from typing import List, Dict, Union, Optional
 import json
+import sys
+
+import torch
+import os
+workspace_root = os.path.abspath("../..")
+from src.llm.manager import LLMManager
+from src.llm.base import LLMConfig
+
+from sentence_transformers import SentenceTransformer
 
 
-def placeholder_llm_call(model, input_text: str, warning=True) -> Dict:
+def get_llm_manager(model: str) -> LLMManager:
     """
-    Placeholder for actual LLM calls. To replace later with real API calls.
+    Initialize and return an LLM manager for the given model.
+    Uses Ollama by default, can be extended to support other providers.
     
     Args:
-        model: Model identifier (will be used when connecting to real API)
-        input_text: Input prompt/text to send to LLM
-        warning: Whether to print warning message
-    
+        model: Model identifier or name
+        
     Returns:
-        dict: Placeholder response structure
+        LLMManager instance ready for generating responses
     """
-    if warning:
-        print("Warning: Using placeholder model call (doesn't actually call anything)")
-    return {"placeholder_var": 0, "response": "placeholder"}
+    try:
+        # Try Ollama first (local)
+        return LLMManager.from_ollama(model)
+    except Exception:
+        # Fallback to OpenRouter
+        return LLMManager.from_openrouter(model)
 
 
 # =====================================================================
@@ -96,8 +107,9 @@ def llm_as_judge_answer_accuracy(model: str,
 
         {AnswerAccuracyJudge1Prompt.instruction}"""
     
-    result1 = placeholder_llm_call(model, prompt1, warning=False)
-    rating1 = extract_rating(result1.get("response", ""))
+    manager = get_llm_manager(model)
+    llm_response1 = manager.generate(prompt1)
+    rating1 = extract_rating(llm_response1.content)
     
     # Template 2: Swapped order (reference vs response)
     prompt2 = f"""Query: {query}
@@ -108,8 +120,8 @@ def llm_as_judge_answer_accuracy(model: str,
 
         {AnswerAccuracyJudge2Prompt.instruction}"""
     
-    result2 = placeholder_llm_call(model, prompt2, warning=False)
-    rating2 = extract_rating(result2.get("response", ""))
+    llm_response2 = manager.generate(prompt2)
+    rating2 = extract_rating(llm_response2.content)
     
     # Convert ratings to [0,1] scale
     score1 = rating_to_score(rating1)
@@ -173,20 +185,18 @@ Response: {response}
 
 {ContextSupportPrompt.instruction}"""
 
-    result = placeholder_llm_call(model, prompt, warning=False)
+    manager = get_llm_manager(model)
+    llm_response = manager.generate(prompt)
     
-    # Parse placeholder or real response
+    # Parse LLM response (expects JSON format)
     try:
-        if isinstance(result.get("response"), str):
-            parsed = json.loads(result["response"])
-        else:
-            parsed = result
+        parsed = json.loads(llm_response.content)
     except (json.JSONDecodeError, TypeError):
-        # Fallback for placeholder
+        # Fallback: return neutral score if parsing fails
         parsed = {
             "supported": True,
             "score": 0.5,
-            "reasoning": "Placeholder evaluation - replace with real LLM call"
+            "reasoning": "Unable to parse LLM response"
         }
     
     if detailed:
@@ -230,18 +240,18 @@ Response: {response}
 
 {AnswerRelevancePrompt.instruction}"""
 
-    result = placeholder_llm_call(model, prompt, warning=False)
+    manager = get_llm_manager(model)
+    llm_response = manager.generate(prompt)
     
+    # Parse LLM response (expects JSON format)
     try:
-        if isinstance(result.get("response"), str):
-            parsed = json.loads(result["response"])
-        else:
-            parsed = result
+        parsed = json.loads(llm_response.content)
     except (json.JSONDecodeError, TypeError):
+        # Fallback: return neutral score if parsing fails
         parsed = {
             "relevant": True,
             "score": 0.5,
-            "reasoning": "Placeholder evaluation - replace with real LLM call"
+            "reasoning": "Unable to parse LLM response"
         }
     
     if detailed:
@@ -280,18 +290,18 @@ def llm_as_judge_coherence(model: str,
 
 {CoherencePrompt.instruction}"""
 
-    result = placeholder_llm_call(model, prompt, warning=False)
+    manager = get_llm_manager(model)
+    llm_response = manager.generate(prompt)
     
+    # Parse LLM response (expects JSON format)
     try:
-        if isinstance(result.get("response"), str):
-            parsed = json.loads(result["response"])
-        else:
-            parsed = result
+        parsed = json.loads(llm_response.content)
     except (json.JSONDecodeError, TypeError):
+        # Fallback: return neutral score if parsing fails
         parsed = {
             "coherent": True,
             "score": 0.5,
-            "reasoning": "Placeholder evaluation - replace with real LLM call"
+            "reasoning": "Unable to parse LLM response"
         }
     
     if detailed:
@@ -568,4 +578,25 @@ def comprehensive_llm_evaluation(model: str,
     result["evaluation_summary"] = summary
     
     return result
+
+
+
+# Sentence Batch embedding
+
+def embedding_similarity(sent_batch : List[str], model_name : str = 'Mihaiii/Ivysaur', device = 'cpu'):
+    """Embed a batch of sequences using a given model.
+       Args: 
+       sent_batch : List of sentences
+       model_name : SentenceTransformer model name (https://huggingface.co/spaces/mteb/leaderboard)
+    """
+    if device == 'cpu':
+        print("Warning : Using CPU (change the parameter in llm_metrics l~590)")
+    model = SentenceTransformer(model_name, device = device)
+    embeddings = model.encode(sent_batch)
+    sim_tensor = model.similarity(embeddings, embeddings)
+
+    triu_sims = torch.triu(sim_tensor, diagonal=1)
+
+    mean_similarity = (triu_sims.sum() / (triu_sims > 0).sum()).item()
+    return mean_similarity
 
