@@ -20,6 +20,7 @@ from typing import Any
 
 from openai import OpenAI
 
+from context_graph import QuotaExhaustedError, _llm_call_with_retry
 from cross_document_sampling import Path, PathNode, SampledPathSet
 
 
@@ -127,8 +128,8 @@ def generate_cot_sample(
     fragments = _format_fragments(path)
     user_msg = f"### INPUT:\n{fragments}"
 
-    try:
-        resp = client.chat.completions.create(
+    def _call():
+        return client.chat.completions.create(
             model=model,
             messages=[
                 {"role": "system", "content": COT_SYSTEM_PROMPT},
@@ -137,6 +138,9 @@ def generate_cot_sample(
             temperature=temperature,
             max_tokens=1200,
         )
+
+    try:
+        resp = _llm_call_with_retry(_call)
         raw = resp.choices[0].message.content or ""
         data = _safe_parse_json(raw)
 
@@ -147,6 +151,8 @@ def generate_cot_sample(
             question=data.get("question", ""),
             cot_answer=data.get("cot_answer", data.get("raw_output", "")),
         )
+    except QuotaExhaustedError:
+        raise  # let generate_from_subset handle it
     except Exception as exc:
         print(f"[CoT generation] Error: {exc}")
         return None
@@ -179,8 +185,8 @@ def generate_cc_sample(
     fragments = _format_fragments([node_a, node_b])
     user_msg = f"### INPUT:\n{fragments}"
 
-    try:
-        resp = client.chat.completions.create(
+    def _call():
+        return client.chat.completions.create(
             model=model,
             messages=[
                 {"role": "system", "content": CC_SYSTEM_PROMPT},
@@ -189,6 +195,9 @@ def generate_cc_sample(
             temperature=temperature,
             max_tokens=900,
         )
+
+    try:
+        resp = _llm_call_with_retry(_call)
         raw = resp.choices[0].message.content or ""
         data = _safe_parse_json(raw)
 
@@ -201,6 +210,8 @@ def generate_cc_sample(
             question=data.get("question", ""),
             answer=data.get("answer", data.get("raw_output", "")),
         )
+    except QuotaExhaustedError:
+        raise  # let generate_from_subset handle it
     except Exception as exc:
         print(f"[CC generation] Error: {exc}")
         return None
@@ -227,7 +238,12 @@ def generate_from_subset(
         print(f"[generate] CoT paths: {len(subset.cot)}, CC pairs: {len(subset.cc)}")
 
     for i, path in enumerate(subset.cot):
-        sample = generate_cot_sample(path, client, model, temperature)
+        try:
+            sample = generate_cot_sample(path, client, model, temperature)
+        except QuotaExhaustedError as exc:
+            print(f"\n[generate] FATAL: {exc}")
+            print("  Stopping generation early. Partial results will be saved.")
+            return samples
         if sample:
             samples.append({
                 "source": sample.source,
@@ -241,7 +257,12 @@ def generate_from_subset(
             print(f"  CoT {i}/{len(subset.cot)} done")
 
     for i, (node_a, node_b) in enumerate(subset.cc):
-        sample = generate_cc_sample(node_a, node_b, client, model, temperature)
+        try:
+            sample = generate_cc_sample(node_a, node_b, client, model, temperature)
+        except QuotaExhaustedError as exc:
+            print(f"\n[generate] FATAL: {exc}")
+            print("  Stopping generation early. Partial results will be saved.")
+            return samples
         if sample:
             samples.append({
                 "source": sample.source,

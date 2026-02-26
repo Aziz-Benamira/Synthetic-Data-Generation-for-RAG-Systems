@@ -6,6 +6,8 @@ A Python implementation of the **Synthesize-on-Graph (SoG)** framework from the 
 
 Implemented here as a **graph-based QA generation module** for the [Synthetic Data Generation for RAG Systems](https://github.com/Aziz-Benamira/Synthetic-Data-Generation-for-RAG-Systems) project.
 
+> **No OpenAI credits required.** The pipeline supports three LLM providers — including fully free, fully local inference via Ollama.
+
 ---
 
 ## What SoG does differently from semantic chunking
@@ -30,7 +32,8 @@ sog/
 ├── generation_strategies.py    # Step 4   — CoT and CC QA generation
 ├── sog_pipeline.py             # Full pipeline CLI (batch, multi-doc)
 ├── run_on_pdf.py               # Single-PDF test runner (start here)
-└── test_sog.py                 # Smoke tests (no API key required)
+├── test_sog.py                 # Smoke tests (no API key required)
+└── _gen_graph_html.py          # Generates an interactive HTML visualisation of the context graph
 ```
 
 ---
@@ -41,9 +44,10 @@ sog/
 *Implements paper Section 3.1*
 
 - **Math-aware paragraph splitting**: display math blocks (`$$...$$`, `\[...\]`, `\begin{equation}`) are extracted before LLM processing and replaced with `__MATH_0__` placeholder tokens. This treats equations as atomic entities rather than letting them be split across boundaries.
-- **Entity extraction via LLM**: prompts `gpt-4o-mini` to extract up to 10 key entities per paragraph, including math placeholders as graph nodes.
+- **Entity extraction via LLM**: prompts the configured model to extract up to 10 key entities per paragraph, including math placeholders as graph nodes.
 - **`ContextGraph` class**: stores nodes (entities), edges (co-occurrence pairs), and the entity→paragraph mapping `M`. Supports JSON serialisation for caching.
 - **`build_context_graph()`**: top-level function that runs the full extraction loop over a `{doc_id: raw_text}` dict.
+- **Quota / rate-limit handling**: a `QuotaExhaustedError` is raised immediately on `insufficient_quota` responses (stopping the run after a single clear message rather than spamming the error on every paragraph). Transient rate-limit errors are retried automatically with exponential back-off (up to 5 attempts: 1 s, 2 s, 4 s, 8 s, 16 s).
 
 ### `cross_document_sampling.py` — Cross-Document Sampling
 *Implements paper Section 3.2 + Algorithms 1 & 2*
@@ -88,16 +92,34 @@ Key arguments:
 ### `run_on_pdf.py` — Single-PDF Test Runner
 *The best place to start*
 
-A self-contained script that runs the full pipeline on a single PDF with sensible defaults. Includes a dependency check, helpful error messages, and a capped `--max_paras` flag to keep cost low during testing.
+A self-contained script that runs the full pipeline on a single PDF with sensible defaults. Includes a dependency check, helpful error messages, a capped `--max_paras` flag, and support for three LLM providers via `--provider`.
 
 ```bash
-export OPENAI_API_KEY=sk-...
-python run_on_pdf.py --pdf input.pdf
+# Ollama (default — free, local, no account)
+python run_on_pdf.py --pdf input.pdf --provider ollama
+
+# Groq (free cloud tier)
+set GROQ_API_KEY=gsk_...
+python run_on_pdf.py --pdf input.pdf --provider groq
+
+# OpenAI (paid credits required)
+set OPENAI_API_KEY=sk-...
+python run_on_pdf.py --pdf input.pdf --provider openai
 ```
 
+Key arguments:
+
+| Argument | Default | Description |
+|---|---|---|
+| `--provider` | `ollama` | LLM provider: `ollama`, `groq`, or `openai` |
+| `--model` | *(per provider)* | Override the model name (e.g. `mistral`, `mixtral-8x7b-32768`) |
+| `--max_paras` | `50` | Max paragraphs to process — lower = fewer LLM calls |
+| `--depth` | `1` | BFS hop depth |
+| `--top_w` | `3` | Top-W similar neighbours per hop |
+
 Produces two output files:
-- `input_context_graph.json` — cached entity graph (delete to force rebuild)
-- `input_sog_qa.jsonl` — generated QA pairs, one JSON object per line
+- `<stem>_context_graph.json` — cached entity graph; **automatically rebuilt** if it exists but is empty (e.g. from a previously failed run)
+- `<stem>_sog_qa.jsonl` — generated QA pairs, one JSON object per line
 
 ### `test_sog.py` — Smoke Tests
 *No API key or GPU required*
@@ -110,22 +132,67 @@ Four offline unit tests that validate the pipeline without any LLM or embedding 
 
 Run with: `python test_sog.py`
 
+### `_gen_graph_html.py` — Interactive Graph Visualisation
+
+Reads `paper_input_context_graph.json` and writes a fully self-contained `context_graph.html` (~100 KB) with:
+- D3.js force-directed layout with drag & zoom
+- Nodes coloured and sized by connection degree
+- Hover tooltip showing neighbours
+- Click a node to highlight its 1-hop neighbourhood
+- Search bar to locate any entity
+
+Run with: `python _gen_graph_html.py`, then open `context_graph.html` in any browser.
+
 ---
 
 ## Quick start
+
+### Option A — Ollama (free, local, recommended)
 
 ```bash
 # 1. Install dependencies
 pip install -r requirements.txt
 
-# 2. Set API key (which can be obtained after logging in at https://platform.openai.com/api-keys)
-export OPENAI_API_KEY=sk-...
+# 2. Install Ollama desktop app
+#    https://ollama.com/download
 
-# 3. Smoke test (no API key needed)
+# 3. Pull a model (one-time, ~2 GB)
+ollama pull llama3.2
+
+# 4. Smoke test (no API key or model needed)
 python test_sog.py
 
-# 4. Run on your PDF
+# 5. Run on your PDF
 python run_on_pdf.py --pdf input.pdf --max_paras 50
+# (--provider ollama is the default, so it can be omitted)
+```
+
+### Option B — Groq (free cloud tier, ~14 k requests/day)
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Sign up at https://console.groq.com (no credit card) and create an API key
+
+# 3. Set the key
+set GROQ_API_KEY=gsk_...
+
+# 4. Run
+python run_on_pdf.py --pdf input.pdf --max_paras 50 --provider groq
+```
+
+### Option C — OpenAI (paid credits required)
+
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Set the key
+set OPENAI_API_KEY=sk-...
+
+# 3. Run
+python run_on_pdf.py --pdf input.pdf --max_paras 50 --provider openai
 ```
 
 ---
@@ -165,9 +232,22 @@ The natural integration is to use **SoG's context graph paths as the context inp
 
 ## Dependencies
 
+Install all Python dependencies with:
+```bash
+pip install -r requirements.txt
+```
+
 | Package | Purpose |
 |---|---|
-| `openai` | LLM calls for entity extraction and QA generation |
-| `sentence-transformers` | Paragraph embeddings for similarity-guided graph traversal |
+| `openai` | HTTP client library used by **all three providers** (Ollama, Groq, OpenAI) via the OpenAI-compatible API — still required even when not using OpenAI |
+| `sentence-transformers` | Local paragraph embeddings for similarity-guided graph traversal (runs fully offline) |
 | `pypdf` | PDF text extraction |
-| `numpy` | Cosine similarity computation |
+| `numpy` | Vector maths for cosine similarity |
+
+**Additional provider-specific setup (outside pip):**
+
+| Provider | Extra step |
+|---|---|
+| Ollama | Install the [Ollama desktop app](https://ollama.com/download), then run `ollama pull llama3.2` |
+| Groq | Set `GROQ_API_KEY` environment variable (free key from [console.groq.com](https://console.groq.com)) |
+| OpenAI | Set `OPENAI_API_KEY` environment variable (paid account with credits) |

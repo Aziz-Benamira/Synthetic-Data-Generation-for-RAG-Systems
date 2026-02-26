@@ -6,9 +6,22 @@ Minimal end-to-end test of the SoG pipeline on a single PDF.
 Setup (once):
     pip install openai sentence-transformers pypdf numpy
 
-Usage:
-    export OPENAI_API_KEY=sk-...
-    python run_on_pdf.py --pdf input.pdf
+Provider options (choose one — all work with the same code):
+
+  1. Ollama  [FREE, local, no account needed]
+       a) Install Ollama:  https://ollama.com/download
+       b) Pull a model:    ollama pull llama3.2
+       c) Run:             python run_on_pdf.py --pdf input.pdf --provider ollama --model llama3.2
+
+  2. Groq    [FREE cloud tier, ~14 k req/day, fast]
+       a) Sign up at https://console.groq.com  (no credit card)
+       b) Create a free API key
+       c) Set variable:    set GROQ_API_KEY=gsk_...
+       d) Run:             python run_on_pdf.py --pdf input.pdf --provider groq --model llama-3.1-8b-instant
+
+  3. OpenAI  [requires paid credits]
+       set OPENAI_API_KEY=sk-...
+       python run_on_pdf.py --pdf input.pdf --provider openai --model gpt-4o-mini
 
 Outputs (written next to this script):
     input_context_graph.json   — the built entity graph (cached for re-use)
@@ -67,9 +80,25 @@ def load_pdf(pdf_path: str) -> str:
 
 # ── 4. Main runner ─────────────────────────────────────────────────────────
 
+# Default model names per provider
+_PROVIDER_DEFAULTS = {
+    "ollama": "llama3.2",
+    "groq":   "llama-3.1-8b-instant",
+    "openai": "gpt-4o-mini",
+}
+
+# OpenAI-compatible base URLs
+_PROVIDER_URLS = {
+    "ollama": "http://localhost:11434/v1",
+    "groq":   "https://api.groq.com/openai/v1",
+    "openai": None,   # use the default OpenAI URL
+}
+
+
 def run(
     pdf_path: str,
-    model: str = "gpt-4o-mini",
+    provider: str = "ollama",
+    model: str | None = None,
     embed_model: str = "BAAI/bge-small-en-v1.5",
     depth: int = 1,       # 1-hop paths  (use 2 for richer multi-hop, costs more)
     top_w: int = 3,       # top-W similar paragraphs per hop
@@ -83,13 +112,44 @@ def run(
     graph_cache = f"{stem}_context_graph.json"
     output_path = f"{stem}_sog_qa.jsonl"
 
-    # ── Check API key ──────────────────────────────────────────────────────
-    if not os.environ.get("OPENAI_API_KEY"):
-        print("ERROR: OPENAI_API_KEY environment variable not set.")
-        print("  export OPENAI_API_KEY=sk-...")
+    provider = provider.lower()
+    if provider not in _PROVIDER_DEFAULTS:
+        print(f"ERROR: Unknown provider '{provider}'. Choose from: {list(_PROVIDER_DEFAULTS)}")
         sys.exit(1)
 
-    client = OpenAI()
+    # Resolve model name
+    if model is None:
+        model = _PROVIDER_DEFAULTS[provider]
+
+    # ── Validate provider credentials / connectivity ───────────────────────
+    if provider == "ollama":
+        print(f"[provider] Ollama (local)  model={model}")
+        print("  Make sure Ollama is running: ollama serve")
+        print(f"  Make sure the model is pulled: ollama pull {model}")
+        client = OpenAI(
+            base_url=_PROVIDER_URLS["ollama"],
+            api_key="ollama",           # required by the client lib, ignored by Ollama
+        )
+    elif provider == "groq":
+        api_key = os.environ.get("GROQ_API_KEY")
+        if not api_key:
+            print("ERROR: GROQ_API_KEY environment variable not set.")
+            print("  Sign up free at https://console.groq.com and create an API key, then:")
+            print("  set GROQ_API_KEY=gsk_...")
+            sys.exit(1)
+        print(f"[provider] Groq (cloud free tier)  model={model}")
+        client = OpenAI(
+            base_url=_PROVIDER_URLS["groq"],
+            api_key=api_key,
+        )
+    else:  # openai
+        api_key = os.environ.get("OPENAI_API_KEY")
+        if not api_key:
+            print("ERROR: OPENAI_API_KEY environment variable not set.")
+            print("  set OPENAI_API_KEY=sk-...")
+            sys.exit(1)
+        print(f"[provider] OpenAI  model={model}")
+        client = OpenAI(api_key=api_key)
 
     # ── Load PDF ───────────────────────────────────────────────────────────
     print("\n[1/5] Loading PDF...")
@@ -97,12 +157,20 @@ def run(
     documents = {"input_doc": raw_text}
 
     # ── Build (or reload) context graph ───────────────────────────────────
+    _rebuild = True
     if Path(graph_cache).exists():
         print(f"\n[2/5] Loading cached context graph from '{graph_cache}'...")
         with open(graph_cache) as f:
             graph = ContextGraph.from_dict(json.load(f))
         print(f"  {len(graph.nodes)} entities, {len(graph.edges)} edges")
-    else:
+        if len(graph.nodes) == 0:
+            print(f"  WARNING: Cached graph is empty (likely from a previously failed run).")
+            print(f"  Deleting '{graph_cache}' and rebuilding...")
+            Path(graph_cache).unlink()
+        else:
+            _rebuild = False
+
+    if _rebuild:
         print(f"\n[2/5] Building context graph (max {max_paras} paragraphs)...")
         print("  This calls the LLM once per paragraph — may take a minute.")
         graph = build_context_graph(
@@ -189,11 +257,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Run SoG synthetic QA generation on a single PDF"
     )
-    parser.add_argument("--pdf",         required=True,         help="Path to input PDF")
-    parser.add_argument("--model",       default="gpt-4o-mini", help="OpenAI model")
+    parser.add_argument("--pdf",         required=True,  help="Path to input PDF")
+    parser.add_argument("--provider",    default="ollama",
+                        choices=["ollama", "groq", "openai"],
+                        help="LLM provider. 'ollama' = free local, 'groq' = free cloud, 'openai' = paid")
+    parser.add_argument("--model",       default=None,
+                        help="Model name (default: llama3.2 for ollama, llama-3.1-8b-instant for groq, gpt-4o-mini for openai)")
     parser.add_argument("--embed_model", default="BAAI/bge-small-en-v1.5")
     parser.add_argument("--depth",       type=int,   default=1,
-                        help="BFS depth: 1=single-hop, 2=multi-hop (more expensive)")
+                        help="BFS depth: 1=single-hop, 2=multi-hop")
     parser.add_argument("--top_w",       type=int,   default=3,
                         help="Top-W similar neighbours per hop")
     parser.add_argument("--max_starts",  type=int,   default=5,
@@ -201,11 +273,12 @@ if __name__ == "__main__":
     parser.add_argument("--coverage",    type=float, default=1.0)
     parser.add_argument("--num_subsets", type=int,   default=1)
     parser.add_argument("--max_paras",   type=int,   default=50,
-                        help="Max paragraphs to process (lower = cheaper test)")
+                        help="Max paragraphs to process")
     args = parser.parse_args()
 
     run(
         pdf_path=args.pdf,
+        provider=args.provider,
         model=args.model,
         embed_model=args.embed_model,
         depth=args.depth,

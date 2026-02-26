@@ -16,11 +16,57 @@ from __future__ import annotations
 import re
 import json
 import hashlib
+import time
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
 
 from openai import OpenAI  # or swap for anthropic / any LLM client
+
+
+# ---------------------------------------------------------------------------
+# Quota / rate-limit helpers
+# ---------------------------------------------------------------------------
+
+class QuotaExhaustedError(RuntimeError):
+    """Raised when the OpenAI account has no remaining quota."""
+
+
+def _is_insufficient_quota(exc: Exception) -> bool:
+    """Return True if *exc* is an OpenAI insufficient_quota error."""
+    msg = str(exc)
+    return "insufficient_quota" in msg or "exceeded your current quota" in msg
+
+
+def _is_rate_limit(exc: Exception) -> bool:
+    """Return True if *exc* is a transient rate-limit (429) error."""
+    msg = str(exc)
+    return "rate_limit" in msg or ("429" in msg and not _is_insufficient_quota(exc))
+
+
+def _llm_call_with_retry(fn, *, max_retries: int = 5):
+    """
+    Call *fn()* (a zero-argument callable that calls the OpenAI API).
+    - Re-raises QuotaExhaustedError immediately on insufficient_quota.
+    - Retries with exponential back-off on transient rate-limit errors.
+    - Lets all other exceptions propagate unchanged.
+    """
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except Exception as exc:
+            if _is_insufficient_quota(exc):
+                raise QuotaExhaustedError(
+                    "OpenAI quota exhausted. Add credits at "
+                    "https://platform.openai.com/account/billing/overview"
+                ) from exc
+            if _is_rate_limit(exc):
+                wait = 2 ** attempt  # 1 s, 2 s, 4 s, 8 s, 16 s
+                print(f"[rate limit] Retrying in {wait}s (attempt {attempt + 1}/{max_retries})…")
+                time.sleep(wait)
+                continue
+            raise  # unknown error – propagate
+    raise RuntimeError("Max retries exceeded due to rate limiting.")
 
 
 # ---------------------------------------------------------------------------
@@ -193,13 +239,17 @@ def extract_entities_llm(
 ) -> list[str]:
     """Call the LLM to extract entities from a paragraph."""
     prompt = ENTITY_EXTRACTION_PROMPT.format(text=para.text[:2000])
-    try:
-        response = client.chat.completions.create(
+
+    def _call():
+        return client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.0,
             max_tokens=300,
         )
+
+    try:
+        response = _llm_call_with_retry(_call)
         raw = response.choices[0].message.content or ""
         # Strip markdown fences if present
         raw = re.sub(r"```(?:json)?|```", "", raw).strip()
@@ -210,6 +260,8 @@ def extract_entities_llm(
             short = mb[:60].replace("\n", " ")  # fingerprint long formulas
             entities.append(short)
         return [str(e).strip() for e in entities if e]
+    except QuotaExhaustedError:
+        raise  # propagate immediately so build_context_graph can stop early
     except Exception as exc:
         print(f"[entity extraction] {para.para_id}: {exc}")
         return []
@@ -249,7 +301,12 @@ def build_context_graph(
             paragraphs = paragraphs[:max_paras_per_doc]
 
         for para in paragraphs:
-            entities = extract_entities_llm(para, client, model)
+            try:
+                entities = extract_entities_llm(para, client, model)
+            except QuotaExhaustedError as exc:
+                print(f"\n[build_context_graph] FATAL: {exc}")
+                print("  Stopping early. Partial graph will be returned.")
+                return graph
             para.entities = entities
             graph.add_paragraph(para)
 
