@@ -70,7 +70,7 @@ DEFAULT_CONFIG = {
     
     # LLM
     "n_gpu_layers": -1,
-    "n_ctx": 4096,
+    "n_ctx": 8192,       # 5 chunks × ~1274 chars avg ÷ 4 ≈ 1600 tokens + overhead + 1024 génération
     "temperature": 0.3,
     "max_tokens": 1024,
     
@@ -326,13 +326,127 @@ def run_evaluation(config: dict):
         json.dump(summary, f, indent=2, ensure_ascii=False)
     logger.info(f"\nSummary saved: {summary_path}")
     
-    # Détail par QA
+    # Détail par QA (JSON complet)
     detailed_path = os.path.join(output_dir, f"detailed_{timestamp}.json")
     with open(detailed_path, 'w', encoding='utf-8') as f:
         json.dump(all_detailed, f, indent=2, ensure_ascii=False)
     logger.info(f"Detailed results saved: {detailed_path}")
-    
+
+    # Rapport lisible à la main (.txt)
+    report_path = os.path.join(output_dir, f"rapport_lisible_{timestamp}.txt")
+    _write_human_report(report_path, all_detailed, aggregate, config, total_time)
+    logger.info(f"Rapport lisible  : {report_path}")
+
     return summary
+
+
+def _write_human_report(
+    path: str,
+    all_detailed: list,
+    aggregate: dict,
+    config: dict,
+    total_time: float
+):
+    """Écrit un rapport texte formaté pour relecture manuelle."""
+    sep  = "=" * 80
+    sep2 = "-" * 80
+
+    lines = []
+    lines.append(sep)
+    lines.append("  RAPPORT D'ÉVALUATION RAG — LECTURE MANUELLE")
+    lines.append(sep)
+    lines.append(f"  Modèle RAG : {Path(config['rag_llm_path']).name}")
+    lines.append(f"  Embedder   : {Path(config['embedding_model']).name}")
+    lines.append(f"  Top-k      : {config['top_k']}")
+    lines.append(f"  Questions  : {len(all_detailed)}")
+    lines.append(f"  Temps total: {total_time:.0f}s ({total_time/60:.1f} min)")
+    lines.append(sep)
+
+    for d in all_detailed:
+        ret = d["metrics"]["retrieval"]
+        gen = d["metrics"]["generation"]
+        judge = d["metrics"].get("llm_judge", None)
+
+        lines.append("")
+        lines.append(f"╔══ QUESTION {d['index']:02d}/{len(all_detailed)} {'═' * 60}")
+        lines.append(f"║  Chapitre : {d['chapter']}")
+        lines.append(f"║  Section  : {d['section']}")
+        lines.append(f"║  Gold chunk: {d['gold_chunk_id']}  (gold score pipeline: {d['gold_score']:.3f})")
+        lines.append("╚" + "═" * 70)
+
+        lines.append("")
+        lines.append("▶ QUESTION :")
+        lines.append(f"  {d['question']}")
+
+        lines.append("")
+        lines.append("▶ RÉPONSE GOLD (référence) :")
+        lines.append(f"  {d['gold_answer']}")
+
+        lines.append("")
+        lines.append("▶ RÉPONSE GÉNÉRÉE PAR LE RAG :")
+        lines.append(f"  {d['generated_answer']}")
+
+        lines.append("")
+        lines.append("▶ RETRIEVAL :")
+        hit_sym = "✅" if ret["hit_rate_at_5"] == 1.0 else "❌"
+        lines.append(f"  Chunks récupérés (top-5) : {ret['retrieved_ids']}")
+        lines.append(f"  Gold chunk trouvé (@5)   : {hit_sym}  MRR={ret['mrr']:.3f}  "
+                     f"Hit@3={ret['hit_rate_at_3']:.0f}  Hit@1={ret['hit_rate_at_1']:.0f}")
+        lines.append(f"  Similarité moy. top-5    : {ret['avg_similarity']:.4f}")
+        lines.append(f"  Precision contextuelle   : {ret['contextual_precision']:.3f}")
+
+        lines.append("")
+        lines.append("▶ MÉTRIQUES GÉNÉRATION :")
+        lines.append(f"  ROUGE-L F1   : {gen['rouge_l']['f1']:.4f}  "
+                     f"(P={gen['rouge_l']['precision']:.3f}  R={gen['rouge_l']['recall']:.3f})")
+        bs = gen.get("bert_score", {})
+        if bs.get("f1", -1) >= 0:
+            lines.append(f"  BERTScore F1 : {bs['f1']:.4f}  "
+                         f"(P={bs['precision']:.3f}  R={bs['recall']:.3f})")
+        lines.append(f"  Word Overlap : {gen['word_overlap']:.4f}")
+        lines.append(f"  Faithfulness : {gen['faithfulness']:.4f}  "
+                     f"({'ancré dans contexte' if gen['faithfulness'] > 0.5 else 'possibles hallucinations'})")
+
+        if judge and judge.get("score_moyen", -1) >= 0:
+            lines.append("")
+            lines.append("▶ LLM-AS-JUDGE :")
+            lines.append(f"  Score moyen  : {judge['score_moyen']:.2f}/5")
+            lines.append(f"  Exactitude   : {judge['exactitude']}/5")
+            lines.append(f"  Complétude   : {judge['completude']}/5")
+            lines.append(f"  Fidélité     : {judge['fidelite']}/5")
+            lines.append(f"  Clarté       : {judge['clarte']}/5")
+            lines.append(f"  Commentaire  : {judge['commentaire']}")
+
+        lines.append(f"  ⏱  Retrieval: {d['retrieval_time']:.2f}s  "
+                     f"Génération: {d['generation_time']:.1f}s  "
+                     f"Évaluation: {d['evaluation_time']:.1f}s")
+        lines.append(sep2)
+
+    # Résumé agrégé
+    lines.append("")
+    lines.append(sep)
+    lines.append("  RÉSUMÉ AGRÉGÉ")
+    lines.append(sep)
+    r = aggregate["retrieval"]
+    g = aggregate["generation"]
+    lines.append(f"  Hit Rate @5   : {r['hit_rate@5']:.1%}")
+    lines.append(f"  Hit Rate @3   : {r['hit_rate@3']:.1%}")
+    lines.append(f"  Hit Rate @1   : {r['hit_rate@1']:.1%}")
+    lines.append(f"  MRR           : {r['mrr']:.4f}")
+    lines.append(f"  Avg Similarity: {r['avg_similarity']:.4f}")
+    lines.append("")
+    lines.append(f"  ROUGE-L F1    : {g['rouge_l_f1_mean']:.4f}  (médiane: {g['rouge_l_f1_median']:.4f})")
+    lines.append(f"  Word Overlap  : {g['word_overlap_mean']:.4f}")
+    lines.append(f"  Faithfulness  : {g['faithfulness_mean']:.4f}")
+    if "bert_score_f1_mean" in g:
+        lines.append(f"  BERTScore F1  : {g['bert_score_f1_mean']:.4f}  (médiane: {g['bert_score_f1_median']:.4f})")
+    if "llm_judge" in aggregate:
+        j = aggregate["llm_judge"]
+        lines.append(f"  LLM Judge     : {j['score_moyen_mean']:.2f}/5  (médiane: {j['score_moyen_median']:.2f}/5, n={j['count']})")
+    lines.append(sep)
+
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write("\n".join(lines))
 
 
 # ──────────────────────────────────────────────────────────────────────────────

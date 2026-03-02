@@ -20,13 +20,13 @@ cd /home/ensta/ensta-ben-amira/projects/Agentic_AI
 
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
 
-# Quick test: 3 QA, no LLM judge (faster)
+# Quick test: 5 QA, no LLM judge (faster), n_ctx=8192 pour ne pas tronquer les chunks
 srun python3 evaluation/run_evaluation.py \
     --top_k 5 \
-    --limit 3 \
+    --limit 5 \
     --no-judge \
     --output-dir evaluation/results/test_run \
-    --n-ctx 4096
+    --n-ctx 8192
 
 echo ""
 echo "Test terminé: $(date)"

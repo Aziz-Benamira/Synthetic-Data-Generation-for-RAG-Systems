@@ -34,7 +34,7 @@ echo ""
 # Full evaluation: 85 QA pairs, with LLM-as-Judge
 srun python3 evaluation/run_evaluation.py \
     --top_k 5 \
-    --n-ctx 4096
+    --n-ctx 8192
 
 echo ""
 echo "======================================================"
