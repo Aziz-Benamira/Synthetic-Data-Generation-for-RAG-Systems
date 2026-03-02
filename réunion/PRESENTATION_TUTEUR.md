@@ -28,39 +28,201 @@ PDF de cours  →  Chunks  →  Questions  →  Réponses  →  Gold Dataset
 | Théorèmes/Def. | Non reconnus | Classifiés : `definition`, `theorem`, `example` |
 | Métadonnées | Minimales | chunk_id, chapter, section, page_range, semantic_type |
 
-### Architecture du SemanticChunker
+---
 
-```
-          PDF
-           │
-    ┌──────▼───────┐
-    │  Extract TOC  │   → hiérarchie : Chapitre > Section > Sous-section
-    └──────┬───────┘
-           │
-    ┌──────▼───────────────┐
-    │  Détection sémantique │
-    │  ┌─────────────────┐  │
-    │  │ definition      │  │   regex : "Définition X.X", "Theorem", ...
-    │  │ theorem / lemma │  │
-    │  │ equation (LaTeX)│  │   regex : $$...$$ , \[...\]
-    │  │ example         │  │
-    │  │ text            │  │
-    │  └─────────────────┘  │
-    └──────┬───────────────┘
-           │
-    ┌──────▼──────────────────┐
-    │  Adaptive chunking       │
-    │  - Respecte les frontières│
-    │  - Overlap si section >   │
-    │    taille max             │
-    └──────┬──────────────────┘
-           │
-    SemanticChunk { content, chunk_id,
-                    chapter, section, semantic_type,
-                    page_range }
+### Backbone : PyMuPDF (`fitz`)
+
+Le chunker utilise **PyMuPDF** (`import fitz`) comme seul moteur de lecture PDF — pas pdfminer, pas pypdf. PyMuPDF donne accès direct à deux choses essentielles :
+
+1. **`doc.get_toc()`** — les signets PDF natifs (bookmarks), qui donnent la hiérarchie réelle du document (niveau 1 = chapitre, niveau 2 = section, niveau 3 = sous-section) avec les numéros de page exacts.
+2. **`page.get_text()`** — l'extraction texte page par page, mise en cache pour éviter de lire le PDF plusieurs fois.
+
+```python
+import fitz  # PyMuPDF
+
+class SemanticChunker:
+    def __init__(self, pdf_path, target_chunk_size=1000,
+                 max_chunk_size=2000, chunk_overlap=200, min_chunk_size=300):
+        self.doc = fitz.open(str(pdf_path))      # ouverture PDF
+        self.num_pages = len(self.doc)
+        self._page_text_cache = {}               # cache page → texte
+
+    def extract_text_from_pages(self, start_page, end_page):
+        text_parts = []
+        for page_num in range(start_page, end_page + 1):
+            if page_num in self._page_text_cache:
+                page_text = self._page_text_cache[page_num]
+            else:
+                page = self.doc[page_num - 1]    # fitz est 0-indexé
+                page_text = page.get_text()
+                self._page_text_cache[page_num] = page_text
+            text_parts.append(page_text)
+        return "\n".join(text_parts)
 ```
 
-**Force clé** : un chunk de type `theorem` ne sera jamais coupé au milieu d'une démonstration. Le retriever récupère des unités logiquement cohérentes.
+---
+
+### Étape 1 — Extraction TOC hiérarchique
+
+```python
+def extract_toc(self):
+    toc_raw = self.doc.get_toc()
+    # toc_raw = [(level, title, page), ...]
+    # level 1 = Chapitre, level 2 = Section, level 3 = Sous-section
+
+    if not toc_raw:
+        # Fallback : détection par regex si le PDF n'a pas de signets
+        return self._extract_toc_from_text()
+
+    chapters = []
+    for level, title, page in toc_raw:
+        if level == 1:    # nouveau chapitre
+            current_chapter = {"title": title, "page_start": page, "sections": []}
+        elif level == 2:  # nouvelle section dans le chapitre courant
+            current_section = {"title": title, "page_start": page, "subsections": []}
+            current_chapter["sections"].append(current_section)
+        elif level == 3:  # sous-section
+            current_section["subsections"].append({"title": title, "page_start": page})
+    
+    # Calcul des pages de fin (déduites de la page suivante)
+    for i, chapter in enumerate(chapters):
+        chapter["page_end"] = chapters[i+1]["page_start"]-1 if i+1 < len(chapters) else self.num_pages
+    
+    return {"chapters": chapters}
+```
+
+**Fallback regex** (si PDF sans signets) : détecte les patterns `1.1 Titre`, `1.1.1 Sous-titre` dans le texte brut via :
+```python
+section_pattern = re.compile(
+    r'^(\d+\.\d+)\s+([A-ZÀ-ÿa-z][a-zA-ZÀ-ÿ\s\'\-\.]{2,60})$',
+    re.MULTILINE
+)
+```
+
+---
+
+### Étape 2 — Détection sémantique (`detect_semantic_units`)
+
+Pour chaque section, le texte est scanné avec des **regex bilingues** (FR + EN) pour identifier les unités atomiques :
+
+```python
+DEFINITION_PATTERNS = [
+    r'(?:Definition|Définition|Def\.|Déf\.)\s*\d+(?:\.\d+)*[:\.]?\s*',
+    r'(?:^|\n)(?:Définition|Théorème|Lemme|Corollaire|Propriété)[:\s\.]',
+    r'(?:^|\n)(?:Démonstration|Demonstration|Preuve)[:\s\.]',
+]
+EXAMPLE_PATTERNS = [
+    r'(?:Example|Exemple|Ex\.)\s*\d+(?:\.\d+)*[:\.]?\s*',
+    r'(?:^|\n)(?:Exemple|Exercice|Application|Remarque)[:\s\.]',
+]
+
+def detect_semantic_units(self, text):
+    matches = []
+    for unit_type, pattern in all_compiled_patterns:
+        for match in pattern.finditer(text):
+            matches.append((match.start(), unit_type))
+    matches.sort()
+
+    # Découpe le texte en intervalles typés
+    units = []
+    for start_pos, unit_type in matches:
+        # Texte libre avant cette unité
+        if start_pos > last_end:
+            units.append({"type": "text", "content": text[last_end:start_pos]})
+        
+        # L'unité elle-même : jusqu'au prochain double saut de ligne \n\n
+        end_pos = text.find("\n\n", start_pos)
+        units.append({"type": unit_type, "content": text[start_pos:end_pos]})
+    
+    return units
+    # Exemples de sortie :
+    # [{"type": "text",       "content": "L'approche bayésienne..."},
+    #  {"type": "definition", "content": "Définition 2.2 (Arbre)..."},
+    #  {"type": "text",       "content": "Cette approche permet..."},
+    #  {"type": "example",    "content": "Exemple 1.3..."}]
+```
+
+---
+
+### Étape 3 — Adaptive Chunking (`create_chunks_from_section`)
+
+C'est ici que se passe la logique **"jamais couper une unité sémantique"** :
+
+```python
+def create_chunks_from_section(self, section_text, chapter_title,
+                                section_title, section_id, page_range):
+    units = self.detect_semantic_units(section_text)  # liste typée
+
+    current_chunk_content = []
+    current_chunk_types   = []
+    current_size          = 0
+
+    for unit in units:
+        unit_content = unit["content"].strip()
+        unit_size    = len(unit_content)
+
+        # Cas 1 : unité seule > max_chunk_size (ex: très long théorème)
+        # → on la coupe avec RecursiveCharacterTextSplitter (fallback)
+        if unit_size > self.max_chunk_size:
+            if current_chunk_content:
+                # flush chunk en cours avant
+                chunks.append(self._create_chunk(...))
+            for part in self.fallback_splitter.split_text(unit_content):
+                chunks.append(self._create_chunk(part, type=unit["type"]))
+            continue
+
+        # Cas 2 : ajouter cette unité dépasserait target_chunk_size
+        # → on ferme le chunk courant, on commence un nouveau
+        if current_size + unit_size > self.target_chunk_size and current_chunk_content:
+            chunks.append(self._create_chunk(
+                "\n\n".join(current_chunk_content),
+                semantic_type=self._determine_chunk_type(current_chunk_types)
+            ))
+            current_chunk_content = [unit_content]
+            current_chunk_types   = [unit["type"]]
+            current_size          = unit_size
+
+        # Cas 3 : on accumule l'unité dans le chunk courant
+        else:
+            current_chunk_content.append(unit_content)
+            current_chunk_types.append(unit["type"])
+            current_size += unit_size
+
+    # flush du dernier chunk
+    if current_chunk_content:
+        chunks.append(self._create_chunk(...))
+```
+
+**Règle clé** : on ne coupe *entre* deux unités — jamais *dans* une unité. Une définition reste entière même si elle pousse le chunk légèrement au-dessus du `target_chunk_size`.
+
+Le type final du chunk est déterminé par la composition :
+
+```python
+def _determine_chunk_type(self, unit_types):
+    if len(set(unit_types)) == 1: return unit_types[0]   # ex: "definition"
+    if "definition" in unit_types: return "definition"   # priorité
+    if "example"    in unit_types: return "example"
+    return "mixed"
+```
+
+---
+
+### Sortie — `SemanticChunk`
+
+```python
+@dataclass
+class SemanticChunk:
+    content:           str           # texte du chunk
+    chunk_id:          str           # "1.3.2.c4" = ch1, section 3.2, chunk 4
+    chapter_title:     str           # "Apprentissage automatique: introduction"
+    section_title:     str           # "Modélisation bayésienne"
+    subsection_title:  Optional[str] # None ou "Approche naïve"
+    page_range:        Tuple[int,int] # (24, 25)
+    semantic_type:     str           # "definition" | "example" | "text" | "mixed"
+    metadata:          Dict          # source PDF, chunk_size, num_pages
+```
+
+**Force clé** : un chunk de type `definition` ou `theorem` ne sera jamais coupé au milieu. Le retriever récupère des unités logiquement cohérentes — une définition complète, un exemple complet, jamais la moitié d'une démonstration.
 
 ---
 

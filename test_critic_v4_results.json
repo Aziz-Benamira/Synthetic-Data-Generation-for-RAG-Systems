@@ -1,0 +1,56 @@
+[
+  {
+    "status": "ok",
+    "test_name": "BON_QA",
+    "decision": "pass",
+    "global_score": 1.0,
+    "rejection_phase": null,
+    "elapsed_s": 21.1,
+    "concepts": [
+      "incompressible",
+      "conditions",
+      "écoulement",
+      "permanent",
+      "visqueux"
+    ]
+  },
+  {
+    "status": "ok",
+    "test_name": "QA_VAGUE",
+    "decision": "reject",
+    "global_score": 0.24,
+    "rejection_phase": "phase1",
+    "elapsed_s": 15.4,
+    "concepts": [
+      "gravitationnelle",
+      "incompressible",
+      "applications",
+      "venturimètre",
+      "conservation"
+    ]
+  },
+  {
+    "status": "ok",
+    "test_name": "QA_OOC",
+    "decision": "reject",
+    "global_score": 0.0,
+    "rejection_phase": "phase1",
+    "elapsed_s": 3.3,
+    "concepts": []
+  },
+  {
+    "status": "ok",
+    "test_name": "HALLUCINE",
+    "decision": "reject",
+    "global_score": 0.84,
+    "rejection_phase": "phase2_anchoring",
+    "elapsed_s": 19.3,
+    "concepts": [
+      "incompressible",
+      "conditions",
+      "écoulement",
+      "permanent",
+      "visqueux"
+    ]
+  }
+]

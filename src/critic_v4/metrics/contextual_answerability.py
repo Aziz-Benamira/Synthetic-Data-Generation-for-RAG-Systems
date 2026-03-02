@@ -11,7 +11,6 @@ Seuil: ≥2.0 pour PASS
 import json
 import logging
 from typing import Dict, Any, Optional
-from llama_cpp import Llama
 
 from ..prompts.contextual_answerability_prompt import get_contextual_answerability_prompt
 
@@ -38,7 +37,7 @@ class ContextualAnswerability:
     
     def __init__(
         self,
-        llm: Optional[Llama] = None,
+        llm: Optional[Any] = None,
         temperature: float = 0.1,
         max_tokens: int = 1000,
     ):
@@ -58,7 +57,7 @@ class ContextualAnswerability:
         self,
         chunk_content: str,
         question: str,
-        llm: Optional[Llama] = None,
+        llm: Optional[Any] = None,
     ) -> Dict[str, Any]:
         """
         Évalue si le chunk contient assez d'informations pour répondre à la question.
