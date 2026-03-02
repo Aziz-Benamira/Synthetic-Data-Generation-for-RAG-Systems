@@ -114,12 +114,13 @@ def compute_rouge_l(generated: str, reference: str) -> Dict[str, float]:
 def compute_bert_score(
     generated: str,
     reference: str,
-    model_type: str = "bert-base-multilingual-cased",
-    device: str = "cpu"
+    model_type: str = "xlm-roberta-large",
+    device: str = "cuda"
 ) -> Dict[str, float]:
     """
-    BERTScore : Similarité sémantique via embeddings BERT.
-    Utilise bert-base-multilingual-cased pour le français.
+    BERTScore : Similarité sémantique via embeddings.
+    Utilise xlm-roberta-large : meilleur score sur benchmarks multilingues FR/EN.
+    Bien supérieur à bert-base-multilingual-cased pour contenu académique français.
     
     Returns: {"precision": float, "recall": float, "f1": float}
     """

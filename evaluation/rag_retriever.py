@@ -32,17 +32,19 @@ class SemanticRetriever:
     
     def __init__(
         self,
-        embedding_model: str = "all-MiniLM-L6-v2",
+        embedding_model: str = "BAAI/bge-m3",
         collection_name: str = "semantic_chunks",
         persist_directory: Optional[str] = None,
-        device: str = "cpu"
+        device: str = "cuda"
     ):
         """
         Args:
             embedding_model: Nom du modèle SentenceTransformer
+                Défaut: BAAI/bge-m3 — SOTA multilingue (FR+EN+Math), 570M params
+                Alternative: intfloat/multilingual-e5-large
             collection_name: Nom de la collection ChromaDB
             persist_directory: Répertoire de persistance (None = in-memory)
-            device: Device pour l'embedding ('cpu' ou 'cuda')
+            device: Device pour l'embedding ('cuda' recommandé sur L40S)
         """
         logger.info(f"Initializing SemanticRetriever...")
         logger.info(f"  Embedding model: {embedding_model}")

@@ -26,7 +26,7 @@ echo "╔═══════════════════════�
 echo "║     RAG EVALUATION — MI201 Gold Dataset          ║"
 echo "║     RAG LLM  : Qwen2.5-32B-Instruct (Q4_K_M)   ║"
 echo "║     Retriever: SemanticChunker + ChromaDB        ║"
-echo "║     Embedding: all-MiniLM-L6-v2                  ║"
+echo "║     Embedding: BAAI/bge-m3 (multilingual SOTA)   ║"
 echo "║     85 QA pairs, top-5 retrieval                 ║"
 echo "╚══════════════════════════════════════════════════╝"
 echo ""

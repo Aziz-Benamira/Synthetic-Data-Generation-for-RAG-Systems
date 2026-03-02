@@ -59,8 +59,10 @@ DEFAULT_CONFIG = {
     ),
     
     # Embedding
-    "embedding_model": "all-MiniLM-L6-v2",
-    "embedding_device": "cpu",  # cpu car SentenceTransformer léger
+    # BAAI/bge-m3 : SOTA multilingue FR+EN, 570M params, 1024-dim
+    # Bien meilleur que all-MiniLM-L6-v2 (EN only, 22M) pour notre polycopié FR
+    "embedding_model": "BAAI/bge-m3",
+    "embedding_device": "cuda",  # GPU L40S disponible → ~5x plus rapide
     
     # Retrieval
     "top_k": 5,
@@ -73,7 +75,7 @@ DEFAULT_CONFIG = {
     
     # Evaluation
     "use_llm_judge": True,
-    "bert_device": "cpu",
+    "bert_device": "cuda",  # GPU L40S dispo, BERTScore ~2x plus rapide
 }
 
 
@@ -141,7 +143,7 @@ def run_evaluation(config: dict):
     logger.info("=" * 70)
     logger.info(f"  RAG LLM    : {Path(config['rag_llm_path']).name}")
     logger.info(f"  Judge LLM  : {Path(config['judge_llm_path']).name if config['use_llm_judge'] else 'DISABLED'}")
-    logger.info(f"  Embedding  : {config['embedding_model']}")
+    logger.info(f"  Embedding  : {config['embedding_model']} (device: {config['embedding_device']})")
     logger.info(f"  Top-k      : {config['top_k']}")
     logger.info(f"  Output     : {output_dir}")
     logger.info("=" * 70)
