@@ -55,11 +55,14 @@ class SemanticRetriever:
         self.embedder = SentenceTransformer(embedding_model, device=device)
         self.embedding_dim = self.embedder.get_sentence_embedding_dimension()
         
-        # ChromaDB
+        # ChromaDB — telemetry désactivée (compute nodes HPC sans internet)
+        _settings = Settings(anonymized_telemetry=False)
         if persist_directory:
-            self.chroma_client = chromadb.PersistentClient(path=persist_directory)
+            self.chroma_client = chromadb.PersistentClient(
+                path=persist_directory, settings=_settings
+            )
         else:
-            self.chroma_client = chromadb.Client()
+            self.chroma_client = chromadb.EphemeralClient(settings=_settings)
         
         self.collection = self.chroma_client.get_or_create_collection(
             name=collection_name,

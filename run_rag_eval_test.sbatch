@@ -20,8 +20,18 @@ cd /home/ensta/ensta-ben-amira/projects/Agentic_AI
 
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
 
+# Env vars critiques pour noeuds HPC sans internet
+# HF hub + sentence_transformers + BERTScore tentent des appels réseau et bloquent
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export HF_HUB_OFFLINE=1
+export TOKENIZERS_PARALLELISM=false
+export ANONYMIZED_TELEMETRY=False  # ChromaDB telemetry
+export CHROMA_TELEMETRY=False
+export PYTHONUNBUFFERED=1           # Flush stdout immédiatement
+
 # Quick test: 5 QA, no LLM judge (faster), n_ctx=4096 (proven working with DeepSeek-R1-32B)
-srun python3 evaluation/run_evaluation.py \
+srun python3 -u evaluation/run_evaluation.py \
     --top_k 5 \
     --limit 5 \
     --no-judge \
