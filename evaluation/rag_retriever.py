@@ -11,6 +11,7 @@ Compatible avec notre format chunks_mi201.json :
 
 import json
 import logging
+import os
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 
@@ -32,15 +33,15 @@ class SemanticRetriever:
     
     def __init__(
         self,
-        embedding_model: str = "BAAI/bge-m3",
+        embedding_model: str = os.path.expanduser("~/models/bge-m3"),
         collection_name: str = "semantic_chunks",
         persist_directory: Optional[str] = None,
         device: str = "cuda"
     ):
         """
         Args:
-            embedding_model: Nom du modèle SentenceTransformer
-                Défaut: BAAI/bge-m3 — SOTA multilingue (FR+EN+Math), 570M params
+            embedding_model: Chemin local ou nom HuggingFace du modèle
+                Défaut: ~/models/bge-m3 (BAAI/bge-m3 local — SOTA multilingue FR+EN, 1024-dim)
                 Alternative: intfloat/multilingual-e5-large
             collection_name: Nom de la collection ChromaDB
             persist_directory: Répertoire de persistance (None = in-memory)

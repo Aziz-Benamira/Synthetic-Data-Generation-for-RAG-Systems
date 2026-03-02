@@ -61,7 +61,8 @@ DEFAULT_CONFIG = {
     # Embedding
     # BAAI/bge-m3 : SOTA multilingue FR+EN, 570M params, 1024-dim
     # Bien meilleur que all-MiniLM-L6-v2 (EN only, 22M) pour notre polycopié FR
-    "embedding_model": "BAAI/bge-m3",
+    # Chemin local pour éviter le problème de chargement .bin (torch 2.5 + CVE-2025-32434)
+    "embedding_model": os.path.expanduser("~/models/bge-m3"),
     "embedding_device": "cuda",  # GPU L40S disponible → ~5x plus rapide
     
     # Retrieval
