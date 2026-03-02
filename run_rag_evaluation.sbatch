@@ -24,7 +24,7 @@ nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
 echo ""
 echo "╔══════════════════════════════════════════════════╗"
 echo "║     RAG EVALUATION — MI201 Gold Dataset          ║"
-echo "║     RAG LLM  : Qwen2.5-32B-Instruct (Q4_K_M)   ║"
+echo "║     RAG LLM  : DeepSeek-R1-Distill-Qwen-32B (IQ3_M) ║"
 echo "║     Retriever: SemanticChunker + ChromaDB        ║"
 echo "║     Embedding: BAAI/bge-m3 (multilingual SOTA)   ║"
 echo "║     85 QA pairs, top-5 retrieval                 ║"
@@ -34,7 +34,7 @@ echo ""
 # Full evaluation: 85 QA pairs, with LLM-as-Judge
 srun python3 evaluation/run_evaluation.py \
     --top_k 5 \
-    --n-ctx 8192
+    --n-ctx 4096
 
 echo ""
 echo "======================================================"

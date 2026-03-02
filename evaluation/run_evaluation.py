@@ -52,7 +52,7 @@ DEFAULT_CONFIG = {
     
     # Modèles
     "rag_llm_path": os.path.expanduser(
-        "~/models/qwen2.5-32b-instruct/Qwen2.5-32B-Instruct-Q4_K_M.gguf"
+        "~/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
     ),
     "judge_llm_path": os.path.expanduser(
         "~/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
@@ -70,7 +70,7 @@ DEFAULT_CONFIG = {
     
     # LLM
     "n_gpu_layers": -1,
-    "n_ctx": 8192,       # 5 chunks × ~1274 chars avg ÷ 4 ≈ 1600 tokens + overhead + 1024 génération
+    "n_ctx": 4096,       # Proven working with DeepSeek-R1-32B (job 13133, 1h12); 5 chunks ≈ 1600 tokens + overhead
     "temperature": 0.3,
     "max_tokens": 1024,
     
