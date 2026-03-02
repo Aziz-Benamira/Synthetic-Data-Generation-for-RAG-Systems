@@ -188,6 +188,12 @@ def run_evaluation(config: dict):
     
     all_results = []
     all_detailed = []
+
+    # Sauvegarde progressive : un fichier JSONL écrit au fur et à mesure
+    # → si timeout, les résultats déjà calculés sont préservés
+    incremental_path = os.path.join(output_dir, "incremental_results.jsonl")
+    incremental_file = open(incremental_path, 'w', encoding='utf-8')
+    logger.info(f"  Sauvegarde progressive : {incremental_path}")
     
     for i, qa in enumerate(gold_data, 1):
         question = qa["question"]
@@ -258,7 +264,7 @@ def run_evaluation(config: dict):
         all_results.append(eval_result)
         
         # Détail complet pour sauvegarde
-        all_detailed.append({
+        detail_entry = {
             "index": i,
             "question": question,
             "gold_answer": gold_answer,
@@ -272,7 +278,15 @@ def run_evaluation(config: dict):
             "generation_time": round(generation_time, 3),
             "evaluation_time": round(eval_time, 3),
             "metrics": eval_result
-        })
+        }
+        all_detailed.append(detail_entry)
+
+        # Sauvegarde immédiate après chaque QA → résultats préservés même en cas de timeout
+        incremental_file.write(json.dumps(detail_entry, ensure_ascii=False) + "\n")
+        incremental_file.flush()
+
+    incremental_file.close()
+    logger.info(f"  ✅ {len(all_detailed)} QA sauvegardées en continu")
     
     # ── Étape 4 : Agrégation ──
     logger.info("\n[4/4] Aggregating results...")
