@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>SoG Context Graph</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0f1117;
+    color: #e2e8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* ── header bar ── */
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+    height: 52px;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #1e2535;
+    display: flex; align-items: center; gap: 16px; padding: 0 20px;
+  }
+  #header h1 { font-size: 15px; font-weight: 600; letter-spacing: .02em; color: #7dd3fc; white-space: nowrap; }
+  #stats { font-size: 12px; color: #64748b; white-space: nowrap; }
+
+  #search {
+    flex: 1; max-width: 320px;
+    background: #1e2535; border: 1px solid #2d3748;
+    border-radius: 8px; padding: 6px 12px;
+    color: #e2e8f0; font-size: 13px; outline: none;
+  }
+  #search:focus { border-color: #38bdf8; }
+
+  #clear-btn {
+    background: #1e2535; border: 1px solid #2d3748;
+    border-radius: 6px; padding: 5px 12px;
+    color: #94a3b8; font-size: 12px; cursor: pointer;
+  }
+  #clear-btn:hover { border-color: #38bdf8; color: #38bdf8; }
+
+  /* ── legend ── */
+  #legend {
+    position: fixed; bottom: 18px; left: 18px; z-index: 20;
+    background: rgba(15,17,23,0.88); border: 1px solid #1e2535;
+    border-radius: 10px; padding: 12px 16px; font-size: 12px;
+    line-height: 1.9;
+  }
+  .leg-row { display: flex; align-items: center; gap: 8px; }
+  .leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── tooltip ── */
+  #tooltip {
+    position: fixed; z-index: 30; pointer-events: none;
+    background: rgba(15,17,23,0.95); border: 1px solid #2d3748;
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 12.5px; line-height: 1.6;
+    max-width: 280px; display: none;
+  }
+  #tooltip .tt-name { font-weight: 600; color: #38bdf8; margin-bottom: 4px; }
+
+  /* ── SVG ── */
+  svg { display: block; width: 100vw; height: 100vh; cursor: grab; }
+  svg:active { cursor: grabbing; }
+
+  .link { stroke: #2d3748; stroke-opacity: 0.55; stroke-width: 1px; }
+  .link.highlighted { stroke: #38bdf8; stroke-opacity: 1; stroke-width: 1.8px; }
+
+  .node circle {
+    stroke-width: 1.5px;
+    transition: r .15s, stroke-opacity .15s;
+    cursor: pointer;
+  }
+  .node circle:hover { stroke-opacity: 1 !important; }
+  .node.dimmed circle { opacity: 0.12; }
+  .node.dimmed text { opacity: 0.08; }
+
+  .node text {
+    font-size: 10px; fill: #cbd5e1;
+    pointer-events: none; user-select: none;
+    text-shadow: 0 0 4px #0f1117, 0 0 4px #0f1117;
+  }
+
+  /* ── controls ── */
+  #controls {
+    position: fixed; right: 18px; bottom: 18px; z-index: 20;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .ctrl-btn {
+    width: 36px; height: 36px;
+    background: rgba(15,17,23,0.9); border: 1px solid #2d3748;
+    border-radius: 8px; color: #94a3b8; font-size: 18px;
+    cursor: pointer; display: grid; place-items: center;
+  }
+  .ctrl-btn:hover { border-color: #38bdf8; color: #38bdf8; }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>⬡ SoG Context Graph</h1>
+  <span id="stats"></span>
+  <input id="search" type="text" placeholder="Search entity…" autocomplete="off"/>
+  <button id="clear-btn">Reset</button>
+</div>
+
+<div id="legend">
+  <div class="leg-row"><div class="leg-dot" style="background:#ef4444"></div> Hub (≥ 20 connections)</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#f97316"></div> High (10–19)</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#38bdf8"></div> Medium (5–9)</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#818cf8"></div> Low (1–4)</div>
+  <div class="leg-row"><div class="leg-dot" style="background:#475569"></div> Isolated</div>
+</div>
+
+<div id="tooltip">
+  <div class="tt-name" id="tt-name"></div>
+  <div id="tt-degree"></div>
+  <div id="tt-neighbors"></div>
+</div>
+
+<div id="controls">
+  <button class="ctrl-btn" id="zoom-in"  title="Zoom in">+</button>
+  <button class="ctrl-btn" id="zoom-out" title="Zoom out">−</button>
+  <button class="ctrl-btn" id="zoom-fit" title="Fit view" style="font-size:13px">⛶</button>
+</div>
+
+<svg id="graph"></svg>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+const RAW_NODES = [{"id": "dv", "degree": 9}, {"id": "Google", "degree": 9}, {"id": "Long Short-Term Memory", "degree": 9}, {"id": "Residual Connection", "degree": 9}, {"id": "neighborhood size r", "degree": 9}, {"id": "Recurrent Neural Network", "degree": 9}, {"id": "LayerNorm", "degree": 9}, {"id": "W V i", "degree": 10}, {"id": "cos", "degree": 9}, {"id": "Transformer", "degree": 26}, {"id": "dk", "degree": 9}, {"id": "International Conference", "degree": 9}, {"id": "Neural Machine Translation", "degree": 9}, {"id": "Self-attention layers", "degree": 10}, {"id": "Kyunghyun Cho", "degree": 9}, {"id": "Head 5", "degree": 9}, {"id": "steps", "degree": 9}, {"id": "ConvS2S", "degree": 9}, {"id": "Transformer architecture", "degree": 9}, {"id": "Kaiser", "degree": 9}, {"id": "Attention(QW Q i , KW K i , V W V i )", "degree": 10}, {"id": "byte-pair representations", "degree": 9}, {"id": "Vinyals", "degree": 9}, {"id": "Chris Dyer", "degree": 9}, {"id": "additive attention", "degree": 9}, {"id": "Attention(Q, K, V )", "degree": 9}, {"id": "Label Smoothing", "degree": 9}, {"id": "Voting process", "degree": 9}, {"id": "Layer5", "degree": 14}, {"id": "GNMT", "degree": 9}, {"id": "Layer6", "degree": 9}, {"id": "newstest2013", "degree": 9}, {"id": "Figure 5", "degree": 9}, {"id": "English-to-German translation", "degree": 9}, {"id": "Attention Visualizations", "degree": 9}, {"id": "__MATH_13__", "degree": 9}, {"id": "Recurrent", "degree": 9}, {"id": "arXiv", "degree": 9}, {"id": "Encoder-Decoder Architectures", "degree": 9}, {"id": "dmodel", "degree": 16}, {"id": "softmax", "degree": 9}, {"id": "WSJ", "degree": 9}, {"id": "machine translations", "degree": 9}, {"id": "Illia Polosukhin", "degree": 9}, {"id": "separable convolutions", "degree": 9}, {"id": "Attention Heads", "degree": 14}, {"id": "Penn Treebank", "degree": 9}, {"id": "Encoder-decoder attention", "degree": 10}, {"id": "Sequence Modeling", "degree": 9}, {"id": "Petrov", "degree": 9}, {"id": "Self-Attention", "degree": 23}, {"id": "Head 6", "degree": 9}, {"id": "dot products", "degree": 9}, {"id": "Encoder", "degree": 16}, {"id": "Layer Normalization", "degree": 9}, {"id": "Llion Jones", "degree": 9}, {"id": "base model", "degree": 9}, {"id": "BLEU", "degree": 18}, {"id": "Multi-Head Attention", "degree": 9}, {"id": "American governments", "degree": 9}, {"id": "params", "degree": 9}, {"id": "Anaphora Resolution", "degree": 9}, {"id": "convolutional layers", "degree": 9}, {"id": "ACL", "degree": 9}, {"id": "recurrent layers", "degree": 9}, {"id": "Residual Dropout", "degree": 9}, {"id": "W Q i", "degree": 10}, {"id": "Łukasz Kaiser", "degree": 9}, {"id": "Caglar Gulcehre", "degree": 9}, {"id": "Holger Schwenk", "degree": 9}, {"id": "Zhu", "degree": 9}, {"id": "Sentence Structure", "degree": 9}, {"id": "Positional Encoding", "degree": 9}, {"id": "Figure 3", "degree": 9}, {"id": "Dyer", "degree": 9}, {"id": "Empirical Methods", "degree": 9}, {"id": "softmax function", "degree": 9}, {"id": "Scaled dot-product attention", "degree": 10}, {"id": "MultiHead(Q, K, V )", "degree": 10}, {"id": "sin", "degree": 9}, {"id": "Hidden States", "degree": 9}, {"id": "Laws 2009", "degree": 9}, {"id": "Multi-head attention", "degree": 10}, {"id": "Attention Mechanisms", "degree": 9}, {"id": "self-attention", "degree": 9}, {"id": "Decoder", "degree": 9}, {"id": "Subword Units", "degree": 9}, {"id": "Fethi Bougares", "degree": 9}, {"id": "English", "degree": 9}, {"id": "__MATH_0__", "degree": 90}, {"id": "kernel width k", "degree": 9}, {"id": "Noam Shazeer", "degree": 9}, {"id": "Yoshua Bengio", "degree": 9}, {"id": "constituency parsing", "degree": 9}, {"id": "attention heads", "degree": 9}, {"id": "FLOPs", "degree": 9}, {"id": "perplexity", "degree": 9}, {"id": "Computational Linguistics", "degree": 9}, {"id": "Input-Input Layer5", "degree": 23}, {"id": "Layer 5", "degree": 9}, {"id": "Recurrent Neural Networks", "degree": 9}, {"id": "Aidan N. Gomez", "degree": 9}, {"id": "ByteNet", "degree": 9}, {"id": "W O", "degree": 10}, {"id": "Language Modeling", "degree": 9}, {"id": "word-piece representations", "degree": 9}, {"id": "Scaled Dot-Product Attention", "degree": 9}, {"id": "Convolutional", "degree": 9}, {"id": "Jakob Uszkoreit", "degree": 9}, {"id": "Machine Translation", "degree": 9}, {"id": "Maximum path lengths", "degree": 9}, {"id": "Ashish Vaswani", "degree": 9}, {"id": "Niki Parmar", "degree": 9}, {"id": "Francois Chollet", "degree": 9}, {"id": "Law", "degree": 14}, {"id": "Junyoung Chung", "degree": 9}, {"id": "15", "degree": 9}, {"id": "W K i", "degree": 10}, {"id": "Gated Recurrent Neural Networks", "degree": 9}, {"id": "Deep-Att", "degree": 9}, {"id": "MoE", "degree": 9}, {"id": "Registration process", "degree": 9}, {"id": "Figure 4", "degree": 9}, {"id": "Model Architecture", "degree": 9}, {"id": "Bart van Merrienboer", "degree": 9}, {"id": "Transformer model", "degree": 10}, {"id": "Encoder self-attention", "degree": 9}, {"id": "NAACL", "degree": 9}, {"id": "2π", "degree": 9}];
+const RAW_EDGES = [{"source": "Encoder", "target": "dmodel"}, {"source": "kernel width k", "target": "self-attention"}, {"source": "Junyoung Chung", "target": "Yoshua Bengio"}, {"source": "Penn Treebank", "target": "arXiv"}, {"source": "Subword Units", "target": "arXiv"}, {"source": "Google", "target": "Noam Shazeer"}, {"source": "English-to-German translation", "target": "params"}, {"source": "American governments", "target": "Attention Visualizations"}, {"source": "Anaphora Resolution", "target": "Law"}, {"source": "neighborhood size r", "target": "word-piece representations"}, {"source": "Hidden States", "target": "Long Short-Term Memory"}, {"source": "Encoder-Decoder Architectures", "target": "Gated Recurrent Neural Networks"}, {"source": "additive attention", "target": "dv"}, {"source": "Computational Linguistics", "target": "Penn Treebank"}, {"source": "15", "target": "Law"}, {"source": "kernel width k", "target": "word-piece representations"}, {"source": "Francois Chollet", "target": "Kyunghyun Cho"}, {"source": "__MATH_0__", "target": "newstest2013"}, {"source": "Deep-Att", "target": "Residual Dropout"}, {"source": "Fethi Bougares", "target": "Yoshua Bengio"}, {"source": "__MATH_0__", "target": "attention heads"}, {"source": "Scaled Dot-Product Attention", "target": "additive attention"}, {"source": "Figure 5", "target": "Sentence Structure"}, {"source": "ACL", "target": "__MATH_0__"}, {"source": "FLOPs", "target": "GNMT"}, {"source": "Multi-head attention", "target": "W Q i"}, {"source": "Penn Treebank", "target": "__MATH_0__"}, {"source": "Subword Units", "target": "__MATH_0__"}, {"source": "dot products", "target": "softmax"}, {"source": "Input-Input Layer5", "target": "Registration process"}, {"source": "convolutional layers", "target": "recurrent layers"}, {"source": "Ashish Vaswani", "target": "Jakob Uszkoreit"}, {"source": "Scaled dot-product attention", "target": "Transformer model"}, {"source": "Dyer", "target": "Vinyals"}, {"source": "Empirical Methods", "target": "Neural Machine Translation"}, {"source": "ConvS2S", "target": "Deep-Att"}, {"source": "Convolutional", "target": "__MATH_0__"}, {"source": "NAACL", "target": "arXiv"}, {"source": "Caglar Gulcehre", "target": "Recurrent Neural Network"}, {"source": "Noam Shazeer", "target": "Łukasz Kaiser"}, {"source": "Ashish Vaswani", "target": "__MATH_0__"}, {"source": "params", "target": "steps"}, {"source": "Positional Encoding", "target": "Recurrent"}, {"source": "Vinyals", "target": "WSJ"}, {"source": "Transformer model", "target": "W V i"}, {"source": "Multi-Head Attention", "target": "Scaled Dot-Product Attention"}, {"source": "Head 5", "target": "Law"}, {"source": "Encoder-Decoder Architectures", "target": "Sequence Modeling"}, {"source": "Scaled Dot-Product Attention", "target": "softmax"}, {"source": "Gated Recurrent Neural Networks", "target": "Sequence Modeling"}, {"source": "Encoder", "target": "Law"}, {"source": "Chris Dyer", "target": "Recurrent Neural Network"}, {"source": "Petrov", "target": "Vinyals"}, {"source": "Francois Chollet", "target": "Holger Schwenk"}, {"source": "kernel width k", "target": "machine translations"}, {"source": "Label Smoothing", "target": "Transformer"}, {"source": "__MATH_0__", "target": "dot products"}, {"source": "English", "target": "__MATH_0__"}, {"source": "Input-Input Layer5", "target": "__MATH_0__"}, {"source": "dv", "target": "softmax"}, {"source": "Recurrent", "target": "cos"}, {"source": "BLEU", "target": "Transformer"}, {"source": "Encoder-decoder attention", "target": "W Q i"}, {"source": "attention heads", "target": "perplexity"}, {"source": "Dyer", "target": "Petrov"}, {"source": "byte-pair representations", "target": "self-attention"}, {"source": "Machine Translation", "target": "Sequence Modeling"}, {"source": "Computational Linguistics", "target": "Neural Machine Translation"}, {"source": "Ashish Vaswani", "target": "Noam Shazeer"}, {"source": "attention heads", "target": "params"}, {"source": "Layer6", "target": "__MATH_0__"}, {"source": "Scaled dot-product attention", "target": "W K i"}, {"source": "Holger Schwenk", "target": "Kyunghyun Cho"}, {"source": "Google", "target": "Illia Polosukhin"}, {"source": "15", "target": "Figure 5"}, {"source": "2π", "target": "cos"}, {"source": "BLEU", "target": "steps"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "W V i"}, {"source": "Holger Schwenk", "target": "Junyoung Chung"}, {"source": "Attention Heads", "target": "Layer5"}, {"source": "Transformer architecture", "target": "base model"}, {"source": "Recurrent Neural Network", "target": "Yoshua Bengio"}, {"source": "Attention Visualizations", "target": "Registration process"}, {"source": "Aidan N. Gomez", "target": "Ashish Vaswani"}, {"source": "byte-pair representations", "target": "word-piece representations"}, {"source": "Google", "target": "Niki Parmar"}, {"source": "Label Smoothing", "target": "MoE"}, {"source": "Convolutional", "target": "Self-Attention"}, {"source": "Attention Mechanisms", "target": "Hidden States"}, {"source": "MultiHead(Q, K, V )", "target": "Self-attention layers"}, {"source": "BLEU", "target": "MoE"}, {"source": "Francois Chollet", "target": "Yoshua Bengio"}, {"source": "Long Short-Term Memory", "target": "__MATH_0__"}, {"source": "Transformer", "target": "WSJ"}, {"source": "Dyer", "target": "Zhu"}, {"source": "Caglar Gulcehre", "target": "Francois Chollet"}, {"source": "Attention Visualizations", "target": "Encoder self-attention"}, {"source": "Vinyals", "target": "constituency parsing"}, {"source": "Illia Polosukhin", "target": "Jakob Uszkoreit"}, {"source": "__MATH_0__", "target": "byte-pair representations"}, {"source": "__MATH_0__", "target": "softmax function"}, {"source": "Aidan N. Gomez", "target": "Niki Parmar"}, {"source": "__MATH_0__", "target": "params"}, {"source": "Input-Input Layer5", "target": "Self-Attention"}, {"source": "dmodel", "target": "sin"}, {"source": "International Conference", "target": "NAACL"}, {"source": "Chris Dyer", "target": "Francois Chollet"}, {"source": "Empirical Methods", "target": "NAACL"}, {"source": "Illia Polosukhin", "target": "__MATH_0__"}, {"source": "Attention Heads", "target": "Input-Input Layer5"}, {"source": "__MATH_0__", "target": "recurrent layers"}, {"source": "International Conference", "target": "arXiv"}, {"source": "Petrov", "target": "Zhu"}, {"source": "Attention(Q, K, V )", "target": "__MATH_0__"}, {"source": "Encoder-Decoder Architectures", "target": "__MATH_0__"}, {"source": "convolutional layers", "target": "self-attention"}, {"source": "ByteNet", "target": "FLOPs"}, {"source": "Multi-head attention", "target": "Scaled dot-product attention"}, {"source": "Dyer", "target": "__MATH_0__"}, {"source": "Encoder", "target": "Figure 5"}, {"source": "Encoder", "target": "Sentence Structure"}, {"source": "Layer 5", "target": "Voting process"}, {"source": "Language Modeling", "target": "Recurrent Neural Networks"}, {"source": "Encoder-Decoder Architectures", "target": "Language Modeling"}, {"source": "Transformer model", "target": "W Q i"}, {"source": "Attention Mechanisms", "target": "Recurrent Neural Networks"}, {"source": "Residual Connection", "target": "__MATH_0__"}, {"source": "Recurrent", "target": "dmodel"}, {"source": "Bart van Merrienboer", "target": "Holger Schwenk"}, {"source": "convolutional layers", "target": "word-piece representations"}, {"source": "Machine Translation", "target": "__MATH_0__"}, {"source": "Positional Encoding", "target": "Self-Attention"}, {"source": "MultiHead(Q, K, V )", "target": "W O"}, {"source": "Convolutional", "target": "Positional Encoding"}, {"source": "Dyer", "target": "Transformer"}, {"source": "W K i", "target": "W V i"}, {"source": "Decoder", "target": "__MATH_0__"}, {"source": "kernel width k", "target": "neighborhood size r"}, {"source": "International Conference", "target": "__MATH_0__"}, {"source": "Empirical Methods", "target": "__MATH_0__"}, {"source": "Illia Polosukhin", "target": "Noam Shazeer"}, {"source": "Scaled Dot-Product Attention", "target": "dot products"}, {"source": "American governments", "target": "Voting process"}, {"source": "Figure 3", "target": "Voting process"}, {"source": "Computational Linguistics", "target": "NAACL"}, {"source": "Transformer", "target": "constituency parsing"}, {"source": "Scaled Dot-Product Attention", "target": "dv"}, {"source": "Ashish Vaswani", "target": "Illia Polosukhin"}, {"source": "2π", "target": "dmodel"}, {"source": "Computational Linguistics", "target": "arXiv"}, {"source": "Figure 5", "target": "__MATH_0__"}, {"source": "Multi-head attention", "target": "Transformer model"}, {"source": "ByteNet", "target": "ConvS2S"}, {"source": "Fethi Bougares", "target": "Kyunghyun Cho"}, {"source": "Ashish Vaswani", "target": "Niki Parmar"}, {"source": "LayerNorm", "target": "Residual Connection"}, {"source": "Encoder-decoder attention", "target": "Scaled dot-product attention"}, {"source": "Holger Schwenk", "target": "Recurrent Neural Network"}, {"source": "machine translations", "target": "recurrent layers"}, {"source": "Petrov", "target": "Transformer"}, {"source": "Layer Normalization", "target": "Residual Connection"}, {"source": "Decoder", "target": "Transformer"}, {"source": "Fethi Bougares", "target": "Junyoung Chung"}, {"source": "self-attention", "target": "word-piece representations"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "W Q i"}, {"source": "Decoder", "target": "Encoder"}, {"source": "NAACL", "target": "Subword Units"}, {"source": "Ashish Vaswani", "target": "Llion Jones"}, {"source": "byte-pair representations", "target": "separable convolutions"}, {"source": "LayerNorm", "target": "dmodel"}, {"source": "Laws 2009", "target": "Voting process"}, {"source": "Google", "target": "Jakob Uszkoreit"}, {"source": "Bart van Merrienboer", "target": "Yoshua Bengio"}, {"source": "Encoder self-attention", "target": "Registration process"}, {"source": "Self-Attention", "target": "__MATH_0__"}, {"source": "Layer Normalization", "target": "dmodel"}, {"source": "Maximum path lengths", "target": "dmodel"}, {"source": "Attention Heads", "target": "Head 5"}, {"source": "ConvS2S", "target": "Transformer"}, {"source": "Attention Visualizations", "target": "Input-Input Layer5"}, {"source": "Self-attention layers", "target": "W K i"}, {"source": "MoE", "target": "Transformer"}, {"source": "Attention(Q, K, V )", "target": "dk"}, {"source": "convolutional layers", "target": "machine translations"}, {"source": "Computational Linguistics", "target": "__MATH_0__"}, {"source": "Residual Connection", "target": "Self-Attention"}, {"source": "English-to-German translation", "target": "__MATH_0__"}, {"source": "Google", "target": "__MATH_0__"}, {"source": "Transformer architecture", "target": "steps"}, {"source": "English", "target": "Vinyals"}, {"source": "ByteNet", "target": "GNMT"}, {"source": "Input-Input Layer5", "target": "Layer 5"}, {"source": "Aidan N. Gomez", "target": "Jakob Uszkoreit"}, {"source": "Encoder", "target": "LayerNorm"}, {"source": "Scaled Dot-Product Attention", "target": "softmax function"}, {"source": "GNMT", "target": "Label Smoothing"}, {"source": "attention heads", "target": "base model"}, {"source": "Self-Attention", "target": "Transformer"}, {"source": "Encoder-Decoder Architectures", "target": "Hidden States"}, {"source": "Figure 4", "target": "Layer5"}, {"source": "Encoder-decoder attention", "target": "Transformer model"}, {"source": "Gated Recurrent Neural Networks", "target": "Hidden States"}, {"source": "cos", "target": "dmodel"}, {"source": "dv", "target": "softmax function"}, {"source": "Multi-head attention", "target": "W K i"}, {"source": "Dyer", "target": "WSJ"}, {"source": "neighborhood size r", "target": "self-attention"}, {"source": "Aidan N. Gomez", "target": "__MATH_0__"}, {"source": "ConvS2S", "target": "MoE"}, {"source": "Multi-head attention", "target": "Self-attention layers"}, {"source": "Figure 5", "target": "Self-Attention"}, {"source": "English-to-German translation", "target": "perplexity"}, {"source": "__MATH_0__", "target": "self-attention"}, {"source": "base model", "target": "steps"}, {"source": "Encoder self-attention", "target": "__MATH_13__"}, {"source": "2π", "target": "Maximum path lengths"}, {"source": "Long Short-Term Memory", "target": "Recurrent Neural Networks"}, {"source": "byte-pair representations", "target": "neighborhood size r"}, {"source": "Deep-Att", "target": "FLOPs"}, {"source": "Self-attention layers", "target": "W Q i"}, {"source": "Encoder self-attention", "target": "Figure 3"}, {"source": "FLOPs", "target": "Transformer"}, {"source": "dk", "target": "dot products"}, {"source": "English", "target": "Petrov"}, {"source": "additive attention", "target": "dot products"}, {"source": "Junyoung Chung", "target": "Recurrent Neural Network"}, {"source": "Attention Heads", "target": "Layer6"}, {"source": "Petrov", "target": "WSJ"}, {"source": "Figure 5", "target": "Input-Input Layer5"}, {"source": "dk", "target": "dv"}, {"source": "Niki Parmar", "target": "__MATH_0__"}, {"source": "__MATH_0__", "target": "word-piece representations"}, {"source": "Transformer", "target": "dmodel"}, {"source": "newstest2013", "target": "params"}, {"source": "Attention Mechanisms", "target": "Encoder-Decoder Architectures"}, {"source": "W K i", "target": "W Q i"}, {"source": "Attention(Q, K, V )", "target": "additive attention"}, {"source": "Input-Input Layer5", "target": "Layer6"}, {"source": "Decoder", "target": "Layer Normalization"}, {"source": "Input-Input Layer5", "target": "Laws 2009"}, {"source": "Anaphora Resolution", "target": "Layer5"}, {"source": "Dyer", "target": "Kaiser"}, {"source": "Illia Polosukhin", "target": "Niki Parmar"}, {"source": "BLEU", "target": "newstest2013"}, {"source": "ACL", "target": "Empirical Methods"}, {"source": "Aidan N. Gomez", "target": "Noam Shazeer"}, {"source": "Francois Chollet", "target": "Junyoung Chung"}, {"source": "BLEU", "target": "attention heads"}, {"source": "Model Architecture", "target": "Self-Attention"}, {"source": "Encoder-Decoder Architectures", "target": "Recurrent Neural Networks"}, {"source": "Long Short-Term Memory", "target": "Sequence Modeling"}, {"source": "Encoder-decoder attention", "target": "W K i"}, {"source": "Deep-Att", "target": "Label Smoothing"}, {"source": "15", "target": "Layer5"}, {"source": "Gated Recurrent Neural Networks", "target": "Recurrent Neural Networks"}, {"source": "Fethi Bougares", "target": "Recurrent Neural Network"}, {"source": "ByteNet", "target": "Deep-Att"}, {"source": "Attention Visualizations", "target": "Layer 5"}, {"source": "FLOPs", "target": "MoE"}, {"source": "Layer 5", "target": "Registration process"}, {"source": "International Conference", "target": "Subword Units"}, {"source": "English", "target": "Zhu"}, {"source": "W O", "target": "W V i"}, {"source": "Dyer", "target": "constituency parsing"}, {"source": "Niki Parmar", "target": "Noam Shazeer"}, {"source": "Machine Translation", "target": "Recurrent Neural Networks"}, {"source": "BLEU", "target": "English-to-German translation"}, {"source": "Attention(Q, K, V )", "target": "softmax"}, {"source": "Hidden States", "target": "Machine Translation"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "Scaled dot-product attention"}, {"source": "Language Modeling", "target": "Long Short-Term Memory"}, {"source": "__MATH_0__", "target": "arXiv"}, {"source": "Bart van Merrienboer", "target": "Chris Dyer"}, {"source": "dk", "target": "softmax function"}, {"source": "additive attention", "target": "softmax function"}, {"source": "Anaphora Resolution", "target": "Input-Input Layer5"}, {"source": "Encoder self-attention", "target": "Input-Input Layer5"}, {"source": "convolutional layers", "target": "neighborhood size r"}, {"source": "Attention Mechanisms", "target": "Long Short-Term Memory"}, {"source": "__MATH_0__", "target": "machine translations"}, {"source": "Attention Heads", "target": "__MATH_0__"}, {"source": "machine translations", "target": "word-piece representations"}, {"source": "Neural Machine Translation", "target": "Penn Treebank"}, {"source": "American governments", "target": "Registration process"}, {"source": "Figure 3", "target": "Registration process"}, {"source": "Kyunghyun Cho", "target": "Recurrent Neural Network"}, {"source": "Google", "target": "Łukasz Kaiser"}, {"source": "Petrov", "target": "constituency parsing"}, {"source": "Head 5", "target": "Layer5"}, {"source": "Encoder-decoder attention", "target": "Multi-head attention"}, {"source": "Label Smoothing", "target": "Residual Dropout"}, {"source": "Caglar Gulcehre", "target": "Yoshua Bengio"}, {"source": "BLEU", "target": "Residual Dropout"}, {"source": "Input-Input Layer5", "target": "__MATH_13__"}, {"source": "Encoder", "target": "Layer5"}, {"source": "Deep-Att", "target": "GNMT"}, {"source": "Attention Visualizations", "target": "Laws 2009"}, {"source": "Layer 5", "target": "__MATH_13__"}, {"source": "Neural Machine Translation", "target": "Subword Units"}, {"source": "MultiHead(Q, K, V )", "target": "W V i"}, {"source": "Attention Heads", "target": "Encoder"}, {"source": "15", "target": "Sentence Structure"}, {"source": "English", "target": "Transformer"}, {"source": "attention heads", "target": "steps"}, {"source": "Scaled dot-product attention", "target": "Self-attention layers"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "Transformer model"}, {"source": "Law", "target": "Layer5"}, {"source": "Recurrent", "target": "sin"}, {"source": "Chris Dyer", "target": "Yoshua Bengio"}, {"source": "Head 6", "target": "Law"}, {"source": "Fethi Bougares", "target": "Francois Chollet"}, {"source": "Positional Encoding", "target": "__MATH_0__"}, {"source": "Transformer model", "target": "W K i"}, {"source": "neighborhood size r", "target": "separable convolutions"}, {"source": "Registration process", "target": "__MATH_13__"}, {"source": "Google", "target": "Llion Jones"}, {"source": "Head 5", "target": "Input-Input Layer5"}, {"source": "Bart van Merrienboer", "target": "Kyunghyun Cho"}, {"source": "Aidan N. Gomez", "target": "Illia Polosukhin"}, {"source": "__MATH_0__", "target": "perplexity"}, {"source": "Francois Chollet", "target": "Recurrent Neural Network"}, {"source": "kernel width k", "target": "separable convolutions"}, {"source": "2π", "target": "sin"}, {"source": "Bart van Merrienboer", "target": "Junyoung Chung"}, {"source": "Encoder", "target": "Input-Input Layer5"}, {"source": "Attention Heads", "target": "Self-Attention"}, {"source": "Maximum path lengths", "target": "cos"}, {"source": "ACL", "target": "Penn Treebank"}, {"source": "Anaphora Resolution", "target": "Head 5"}, {"source": "English-to-German translation", "target": "Transformer architecture"}, {"source": "BLEU", "target": "params"}, {"source": "Input-Input Layer5", "target": "Law"}, {"source": "Aidan N. Gomez", "target": "Llion Jones"}, {"source": "Bart van Merrienboer", "target": "Fethi Bougares"}, {"source": "English-to-German translation", "target": "base model"}, {"source": "Encoder self-attention", "target": "Layer 5"}, {"source": "Empirical Methods", "target": "arXiv"}, {"source": "Figure 4", "target": "Layer6"}, {"source": "Attention Visualizations", "target": "__MATH_13__"}, {"source": "Maximum path lengths", "target": "sin"}, {"source": "dot products", "target": "dv"}, {"source": "byte-pair representations", "target": "kernel width k"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "W K i"}, {"source": "Transformer architecture", "target": "newstest2013"}, {"source": "ACL", "target": "Subword Units"}, {"source": "Residual Connection", "target": "dmodel"}, {"source": "Decoder", "target": "Residual Connection"}, {"source": "Transformer architecture", "target": "attention heads"}, {"source": "Penn Treebank", "target": "Subword Units"}, {"source": "Attention Visualizations", "target": "Figure 3"}, {"source": "Ashish Vaswani", "target": "Łukasz Kaiser"}, {"source": "Scaled dot-product attention", "target": "W O"}, {"source": "Law", "target": "Sentence Structure"}, {"source": "Self-attention layers", "target": "Transformer model"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "Encoder-decoder attention"}, {"source": "Attention(Q, K, V )", "target": "dot products"}, {"source": "Decoder", "target": "dmodel"}, {"source": "__MATH_0__", "target": "dk"}, {"source": "__MATH_0__", "target": "neighborhood size r"}, {"source": "Attention(Q, K, V )", "target": "dv"}, {"source": "recurrent layers", "target": "self-attention"}, {"source": "English", "target": "WSJ"}, {"source": "Residual Dropout", "target": "Transformer"}, {"source": "base model", "target": "newstest2013"}, {"source": "Multi-Head Attention", "target": "__MATH_0__"}, {"source": "cos", "target": "sin"}, {"source": "Jakob Uszkoreit", "target": "Noam Shazeer"}, {"source": "Hidden States", "target": "Sequence Modeling"}, {"source": "NAACL", "target": "Penn Treebank"}, {"source": "American governments", "target": "Input-Input Layer5"}, {"source": "Figure 3", "target": "Input-Input Layer5"}, {"source": "Layer Normalization", "target": "LayerNorm"}, {"source": "Residual Connection", "target": "Transformer"}, {"source": "2π", "target": "Recurrent"}, {"source": "Layer5", "target": "Sentence Structure"}, {"source": "Anaphora Resolution", "target": "Layer6"}, {"source": "recurrent layers", "target": "word-piece representations"}, {"source": "Multi-head attention", "target": "MultiHead(Q, K, V )"}, {"source": "Caglar Gulcehre", "target": "Chris Dyer"}, {"source": "Sentence Structure", "target": "__MATH_0__"}, {"source": "Encoder self-attention", "target": "Laws 2009"}, {"source": "MultiHead(Q, K, V )", "target": "W Q i"}, {"source": "Llion Jones", "target": "Niki Parmar"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "Multi-head attention"}, {"source": "Gated Recurrent Neural Networks", "target": "Long Short-Term Memory"}, {"source": "__MATH_0__", "target": "Łukasz Kaiser"}, {"source": "dot products", "target": "softmax function"}, {"source": "Figure 4", "target": "__MATH_0__"}, {"source": "Self-Attention", "target": "dmodel"}, {"source": "2π", "target": "Convolutional"}, {"source": "Kaiser", "target": "Vinyals"}, {"source": "ByteNet", "target": "Transformer"}, {"source": "English", "target": "Kaiser"}, {"source": "Convolutional", "target": "cos"}, {"source": "Maximum path lengths", "target": "Recurrent"}, {"source": "Bart van Merrienboer", "target": "Caglar Gulcehre"}, {"source": "Computational Linguistics", "target": "Empirical Methods"}, {"source": "LayerNorm", "target": "Model Architecture"}, {"source": "WSJ", "target": "Zhu"}, {"source": "convolutional layers", "target": "kernel width k"}, {"source": "Layer Normalization", "target": "Model Architecture"}, {"source": "Bart van Merrienboer", "target": "Recurrent Neural Network"}, {"source": "ConvS2S", "target": "Residual Dropout"}, {"source": "Attention(Q, K, V )", "target": "softmax function"}, {"source": "machine translations", "target": "neighborhood size r"}, {"source": "Model Architecture", "target": "__MATH_0__"}, {"source": "BLEU", "target": "ByteNet"}, {"source": "Multi-head attention", "target": "W V i"}, {"source": "English", "target": "constituency parsing"}, {"source": "Vinyals", "target": "Zhu"}, {"source": "Encoder-decoder attention", "target": "MultiHead(Q, K, V )"}, {"source": "ByteNet", "target": "MoE"}, {"source": "Voting process", "target": "__MATH_13__"}, {"source": "Kaiser", "target": "Petrov"}, {"source": "WSJ", "target": "__MATH_0__"}, {"source": "Head 5", "target": "Layer6"}, {"source": "Anaphora Resolution", "target": "__MATH_0__"}, {"source": "Illia Polosukhin", "target": "Łukasz Kaiser"}, {"source": "byte-pair representations", "target": "convolutional layers"}, {"source": "Caglar Gulcehre", "target": "Kyunghyun Cho"}, {"source": "NAACL", "target": "Neural Machine Translation"}, {"source": "Multi-Head Attention", "target": "dk"}, {"source": "Model Architecture", "target": "Transformer"}, {"source": "Figure 5", "target": "Law"}, {"source": "Ashish Vaswani", "target": "Google"}, {"source": "Caglar Gulcehre", "target": "Junyoung Chung"}, {"source": "LayerNorm", "target": "__MATH_0__"}, {"source": "15", "target": "__MATH_0__"}, {"source": "Attention Heads", "target": "Head 6"}, {"source": "Layer Normalization", "target": "__MATH_0__"}, {"source": "newstest2013", "target": "perplexity"}, {"source": "American governments", "target": "Layer 5"}, {"source": "Figure 3", "target": "Layer 5"}, {"source": "__MATH_0__", "target": "softmax"}, {"source": "GNMT", "target": "Transformer"}, {"source": "Hidden States", "target": "__MATH_0__"}, {"source": "Encoder", "target": "Model Architecture"}, {"source": "Transformer architecture", "target": "params"}, {"source": "Vinyals", "target": "__MATH_0__"}, {"source": "Law", "target": "Layer6"}, {"source": "English-to-German translation", "target": "steps"}, {"source": "Chris Dyer", "target": "Kyunghyun Cho"}, {"source": "convolutional layers", "target": "separable convolutions"}, {"source": "FLOPs", "target": "Residual Dropout"}, {"source": "Caglar Gulcehre", "target": "Fethi Bougares"}, {"source": "Positional Encoding", "target": "cos"}, {"source": "__MATH_0__", "target": "base model"}, {"source": "Recurrent", "target": "Self-Attention"}, {"source": "byte-pair representations", "target": "recurrent layers"}, {"source": "Hidden States", "target": "Language Modeling"}, {"source": "Chris Dyer", "target": "Junyoung Chung"}, {"source": "International Conference", "target": "Penn Treebank"}, {"source": "Kaiser", "target": "Zhu"}, {"source": "Figure 4", "target": "Input-Input Layer5"}, {"source": "attention heads", "target": "newstest2013"}, {"source": "Jakob Uszkoreit", "target": "Niki Parmar"}, {"source": "base model", "target": "params"}, {"source": "Bart van Merrienboer", "target": "Francois Chollet"}, {"source": "Recurrent Neural Networks", "target": "__MATH_0__"}, {"source": "Layer5", "target": "Layer6"}, {"source": "Chris Dyer", "target": "Fethi Bougares"}, {"source": "Illia Polosukhin", "target": "Llion Jones"}, {"source": "recurrent layers", "target": "separable convolutions"}, {"source": "2π", "target": "Self-Attention"}, {"source": "Encoder-decoder attention", "target": "Self-attention layers"}, {"source": "GNMT", "target": "MoE"}, {"source": "Caglar Gulcehre", "target": "Holger Schwenk"}, {"source": "ACL", "target": "International Conference"}, {"source": "Convolutional", "target": "Recurrent"}, {"source": "Head 5", "target": "__MATH_0__"}, {"source": "Convolutional", "target": "dmodel"}, {"source": "Empirical Methods", "target": "Subword Units"}, {"source": "self-attention", "target": "separable convolutions"}, {"source": "machine translations", "target": "self-attention"}, {"source": "Multi-Head Attention", "target": "additive attention"}, {"source": "Encoder", "target": "__MATH_0__"}, {"source": "Kaiser", "target": "__MATH_0__"}, {"source": "MultiHead(Q, K, V )", "target": "Scaled dot-product attention"}, {"source": "Anaphora Resolution", "target": "Figure 4"}, {"source": "Multi-head attention", "target": "W O"}, {"source": "American governments", "target": "Laws 2009"}, {"source": "Figure 3", "target": "Laws 2009"}, {"source": "Llion Jones", "target": "__MATH_0__"}, {"source": "Language Modeling", "target": "__MATH_0__"}, {"source": "LayerNorm", "target": "Self-Attention"}, {"source": "15", "target": "Self-Attention"}, {"source": "Chris Dyer", "target": "Holger Schwenk"}, {"source": "Attention Mechanisms", "target": "__MATH_0__"}, {"source": "Layer Normalization", "target": "Self-Attention"}, {"source": "__MATH_0__", "target": "kernel width k"}, {"source": "Deep-Att", "target": "Transformer"}, {"source": "BLEU", "target": "FLOPs"}, {"source": "Transformer", "target": "__MATH_0__"}, {"source": "Zhu", "target": "__MATH_0__"}, {"source": "Maximum path lengths", "target": "Self-Attention"}, {"source": "Law", "target": "__MATH_0__"}, {"source": "Attention(Q, K, V )", "target": "Scaled Dot-Product Attention"}, {"source": "Encoder", "target": "Transformer"}, {"source": "Kaiser", "target": "Transformer"}, {"source": "Attention Mechanisms", "target": "Language Modeling"}, {"source": "15", "target": "Input-Input Layer5"}, {"source": "params", "target": "perplexity"}, {"source": "Head 6", "target": "__MATH_0__"}, {"source": "Scaled dot-product attention", "target": "W V i"}, {"source": "Multi-Head Attention", "target": "softmax"}, {"source": "Computational Linguistics", "target": "Subword Units"}, {"source": "International Conference", "target": "Neural Machine Translation"}, {"source": "__MATH_0__", "target": "dmodel"}, {"source": "Layer5", "target": "__MATH_0__"}, {"source": "American governments", "target": "Encoder self-attention"}, {"source": "BLEU", "target": "Label Smoothing"}, {"source": "Figure 4", "target": "Head 5"}, {"source": "Llion Jones", "target": "Noam Shazeer"}, {"source": "Self-Attention", "target": "Sentence Structure"}, {"source": "MultiHead(Q, K, V )", "target": "Transformer model"}, {"source": "Aidan N. Gomez", "target": "Łukasz Kaiser"}, {"source": "Deep-Att", "target": "MoE"}, {"source": "Laws 2009", "target": "Registration process"}, {"source": "BLEU", "target": "__MATH_0__"}, {"source": "Encoder-decoder attention", "target": "W O"}, {"source": "2π", "target": "Positional Encoding"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "MultiHead(Q, K, V )"}, {"source": "Positional Encoding", "target": "dmodel"}, {"source": "Kyunghyun Cho", "target": "Yoshua Bengio"}, {"source": "Encoder self-attention", "target": "Voting process"}, {"source": "additive attention", "target": "dk"}, {"source": "Language Modeling", "target": "Machine Translation"}, {"source": "Encoder", "target": "Self-Attention"}, {"source": "BLEU", "target": "ConvS2S"}, {"source": "Convolutional", "target": "Maximum path lengths"}, {"source": "Attention Mechanisms", "target": "Machine Translation"}, {"source": "American governments", "target": "__MATH_13__"}, {"source": "Figure 3", "target": "__MATH_13__"}, {"source": "Self-Attention", "target": "cos"}, {"source": "__MATH_0__", "target": "separable convolutions"}, {"source": "Niki Parmar", "target": "Łukasz Kaiser"}, {"source": "Head 6", "target": "Layer5"}, {"source": "__MATH_0__", "target": "dv"}, {"source": "BLEU", "target": "perplexity"}, {"source": "NAACL", "target": "__MATH_0__"}, {"source": "Law", "target": "Self-Attention"}, {"source": "American governments", "target": "Figure 3"}, {"source": "Maximum path lengths", "target": "Positional Encoding"}, {"source": "Attention Heads", "target": "Law"}, {"source": "Attention Heads", "target": "Figure 4"}, {"source": "Figure 4", "target": "Head 6"}, {"source": "perplexity", "target": "steps"}, {"source": "Self-Attention", "target": "sin"}, {"source": "__MATH_0__", "target": "steps"}, {"source": "Laws 2009", "target": "__MATH_13__"}, {"source": "Jakob Uszkoreit", "target": "__MATH_0__"}, {"source": "Decoder", "target": "LayerNorm"}, {"source": "BLEU", "target": "GNMT"}, {"source": "WSJ", "target": "constituency parsing"}, {"source": "MultiHead(Q, K, V )", "target": "W K i"}, {"source": "Kaiser", "target": "WSJ"}, {"source": "W O", "target": "W Q i"}, {"source": "Hidden States", "target": "Recurrent Neural Networks"}, {"source": "Layer5", "target": "Self-Attention"}, {"source": "Encoder", "target": "Layer Normalization"}, {"source": "Input-Input Layer5", "target": "Layer5"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "Self-attention layers"}, {"source": "__MATH_0__", "target": "convolutional layers"}, {"source": "Head 6", "target": "Input-Input Layer5"}, {"source": "Llion Jones", "target": "Łukasz Kaiser"}, {"source": "ACL", "target": "Computational Linguistics"}, {"source": "Anaphora Resolution", "target": "Attention Heads"}, {"source": "Dyer", "target": "English"}, {"source": "machine translations", "target": "separable convolutions"}, {"source": "W Q i", "target": "W V i"}, {"source": "Decoder", "target": "Model Architecture"}, {"source": "15", "target": "Attention Heads"}, {"source": "Anaphora Resolution", "target": "Head 6"}, {"source": "Transformer model", "target": "W O"}, {"source": "neighborhood size r", "target": "recurrent layers"}, {"source": "Attention Mechanisms", "target": "Gated Recurrent Neural Networks"}, {"source": "Scaled dot-product attention", "target": "W Q i"}, {"source": "Empirical Methods", "target": "International Conference"}, {"source": "Aidan N. Gomez", "target": "Google"}, {"source": "Input-Input Layer5", "target": "Voting process"}, {"source": "kernel width k", "target": "recurrent layers"}, {"source": "Encoder-Decoder Architectures", "target": "Long Short-Term Memory"}, {"source": "English-to-German translation", "target": "newstest2013"}, {"source": "Gated Recurrent Neural Networks", "target": "__MATH_0__"}, {"source": "Multi-Head Attention", "target": "dot products"}, {"source": "dk", "target": "softmax"}, {"source": "byte-pair representations", "target": "machine translations"}, {"source": "additive attention", "target": "softmax"}, {"source": "ConvS2S", "target": "FLOPs"}, {"source": "English-to-German translation", "target": "attention heads"}, {"source": "Scaled Dot-Product Attention", "target": "__MATH_0__"}, {"source": "ACL", "target": "Neural Machine Translation"}, {"source": "Multi-Head Attention", "target": "dv"}, {"source": "Gated Recurrent Neural Networks", "target": "Language Modeling"}, {"source": "Recurrent Neural Networks", "target": "Sequence Modeling"}, {"source": "separable convolutions", "target": "word-piece representations"}, {"source": "Self-attention layers", "target": "W V i"}, {"source": "Long Short-Term Memory", "target": "Machine Translation"}, {"source": "Attention Heads", "target": "Figure 5"}, {"source": "Attention Heads", "target": "Sentence Structure"}, {"source": "Kaiser", "target": "constituency parsing"}, {"source": "Model Architecture", "target": "Residual Connection"}, {"source": "BLEU", "target": "Deep-Att"}, {"source": "ByteNet", "target": "Residual Dropout"}, {"source": "softmax", "target": "softmax function"}, {"source": "Junyoung Chung", "target": "Kyunghyun Cho"}, {"source": "Recurrent", "target": "__MATH_0__"}, {"source": "Petrov", "target": "__MATH_0__"}, {"source": "Input-Input Layer5", "target": "Sentence Structure"}, {"source": "ByteNet", "target": "Label Smoothing"}, {"source": "Transformer", "target": "Vinyals"}, {"source": "Attention(QW Q i , KW K i , V W V i )", "target": "W O"}, {"source": "Model Architecture", "target": "dmodel"}, {"source": "MoE", "target": "Residual Dropout"}, {"source": "Zhu", "target": "constituency parsing"}, {"source": "Registration process", "target": "Voting process"}, {"source": "__MATH_0__", "target": "additive attention"}, {"source": "Transformer architecture", "target": "__MATH_0__"}, {"source": "ConvS2S", "target": "Label Smoothing"}, {"source": "Computational Linguistics", "target": "International Conference"}, {"source": "Holger Schwenk", "target": "Yoshua Bengio"}, {"source": "Language Modeling", "target": "Sequence Modeling"}, {"source": "Head 5", "target": "Head 6"}, {"source": "2π", "target": "__MATH_0__"}, {"source": "Attention Mechanisms", "target": "Sequence Modeling"}, {"source": "Convolutional", "target": "sin"}, {"source": "Neural Machine Translation", "target": "arXiv"}, {"source": "Encoder-Decoder Architectures", "target": "Machine Translation"}, {"source": "Gated Recurrent Neural Networks", "target": "Machine Translation"}, {"source": "Noam Shazeer", "target": "__MATH_0__"}, {"source": "Jakob Uszkoreit", "target": "Łukasz Kaiser"}, {"source": "Multi-Head Attention", "target": "softmax function"}, {"source": "Transformer architecture", "target": "perplexity"}, {"source": "Sequence Modeling", "target": "__MATH_0__"}, {"source": "__MATH_0__", "target": "constituency parsing"}, {"source": "Attention Visualizations", "target": "Voting process"}, {"source": "Attention(Q, K, V )", "target": "Multi-Head Attention"}, {"source": "__MATH_0__", "target": "cos"}, {"source": "Maximum path lengths", "target": "__MATH_0__"}, {"source": "Figure 4", "target": "Law"}, {"source": "BLEU", "target": "Transformer architecture"}, {"source": "GNMT", "target": "Residual Dropout"}, {"source": "Figure 5", "target": "Layer5"}, {"source": "Neural Machine Translation", "target": "__MATH_0__"}, {"source": "base model", "target": "perplexity"}, {"source": "Scaled Dot-Product Attention", "target": "dk"}, {"source": "BLEU", "target": "base model"}, {"source": "Decoder", "target": "Self-Attention"}, {"source": "Empirical Methods", "target": "Penn Treebank"}, {"source": "FLOPs", "target": "Label Smoothing"}, {"source": "LayerNorm", "target": "Transformer"}, {"source": "newstest2013", "target": "steps"}, {"source": "Encoder-decoder attention", "target": "W V i"}, {"source": "ConvS2S", "target": "GNMT"}, {"source": "__MATH_0__", "target": "sin"}, {"source": "Layer Normalization", "target": "Transformer"}, {"source": "Self-attention layers", "target": "W O"}, {"source": "Fethi Bougares", "target": "Holger Schwenk"}, {"source": "15", "target": "Encoder"}, {"source": "Head 6", "target": "Layer6"}, {"source": "Encoder", "target": "Residual Connection"}, {"source": "Laws 2009", "target": "Layer 5"}, {"source": "W K i", "target": "W O"}, {"source": "Transformer", "target": "Zhu"}, {"source": "Jakob Uszkoreit", "target": "Llion Jones"}, {"source": "ACL", "target": "NAACL"}, {"source": "Positional Encoding", "target": "sin"}, {"source": "ACL", "target": "arXiv"}];
+
+// ── colour by degree ──────────────────────────────────────────────────────
+function nodeColor(d) {
+  if (d.degree >= 20) return "#ef4444";
+  if (d.degree >= 10) return "#f97316";
+  if (d.degree >=  5) return "#38bdf8";
+  if (d.degree >=  1) return "#818cf8";
+  return "#475569";
+}
+function nodeRadius(d) {
+  return Math.max(5, Math.min(22, 5 + d.degree * 0.55));
+}
+
+// ── SVG & zoom ────────────────────────────────────────────────────────────
+const svgEl = document.getElementById("graph");
+const svg   = d3.select(svgEl);
+const W = () => window.innerWidth;
+const H = () => window.innerHeight;
+
+const zoomBehavior = d3.zoom().scaleExtent([0.05, 6])
+  .on("zoom", e => container.attr("transform", e.transform));
+svg.call(zoomBehavior);
+
+const container = svg.append("g");
+const linkGroup = container.append("g").attr("class", "links");
+const nodeGroup = container.append("g").attr("class", "nodes");
+
+// ── adjacency for fast neighbour lookup ──────────────────────────────────
+const adjMap = new Map();
+RAW_NODES.forEach(n => adjMap.set(n.id, new Set()));
+RAW_EDGES.forEach(e => {
+  adjMap.get(e.source)?.add(e.target);
+  adjMap.get(e.target)?.add(e.source);
+});
+
+// ── simulation ────────────────────────────────────────────────────────────
+const simulation = d3.forceSimulation(RAW_NODES)
+  .force("link", d3.forceLink(RAW_EDGES).id(d => d.id).distance(60).strength(0.5))
+  .force("charge", d3.forceManyBody().strength(-180).distanceMax(350))
+  .force("center", d3.forceCenter(W() / 2, H() / 2))
+  .force("collide", d3.forceCollide(d => nodeRadius(d) + 4))
+  .alphaDecay(0.025);
+
+// ── links ─────────────────────────────────────────────────────────────────
+const link = linkGroup.selectAll("line")
+  .data(RAW_EDGES)
+  .join("line")
+  .attr("class", "link");
+
+// ── nodes ─────────────────────────────────────────────────────────────────
+const node = nodeGroup.selectAll("g")
+  .data(RAW_NODES)
+  .join("g")
+  .attr("class", "node")
+  .call(d3.drag()
+    .on("start", (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on("drag",  (e, d) => { d.fx=e.x; d.fy=e.y; })
+    .on("end",   (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; }));
+
+node.append("circle")
+  .attr("r", nodeRadius)
+  .attr("fill", nodeColor)
+  .attr("stroke", d => d3.color(nodeColor(d)).brighter(0.8))
+  .attr("stroke-opacity", 0.6);
+
+node.append("text")
+  .attr("dy", d => -nodeRadius(d) - 3)
+  .attr("text-anchor", "middle")
+  .text(d => d.id.length > 22 ? d.id.slice(0, 20) + "…" : d.id);
+
+// stat bar
+document.getElementById("stats").textContent =
+  `${RAW_NODES.length} entities · ${RAW_EDGES.length} co-occurrence edges`;
+
+// ── tick ──────────────────────────────────────────────────────────────────
+simulation.on("tick", () => {
+  link
+    .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
+    .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+});
+
+// ── tooltip ───────────────────────────────────────────────────────────────
+const tooltip = document.getElementById("tooltip");
+node
+  .on("mousemove", (e, d) => {
+    const nbrs = [...(adjMap.get(d.id) || [])].slice(0, 8);
+    document.getElementById("tt-name").textContent = d.id;
+    document.getElementById("tt-degree").textContent = `Connections: ${d.degree}`;
+    document.getElementById("tt-neighbors").textContent =
+      nbrs.length ? "Neighbours: " + nbrs.join(", ") + (adjMap.get(d.id).size > 8 ? "…" : "") : "";
+    tooltip.style.display = "block";
+    tooltip.style.left = (e.clientX + 14) + "px";
+    tooltip.style.top  = (e.clientY - 10) + "px";
+  })
+  .on("mouseleave", () => { tooltip.style.display = "none"; });
+
+// ── click highlight ───────────────────────────────────────────────────────
+let selected = null;
+node.on("click", (e, d) => {
+  e.stopPropagation();
+  if (selected === d.id) { clearHighlight(); return; }
+  selected = d.id;
+  highlight(d.id);
+});
+svg.on("click", () => clearHighlight());
+
+function highlight(id) {
+  const nbrs = adjMap.get(id) || new Set();
+  node.classed("dimmed", n => n.id !== id && !nbrs.has(n.id));
+  link
+    .classed("highlighted", l => l.source.id === id || l.target.id === id)
+    .style("stroke", l => (l.source.id===id||l.target.id===id) ? "#38bdf8" : null)
+    .style("stroke-opacity", l => (l.source.id===id||l.target.id===id) ? 1 : 0.1);
+}
+function clearHighlight() {
+  selected = null;
+  node.classed("dimmed", false);
+  link.classed("highlighted", false).style("stroke", null).style("stroke-opacity", null);
+  document.getElementById("search").value = "";
+}
+
+// ── search ────────────────────────────────────────────────────────────────
+document.getElementById("search").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) { clearHighlight(); return; }
+  const match = RAW_NODES.find(n => n.id.toLowerCase().includes(q));
+  if (match) {
+    selected = match.id;
+    highlight(match.id);
+    // pan to node
+    const t = d3.zoomTransform(svgEl);
+    const x = W()/2 - t.k * match.x;
+    const y = H()/2 - t.k * match.y;
+    svg.transition().duration(500)
+      .call(zoomBehavior.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
+  }
+});
+document.getElementById("clear-btn").addEventListener("click", clearHighlight);
+
+// ── zoom controls ─────────────────────────────────────────────────────────
+document.getElementById("zoom-in") .addEventListener("click", () => svg.transition().call(zoomBehavior.scaleBy, 1.4));
+document.getElementById("zoom-out").addEventListener("click", () => svg.transition().call(zoomBehavior.scaleBy, 0.7));
+document.getElementById("zoom-fit").addEventListener("click", fitView);
+
+function fitView() {
+  const bounds = container.node().getBBox();
+  const pad = 40;
+  const scaleX = (W() - pad*2) / bounds.width;
+  const scaleY = (H() - pad*2) / bounds.height;
+  const scale  = Math.min(scaleX, scaleY, 2);
+  const tx = W()/2 - scale*(bounds.x + bounds.width/2);
+  const ty = H()/2 - scale*(bounds.y + bounds.height/2);
+  svg.transition().duration(700)
+    .call(zoomBehavior.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+
+window.addEventListener("resize", () => simulation.force("center", d3.forceCenter(W()/2, H()/2)).alpha(0.05).restart());
+</script>
+</body>
+</html>
