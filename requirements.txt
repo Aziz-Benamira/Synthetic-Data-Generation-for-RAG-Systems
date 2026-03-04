@@ -4,15 +4,15 @@ pydantic==2.5.0
 pyyaml==6.0.1
 
 # LLM and AI
-openai==1.0.0
+openai
 anthropic==0.8.0
-langchain==0.1.0
-langchain-community==0.0.10
-langchain-openai==0.0.5
+langchain
+langchain-community
+langchain-openai
 langgraph==0.2.35
 
 # MCP
-mcp==0.9.0
+mcp==0.9.1
 
 # Vector stores and embeddings
 chromadb==0.5.20
@@ -47,4 +47,4 @@ ipykernel==6.25.0
 
 # MLOps (optional)
 mlflow==2.8.0
-langsmith==0.0.60
+langsmith
