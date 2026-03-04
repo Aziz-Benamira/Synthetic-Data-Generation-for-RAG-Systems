@@ -23,9 +23,9 @@ Provider options (choose one — all work with the same code):
        set OPENAI_API_KEY=sk-...
        python run_on_pdf.py --pdf input.pdf --provider openai --model gpt-4o-mini
 
-Outputs (written next to this script):
-    input_context_graph.json   — the built entity graph (cached for re-use)
-    input_sog_qa.jsonl         — generated QA pairs, one JSON object per line
+Outputs (written to the outputs/ folder next to this script):
+    outputs/<stem>_context_graph.json   — the built entity graph (cached for re-use)
+    outputs/<stem>_sog_qa.jsonl         — generated QA pairs, one JSON object per line
 """
 
 import argparse
@@ -109,8 +109,10 @@ def run(
                           # set to None to process the full document
 ):
     stem = Path(pdf_path).stem
-    graph_cache = f"{stem}_context_graph.json"
-    output_path = f"{stem}_sog_qa.jsonl"
+    outputs_dir = Path(__file__).parent / "outputs"
+    outputs_dir.mkdir(exist_ok=True)
+    graph_cache = str(outputs_dir / f"{stem}_context_graph.json")
+    output_path = str(outputs_dir / f"{stem}_sog_qa.jsonl")
 
     provider = provider.lower()
     if provider not in _PROVIDER_DEFAULTS:

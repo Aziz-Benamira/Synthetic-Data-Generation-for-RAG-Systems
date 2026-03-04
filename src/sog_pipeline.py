@@ -214,7 +214,7 @@ def run_sog_pipeline(
 def main():
     parser = argparse.ArgumentParser(description="Synthesize-on-Graph (SoG) pipeline")
     parser.add_argument("--input_dir",  required=True, help="Directory with input documents")
-    parser.add_argument("--output_dir", required=True, help="Output directory for JSONL files")
+    parser.add_argument("--output_dir", default="outputs", help="Output directory for JSONL files (default: outputs/)")
     parser.add_argument("--file_type",  default="txt", choices=["txt", "pdf"],
                         help="Input file type")
     parser.add_argument("--model",      default="gpt-4o-mini")

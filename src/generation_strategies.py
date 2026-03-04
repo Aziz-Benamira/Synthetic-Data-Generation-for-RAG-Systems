@@ -93,12 +93,87 @@ def _format_fragments(nodes: list[PathNode]) -> str:
 
 
 def _safe_parse_json(raw: str) -> dict:
-    raw = re.sub(r"```(?:json)?|```", "", raw).strip()
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        # Fallback: return raw text in a wrapper
-        return {"raw_output": raw}
+    """Parse (best-effort) JSON returned by an LLM.
+
+    The pipeline *asks* the model to return JSON, but in practice models sometimes:
+      - wrap JSON in extra text
+      - omit a closing brace
+      - add trailing commas
+      - return valid JSON but with leading/trailing junk
+
+    This helper tries hard to recover structured fields, because downstream code
+    expects keys like "question" and "cot_answer".
+    """
+
+    cleaned = re.sub(r"```(?:json)?|```", "", raw).strip()
+
+    def _try_load(text: str) -> dict | None:
+        try:
+            obj = json.loads(text)
+            return obj if isinstance(obj, dict) else None
+        except Exception:
+            return None
+
+    # 1) Direct parse
+    parsed = _try_load(cleaned)
+    if parsed is not None:
+        return parsed
+
+    # 2) Extract the largest JSON-looking object substring
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        candidate = cleaned[start : end + 1]
+
+        parsed = _try_load(candidate)
+        if parsed is not None:
+            return parsed
+
+        # 2b) Remove common trailing commas (very common LLM slip)
+        candidate_no_trailing_commas = re.sub(r",\s*([}\]])", r"\1", candidate)
+        parsed = _try_load(candidate_no_trailing_commas)
+        if parsed is not None:
+            return parsed
+
+    # 3) Last-resort: extract specific string fields using the JSON decoder.
+    # This can work even if the overall JSON is malformed (e.g., missing final brace).
+    decoder = json.JSONDecoder()
+
+    def _extract_string_field(text: str, key: str) -> str | None:
+        needle = f'"{key}"'
+        idx = text.find(needle)
+        if idx == -1:
+            return None
+        colon = text.find(":", idx + len(needle))
+        if colon == -1:
+            return None
+        j = colon + 1
+        while j < len(text) and text[j].isspace():
+            j += 1
+        if j >= len(text):
+            return None
+        # decode only if it's a proper JSON string literal
+        if text[j] != '"':
+            return None
+        try:
+            value, _ = decoder.raw_decode(text[j:])
+            return value if isinstance(value, str) else None
+        except Exception:
+            return None
+
+    extracted: dict[str, Any] = {"raw_output": cleaned}
+    for k in (
+        "narrative",
+        "comparative_narrative",
+        "question",
+        "cot_answer",
+        "answer",
+    ):
+        v = _extract_string_field(cleaned, k)
+        if v:
+            extracted[k] = v
+
+    return extracted
 
 
 # ---------------------------------------------------------------------------
@@ -144,12 +219,21 @@ def generate_cot_sample(
         raw = resp.choices[0].message.content or ""
         data = _safe_parse_json(raw)
 
+        # Some models drift from the prompt and use "answer" instead of "cot_answer".
+        cot_answer = (
+            data.get("cot_answer")
+            or data.get("answer")
+            or data.get("raw_output", "")
+        )
+        question = data.get("question", "")
+        narrative = data.get("narrative", "")
+
         return CoTSample(
             path_ids=[n.paragraph.para_id for n in path],
             entities=[n.entity for n in path],
-            narrative=data.get("narrative", ""),
-            question=data.get("question", ""),
-            cot_answer=data.get("cot_answer", data.get("raw_output", "")),
+            narrative=narrative,
+            question=question,
+            cot_answer=cot_answer,
         )
     except QuotaExhaustedError:
         raise  # let generate_from_subset handle it
@@ -201,14 +285,23 @@ def generate_cc_sample(
         raw = resp.choices[0].message.content or ""
         data = _safe_parse_json(raw)
 
+        # Some models drift and emit "cot_answer" instead of "answer".
+        answer = (
+            data.get("answer")
+            or data.get("cot_answer")
+            or data.get("raw_output", "")
+        )
+        question = data.get("question", "")
+        comparative_narrative = data.get("comparative_narrative", "")
+
         return CCSample(
             entity_a=node_a.entity,
             entity_b=node_b.entity,
             para_id_a=node_a.paragraph.para_id,
             para_id_b=node_b.paragraph.para_id,
-            comparative_narrative=data.get("comparative_narrative", ""),
-            question=data.get("question", ""),
-            answer=data.get("answer", data.get("raw_output", "")),
+            comparative_narrative=comparative_narrative,
+            question=question,
+            answer=answer,
         )
     except QuotaExhaustedError:
         raise  # let generate_from_subset handle it

@@ -1,8 +1,18 @@
 """Generates context_graph.html from paper_input_context_graph.json."""
 import json, pathlib
 from collections import Counter
+import argparse
+import os
 
-data = json.loads(pathlib.Path("paper_input_context_graph.json").read_text(encoding="utf-8"))
+parser = argparse.ArgumentParser()
+parser.add_argument('--filename', type=str)
+args = parser.parse_args()
+
+OUTPUTS_DIR = pathlib.Path(__file__).parent / "outputs"
+OUTPUTS_DIR.mkdir(exist_ok=True)
+
+input_name = os.path.splitext(os.path.basename(args.filename))[0].removesuffix("_context_graph")
+data = json.loads((OUTPUTS_DIR / f"{input_name}_context_graph.json").read_text(encoding="utf-8"))
 
 deg = Counter()
 for a, b in data["edges"]:
@@ -309,6 +319,6 @@ window.addEventListener("resize", () => simulation.force("center", d3.forceCente
 </html>
 """
 
-out = pathlib.Path("context_graph.html")
+out = OUTPUTS_DIR / f"{input_name}_context_graph.html"
 out.write_text(HTML, encoding="utf-8")
 print(f"Written: {out.resolve()}  ({out.stat().st_size:,} bytes)")
