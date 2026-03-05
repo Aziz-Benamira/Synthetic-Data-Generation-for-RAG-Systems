@@ -1,0 +1,653 @@
+, etc…).
+Cette complexité peut néanmoinsêtre contrôlée grâceà plusieurs restrictions que l’on peut imposer :
+limitation de la profondeur de l’arbre, minoration du gain en homogénéité, ajout d’une pénalisation
+de complexité dans le coût ou encore en garantissant une bonne estimation des coûts en imposant
+un nombre minimal d’échantillons par nœud.
+
+2.1.9 Résumé concernant les arbres de décision
+Nous avons vu dans cette partie que les arbres de décision constituaient une approche extrêmement
+facile à interpréter d’un point de vue visuel et logique. En effet la représentation graphique d’un
+arbre permet de rester dans un cadre intuitif ou il est facile de se retrouver. De plus, au-del à de la
+phase de construction d’un arbre de prédiction, cette méthode offre un apprentissage et une clas-
+sification rapides et efficaces pour peu que l’on se restreigne à des tests simples. Cette affirmation
+reste vraie en grande dimension, contrairement aux méthodes abordées dans le premier chapitre.
+Toutefois cette approche, comme toutes les autres, a ses défauts. Le plus gênant pour la méthode
+des arbres de décision est sa tendance au sur-apprentissage mais nous avons vu qu’il existe cepen-
+dant des moyens de contrôler la complexité de l’arbre créé. De plus cette tendance provoque une
+certaine sensibilité au bruit et aux points aberrants que pourrait contenir la base de données initiale.
+Enfin il faut retenir que les arbres de décision ne s’utilisent que dans le cadre de probl èmes de
+classification, voire de régression, et qu’ils sont capables de traiter des données aussi bien numériques
+que symboliques.
+
+2.2 Introduction des méthodes ensemblistes
+Commençons tout d’abord par définir ce que l’on entend par ”méthodes ensemblistes”. Il s’agit
+de méthodes agrégeant des ensembles de classifieurs et dont l’objectif est de produire une variété
+de classifieurs enéchantillonant différemment les données, en modifiant les structures des classi-
+fieurs… Cette production va permettre de déterminer une classe finale en utilisant la fusion des
+prédictions données par les différents classifieurs.
+Le principe est donc de tirer parti de plusieurs classifieurs peu performants (que l’on appelle aussi
+faibles) afin de construire une fusion de ces classifieurs qui sera performante (classifieur ”fort”).
+Cette fusion va permettre de réduire la variance d’aprentissage et de moyenner les erreurs des
+classifieurs. En d’autre terme on adopte la philosophie de l’union fait la force !
+Il existe deux grandes approches pour ce type de méthode : le bagging, qui développe plusieurs
+modèles en parall èle, et le boosting, qui est une amélioration séquentielle du mod èle.
+Figure 2.8: Schéma représentant les deux approches des méthodes ensemblistes [15]
+2.3 Bagging
+La technique du bagging consiste en la génération de multiples jeux de donnéesà partir de la base
+initiale puis d’entra ˆıner le programme sur chacun des jeux créés. Ici on ne se focalise pas sur le con-
+tenu de l’algorithme en lui-même mais sur la méthode d’entra ˆınement de celui-ci. Ainsi le bagging
+peut s’appliquer à n’importe quel mod èle d’apprentissage automatique : un arbre de décision, un
+réseau de neurone, une SVM, etc…
+
+On commence donc par construire des jeux de données˜D1,˜D2, ...,˜DKen effectuant un tirage
+avec remise dans la base de données initiale D. Cette méthode nous permet d’obtenir des jeux de
+données˜Dksimilaires mais qui ont chacun leurs spécificités. En effet la probabilité pour qu’un
+exemple de la base ne soit pas sélectionné lors de la création d’un sous-échantillon se traduit par :
+P=
+1−1
+nn
+lim
+N→∞P=1
+e≈0.3679
+Une fois ces Kjeux de données générés, on entra ˆıne le même algorithme sur chaque ˜Dkce qui
+nous permettra d’obtenir Kclassifieurs fkqui seront tous différents à cause de cet apprentissage
+sur des bases différentes malgré un code identique en tout autre point. Une fois cela fait on agr ège
+cesKclassifieurs soit par vote majoritaire soit par moyenne :
+fmaj(x) = arg max
+yKX
+k=1δ(fk(x), y)
+fmoy(x) =1
+KKX
+k=1fk(x)
+La conséquence d’un tel agrégat est que chaque classifieur commet des erreurs différentes à
+cause des sous-échantillon ˜Dkqui sont différents et moins riches en information que D. Ces différences
+entre les erreurs commises par les fkvont assurer une variance d’apprentissage plus faible au clas-
+sifieur agrégé. Ainsi la méthode du bagging permet de régulariser le processus de prédiction.
+Figure 2.9: Schéma de principe du Bagging [16])
+
+2.4 Les forêts aléatoires (ou Random Forests)
+Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’o ù le nom ”forêt”, se bas-
+ant non seulement sur deséchantillons différents, à l’instar du bagging, mais aussi sur des vari-
+ables différentes. Si, par exemple, on se trouve dans un probl ème àpvariables, on commence par
+sélectionner q < p variables aléatoirement puis on effectue les tests sur ces variables pour constru-
+ire des arbres de décision. En pratique on utilise q≈√ppour des probl èmes de classification et
+q≈p
+3en régression.
+La structure de ces arbres comprend les param ètres de contrôle de la complexité que sont la
+profondeur maximale, le nombre d’échantillons par nœud, le crit ère de pureté des nœud (seuil à
+partir duquel on estime qu’il s”agit d’un nœud terminal) etc… À cela s’ajoute une part d’aléatoire
+sur les attributs, les données et les tests.
+Figure 2.10: Schéma de principe d’une forêt aléatoire [17]
+2.4.1 Algorithme de construction d’une forêt aléatoire
+POUR k= 1...K :
+Tirage de ˜Dkde même taille que D(Bagging)
+Tirage avec remise de qattributs Ajparmi les Mpossibles
+Construction de l’arbre Gkavec des seuils aléatoires
+Construction de fkla fonction de décision de Gkdont les feuilles sont remplies avec ˜Dk
+Agrégation :
+fmoy(x) =1
+KKX
+k=1fk(x)(régression)
+fmaj(x) = arg max
+yKX
+k=1δ(fk(x), y)(classification)
+
+2.4.2 Biais et variance
+Pourévoquer les notions de biais et de variance, prenons l’exemple de la régression :
+y=f(x) +ϵ
+Dans un probl ème comme celui-ci on peut identifier deux grandes sources d’aléatoires : le bruit
+ϵauquel sont soumises les données ainsi que l’échantillonnage de ces données d’apprentissage D.
+Pour un prédicteur appris bfD(x)on définit les trois notions suivantes :
+L’erreur est l’écart quadratique moyen entre la prédiction et la valeur idéale (qui on le rappelle
+est connue pour les données d’apprentissage).
+Lebiais est l’erreur de la prédiction moyenne par rapport à la valeur idéale.
+Lavariance est l’écart quadratique moyen entre une prédiction et la prédiction moyenne.
+L’erreur pour un xdonné dans un tel probl ème de régression peut se décomposer en trois termes
+distincts :
+Err(x) =ED[(y−bfD(x))2]
+=ϵ2
+|{z}
+bruit2+ (ED[bfD(x)]−y)2
+| {z }
+biais2+ED[(ED[bfD(x)]−bfD(x))2]| {z }
+variance
+L’origine de l’erreur de généralisation est double, cependant les deux termes sont difficiles à
+contrôler individuellement. Une telle décomposition est plus difficile à obtenir dans le cadre d’un
+probl ème de classification car les sources d’aléatoire peuventêtre plus compliquéesà déterminer,
+les comportements sont néanmoins comparables.
+Figure 2.11: Simulation d’une régression pour 50échantillons et des polynômes de degrés 1, 3 et 10 [18]
+Sur la Figure 2.11 on peut observer que pour un polynôme de degré 1 on a une variance faible
+(les différentes courbes approximées sont proches les unes des autres) mais on a un biais important
+(la prédiction moyenne est loin d’ être une bonne approximation de la fonction recherchée). Pour
+le polynôme de degré 3 on a une variance et un biais qui sont relativement faibles. Enfin pour le
+polynôme de degré 10 on a une variance tr ès importante et un biais assez faible.
+
+L’intérêt des approches ensemblistes est que l’on introduit une source d’aléatoire supplémentaire:
+choix des sous-échantillons, du sous-ensemble de variables, etc…
+LesKarbres nous fournissent les prédictions bf1(x), ...,bfK(x)qui sont des variables aléatoires iden-
+tiquement distribuées de variance σ2et de corrélation ρ=Corr (bfi(x),bfj(x)),∀i̸=j. Il en découle
+que la variance du prédicteur ensembliste bf(x) =1
+KKX
+k=1bfk(x)est :
+var
+bf(x)
+=1
+K2KX
+i=1KX
+j=1Cov(bfi(x),bfj(x))
+var
+bf(x)
+=1
+K2 KX
+i=1var(bfi(x)) +X
+i̸=jCov(bfi(x),bfj(x))!
+var
+bf(x)
+=1
+K2(Kσ2+K(K−1)ρσ2)
+var
+bf(x)
+=ρσ2+1−ρ
+Kσ2
+On déduit de cette formule que l’on a intérêtà construire des prédicteurs individuels indépendants,
+c’est- à-dire avoir ρ≈0, et avoir un grand nombre Kde ces prédicteurs pour minimiser le rapport.
+2.4.3 Résumé concernant les Random Forests
+Les forêts aléatoires constituent l’une des approches les plus preformantes et les plus simples à
+mettre en place en pratique. En effet cette méthode permet d’obtenir des arbres plus décorrélés
+que par un simple bagging ce qui lui octroie une robustesse accrue et, comme elle utilise des ar-
+bres de décision, reste pertinente même en grande dimension. Le seul bémol restant est le temps
+d’entra ˆınement à cause de la construction de multiples arbres, mais cet obstacle peutêtre contourné
+assez aisément grâceà la facilité avec laquelle il est possible de paralléliser le code.
+Les Random Forests peuventêtre utilisées dans la résolution de probl èmes de classification et de
+régression à l’instar des arbres de décision, puisque ces forêts ne sont en réalité qu’un ensemble
+d’arbres. Elles peuvent traiter des données aussi bien numériques que symboliques. On choisit en
+général d’utiliser les Randoms Forests avec une faible profondeur d’arbre (généralement entre 2 et
+5), les autres hyper-param ètres sont à estimer par validation croisée mais elles ont l’avantage de ne
+pas dépendre crucialement de ces param ètres.
+
+2.5 Boosting
+2.5.1 Principe de la méthode du boosting
+Pour pouvoir utiliser le boosting il faut disposer d’un ensemble de donnéésD={(xi, yi)}n
+i=1pour
+lequel on a ∀i∈[|1, n|], yi∈ {− 1,1}. On suppose que l’on dispose d’un ensemble (ou famille) Hde
+classifieurs fkà valeur dans {−1,1}. Ces classifieurs ne sont pas forcément performants et seront
+appelésweak learners .
+L’objectif du boosting est de construire un classifieur performant à partir de ces weak learners en
+utilisant une moyenne pondérée de ces classifieurs :
+f(x) =KX
+k=1αkfk(x)
+Pour construire ce classifieur appeléstrong learner , il va falloir déterminer quels poids associer
+à chacun des weak learners . Pour cela on va utiliser l’algorithme Adaboost (ou Adaptative boosting
+algorithm).
+2.5.2 L’algorithme Adaboost
+L’Adaptative boosting algorithm vise à la minimisation de l’erreur globale de fde mani ère itérative.
+Pour cela l’algorithme va, à chaque itération k, modifier fk(le classifieur obtenu apr ès la k-ième
+itération) de mani èreàdonner plus de poids aux données difficiles , c’est- à-dire aux données qui ont
+été mal classées précédemment, ce qui va permettre de corriger les erreurs commises par fk−1:
+L’algorithme Adaboost dans le cas y∈ {− 1,1}:
+Initialiser les poids liés aux données :
+d0←(1
+K,1
+K, ...,1
+K)
+POUR k= 1, ..., K :
+Entra ˆınerfksur les donnéesDpondérées par dk−1 
+fk= arg min
+fX
+idk−1
+i(1−δ(yi, f(xi)))!
+Prédirebyi=fk(xi)∀i
+Calculer l’erreur pondéréeϵk=X
+idk−1
+i(1−δ(yi,byi))
+Calculer les param ètres adaptatifs αk=1
+2log
+1−ϵk
+ϵk
+Re-pondérer les donnéesdkavec∀i, dk
+i=dk−1
+iexp 
+−αkyibyi
+Classifieur pondéré final : f(x) =sgn KX
+k=1αkfk(x)!
+
+Figure 2.12: Apprentissage séquentiel des classifieurs et des pondérations par l’algorithme Adaboost [19]
+Figure 2.13: Classifieur final obtenu apr ès l’apprentissage présenté en Figure 2.12 [19]
+2.5.3 Gradient Boosting
+Dans cette section nous allons aborder une variante de boosting : le Gradient Boosting. On suppose
+toujours que l’on dispose d’un ensemble de donnéesD={(xi, yi)}n
+i=1oùyi∈ {− 1,1}ainsi que
+d’un ensemble Hde classifieurs fkqui ne sont pas nécessairement performants. Cette fois-ci le
+principe est de construire pas- à-pas un classifieur performant en ajoutant un à un les weak learners
+pondérés. Ainsi l’objectif est de construire itérativement un strong learner :
+
+fT(x) =TX
+t=1αtft(x) =fT−1(x) +αTfT(x)
+Pour construire ce classifieur on va, à chaqueétape, chercher à minimiser le risque empirique :
+bRn(fT) =1
+nnX
+i=1L(yi, fT(xi))
+Si on revient sur l’algorithme Adaboost, il s’agit en réalité d’un programme utilisant le gradient
+boosting avec une fonction de coûtL(y, f(x)) = exp( −y.f(x)). En effet Adaboost peutêtre vu
+comme une construction itérative d’un classifieur optimal par minimisation du risque empirique à
+chaque itération. Il existe de nombreuses autres versions utilisant différentes pénalités :
+•LogitBoost : L(y, f(x)) = log2(1 + exp( −2y.f(x)))
+•L2Boost : L(y, f(x)) =(y−f(x))2
+2
+•Doomll : L(y, f(x)) = 1 −tanh( y.f(x))
+•Savage : L(y, f(x)) =1
+(1+exp(2 y.f(x)))2
+On peut se demander pourquoi cette méthode est appeléeGradient Boosting, cela vient du fait
+que l’on cherche à minimiser le risque empirique à chaqueétape et que l’on pourrait donc percevoir
+αTfT(x)comme le weak learner qui approxime le mieux le pas d’une descente de gradient dans
+l’espace des fonctions de classification. Une version exacte de la descente de gradient donne les
+Gradient Boosting Models :
+fT(x) =fT−1(x) +αTnX
+i=1∇fT−1L(yi, fT−1(xi))
+2.5.4 Résumé concernant le Boosting
+Il faut retenir que le boosting consiste en une agrégation adaptative de classifieurs moyens. Cette
+méthode tr ès efficace permet d’améliorer n’importe quel ensemble de classifieurs et est assez facile à
+mettre en place, cependant le gradient boosting est un peu plus complexe. Le boosting est toutefois
+assez sensible aux données aberrantes et atteint facilement unétat de sur-apprentissage.
+C’est pourquoi les weak learners ne doivent pasêtre trop performants sous peine d’overfitting. Au-
+delà de ces probl èmes il faut choisir une pénalité qui sera adaptée au bruit des données. Les variantes
+du boosting peuventêtre utilisées pour résoudre des probl èmes de classification ou de régression.
+
+Régularisation / SVM
+3.1 Régularisation
+Lorsque les variables du probl ème sont fortement corrélées, ou que leur nombre dépasse celui des
+observations, la matrice Φ∈ M n,M(définie en section 1.5.1 ) représentant nos données ne peut
+pasêtre de rang M, c’est- à-dire que la famille des colonnes de cette matrice n’est pas libre. Cela
+entra ˆıne que la matrice ΦTΦn’est pas inversible et qu’il existe plusieurs solutions à un probl ème
+de régression linéaire par minimisation des moindres carrés. L’absence d’unicité de la solution
+présente un fort risque de sur-apprentissage : comment pourrait-on garantir que le mod èle que l’on
+a sélectionné est celui qui généralise le mieux ?
+Afin de limiter ce risque d’overfitting, nous allons ajouter un contrôle des valeurs des coefficients
+de régression affectés aux variables. En effet si on reprend l’exemple de la section 1.5.1 :
+Figure 3.1: Coefficient des polynômes (tiré de Pattern Recognition and Machine Learning par Christopher M.
+Bishop
+51Chapter 3 Régularisation / SVM 3.1 Régularisation
+On voit que, dans le cas du sur-apprentissage, les coefficients du polynôme sont grands. On
+peut donc penser que contrôler les valeurs de ces coefficients pourrait améliorer la qualité de la
+prédiction.
+3.1.1 Définition de la régularisation
+On appelle régularisation le fait d’apprendre un mod èle en minimisant la somme du risque em-
+pirique sur les données d’entra ˆınement et d’un terme de contrainte Ωsur les solutions possibles
+:
+f= arg min
+f′1
+nnX
+i=1L(f′(xi,ω), yi) +λΩ(f′)
+où le coefficient de régularisation λ∈R+contrôle l’importance relative de chacun des ter-
+mes.[13]
+3.1.2 Modélisation mathématique de la régularisation
+Pour revenir à notre exemple, en considérant que l’on utilise toujours la fonction de coût des moin-
+dres carrés, on peut utiliser la régression dite ridge en utilisant le terme de contrainte suivant:
+Ω(ω) =∥ω∥2
+2=MX
+j=0ω2
+j
+Ainsi la régression ridge est le mod èlef:x7→ωTxavec :
+ω= arg min
+ω′∈Rp+1∥y−Φω′∥2
+2+λ∥ω′∥2
+2
+On peut noter que cette régularisation estégalement utilisée dans le domaine des réseaux de neu-
+rones, o ù elle est appeléeweight decay . Attelons-nous maintenant à la résolution de ce probl ème. Il
+s’agit d’un probl ème d’optimisation convexe puisqu’il s’agit de la minimisation d’une forme quadra-
+tique. Ainsi pour obtenir la solution il suffit d’annuler le gradient en ωde la fonction :
+∇ω 
+∥y−Φω∥2
+2+λ∥ω∥2
+2
+= 0
+Si l’on note IM∈ M M(R)la matrice identité en dimension M, la solution s’écrit alors :
+ω= 
+λIM+ΦTΦ−1ΦTy
+La matrice λIM+ΦTΦest bien inversible car λ > 0. On en déduit qu’il existe toujours une
+unique solution explicite au probl ème : la régularisation a transformé un probl ème potentielle-
+ment mal posé en probl ème bien posé. Ainsi si on pénalise les grandes valeurs des coefficients du
+polynôme, on obtient une fonction aux variations moins prononcées qui est susceptible de mieux
+répondre au probl ème posé.
+
+3.1.3 Résultats de la régularisation
+Voyons quels résultats peuventêtre obtenus en modifiant la valeur du param ètreλ:
+Figure 3.2: Coefficient des polynômes en fonction de la valeur de lnλ(tiré dePattern Recognition and Machine
+Learning par Christopher M. Bishop)
+Ce qui est présenté sur la Figure 3.2, à savoir la variation des valeurs des coefficients de régression
+en fonction de la valeur du coefficient de régularisation λ, constitue ce que l’on appelle le chemin
+de régularisation . Ce chemin permet de comprendre l’effet de la régularisation sur les valeurs des
+coefficients du polynôme représenté parω:
+Figure 3.3: Chemin de régularisation de la régression ridge pour des donnéesà 12 variables, chaque ligne
+représente l’évolution d’un coefficient [13]
+
+À partir des valeurs de la Figure 3.2 on peut tracer la courbe de l’erreur quadratique en fonction
+delnλpour un polynôme de degré 9 :
+Figure 3.4: Erreur quadratique en fonction de la valeur de lnλ(tiré dePattern Recognition and Machine Learn-
+ingpar Christopher M. Bishop)
+Si on compare ces valeurs à celles obtenues en Figure 1.10 en section 1.5.2 on voit que l’erreur
+sur les données de test est bien inférieure ( ≈0.30 avec la régularisation contre presque 1 sans).
+3.2 Validation croisée
+3.2.1 Qu’est-ce que la validation croisée ?
+La validation croisée est une méthode visant à améliorer la phase de validation d’un mod èle. En
+effet la séparation de la base de donnéesDen un ensemble d’entra ˆınement et un ensemble de test
+contient nécessairement une part d’aléatoire. Il n’est pas impossible de créer des jeux de données
+qui ne sont pas représentatifs du probl ème, notamment lorsque la base Dest de faible taille. La
+validation croisée permet d’estimer l’erreur de généralisation à partir des données d’apprentissage
+grâceà une petite astuce.
+La procédure à suivre dans le cadre de la validation croisée est la suivante :
+Partitionner la base DenKéchantillons de tailles sensiblementégales D1,D2, ...,DK
+Pour chaque valeur de k= 1, ..., K :
+Entra ˆıner un mod èlefksurS
+l̸=kDl
+Évaluer ce mod èle sur Dken mesurant l’erreur empirique bRk
+n(fk)
+
+Chaque partition de DenDketS
+l̸=kDlest appelée un fold de la validation croisée. Il serait
+possible d’objecter que l’on ne résout pas le probl ème de la création arbitraire de sous-ensembles
+de la base de donnéesD. Toutefois ces multiples découpes vont permettre de moyenner les effets
+aléatoires de la partition. Une fois que l’on a parcouru tous les folds, on peut calculer l’erreur estimée
+finale en moyennant les erreurs mesurées :
+bRn(f) =1
+nnX
+k=1bRk
+n(f)
+Figure 3.5: Exemple de validation croisée en 5 folds, les jeux de validation sont en blanc et ceux d’entra ˆınement
+sont en noir [13]
+3.2.2 Les intérêts de la validation croisée
+La validation croisée poss ède de multiples utilités, la premi ère d’entre ellesétant de permettre
+l’estimation de la ”vraie” erreur de prédiction. De plus elle permet d’estimer la variance d’apprentissage,
+cependant le biais reste lui inconnu. Enfin elle peut permettre le réglage des ”hyper-param ètres”,
+comme le coefficient de régularisation par exemple.
+Néanmoins il y a d’autres sources d’aléatoire qui ne rel èvent pas de la validation croisée comme
+par exemple les choix des attributs servant à construire des arbres dans les random forests, la
+découpe de la base de données dans un mod èle utilisant le bagging ou encore l’initialisation et
+l’optimisation des réseaux de neurones.
+
+3.2.3 La validation croisée stratifiée
+Une validation croisée est dite stratifiéesi la moyenne desétiquettes est sensiblement identique
+dans chacun des Dk:
+1
+|D1|X
+i∈D1yi≈1
+|D2|X
+i∈D2yi≈...≈1
+|DK|X
+i∈DKyi≈1
+|D|X
+i∈Dyi
+L’objectif de cette procédure est d’éviter d’avoir la malchance d’avoir unéchantillon Dkne
+contenant que des exemples de la même classe dans son jeu d’entra ˆınement, ce qui le pousserait
+inévitablement à prédire cette classe dans toutes les situations, ce qui serait tr ès mauvais.
+3.2.4 La validation croiséeleave-one-out
+Une autre stratégie possible pour la création des Dkest tout simplement de prendre K=n, c’est-
+à-dire que chaqueéchantillon Dkne contient qu’une seule observation (xk, yk). Ainsi chaque fold
+est composé den−1données d’entra ˆınement et d’un jeu de test de taille 1, c’est ce que l’on appelle
+la validation croiséeleave-one-out : on met de côté un unique exemple pour chaque fold.
+Cette méthode présente tout de même deux inconvénients majeurs. En premier lieu elle nécessite
+un grand temps de calcul puisqu’il est nécessaire d’entra ˆınernmodèles au lieu d’en entra ˆıner entre
+5 et 10 en temps normal. À cela s’ajoute le fait que leséchantillons créés sont tr ès similaires entre
+eux et que les mod èles qui en découleront le seront tout autant.
+3.3 Les ”Support Vector Machines” (ou SVM)
+Il existe deux grands types d’approches en Machine Learning : les approches génératives et les
+approches discriminatives. Les premi ères ont pour objectif principal de modéliser les distributions
+de données pour ensuite pouvoir les exploiter, c’est ce type d’approche que nous avonsétudiés
+dans le chapitre 1. Dans cette section nous allons nous intéresser à la seconde catégorie qui vise à
+la construction des meilleures fronti ères possibles entre les données.
+Figure 3.6: Présentation des approches génératives et discriminatives
+
+3.3.1 Position du probl ème
+Dans cette section on se placera dans le cadre d’un probl ème de classification binaire, avec
+∀i∈[|1, n|], yi∈ {− 1,1}, sur des données dans Rp. De plus ici on fera l’hypoth èse que les données
+sont linéairement séparables , c’est- à-dire qu’il existe un hyperplan de Rptel que tous les points xi
+positifs ( yi= 1) soient d’un côté de cet hyperplan et tous les points négatifs de l’autre. Un tel hy-
+perplan est dit séparateur .
+L’équation d’un hyperplan séparateur est toujours de la forme :
+b+ωT.x= 0
+Le classifieur est défini par l’expression :
+f(x,ω) =sgn(b+ωT.x)
+Ainsi pour un probl ème à deux classes:
+(
+y= +1 sib+ωT.x>0
+y=−1sib+ωT.x<0
+Attribuer la classe de yrevient à savoir o ù se situe la donnéexpar rapport à l’hyperplan H. Ce
+qui nous donne l’erreur :
+bRn(f) =1
+nnX
+i=1δ(yif(x,ω),−1)
+3.3.2 Choix de l’hyperplan
+On a fait l’hypoth èse que les donnéesétaient linéairement séparables, cependant cette hypoth èse
+n’implique pas l’existence d’un, mais d’une infinité d’hyperplans séparateurs comme représenté en
+Figure 3.7. Cette situation am ène donc un probl ème : quel hyperplan devrait-on choisir ?
+Figure 3.7: Exemple de données linéairement séparables dans R2[20]
+
+Pour pouvoir répondre à cette question, commençons par introduire la notion de marge. La
+marge γd’un hyperplan séparateur est la distance de cet hyperplan à l’observation du jeu d’entra ˆınement
+la plus proche.
+On va donc chercher à déterminer l’hyperplan séparateur Hpour lequel la marge est maximale,
+c’est ce que l’on appelle le classifieur àmarge large . Il y a alors au moins une observation positive
+et une observation négative situéesà une distance γde l’hyperplan séparateur, dans le cas contraire
+on pourrait rapprocher Hdes observation situéesà une distance supérieure pour augmenter γ.
+Supposons que nous disposons de l’hyperplan séparateur H, on peut alors définir les deux hy-
+perplans H+etH−qui sont parall èles et situésà une distance γdeH.H+(respectivement H−)
+contient alors au moins une observation positive (respectivement négative). On appelle vecteurs
+de support les observations situéesà une distance γdeH, elles appartiennent soit àH+soitàH−
+et on dit qu’elles ”soutiennent” ces deux hyperplans.
+C’est de l à que vient le nom de la méthode Support Vector Machines , en français machine à vecteurs
+de support ou encore séparatrice à vaste marge pour conserver l’acronyme SVM.
+La zone située entre H+etH−est appeléezone d’indécision , elle ne contient aucune observa-
+tion.
+3.3.3 Formulation de la SVM à marge rigide
+Nous allons maintenant chercher à déterminer l’équation de l’hyperplan séparateur H. Nous savons
+que cetteéquation sera de la forme b+ωT.x= 0. Ainsi nous savons que les hyperplans H+etH−
+sont définis par deséquations de la forme b+ωT.x=±CavecCune constante. On peut fixer
+C= 1sans perdre en généralité car le fait de multiplier ωetbne modifie pas l’équation de H.
+Figure 3.8: Représentation graphique de la recherche de H[21]
+
+On a donc ∀itel que yi= 1:b+ωT.xi≥1et∀itel que yi=−1:b+ωT.xi≤ −1avecégalité
+pour les vecteurs de support.
+Déterminons maintenant quelle est la formule permettant d’obtenir la distance entre l’hyperplan
+séparateur et un point. Pour ce faire nous allons nous placer dans le cas x= x1
+x2
+∈R2etω∈R2.
+Figure 3.9
+Comme illustré sur la Figure 3.9, on dispose d’un point Pde coordonnéesxP= x1P
+x2P
+que
+l’on supposera dans l’hyperplan séparateur et d’un point Qde coordonnéesxQ= x1Q
+x2Q
+que l’on
+supposera dans la marge. On note dla distance entre QetH.
+On a que :
+cos− →PQ,− →n
+= cos θ=d
+∥− →PQ∥
+D’où :
+d=∥− →PQ∥cosθ
+De plus on a :
+<− →PQ,− →n >=∥− →PQ∥∥− →n∥cosθ
+On sait que d >0, il découle alors de la relation précédente que :
+d=|<− →PQ,− →n >|
+∥− →n∥
+À cela s’ajoute que, par définition,− →n=ω, ce qui conduit à :
+d=|ωT.xQ−ωT.xP|
+∥ω∥
+
+OrP∈Hdonc on a b+ωTxP= 0et donc ωTxP=−bce qui donne :
+d=|b+ωT.xQ|
+∥ω∥
+Ainsi la distance entre un point et Hs’obtient avec :
+di=|b+ωT.xi|
+∥ω∥
+Ainsi en prenant des vecteurs de support on obtient que la marge normalisée, ou marge géométrique
+(distance en bleu sur la Figure 3.8) vaut 1/∥ω∥. Dans ce probl ème on cherche à maximiser la marge,
+ce qui revient au probl ème d’optimisation suivant :
+
+
+Trouver arg min
+ω∈Rp,b∈R∥ω∥2
+Sous contraintes yi(b+ωT.xi)≥1∀i
+Il s’agit d’un probl ème quadratique classique, mais qui est soumis à beaucoup de contraintes
+puisqu’il y en a autant que d’exemples d’apprentissage.
+3.3.4 Formulation de la SVM à marge souple
+En règle générale les données ne sont pas linéairement séparables, ainsi certains points seront mal
+classifiés quel que soit l’hyperplan choisi. D’autres seront classifiés correctement mais se situeront
+dans la zone d’indécision.
+Figure 3.10: Exemple de données non linéairement séparables [21]
+
+Dans le but de pouvoir faire face à ce genre de situation, on cherche maintenant à obtenir une
+séparation robuste à quelques données non séparées. Pour pouvoir définir une telle séparation on
+va introduire la notion de variables de relâchement (ouSlack variables en anglais), que l’on
+noteξi,∀i∈[|1, n|]. Ces variables vont nous permettre de relâcher la contrainte de séparabilité
+pour chaque exemple :
+
+
+Trouver arg min
+ω∈Rp,b∈R∥ω∥2+CnX
+i=1ξi
+Sous contraintes yi(b+ωT.xi)≥1−ξi∀i
+ξi≥0
+L’idée est que les ξimodélisent l’erreur de classification pour quelques données. En effet dans
+les cas o ù il n’y a pas d’erreur on a yi(b+ωT.xi)≥1et donc ξi= 0. Par contre en cas d’erreur on
+ayi(b+ωT.xi)<1et donc ξi= 1−yi(b+ωT.xi)≥0. On impose donc comme contrainte :
+∀i, ξ i= max(0 ,1−yi(b+ωT.xi)
+L’hyperparam ètre de coûtCest une constante qui permet de trouver un compromis entre la
+marge et le relâchement de la contrainte. La marge se voit alors conférée une certaine souplesse,
+d’où le nom se SVM à marge souple . En r ègle générale les slack variables prennent la forme d’une
+fonction de coûtL(b+ωT.xi, yi).
+Le probl ème se résume alors à :
+arg min
+ω∈Rp,b∈R∥ω∥2+CnX
+i=1max(0 ,1−yi(b+ωT.xi))
+Sous cette forme le probl ème d’optimisation est contraint et l’on peut utiliser d’autres méthodes
+de résolution, comme une descente de gradient par exemple.
+On peut interpréter le SVM comme un cas particulier du formalisme combinant l’erreur em-
+pirique combinéeà la régularisation en définissant la fonction de pénalisation :
+Loss (ω,D) =1
+nnX
+i=1L(f(xi,ω), yi) +r(ω)
+Avec :
+r(ω) =1
+C∥ω∥2
+L(f(xi,ω), yi) = max(0 ,1−yi(b+ωT.xi))
+On peutégalement envisager l’utilisation d’autres fonctions de coût
+(on pose y′=f(xi,ω) =b+ωT.xi):
+0/1 loss : L(y′, y) =(
+1siyy′≤0
+0sinon
+Squared loss : L(y′, y) = (y−y′)2
+Hinge : L(y′, y) = max(0 ,1−yy′)
+Exponential : L(y′, y) = exp( −yy′)
+
+Ces différentes fonctions de coût ont les variations suivantes en fonction de yy′(en fonction de
+y−y′pour Squared loss) :
+Figure 3.11: Courbe de variation des différentes fonctions de coût [22]
+3.3.5 Forme duale du SVM à marge souple
+Montrons maintenant que notre probl ème d’optimisation:
+arg min
+ω∈Rp,b∈R,ξ∈Rn∥ω∥2
+2+CnX
+i=1ξi
+tel que yi(b+ωT.xi)≥1−ξi∀i
+ξi≥0∀i(3.1)
+Estéquivalent au probl ème :
+arg max
+α∈RnnX
+i=1αi−1
+2nX
+i=1nX
+j=1αiαjyiyjxT
+i.xj
+tel quenX
+i=1αiyi= 0; 0 ≤αi≤C∀i(3.2)
+Pour ce faire on introduit 2nmultiplicateurs de Lagrange {αi, βi}i=1,...,net onécrit le lagrangien:
+L:Rp×R×Rn×Rn
++×Rn
++→R
+ω, b,ξ,α,β7→∥ω∥2
+2+CnX
+i=1ξi−nX
+i=1αi(yi(b+ωT.xi)−1 +ξi)−nX
+i=1βiξi
+(3.3)
+
+Lafonction duale de Lagrange est donc la fonction :
+q:Rn
++×Rn
++→R
+α,β7→ inf
+ω∈Rp,b∈R,ξ∈RnL(ω, b,ξ,α,β)
+Ainsi le probl ème dualéquivalent à l’équation 3.1 est :
+max
+α∈Rn
++,β∈Rn
++inf
+ω∈Rp,b∈R,ξ∈Rn∥ω∥2
+2+CnX
+i=1ξi−nX
+i=1αi(yi(b+ωT.xi)−1 +ξi)−nX
+i=1βiξi (3.4)
+Le lagrangien est convexe en ω, il est donc minimal quand son gradient en ωest nul, c’est- à-dire
+si
+ω=nX
+i=1αiyixi (3.5)
+De plus le lagrangien est affine en b, son infinimum est donc −∞ sauf si son gradient en best
+nul, c’est- à-dire si
+nX
+i=1αiyi= 0 (3.6)
+Il estégalement affine en ξ, de même son infinimum est donc −∞ sauf si son gradient en ξest
+nul, c’est- à-dire si
+∀i, βi=C−αi (3.7)
+La fonction duale qest donc maximisée quand les relations 3.6 et 3.7 sont vérifiées. En remplaçant
+ωgrâceà la relation 3.5 dans l’expression de la fonction duale, on peut réécrire 3.4 ainsi :
+max
+α∈Rn−1
+2nX
+i=1nX
+j=1αiαjyiyjxT
+i.xj+nX
+i=1αi+CnX
+i=1ξi−nX
+i=1(C−αi)ξi−nX
+i=1αiξi
+tel quenX
+i=1αiyi= 0,0≤αi≤C∀i
+On retrouve ainsi le probl ème 3.2.[13]
+
+Afin de pouvoir interpréter ce résultat, introduisons maintenant les conditions de Karush-Kuhn-
+Tucker. Soit (P)un probl ème de la forme :
+(P) :
+
+min
+u∈Uf(u)sous les contraintes
+gi(u)≤0∀i∈[|1, m|]
+hj(u) = 0 ∀j∈[|1, r|]
+Avec f, gi, hjà valeurs réelles de classe C1. On note (Q)son probl ème dual.
+Soit un triplet (u,α,β)deRn×Rm×Rrqui vérifie les conditions suivantes ( αiest la i-ème
+composante de α, idem pour βi):
+•Admissibilité primale : ∀i, g i(u)≤0et∀j, h j(u) = 0
+•Admissibilité duale : ∀i, α i≥0
+•Complémentarité des contraintes : ∀i, α igi(u) = 0
+•Stationnarité :∇f(u) +Pm
+i=1αi∇gi(u) +Pr
+j=1βi∇hj(u) = 0
+Alors uest un point de minimisation du primal (P)et(α,β)est un point de maximisation du
+dual(Q).
+On peut utiliser les conditions de Karush-Kuhn-Tucker sur le probl ème 3.1, dont le probl ème
+dual est le probl ème 3.2, qui nous donnent comme conditions d’écart complémentaires :
+∀i, α i(yi(ωT.xi+b)−1) = 0
+∀i,(C−αi) max(0 ,(1−yi(ωT.xi+b))) = 0
+Ainsi on a trois cas de figure :
+•αi= 0: dans ce cas la contrainte est satisfaite et l’observation xiestà l’extérieur de la zone
+d’indécision.
+•0< α i< C : dans ce cas xiest un vecteur de support.
+•βi= 0: dans ce cas αi=Cetmax(0 ,(1−yi(ωT.xi+b)))>0ce qui signifie que xiest du
+mauvais côté de la zone d’indécision.
+
+Avec cette inteerprétation on peut définir les vecteurs de support commeétant les observations
+telles que αi>0:
+Figure 3.12: Interprétation des αidans la construction de l’hyperplan
+3.3.6 Données non linéairement séparables
+Nous avons vu comment séparer des données qui ne sont pas linéairement séparables à cause de
+quelques observations. Toutefois ce n’est pas la seule raison qui peut rendre des données non

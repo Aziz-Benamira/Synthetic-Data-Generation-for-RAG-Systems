@@ -1,0 +1,15 @@
+# Logs SLURM
+RAGEval-main/rageval/qar_generation/logs/
+
+# Cache Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# Fichiers intermédiaires regénérables (autres domaines uniquement)
+RAGEval-main/rageval/qar_generation/data/finance/
+RAGEval-main/rageval/qar_generation/data/law/
+RAGEval-main/rageval/qar_generation/data/medical/
+
+# Résultats d'autres domaines (pas notre scope)
+RAGEval-main/rageval/qar_generation/results/

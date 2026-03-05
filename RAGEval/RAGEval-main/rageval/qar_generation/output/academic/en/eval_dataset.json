@@ -1,0 +1,909 @@
+[
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the general definition of machine learning?",
+    "answer": "Machine learning is a domain that combines notions from statistics, artificial intelligence, computer science, and signal processing.",
+    "ref": [
+      "L'apprentissage automatique (la dénomination Machine Learning sera aussi utilisée pour éviter la redondance) comme une démarche de conception d’une fonction de prédiction à partir d’une base de données préexistante ou qu’il faudra constituer."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the objective of supervised learning?",
+    "answer": "The objective of supervised learning is to determine a function f: X → Y such that for all (xi, yi) ∈ X × Y, f(xi) = yi.",
+    "ref": [
+      "L’objectif principal de l’apprentissage automatique supervisé est de déterminer une fonction f:X → Y telle que ∀(xi, yi)∈ X × Y ayant la même relation que les paires observées, arg maxy{f(xi)}=yi."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the dataset in supervised learning?",
+    "answer": "The dataset is denoted by D = {(xi, yi)}i=1,...,n.",
+    "ref": [
+      "On notera D={(xi, yi)}i=1,...,nl’échantillon ,l’ensemble d’apprentissage , ou encore jeu d’apprentissage ."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the matrix of data in supervised learning?",
+    "answer": "The matrix of data is denoted by X ∈ Rn×p.",
+    "ref": [
+      "Dans ce cas on appellera matrice de donnéesoumatrice de design la matrice X∈Rn×ptelle que Xij=xij, c’est- à-dire la j-ème composante de la i-ème observation."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the space of observations in supervised learning?",
+    "answer": "The space of observations is denoted by X.",
+    "ref": [
+      "On peut formaliser un problème d’apprentissage supervisé de la façon suivante :étant donnéesn observations {x1,x2, ...,xn}, avec ∀i,xi∈ X oùXest l’espace des observations,"
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the space of labels in supervised learning?",
+    "answer": "The space of labels is denoted by Y.",
+    "ref": [
+      "On peut formaliser un problème d’apprentissage supervisé de la façon suivante :étant donnéesn observations {x1,x2, ...,xn}, avec ∀i,xi∈ X oùXest l’espace des observations, et les prédictions ouétiquettes associéesà ces observations {y1, y2, ..., y n}, avec ∀i, yi∈ Y où Yest l’espace desétiquettes,"
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the function that maps observations to labels in supervised learning?",
+    "answer": "The function is denoted by f: X → Y.",
+    "ref": [
+      "L’objectif principal de l’apprentissage automatique supervisé est de déterminer une fonction f:X → Y telle que ∀(xi, yi)∈ X × Y ayant la même relation que les paires observées, arg maxy{f(xi)}=yi."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the sample in supervised learning?",
+    "answer": "The sample is denoted by D = {(xi, yi)}i=1,...,n.",
+    "ref": [
+      "On notera D={(xi, yi)}i=1,...,nl’échantillon ,l’ensemble d’apprentissage , ou encore jeu d’apprentissage ."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the matrix of design in supervised learning?",
+    "answer": "The matrix of design is denoted by X ∈ Rn×p.",
+    "ref": [
+      "Dans ce cas on appellera matrice de donnéesoumatrice de design la matrice X∈Rn×ptelle que Xij=xij, c’est- à-dire la j-ème composante de la i-ème observation."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the notation for the j-th component of the i-th observation in supervised learning?",
+    "answer": "The notation is xij.",
+    "ref": [
+      "Dans ce cas on appellera matrice de donnéesoumatrice de design la matrice X∈Rn×ptelle que Xij=xij, c’est- à-dire la j-ème composante de la i-ème observation."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, among k-NN, SVM, and Decision Trees, which algorithm becomes most computationally expensive as the number of features d grows very large?",
+    "answer": "k-NN devient le plus coûteux en termes de calculs car son coût de prédiction est O(n*d), ce qui signifie qu'il évolue linéairement avec à la fois le nombre d'échantillons d'entraînement n et le nombre de caractéristiques d, ce qui le rend particulièrement coûteux dans des espaces de grande dimension.",
+    "ref": [
+      "Le temps de prédiction du k-NN est O(n*d), où n est le nombre d'échantillons d'entraînement et d est le nombre de caractéristiques."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, if a neural network shows high training accuracy but poor validation accuracy, what does this indicate and which regularization technique is recommended?",
+    "answer": "Cela indique un overfitting (haute variance). La technique recommandée est la régularisation L2 (décroissance des poids), qui pénalise les grands poids et encourage des modèles plus simples qui généralisent mieux.",
+    "ref": [
+      "Une haute précision d'entraînement avec une faible précision de validation est un signe d'overfitting.",
+      "L'overfitting peut être réduit en ajoutant une régularisation L2, qui pénalise les grandes valeurs de poids.",
+      "La régularisation L2 encourage des modèles plus simples qui généralisent mieux aux données non vues."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which type of learning is most suitable for handling uncertainty in real-world data?",
+    "answer": "L'inférence bayésienne est la plus adaptée pour gérer l'incertitude dans les données réelles car elle repose sur la probabilité et est conçue pour traiter l'incertitude.",
+    "ref": [
+      "L'inférence bayésienne est la plus adaptée pour gérer l'incertitude dans les données réelles car elle repose sur la probabilité et est conçue pour traiter l'incertitude."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which method is most effective for feature extraction to improve model performance?",
+    "answer": "L'Analyse en Composantes Principales (ACP) est la plus efficace pour l'extraction de caractéristiques afin d'améliorer les performances du modèle car elle réduit la dimensionnalité et capte la plus grande variance des données.",
+    "ref": [
+      "L'Analyse en Composantes Principales (ACP) est la plus efficace pour l'extraction de caractéristiques afin d'améliorer les performances du modèle car elle réduit la dimensionnalité et capte la plus grande variance des données."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which type of regression is most suitable for modeling non-linear relationships?",
+    "answer": "La régression polynomiale est la plus adaptée pour modéliser les relations non linéaires car elle étend la régression linéaire pour inclure des termes polynomiaux, permettant ainsi de capturer des relations plus complexes.",
+    "ref": [
+      "La régression polynomiale est la plus adaptée pour modéliser les relations non linéaires car elle étend la régression linéaire pour inclure des termes polynomiaux, permettant ainsi de capturer des relations plus complexes."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which aspect of the bias-variance tradeoff is most important to consider when tuning a model?",
+    "answer": "La complexité du modèle est le plus important aspect du compromis biais-variance à considérer lors de l'ajustement d'un modèle, car elle affecte directement à la fois le biais et la variance.",
+    "ref": [
+      "La complexité du modèle est le plus important aspect du compromis biais-variance à considérer lors de l'ajustement d'un modèle, car elle affecte directement à la fois le biais et la variance."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key points covered in the introduction to machine learning, including its definition, applications, and the general approach to solving machine learning problems.",
+    "answer": "L'apprentissage automatique, ou machine learning, est une démarche de conception d’une fonction de prédiction à partir d’une base de données préexistante ou qu’il faudra constituer. Cette démarche implique une modélisation non explicite sur des exemples de données variées comme des images, des signaux, des textes, et des mesures. L'apprentissage automatique s’est intégré dans notre quotidien, affectant des domaines comme les spam filters, les chatbots, et la reconnaissance faciale. Le cours aborde l'apprentissage automatique comme une méthode pour formuler une fonction de prédiction à partir de données variées, en utilisant des techniques de modélisation et de programmation non explicite.",
+    "ref": [
+      "L'apprentissage automatique (la dénomination Machine Learning sera aussi utilisée pour éviter la redondance) est une démarche de conception d’une fonction de prédiction à partir d’une base de données préexistante ou qu’il faudra constituer.",
+      "Cette démarche devra être effectuée par une modélisation, ou programmation non explicite, sur les exemples de cette base qui pourront être de natures très variées comme des images, des signaux, des textes, des mesures, etc…",
+      "L'apprentissage automatique s’est peu à peu implanté dans notre quotidien, si bien qu’aujourd’hui il fait partie intégrante de notre quotidien sans que nous ne nous en rendions forcément compte.",
+      "Il peut aussi nous affecter de manière plus discrète, avec notamment les recommandations (ou publicités) ciblées en fonction des recherches effectuées récemment sur internet.",
+      "Dans ce cours, nous appréhendrons l’apprentissage automatique comme une démarche de conception d’une fonction de prédiction à partir d’une base de données préexistante ou qu’il faudra constituer.",
+      "Cette démarche devra être effectuée par une modélisation, ou programmation non explicite, sur les exemples de cette base qui pourront être de natures très variées comme des images, des signaux, des textes, des mesures, etc…",
+      "L'apprentissage automatique s’est peu à peu implanté dans notre quotidien, si bien qu’aujourd’hui il fait partie intégrante de notre quotidien sans que nous ne nous en rendions forcément compte.",
+      "Il peut aussi nous affecter de manière plus discrète, avec notamment les recommandations (ou publicités) ciblées en fonction des recherches effectuées récemment sur internet."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the main supervised learning algorithms covered and their primary use cases.",
+    "answer": "Les principaux algorithmes d'apprentissage supervisé couverts sont : (1) la Régression Linéaire pour la prédiction de sorties continues, (2) la Régression Logistique pour la classification binaire, (3) les Arbres de Décision pour des modèles de classification et de régression interprétables, (4) les Machines à Vecteurs de Support pour la classification basée sur la marge, et (5) les Réseaux de Neurones pour l'approximation de fonctions non linéaires complexes.",
+    "ref": [
+      "Linear Regression est utilisé pour prédire des sorties continues.",
+      "Logistic Regression est utilisé pour la classification binaire.",
+      "Les arbres de décision fournissent des modèles de classification et de régression interprétables.",
+      "Les machines à vecteurs de support sont utilisées pour la classification basée sur la marge.",
+      "Les réseaux de neurones sont utilisés pour l'approximation de fonctions non linéaires complexes."
+    ]
+  },
+  {
+    "chapter": "Ch1_Intro_ML",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key steps of the model evaluation methodology described.",
+    "answer": "L’évaluation d’un modèle consiste à : (1) diviser les données en ensembles d’apprentissage, de validation et de test, (2) choisir une métrique de performance appropriée à la tâche, (3) utiliser la validation croisée pour estimer l’erreur de généralisation, (4) comparer les modèles à l’aide de tests statistiques, et (5) signaler la performance finale sur l’ensemble de test mis de côté.",
+    "ref": [
+      "L’évaluation d’un modèle consiste à : (1) diviser les données en ensembles d’apprentissage, de validation et de test, (2) choisir une métrique de performance appropriée à la tâche, (3) utiliser la validation croisée pour estimer l’erreur de généralisation, (4) comparer les modèles à l’aide de tests statistiques, et (5) signaler la performance finale sur l’ensemble de test mis de côté."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the name of the approach used in decision trees for classification?",
+    "answer": "Bayesian approach",
+    "ref": [
+      "L'approche bayésienne est une théorie probabiliste de la décision qui nécessite le calcul de la loi a posteriori afin de déterminer une prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula used to calculate the probability of a class given an observation in the Bayesian approach?",
+    "answer": "P(y|x) = P(x|y) * P(y) / P(x)",
+    "ref": [
+      "P(y|x) = P(x|y) * P(y) / P(x)"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the name of the approach used in decision trees for classification when assuming independence between features?",
+    "answer": "Naive Bayesian approach",
+    "ref": [
+      "On utilise une hypoth èse d’indépendance pour faire le calcul de la loi conditionnelle:",
+      "P(x1, x2, ..., x d|y) =P(x1|x2, ..., x d, y)P(x2, ..., x d|y)",
+      "=P(x1|y)P(x2, ..., x d|y)",
+      "=P(x1|y)P(x2|y)...P(xd|y)",
+      "Cette approche permet de traiter des probl èmes de plus grande dimension grâceà ce découpage en sous-probl èmes.",
+      "En pratique on utilise plutôt la log-vraisemblance afin de conserver une meilleure stabilité numérique:",
+      "logP(x|y) =X",
+      "ilogP(xi|y)",
+      "y∗= arg max",
+      "ylogP(x|y) + log P(y)",
+      "Cette approche na ¨ıve peut se révéler commeétant tr ès efficace malgré l’hypoth èse d’indépendance assez forte."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula used to calculate the log-vraisemblance in the Naive Bayesian approach?",
+    "answer": "logP(x|y) = ∑ logP(xi|y)",
+    "ref": [
+      "On utilise la log-vraisemblance afin de conserver une meilleure stabilité numérique: logP(x|y) = ∑ logP(xi|y)."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the name of the approach used in decision trees for classification when assuming a Gaussian distribution for the features?",
+    "answer": "Gaussian multivaried approach",
+    "ref": [
+      "Dans le cas d’un modélisation gaussienne à deux classes, la prédiction se réduit alors à calculer une fonction de degré 2 et la classe est prédite en fonction de sa position par rapport à la séparatrice de l’espace."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula used to calculate the probability of a class given an observation in the Gaussian multivaried approach?",
+    "answer": "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1)) and P(X=xi|Y= 2;µ2,Σ2) = 1 / (2π)^d / 2 * |Σ2| * exp(-1/2 * (xi - µ2)′Σ2^-1 * (xi - µ2))",
+    "ref": [
+      "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1))",
+      "P(X=xi|Y= 2;µ2,Σ2) = 1 / (2π)^d / 2 * |Σ2| * exp(-1/2 * (xi - µ2)′Σ2^-1 * (xi - µ2))"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the name of the approach used in decision trees for classification when assuming a Gaussian distribution for the features and equal probabilities for the classes?",
+    "answer": "Gaussian multivaried approach with equal class probabilities",
+    "ref": [
+      "Dans le cas o ùP(Y= 1) = P(Y= 2) = 0 .5on a la r ègle de classification suivante :",
+      "y∗= arg max",
+      "yP(x|y)P(y)"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula used to calculate the probability of a class given an observation in the Gaussian multivaried approach with equal class probabilities?",
+    "answer": "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1))",
+    "ref": [
+      "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1))",
+      "P(X=xi|Y= 2;µ2,Σ2) = 1 / (2π)^d / 2 * |Σ2| * exp(-1/2 * (xi - µ2)′Σ2^-1 * (xi - µ2))"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the name of the approach used in decision trees for classification when assuming a Gaussian distribution for the features and unequal class probabilities?",
+    "answer": "Gaussian multivaried approach with unequal class probabilities",
+    "ref": [
+      "Dans le cas o ùP(Y= 1) = P(Y= 2) = 0 .5on a la r ègle de classification suivante :",
+      "y∗= arg max",
+      "yP(x|y)P(y)"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula used to calculate the probability of a class given an observation in the Gaussian multivaried approach with unequal class probabilities?",
+    "answer": "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1)) and P(X=xi|Y= 2;µ2,Σ2) = 1 / (2π)^d / 2 * |Σ2| * exp(-1/2 * (xi - µ2)′Σ2^-1 * (xi - µ2))",
+    "ref": [
+      "P(X=xi|Y= 1;µ1,Σ1) = 1 / (2π)^d / 2 * |Σ1| * exp(-1/2 * (xi - µ1)′Σ1^-1 * (xi - µ1))",
+      "P(X=xi|Y= 2;µ2,Σ2) = 1 / (2π)^d / 2 * |Σ2| * exp(-1/2 * (xi - µ2)′Σ2^-1 * (xi - µ2))"
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which ensemble method is most suitable for high-dimensional data?",
+    "answer": "Les forêts aléatoires sont les plus adaptées pour les données à haute dimension. Les arbres de décision peuvent gérer les données à haute dimension, mais les forêts aléatoires les améliorent en moyennant plusieurs arbres, réduisant la variance et améliorant la généralisation.",
+    "ref": [
+      "Dans le cas de données à haute dimension, les forêts aléatoires sont les plus adaptées.",
+      "Les arbres de décision peuvent gérer les données à haute dimension, mais les forêts aléatoires les améliorent en moyennant plusieurs arbres, réduisant la variance et améliorant la généralisation."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which boosting algorithm is most effective for imbalanced datasets?",
+    "answer": "Pour les jeux de données déséquilibrés, AdaBoost est le plus efficace. Il se concentre sur les instances mal classées et ajuste les poids pour donner plus d'importance aux instances difficiles, ce qui le rend particulièrement efficace pour gérer les jeux de données déséquilibrés.",
+    "ref": [
+      "Pour les jeux de données déséquilibrés, AdaBoost est le plus efficace.",
+      "Il se concentre sur les instances mal classées et ajuste les poids pour donner plus d'importance aux instances difficiles, ce qui le rend particulièrement efficace pour gérer les jeux de données déséquilibrés."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which boosting algorithm is most computationally expensive?",
+    "answer": "Le boosting par gradient est le plus coûteux en termes de calculs. Il construit des arbres séquentiellement, chaque arbre corrigeant les erreurs des arbres précédents, nécessitant plus de ressources de calcul par rapport aux autres algorithmes de boosting.",
+    "ref": [
+      "Le boosting par gradient est le plus coûteux en termes de calculs.",
+      "Il construit des arbres séquentiellement, chaque arbre corrigeant les erreurs des arbres précédents, nécessitant plus de ressources de calcul par rapport aux autres algorithmes de boosting."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which ensemble method is most effective for reducing variance?",
+    "answer": "Le bagging est le plus efficace pour réduire la variance. Il crée plusieurs sous-ensembles des données d'entraînement et moyenne les prédictions de plusieurs modèles, améliorant ainsi la stabilité et la précision du modèle.",
+    "ref": [
+      "Le bagging est le plus efficace pour réduire la variance.",
+      "Il crée plusieurs sous-ensembles des données d'entraînement et moyenne les prédictions de plusieurs modèles, améliorant ainsi la stabilité et la précision du modèle."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which measure is most suitable for decision tree splits?",
+    "answer": "L'entropie est la plus adaptée pour les divisions des arbres de décision. Elle mesure l'impureté d'un nœud et est utilisée pour déterminer la meilleure division dans les arbres de décision, ce qui la rend particulièrement adaptée aux données catégorielles.",
+    "ref": [
+      "L'entropie est la plus adaptée pour les divisions des arbres de décision.",
+      "Elle mesure l'impureté d'un nœud et est utilisée pour déterminer la meilleure division dans les arbres de décision, ce qui la rend particulièrement adaptée aux données catégorielles."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key concepts and methods of decision trees and ensemble methods, including their applications and evaluation metrics.",
+    "answer": "Les arbres de décision sont utilisés pour les tâches de classification et de régression. Ils fonctionnent en partitionnant récursivement les données en fonction des valeurs des caractéristiques pour faire des prédictions. Les méthodes d'ensemble, telles que Random Forest et Gradient Boosting, combinent plusieurs arbres de décision pour améliorer les performances prédictives. Random Forest utilise le bagging pour réduire la variance, tandis que Gradient Boosting utilise le boosting pour réduire le biais. AdaBoost et Gradient Boosting sont des algorithmes de boosting spécifiques qui entraînent des arbres de manière itérative pour corriger les erreurs des modèles précédents. Les méthodes d'ensemble sont évaluées à l'aide de métriques telles que l'exactitude, la précision, le rappel et le score F1.",
+    "ref": [
+      "Les arbres de décision sont utilisés pour les tâches de classification et de régression.",
+      "Ils fonctionnent en partitionnant récursivement les données en fonction des valeurs des caractéristiques pour faire des prédictions.",
+      "Les méthodes d'ensemble, telles que Random Forest et Gradient Boosting, combinent plusieurs arbres de décision pour améliorer les performances prédictives.",
+      "Random Forest utilise le bagging pour réduire la variance, tandis que Gradient Boosting utilise le boosting pour réduire le biais.",
+      "AdaBoost et Gradient Boosting sont des algorithmes de boosting spécifiques qui entraînent des arbres de manière itérative pour corriger les erreurs des modèles précédents.",
+      "Les méthodes d'ensemble sont évaluées à l'aide de métriques telles que l'exactitude, la précision, le rappel et le score F1."
+    ]
+  },
+  {
+    "chapter": "Ch2_Decision_Trees",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key Bayesian approaches used in decision trees, including the multivaried and naive Bayesian methods.",
+    "answer": "Les approches bayésiennes dans les arbres de décision impliquent l'utilisation de la probabilité pour faire des prédictions. La méthode bayésienne multivariée prend en compte les corrélations entre les dimensions et utilise un modèle gaussien pour calculer la probabilité des données données la classe. La méthode bayésienne naïve suppose l'indépendance entre les caractéristiques et calcule la probabilité de chaque caractéristique donnée la classe séparément. Ces méthodes sont utilisées pour simplifier le processus de prédiction et gérer les données à haute dimension.",
+    "ref": [
+      "Les approches bayésiennes dans les arbres de décision impliquent l'utilisation de la probabilité pour faire des prédictions.",
+      "La méthode bayésienne multivariée prend en compte les corrélations entre les dimensions et utilise un modèle gaussien pour calculer la probabilité des données données la classe.",
+      "La méthode bayésienne naïve suppose l'indépendance entre les caractéristiques et calcule la probabilité de chaque caractéristique donnée la classe séparément.",
+      "Ces méthodes sont utilisées pour simplifier le processus de prédiction et gérer les données à haute dimension."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the principle of bagging?",
+    "answer": "The principle of bagging is to generate multiple datasets from the initial dataset and train the model on each of these datasets.",
+    "ref": [
+      "La technique du bagging consiste en la génération de multiples jeux de données à partir de la base initiale puis d’entraîner le programme sur chacun des jeux créés.",
+      "On commence donc par construire des jeux de données D1, D2, ..., DK en effectuant un tirage avec remise dans la base de données initiale D.",
+      "Une fois ces K jeux de données générés, on entraîne le même algorithme sur chaque Dk ce qui nous permettra d’obtenir K classifieurs fk qui seront tous différents à cause de cet apprentissage sur des bases différentes malgré un code identique en tout autre point."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the probability of an example not being selected during the creation of a subsample in bagging?",
+    "answer": "P = 1 - 1/n",
+    "ref": [
+      "La probabilité pour qu’un exemple de la base ne soit pas sélectionné lors de la création d’un sous-échantillon se traduit par : P = 1 - 1/n"
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of the bagging technique?",
+    "answer": "The purpose of the bagging technique is to reduce the variance of the learning process by aggregating multiple models trained on different subsets of the data.",
+    "ref": [
+      "La conséquence d’un tel agrégat est que chaque classifieur commet des erreurs différentes à cause des sous-échantillons Dk qui sont différents et moins riches en information que D.",
+      "Ces différences entre les erreurs commises par les fk vont assurer une variance d’apprentissage plus faible au classifieur agrégé.",
+      "Ainsi la méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the majority vote aggregation in bagging?",
+    "answer": "fmaj(x) = arg max yKX k=1δ(fk(x), y)",
+    "ref": [
+      "fmaj(x) = arg max yKX k=1δ(fk(x), y)"
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of the Random Forests algorithm?",
+    "answer": "The purpose of the Random Forests algorithm is to construct multiple decision trees using different subsets of features and data to reduce both bias and variance.",
+    "ref": [
+      "Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’où le nom ”forêt”, se basant non seulement sur des échantillons différents, à l’instar du bagging, mais aussi sur des variables différentes.",
+      "La structure de ces arbres comprend les paramètres de contrôle de la complexité que sont la profondeur maximale, le nombre d’échantillons par nœud, le critère de pureté des nœuds (seuil à partir duquel on estime qu’il s’agit d’un nœud terminal) etc… À cela s’ajoute une part d’aléatoire sur les attributs, les données et les tests.",
+      "La méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the average aggregation in Random Forests?",
+    "answer": "fmoy(x) = 1/K * ∑KX k=1fk(x)",
+    "ref": [
+      "fmoy(x) = 1/K * ∑KX k=1fk(x)"
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the principle of Random Forests?",
+    "answer": "The principle of Random Forests is to construct multiple decision trees using different subsets of features and data, and then aggregate their predictions.",
+    "ref": [
+      "Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’où le nom ”forêt”, se basant non seulement sur des échantillons différents, à l’instar du bagging, mais aussi sur des variables différentes.",
+      "Si, par exemple, on se trouve dans un problème à p variables, on commence par sélectionner q < p variables aléatoirement puis on effectue les tests sur ces variables pour construire des arbres de décision.",
+      "La structure de ces arbres comprend les paramètres de contrôle de la complexité que sont la profondeur maximale, le nombre d’échantillons par nœud, le critère de pureté des nœuds (seuil à partir duquel on estime qu’il s’agit d’un nœud terminal) etc… À cela s’ajoute une part d’aléatoire sur les attributs, les données et les tests."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of the Random Forests algorithm?",
+    "answer": "The purpose of the Random Forests algorithm is to reduce both bias and variance by constructing multiple decision trees using different subsets of features and data.",
+    "ref": [
+      "Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’où le nom ”forêt”, se basant non seulement sur des échantillons différents, à l’instar du bagging, mais aussi sur des variables différentes.",
+      "La méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the average aggregation in Random Forests?",
+    "answer": "fmoy(x) = 1/K * ∑KX k=1fk(x)",
+    "ref": [
+      "fmoy(x) = 1/K * ∑KX k=1fk(x)"
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of the Random Forests algorithm?",
+    "answer": "The purpose of the Random Forests algorithm is to reduce both bias and variance by constructing multiple decision trees using different subsets of features and data.",
+    "ref": [
+      "Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’où le nom ”forêt”, se basant non seulement sur des échantillons différents, à l’instar du bagging, mais aussi sur des variables différentes.",
+      "La méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, among k-NN, SVM, and Decision Trees, which algorithm becomes most computationally expensive as the number of features d grows very large?",
+    "answer": "k-NN devient le plus coûteux en termes de calculs car son coût de prédiction est O(n*d), ce qui signifie qu'il augmente linéairement avec à la fois le nombre d'échantillons d'apprentissage n et le nombre de caractéristiques d, ce qui le rend particulièrement coûteux dans des espaces à haute dimension.",
+    "ref": [
+      "Le temps de prédiction du k-NN est O(n*d), où n est le nombre d'échantillons d'apprentissage et d est le nombre de caractéristiques.",
+      "Le temps de prédiction du k-NN est O(n*d), où n est le nombre d'échantillons d'apprentissage et d est le nombre de caractéristiques."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, if a neural network shows high training accuracy but poor validation accuracy, what does this indicate and which regularization technique is recommended?",
+    "answer": "This indicates overfitting. L2 regularization (weight decay) is recommended as it penalizes large weights and encourages simpler models that generalize better.",
+    "ref": [
+      "High training accuracy with poor validation accuracy is a sign of overfitting.",
+      "Overfitting can be reduced by adding L2 regularization, which penalizes large weight values.",
+      "L2 regularization encourages simpler models that generalize better to unseen data."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the complexity of training an SVM with a linear kernel compared to an SVM with a non-linear kernel?",
+    "answer": "Le temps de formation d'un SVM avec un noyau linéaire est O(n^2), tandis qu'un SVM avec un noyau non linéaire implique de résoudre un problème d'optimisation quadratique, dont la complexité est O(n^3).",
+    "ref": [
+      "Le temps de formation d'un SVM avec un noyau linéaire est O(n^2).",
+      "Un SVM avec un noyau non linéaire implique de résoudre un problème d'optimisation quadratique, dont la complexité est O(n^3)."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, how does the bagging technique help in reducing the variance of a model?",
+    "answer": "Bagging involves training multiple models on different subsets of data, each making different errors. Aggregating these models by voting or averaging reduces the variance of the final model, leading to better generalization.",
+    "ref": [
+      "La technique du bagging consiste en la génération de multiples jeux de données à partir de la base initiale puis d’entraîner le programme sur chacun des jeux créés.",
+      "On commence donc par construire des jeux de données D1, D2, ..., DK en effectuant un tirage avec remise dans la base de données initiale D.",
+      "Une fois ces K jeux de données générés, on entraîne le même algorithme sur chaque Dk ce qui nous permettra d’obtenir K classifieurs fk qui seront tous différents à cause de cet apprentissage sur des bases différentes malgré un code identique en tout autre point.",
+      "La conséquence d’un tel agrégat est que chaque classifieur commet des erreurs différentes à cause des sous-échantillons Dk qui sont différents et moins riches en information que D.",
+      "Ces différences entre les erreurs commises par les fk vont assurer une variance d’apprentissage plus faible au classifieur agrégé.",
+      "Ainsi la méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, how do random forests help in reducing the variance of a model?",
+    "answer": "Random forests help in reducing the variance of a model by using multiple decision trees, each built on a random subset of features. The randomness in feature selection reduces the correlation between trees, leading to a reduction in variance and improved generalization.",
+    "ref": [
+      "Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’o ù le nom ”forêt”, se basant non seulement sur des échantillons différents, à l’instar du bagging, mais aussi sur des variables différentes.",
+      "Si, par exemple, on se trouve dans un problème à p variables, on commence par sélectionner q < p variables aléatoirement puis on effectue les tests sur ces variables pour construire des arbres de décision.",
+      "La structure de ces arbres comprend les paramètres de contrôle de la complexité que sont la profondeur maximale, le nombre d’échantillons par nœud, le critère de pureté des nœuds (seuil à partir duquel on estime qu’il s’agit d’un nœud terminal) etc… À cela s’ajoute une part d’aléatoire sur les attributs, les données et les tests.",
+      "L’intérêt des approches ensemblistes est que l’on introduit une source d’aléatoire supplémentaire: choix des sous-échantillons, du sous-ensemble de variables, etc…",
+      "Les Karbres nous fournissent les prédictions bf1(x), ...,bfK(x)qui sont des variables aléatoires identiquement distribuées de variance σ2et de corrélation ρ=Corr (bfi(x),bfj(x))"
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, what effect does L1 regularization have on the complexity of a model?",
+    "answer": "L1 regularization encourages sparsity by penalizing large weights, which can lead to feature selection and reduce the model's complexity. This makes the model simpler and potentially more interpretable.",
+    "ref": [
+      "L1 regularization encourages sparsity by penalizing large weights, which can lead to feature selection and reduce the model's complexity. This makes the model simpler and potentially more interpretable."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, how does cross-validation help in model selection?",
+    "answer": "Cross-validation helps in model selection by splitting the data into folds and using each fold for validation. The model is trained and evaluated on different folds, and the best model is selected based on the average performance across all folds, providing a more robust estimate of the model's generalization ability.",
+    "ref": [
+      "La technique du bagging consiste en la génération de multiples jeux de données à partir de la base initiale puis d’entraîner le programme sur chacun des jeux créés.",
+      "On commence donc par construire des jeux de données D1, D2, ..., DK en effectuant un tirage avec remise dans la base de données initiale D.",
+      "Une fois ces K jeux de données générés, on entraîne le même algorithme sur chaque Dk ce qui nous permettra d’obtenir K classifieurs fk qui seront tous différents à cause de cet apprentissage sur des bases différentes malgré un code identique en tout autre point.",
+      "La conséquence d’un tel agrégat est que chaque classifieur commet des erreurs différentes à cause des sous-échantillons Dk qui sont différents et moins riches en information que D.",
+      "Ainsi la méthode du bagging permet de régulariser le processus de prédiction."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key concepts and techniques of regularization and Support Vector Machines (SVM) covered in Chapter 3.",
+    "answer": "Chapter 3 of the MI201 course materials at ENSTA Paris covers regularization and Support Vector Machines (SVM). Regularization techniques include limiting the depth of decision trees, minimizing homogeneity gain, adding complexity penalties, and ensuring a minimum number of samples per node. SVM is discussed with a focus on the hyperplane, margin, and kernel functions. The chapter also introduces the concept of cross-validation for model evaluation.",
+    "ref": [
+      "Chapter 3 of the MI201 course materials at ENSTA Paris covers regularization and Support Vector Machines (SVM).",
+      "Regularization techniques include limiting the depth of decision trees, minimizing homogeneity gain, adding complexity penalties, and ensuring a minimum number of samples per node.",
+      "SVM is discussed with a focus on the hyperplane, margin, and kernel functions.",
+      "The chapter also introduces the concept of cross-validation for model evaluation."
+    ]
+  },
+  {
+    "chapter": "Ch3_SVM",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the key ensemble methods discussed in Chapter 2, including bagging and random forests.",
+    "answer": "Chapter 2 of the MI201 course materials at ENSTA Paris discusses ensemble methods, including bagging and random forests. Bagging involves generating multiple datasets from the initial dataset and training the same algorithm on each dataset to reduce variance. Random forests, on the other hand, build multiple decision trees using different subsets of features and data, aggregating their predictions to improve performance. Both methods aim to reduce the variance of predictions and improve model robustness.",
+    "ref": [
+      "Chapter 2 of the MI201 course materials at ENSTA Paris discusses ensemble methods, including bagging and random forests.",
+      "Bagging involves generating multiple datasets from the initial dataset and training the same algorithm on each dataset to reduce variance.",
+      "Random forests, on the other hand, build multiple decision trees using different subsets of features and data, aggregating their predictions to improve performance.",
+      "Both methods aim to reduce the variance of predictions and improve model robustness."
+    ]
+  },
+  {
+    "chapter": "Ch4_Neural_Networks",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, among k-NN, SVM, and Decision Trees, which algorithm becomes most computationally expensive as the number of features d grows very large?",
+    "answer": "k-NN devient le plus coûteux car son coût de prédiction est O(n*d), ce qui signifie qu'il évolue linéairement avec le nombre d'échantillons d'entraînement n et le nombre de caractéristiques d, ce qui le rend particulièrement coûteux dans des espaces de grande dimension.",
+    "ref": [
+      "Le temps de prédiction du k-NN est O(n*d), où n est le nombre d'échantillons d'entraînement et d est le nombre de caractéristiques."
+    ]
+  },
+  {
+    "chapter": "Ch4_Neural_Networks",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, if a neural network shows high training accuracy but poor validation accuracy, what does this indicate and which regularization technique is recommended?",
+    "answer": "Cela indique un overfitting (haute variance). La technique recommandée est la régularisation L2 (décroissance des poids), qui pénalise les grands poids et encourage des modèles plus simples qui généralisent mieux.",
+    "ref": [
+      "Une haute précision d'entraînement avec une faible précision de validation est un signe d'overfitting.",
+      "L'overfitting peut être réduit en ajoutant une régularisation L2, qui pénalise les grandes valeurs de poids.",
+      "La régularisation L2 encourage des modèles plus simples qui généralisent mieux aux données non vues."
+    ]
+  },
+  {
+    "chapter": "Ch4_Neural_Networks",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, in a multiclass classification problem where classes are not equally represented, which strategy is recommended: One vs One or One vs Rest?",
+    "answer": "La stratégie One vs Rest est recommandée car elle implique d'apprendre seulement N classifieurs, ce qui est plus efficace que la stratégie One vs One qui nécessite d'apprendre N(N-1)/2 classifieurs.",
+    "ref": [
+      "Face à des problèmes de ce type, il existe deux stratégies majeures. La première consiste à optimiser un critère multi-hypothèse dans l'apprentissage, comme l'entropie dans les arbres de décision par exemple. Ou alors on peut décomposer le problème multiclasse en plusieurs problèmes binaires et ainsi utiliser un ensemble de classifieurs binaires.",
+      "Avec cette approche, on cherche à apprendre un classifieur par classe. Ainsi pour la classification, on choisit la classe ayant le meilleur score. Toutefois, on obtient un déséquilibre des données entre la classe cible et les autres."
+    ]
+  },
+  {
+    "chapter": "Ch4_Neural_Networks",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, in a multiclass classification problem, what evaluation metric should be used if the cost of misclassification varies depending on the class?",
+    "answer": "Le critère de coût moyen devrait être utilisé, qui est calculé comme la somme pondérée des coûts de classification, en tenant compte de la proportion de chaque classe dans les données de validation.",
+    "ref": [
+      "Il existe plusieurs critères permettant d'estimer la qualité d'un classifieur multiclasse. Le taux d'erreur moyen et la matrice de confusion sont présentés en 1.3.3. Mais on peut définir un critère plus fin prenant en compte des coûts différents en fonction de l'erreur commise : le coût moyen.",
+      "bR=NX"
+    ]
+  },
+  {
+    "chapter": "Ch4_Neural_Networks",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the role of the activation function in a neural network model?",
+    "answer": "La fonction d'activation détermine la sortie d'un neurone, convertissant la somme pondérée des entrées en une sortie binaire (activée ou désactivée) ou une valeur continue, mimant le comportement des neurones biologiques.",
+    "ref": [
+      "La fonction d'activation la plus ancienne est la fonction signe. Une condition sur les fonctions d'activation est qu'elles doivent être non linéaires.",
+      "C'est sous cette forme que sont définis les réseaux de neurones : il s'agit d'un empilement de couches de neurones en prenant l'activation en compte."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of unsupervised learning?",
+    "answer": "L’objectif de l'apprentissage non supervisé est d'apprendre une fonction sur l'espace des données qui vérifie certaines propriétés sans données étiquetées.",
+    "ref": [
+      "L’objectif de l'apprentissage non supervisé est d'apprendre une fonction sur l'espace des données qui vérifie certaines propriétés sans données étiquetées."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the main difference between supervised and unsupervised learning?",
+    "answer": "L'apprentissage supervisé utilise des données étiquetées, tandis que l'apprentissage non supervisé n'en utilise pas.",
+    "ref": [
+      "L'apprentissage supervisé utilise des données étiquetées, tandis que l'apprentissage non supervisé n'en utilise pas."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the goal of the k-means algorithm?",
+    "answer": "L'objectif de l'algorithme k-means est de partitionner les données en k clusters de manière à minimiser la somme des carrés des distances entre chaque point de données et son centre de cluster assigné.",
+    "ref": [
+      "L'objectif de l'algorithme k-means est de partitionner les données en k clusters de manière à minimiser la somme des carrés des distances entre chaque point de données et son centre de cluster assigné."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the objective function of the k-means algorithm?",
+    "answer": "La fonction objectif de l'algorithme k-means est de minimiser la somme des carrés des distances entre chaque point de données et son centre de cluster assigné.",
+    "ref": [
+      "La fonction objectif de l'algorithme k-means est de minimiser la somme des carrés des distances entre chaque point de données et son centre de cluster assigné."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of Principal Component Analysis (PCA)?",
+    "answer": "L'objectif de l'analyse en composantes principales (PCA) est de réduire la dimension des données en les transformant dans un nouveau système de coordonnées tel que la plus grande variance par projection des données se trouve sur la première coordonnée (appelée première composante principale), la deuxième plus grande variance sur la deuxième coordonnée, et ainsi de suite.",
+    "ref": [
+      "L'objectif de l'analyse en composantes principales (PCA) est de réduire la dimension des données en les transformant dans un nouveau système de coordonnées tel que la plus grande variance par projection des données se trouve sur la première coordonnée (appelée première composante principale), la deuxième plus grande variance sur la deuxième coordonnée, et ainsi de suite."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the formula for the objective function of PCA?",
+    "answer": "La fonction objectif de la PCA est de maximiser la variance des données projetées sur les composantes principales.",
+    "ref": [
+      "La fonction objectif de la PCA est de maximiser la variance des données projetées sur les composantes principales."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of t-SNE?",
+    "answer": "L'objectif de t-SNE est de visualiser les données à haute dimension en les réduisant à deux ou trois dimensions tout en préservant la structure locale des données.",
+    "ref": [
+      "L'objectif de t-SNE est de visualiser les données à haute dimension en les réduisant à deux ou trois dimensions tout en préservant la structure locale des données."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of DBSCAN?",
+    "answer": "L'objectif de DBSCAN est de regrouper les points qui sont proches les uns des autres (points ayant de nombreux voisins proches) et de marquer comme des outliers les points qui se trouvent seuls dans des régions de faible densité.",
+    "ref": [
+      "L'objectif de DBSCAN est de regrouper les points qui sont proches les uns des autres (points ayant de nombreux voisins proches) et de marquer comme des outliers les points qui se trouvent seuls dans des régions de faible densité."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the concept of the 'curse of dimensionality'?",
+    "answer": "La 'malédiction des grandes dimensions' fait référence au phénomène où le volume de l'espace augmente exponentiellement avec le nombre de dimensions, rendant difficile la séparation des points de données.",
+    "ref": [
+      "La 'malédiction des grandes dimensions' fait référence au phénomène où le volume de l'espace augmente exponentiellement avec le nombre de dimensions, rendant difficile la séparation des points de données."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_fact_based",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the purpose of dimensionality reduction?",
+    "answer": "L'objectif de la réduction de dimension est de réduire le nombre de variables aléatoires en considération en obtenant un ensemble de variables principales.",
+    "ref": [
+      "L'objectif de la réduction de dimension est de réduire le nombre de variables aléatoires en considération en obtenant un ensemble de variables principales."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, among k-NN, SVM, and Decision Trees, which algorithm becomes most computationally expensive as the number of features d grows very large?",
+    "answer": "k-NN devient le plus coûteux en termes de calculs car son coût de prédiction est O(n*d), ce qui signifie qu'il augmente linéairement avec le nombre de samples d'entraînement n et le nombre de caractéristiques d, ce qui le rend particulièrement coûteux dans des espaces de grande dimension.",
+    "ref": [
+      "La Figure 5.2 (a) représente la matrice de Gram des données définie telle que ∀i, j∈[|1, n|], la composante située à la i-ème ligne et à la j-ème colonne correspond au produit scalaire xT i.xj. Ici cette matrice montre que les classes sont difficiles à séparer, dans le cas contraire on aurait une diagonale de blocs sombres carrés et le reste de la matrice serait claire.",
+      "Cette difficulté à séparer les données se traduit par la Figure 5.2 (b) où l’on voit que les trois groupes de données ne sont pas bien clusterisés. Tous ces soucis sont dus à la malédiction des grandes dimensions, d’où l’envie de créer des méthodes de réduction de dimension pour éviter ces problèmes.",
+      "Pour expliquer ce phénomène on peut étudier le rapport entre la distance maximale entre deux observations et la distance minimale entre deux observations : R=max(i,j)∥xi−xj∥2 min(i,j)∥xi−xj∥2. On remarque que ce rapport tend vers 1 lorsque la dimension des données devient grande, comme illustré en Figure 5.3. C’est pourquoi il devient difficile pour l’algorithme de déterminer à quelle classe appartient une observation, puisque ces dernières sont toutes situées à la même distance les unes des autres."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, if a neural network shows high training accuracy but poor validation accuracy, what does this indicate and which regularization technique is recommended?",
+    "answer": "This indicates overfitting. L2 regularization (weight decay) is recommended as it penalizes large weights and encourages simpler models that generalize better.",
+    "ref": [
+      "High training accuracy with poor validation accuracy is a sign of overfitting.",
+      "Overfitting can be reduced by adding L2 regularization, which penalizes large weight values.",
+      "L2 regularization encourages simpler models that generalize better to unseen data."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which algorithm is commonly used for dimensionality reduction in high-dimensional data?",
+    "answer": "PCA is commonly used for dimensionality reduction in high-dimensional data. It reduces dimensionality by finding principal components that maximize variance, making it effective for linear separability.",
+    "ref": [
+      "L’analyse en composantes principales, que nous noterons par la suite PCA , consiste à réduire la dimension des données via un changement de base faisant en sorte que la premi ère composante des données sous leur nouvelle forme soit celle ayant la plus grande variance, que la seconde composante ait la seconde plus grande variance etc…",
+      "Pour ce faire on part d’un jeu ne npoints D={xi}n i=1∈Rdpour le transformer en D′={x′i}n i=1∈Rd′avecd′≪d.",
+      "On note {ωj}n j=1∈Rdlesjcompsantes principales. Le but de la méthode PCA vaêtre de trouver ce jeu de vecteurs {ωj}n j=1tel que :",
+      "arg min ωj\"1 nnX i=1∥xi−xT i.ωjωj ∥ωj∥∥2# ,∀j∈[|1, d|] (5.1)",
+      "On développe ∥xi−xT i.ωjωj ∥ωj∥∥2= 1−2(xT i.ωj)2 ∥ωj∥+ (xT i.ωj)2",
+      "En ajoutant la contrainte ∥ωj∥2= 1et en réinjectant dans (5.1) on obtient la nouvelle fonction objectif :",
+      "arg max ωj,∥ωj∥2=11 nnX i=1(xT i.ωj)2,∀j∈[|1, d|]",
+      "On peut montrer que cela revient à chercher les composantes qui maximisent la variance :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2− 1 nnX i=1xT i.ωj!2",
+      "En effet, si on consid ère que les données sont centrées, c’est- à-dire quenX i=1xi= 0, alors on peut simplifier :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2",
+      "On peut réécrire le probl ème sous forme matricielle en notant X∈ M n,d(R)la matrice contenant les observation :",
+      "1 nnX i=1(xT i.ωj)2=1 n(Xωj)T(Xωj) =ωT j(1 nXTX)ωj =ωT jVωj",
+      "avecV=1 nXTX, V∈ M d,d(R)la covariance de X. Ainsi le probl ème se réécris :",
+      "arg max ωj,∥ω∥2=1ωT jVωj,∀j∈[|1, d|] (5.2)",
+      "Pour pouvoir résoudre ce probl ème, il est nécessaire d’introduire quelques notions qui nous permettrons à terme d’utiliser le multiplicateur de Lagrange. Commençons par la notion d’extremum local sous contrainte.",
+      "Soient fetgde fonctions de deux variables définies respectivement sur DfetDg. Soit P0= (x0, y0)un point appartenant àDf∩Dgtel que g(x0, y0) = 0 .P0est un maximum (respectivement minimum) local defsurD={(x, y)|g(x, y) = 0}s’il existe un voisinage VdeP0tel que pour tout (x, y)∈ V tel que g(x, y) = 0 , f(x, y)≤f(x0, y0)(respectivement f(x, y)≥f(x0, y0)).",
+      "Après cela on peuténoncer le théorème de la condition nécessaire sur l’extremum local. On a toujours fet gdeux fonctions de deux variables mais qui sont cette fois-ci de classe C1ainsi que P0= (x0, y0)∈Df∩Dg avecg(x0, y0) = 0 . SiP0est un extremum local de fsurD={(x, y)|g(x, y) = 0}et∇g(x0, y0)̸= 0alors",
+      "il existe λ0∈Rtel que : ∇f(x0, y0) =λ0∇g(x0, y0)",
+      "On dit alors que P0est un point stationnaire de fsurDetλ0est appelé multiplicateur de Lagrange associé. Ce multiplicateur de Lagrange est utilisé pour trouver les maximums et minimums locaux d’une fonction sooumise à des contraintes.",
+      "Une propriété fondamentale du multiplicateur de Lagrange est la suivante. P0est un extrema de fsurD associé au multiplicateur de Lagrange λ0∈Rsi et seulement si (x0, y0, λ0)est solution de :",
+      "∂L ∂x(x, y, λ ) = 0 ∂L ∂y(x, y, λ ) = 0 ∂L ∂λ(x, y, λ ) = 0",
+      "avecL=f+λg.",
+      "Une fois ces notions introduites on peut les appliquer au probl ème (5.2) en réécrivant la fonction objectif:",
+      "L(ωj, λ) =ωT jVωj−λ(ωT jωj−1)",
+      "On veut maximiser cette fonction, il faut donc la dériver et trouver le point en lequel cette dérivée est nulle :",
+      "∂L ∂ωj(ωj, λ) = 2 Vωj−2λωj= 0",
+      "On obtient alors la solution : Vωj=λω",
+      "Ainsi la composante principale qui satisfait la fonction souhaitée est un vecteur propre de la matrice de covariance V. De plus celle qui maximise L(ω, λ)est celle ayant la plus grande valeur propre. On peut donc trouver tous les ωjen décomposant Ven valeurs singuli ères (ou SVD en anglais).",
+      "Écrivons maintenant la matrice de covariance V. Pour ce faire on notera xi,jlaj-ème composante de xi :",
+      "V=V ar(x.,1) Covar (x.,1, x.,2) ··· Covar (x.,1, x.,d) Covar (x.,2, x.,1) V ar(x.,2) ··· Covar (x.,2, x.,d) Covar (x.,d−1, x.,1) ··· V ar(x.,d−1) Covar (x.,d−1, x.,d) Covar (x.,d, x.,1) ··· Covar (x.,d, x.,d−1) V ar(x.,d)",
+      "Avec V ar(x.,j) =1 nnX i=1x2 i,j− 1 nnX i=1xi,j!2",
+      "Et Covar (x.,j1, x.,j2) =1 nnX i=1xi,j1xi,j2− 1 nnX i=1xi,j1! 1 nnX i=1xi,j2!",
+      "Il existe plusieurs approches pour choisir la dimension réduite d′, qui correspond à la composante principale que l’on conserve. Une méthode courante s’appuie sur le constat suivant : si on conserve des données de dimension d′, alors les d−d′valeurs propres qui ne sont pas retenues doiventêtre relativement petites par rapport au probl ème. On utilise alors comme crit ère le rapport :",
+      "Prop =d′X i=1λi dX i=1λi",
+      "Ce rapport donne la proportion de variance que l’on conserve en réduisant la dimension des données.",
+      "Onécrit Ωd′∈ M d(R)la matrice carrée de taille dqui contient les d′vecteurs propre"
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, which clustering algorithm is recommended for datasets with noise and outliers?",
+    "answer": "DBSCAN est recommandé pour les jeux de données avec du bruit et des outliers. Il identifie les clusters en fonction de la densité et peut gérer le bruit en ignorant les régions de faible densité, ce qui le rend robuste aux outliers.",
+    "ref": [
+      "La difficulté à séparer les données se traduit par la Figure 5.2 (b) où l’on voit que les trois groupes de données ne sont pas bien clusterisés.",
+      "Tous ces soucis sont dus à la malédiction des grandes dimensions, d’où l’envie de créer des méthodes de réduction de dimension pour éviter ces problèmes.",
+      "DBSCAN est une méthode de clustering qui identifie les clusters basés sur la densité et peut gérer le bruit en ignorant les régions de faible densité, ce qui la rend robuste aux outliers."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, what are the primary applications of autoencoders in machine learning?",
+    "answer": "The primary applications of autoencoders in machine learning are learning efficient representations, dimensionality reduction, and anomaly detection.",
+    "ref": [
+      "L’analyse en composantes principales, que nous noterons par la suite PCA , consiste à réduire la dimension des données via un changement de base faisant en sorte que la premi ère composante des données sous leur nouvelle forme soit celle ayant la plus grande variance, que la seconde composante ait la seconde plus grande variance etc…",
+      "Pour ce faire on part d’un jeu ne npoints D={xi}n i=1∈Rdpour le transformer en D′={x′i}n i=1∈Rd′avecd′≪d.",
+      "On note {ωj}n j=1∈Rdlesjcompsantes principales. Le but de la méthode PCA vaêtre de trouver ce jeu de vecteurs {ωj}n j=1tel que :",
+      "arg min ωj\"1 nnX i=1∥xi−xT i.ωjωj ∥ωj∥∥2# ,∀j∈[|1, d|] (5.1)",
+      "On développe ∥xi−xT i.ωjωj ∥ωj∥∥2= 1−2(xT i.ωj)2 ∥ωj∥+ (xT i.ωj)2",
+      "En ajoutant la contrainte ∥ωj∥2= 1et en réinjectant dans (5.1) on obtient la nouvelle fonction objectif :",
+      "arg max ωj,∥ωj∥2=11 nnX i=1(xT i.ωj)2,∀j∈[|1, d|]",
+      "On peut montrer que cela revient à chercher les composantes qui maximisent la variance :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2− 1 nnX i=1xT i.ωj!2",
+      "En effet, si on consid ère que les données sont centrées, c’est- à-dire quenX i=1xi= 0, alors on peut simplifier :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2",
+      "On peut réécrire le probl ème sous forme matricielle en notant X∈ M n,d(R)la matrice contenant les observation :",
+      "1 nnX i=1(xT i.ωj)2=1 n(Xωj)T(Xωj) =ωT j(1 nXTX)ωj =ωT jVωj",
+      "avecV=1 nXTX, V∈ M d,d(R)la covariance de X. Ainsi le probl ème se réécris :",
+      "arg max ωj,∥ω∥2=1ωT jVωj,∀j∈[|1, d|] (5.2)",
+      "Pour pouvoir résoudre ce probl ème, il est nécessaire d’introduire quelques notions qui nous permettrons à terme d’utiliser le multiplicateur de Lagrange. Commençons par la notion d’extremum local sous contrainte.",
+      "Soient fetgde fonctions de deux variables définies respectivement sur DfetDg. Soit P0= (x0, y0)un point appartenant àDf∩Dgtel que g(x0, y0) = 0 .P0est un maximum (respectivement minimum) local defsurD={(x, y)|g(x, y) = 0}s’il existe un voisinage VdeP0tel que pour tout (x, y)∈ V tel que g(x, y) = 0 , f(x, y)≤f(x0, y0)(respectivement f(x, y)≥f(x0, y0)).",
+      "Après cela on peuténoncer le théorème de la condition nécessaire sur l’extremum local. On a toujours fet gdeux fonctions de deux variables mais qui sont cette fois-ci de classe C1ainsi que P0= (x0, y0)∈Df∩Dg avecg(x0, y0) = 0 . SiP0est un extremum local de fsurD={(x, y)|g(x, y) = 0}et∇g(x0, y0)̸= 0alors",
+      "il existe λ0∈Rtel que : ∇f(x0, y0) =λ0∇g(x0, y0)",
+      "On dit alors que P0est un point stationnaire de fsurDetλ0est appelé multiplicateur de Lagrange associé. Ce multiplicateur de Lagrange est utilisé pour trouver les maximums et minimums locaux d’une fonction sooumise à des contraintes.",
+      "Une propriété fondamentale du multiplicateur de Lagrange est la suivante. P0est un extrema de fsurD associé au multiplicateur de Lagrange λ0∈Rsi et seulement si (x0, y0, λ0)est solution de :",
+      "∂L ∂x(x, y, λ ) = 0 ∂L ∂y(x, y, λ ) = 0 ∂L ∂λ(x, y, λ ) = 0",
+      "avecL=f+λg.",
+      "Une fois ces notions introduites on peut les appliquer au probl ème (5.2) en réécrivant la fonction objectif:",
+      "L(ωj, λ) =ωT jVωj−λ(ωT jωj−1)",
+      "On veut maximiser cette fonction, il faut donc la dériver et trouver le point en lequel cette dérivée est nulle :",
+      "∂L ∂ωj(ωj, λ) = 2 Vωj−2λωj= 0",
+      "On obtient alors la solution : Vωj=λω",
+      "Ainsi la composante principale qui satisfait la fonction souhaitée est un vecteur propre de la matrice de covariance V. De plus celle qui maximise L(ω, λ)est celle ayant la plus grande valeur propre. On peut donc trouver tous les ωjen décomposant Ven valeurs singuli ères (ou SVD en anglais).",
+      "Écrivons maintenant la matrice de covariance V. Pour ce faire on notera xi,jlaj-ème composante de xi :",
+      "V=V ar(x.,1) Covar (x.,1, x.,2) ··· Covar (x.,1, x.,d) Covar (x.,2, x.,1) V ar(x.,2) ··· Covar (x.,2, x.,d) Covar (x.,d−1, x.,1) ··· V ar(x.,d−1) Covar (x.,d−1, x.,d) Covar (x.,d, x.,1) ··· Covar (x.,d, x.,d−1) V ar(x.,d)",
+      "Avec V ar(x.,j) =1 nnX i=1x2 i,j− 1 nnX i=1xi,j!2",
+      "Et Covar (x.,j1, x.,j2) =1 nnX i=1xi,j1xi,j2− 1 nnX i=1xi,j1! 1 nnX i=1xi,j2!",
+      "Il existe plusieurs approches pour choisir la dimension réduite d′, qui correspond à la composante principale que l’on conserve. Une méthode courante s’appuie sur le constat suivant : si on conserve des données de dimension d′, alors les d−d′valeurs propres qui ne sont pas retenues doiventêtre relativement petites par rapport au probl ème. On utilise alors comme crit ère le rapport :",
+      "Prop =d′X i=1λi dX i=1λi",
+      "Ce rapport donne la proportion de variance que l’on conserve en réduisant la dimension des données.",
+      "Onécrit Ωd′∈ M d(R)la matrice carrée de taille dqui contient les d′vecteurs propre"
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_multi_hop",
+    "question": "According to the MI201 course materials of ENSTA Paris, what is the primary use case of t-SNE in data visualization?",
+    "answer": "The primary use case of t-SNE is visualizing high-dimensional data by reducing its dimensionality to 2 or 3 dimensions while preserving local structure.",
+    "ref": [
+      "t-SNE est utilisé pour visualiser des données à haute dimension en réduisant leur dimensionnalité à 2 ou 3 dimensions tout en préservant la structure locale."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the main unsupervised learning algorithms covered and their primary applications.",
+    "answer": "The main unsupervised learning algorithms covered are: (1) K-means clustering for partitioning data into clusters, (2) Principal Component Analysis (PCA) for dimensionality reduction, (3) Autoencoders for learning efficient data representations, (4) t-SNE for visualizing high-dimensional data, and (5) DBSCAN for identifying clusters of arbitrary shapes.",
+    "ref": [
+      "L’analyse en composantes principales, que nous noterons par la suite PCA , consiste à réduire la dimension des données via un changement de base faisant en sorte que la premi ère composante des données sous leur nouvelle forme soit celle ayant la plus grande variance, que la seconde composante ait la seconde plus grande variance etc…",
+      "Pour ce faire on part d’un jeu ne npoints D={xi}n i=1∈Rdpour le transformer en D′={x′i}n i=1∈Rd′avecd′≪d.",
+      "On note {ωj}n j=1∈Rdlesjcompsantes principales. Le but de la méthode PCA vaêtre de trouver ce jeu de vecteurs {ωj}n j=1tel que :",
+      "arg min ωj\"1 nnX i=1∥xi−xT i.ωjωj ∥ωj∥∥2# ,∀j∈[|1, d|] (5.1)",
+      "On développe ∥xi−xT i.ωjωj ∥ωj∥∥2= 1−2(xT i.ωj)2 ∥ωj∥+ (xT i.ωj)2",
+      "En ajoutant la contrainte ∥ωj∥2= 1et en réinjectant dans (5.1) on obtient la nouvelle fonction objectif :",
+      "arg max ωj,∥ωj∥2=11 nnX i=1(xT i.ωj)2,∀j∈[|1, d|]",
+      "On peut montrer que cela revient à chercher les composantes qui maximisent la variance :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2− 1 nnX i=1xT i.ωj!2",
+      "En effet, si on consid ère que les données sont centrées, c’est- à-dire quenX i=1xi= 0, alors on peut simplifier :",
+      "var(xT i.ωj) =1 nnX i=1(xT i.ωj)2",
+      "On peut réécrire le probl ème sous forme matricielle en notant X∈ M n,d(R)la matrice contenant les observation :",
+      "1 nnX i=1(xT i.ωj)2=1 n(Xωj)T(Xωj) =ωT j(1 nXTX)ωj =ωT jVωj",
+      "avecV=1 nXTX, V∈ M d,d(R)la covariance de X. Ainsi le probl ème se réécris :",
+      "arg max ωj,∥ω∥2=1ωT jVωj,∀j∈[|1, d|] (5.2)",
+      "Pour pouvoir résoudre ce probl ème, il est nécessaire d’introduire quelques notions qui nous permettrons à terme d’utiliser le multiplicateur de Lagrange. Commençons par la notion d’extremum local sous contrainte.",
+      "Soient fetgde fonctions de deux variables définies respectivement sur DfetDg. Soit P0= (x0, y0)un point appartenant àDf∩Dgtel que g(x0, y0) = 0 .P0est un maximum (respectivement minimum) local defsurD={(x, y)|g(x, y) = 0}s’il existe un voisinage VdeP0tel que pour tout (x, y)∈ V tel que g(x, y) = 0 , f(x, y)≤f(x0, y0)(respectivement f(x, y)≥f(x0, y0)).",
+      "Après cela on peuténoncer le théorème de la condition nécessaire sur l’extremum local. On a toujours fet gdeux fonctions de deux variables mais qui sont cette fois-ci de classe C1ainsi que P0= (x0, y0)∈Df∩Dg avecg(x0, y0) = 0 . SiP0est un extremum local de fsurD={(x, y)|g(x, y) = 0}et∇g(x0, y0)̸= 0alors",
+      "il existe λ0∈Rtel que : ∇f(x0, y0) =λ0∇g(x0, y0)",
+      "On dit alors que P0est un point stationnaire de fsurDetλ0est appelé multiplicateur de Lagrange associé. Ce multiplicateur de Lagrange est utilisé pour trouver les maximums et minimums locaux d’une fonction sooumise à des contraintes.",
+      "Une propriété fondamentale du multiplicateur de Lagrange est la suivante. P0est un extrema de fsurD associé au multiplicateur de Lagrange λ0∈Rsi et seulement si (x0, y0, λ0)est solution de :",
+      "∂L ∂x(x, y, λ ) = 0 ∂L ∂y(x, y, λ ) = 0 ∂L ∂λ(x, y, λ ) = 0",
+      "avecL=f+λg.",
+      "Une fois ces notions introduites on peut les appliquer au probl ème (5.2) en réécrivant la fonction objectif:",
+      "L(ωj, λ) =ωT jVωj−λ(ωT jωj−1)",
+      "On veut maximiser cette fonction, il faut donc la dériver et trouver le point en lequel cette dérivée est nulle :",
+      "∂L ∂ωj(ωj, λ) = 2 Vωj−2λωj= 0",
+      "On obtient alors la solution : Vωj=λω",
+      "Ainsi la composante principale qui satisfait la fonction souhaitée est un vecteur propre de la matrice de covariance V. De plus celle qui maximise L(ω, λ)est celle ayant la plus grande valeur propre. On peut donc trouver tous les ωjen décomposant Ven valeurs singuli ères (ou SVD en anglais).",
+      "Écrivons maintenant la matrice de covariance V. Pour ce faire on notera xi,jlaj-ème composante de xi :",
+      "V=V ar(x.,1) Covar (x.,1, x.,2) ··· Covar (x.,1, x.,d) Covar (x.,2, x.,1) V ar(x.,2) ··· Covar (x.,2, x.,d) Covar (x.,d−1, x.,1) ··· V ar(x.,d−1) Covar (x.,d−1, x.,d) Covar (x.,d, x.,1) ··· Covar (x.,d, x.,d−1) V ar(x.,d)",
+      "Avec V ar(x.,j) =1 nnX i=1x2 i,j− 1 nnX i=1xi,j!2",
+      "Et Covar (x.,j1, x.,j2) =1 nnX i=1xi,j1xi,j2− 1 nnX i=1xi,j1! 1 nnX i=1xi,j2!",
+      "Il existe plusieurs approches pour choisir la dimension réduite d′, qui correspond à la composante principale que l’on conserve. Une méthode courante s’appuie sur le constat suivant : si on conserve des données de dimension d′, alors les d−d′valeurs propres qui ne sont pas retenues doiventêtre relativement petites par rapport au probl ème. On utilise alors comme crit ère le rapport :",
+      "Prop =d′X i=1λi dX i=1λi",
+      "Ce rapport donne la proportion de variance que l’on conserve en réduisant la dimension des données.",
+      "Onécrit Ωd′∈ M d(R)la matrice carrée de taille dqui contient les d′vecteurs propre"
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the challenges associated with high-dimensional data and the concept of the 'curse of dimensionality'.",
+    "answer": "The challenges associated with high-dimensional data include: (1) the 'curse of dimensionality', where the distance between data points becomes less meaningful, (2) the difficulty in separating clusters, and (3) the increased computational complexity. The 'curse of dimensionality' is illustrated by the ratio of the maximum distance between observations to the minimum distance between observations, which tends towards 1 as the dimension increases.",
+    "ref": [
+      "La difficulté à séparer les données se traduit par la Figure 5.2 (b) où l’on voit que les trois groupes de données ne sont pas bien clusterisés.",
+      "Cette difficulté à séparer les données est due à la malédiction des grandes dimensions.",
+      "La malédiction des grandes dimensions est illustrée par le rapport R = max(i,j)∥xi−xj∥2 / min(i,j)∥xi−xj∥2 qui tend vers 1 lorsque la dimension des données devient grande.",
+      "C’est pourquoi il devient difficile pour l’algorithme de déterminer à quelle classe appartient une observation, puisque ces dernières sont toutes situées à la même distance les unes des autres."
+    ]
+  },
+  {
+    "chapter": "Ch5_Unsupervised",
+    "question_type": "qa_summary",
+    "question": "According to the MI201 course materials of ENSTA Paris, summarize the steps and objectives of Principal Component Analysis (PCA).",
+    "answer": "Principal Component Analysis (PCA) involves reducing the dimensionality of data by transforming it into a new coordinate system where the first component has the highest variance, the second component has the second highest variance, and so on. The objective is to find a set of vectors {ωj} that maximize the variance of the data projected onto these components.",
+    "ref": []
+  }
+]

@@ -1,0 +1,824 @@
+ xi. A contrario dans ce chapitre nous allons aborder
+l’apprentissage non supervisé. La différence majeure entre ces deux branches de l’apprentissage automatique
+est que les données traitées en unsupervised learning ne sont pasétiquetées, le but va alorsêtre d’apprendre
+une fonction sur l’espace des données qui vérifie certaines propriétés. Nous traiterons de deux grands types
+de probl èmes d’apprentissage non supervisé : la réduction de dimension et le clustering.
+5.1 Réduction de dimension
+La réduction de dimension vise, comme son nom l’indique, à trouver une représentation des données dans un
+espace de dimension plus faible que celle de l’espace d’origine. Cette réduction de dimension permet entre
+autre de réduire les temps de calcul ainsi que l’espace mémoire nécessaire au traitement du probl ème en
+question. On peut utiliser un tel algorithme pour prétraiter un probl ème d’apprentissage supervisé puisque
+la réduction de la dimension des données améliore tr ès souvent les performances d’un tel algorithme.
+Ainsi, d’un point de vue formel, on peut définir un probl ème de réduction de dimension comme la
+recherche d’un certain d′< d afin de transformer les observations x1, ...,xn∈ X de dimension den des
+observations ”réduites” z1, ...,zn∈ Z de dimension d′qui doivent vérifier certaines propriétés propre au
+probl ème traité.
+Figure 5.1: Principe de la réduction de dimension [13]
+89Chapter 5 Unsupervised Learning 5.1 Réduction de dimension
+5.1.1 La malédiction des grandes dimensions
+Avant d’aller plus loin et de détailler des méthodes permettant de réduire la dimension des données, intéressons-
+nous à une des principales motivations qui nous pousse à vouloir le faire. Nous avons déjàévoqué ce concept
+en1.7.4 dans le cadre de la méthode des k plus proches voisins. Il s’agit d’un phénom ène qui appara ˆıt lorsque
+l’on traite d’un probl ème en grande dimension et qui rend les classes d’un probl ème de plus en plus difficiles
+à séparer à mesure que la dimension augmente.
+Figure 5.2: Illustration de la malédiction des grandes dimensions pour d= 10
+La Figure 5.2 (a) représente la matrice de Gram des données définie telle que ∀i, j∈[|1, n|], la composante
+situéeà lai-ème ligne et à laj-ème colonne correspond au produit scalaire xT
+i.xj. Ici cette matrice montre
+que les classes sont difficiles à séparer, dans le cas contraire on aurait une diagonale de blocs sombres carrés
+et le reste de la matrice serait claire.
+Cette difficultéà séparer les données se traduit par la Figure 5.2 (b) o ù l’on voit que les trois groupes de
+données ne sont pas bien clusterisés. Tous ces soucis sont dûsà la malédiction des grandes dimensions, d’o ù
+l’envie de créer des méthodes de réduction de dimension pouréviter ces probl èmes.
+Pour expliquer ce phénom ène on peutétudier le rapport entre la distance maximale entre deux observa-
+tions et la distance minimale entre deux observations :
+R=max
+(i,j)∥xi−xj∥2
+min
+(i,j)∥xi−xj∥2
+On remarque que ce rapport tend vers 1 lorsque la dimension des données devient grande, comme illustré
+en Figure 5.3. C’est pourquoi il devient difficile pour l’algorithme de déterminer à quelle classe appartient
+une observation, puisque ces derni ères sont toutes situéesà la même distance les unes des autres.
+
+Figure 5.3: Evolution de la valeur de Ren fonction de den sélectionnant aléatoirement 500 observations
+xi∈[0,1]d
+5.1.2 Analyse en composantes principales (ou Principal Component Analysis )
+L’analyse en composantes principales, que nous noterons par la suite PCA , consiste à réduire la dimension
+des données via un changement de base faisant en sorte que la premi ère composante des données sous leur
+novelle forme soit celle ayant la plus grande variance, que la seconde composante ait la seconde plus grande
+variance etc…
+Pour ce faire on part d’un jeu ne npoints D={xi}n
+i=1∈Rdpour le transformer en D′={x′
+i}n
+i=1∈Rd′
+avecd′≪d.
+On note {ωj}n
+j=1∈Rdlesjcompsantes principales. Le but de la méthode PCA vaêtre de trouver ce jeu de
+vecteurs {ωj}n
+j=1tel que :
+arg min
+ωj"
+1
+nnX
+i=1∥xi−xT
+i.ωjωj
+∥ωj∥∥2#
+,∀j∈[|1, d|] (5.1)
+On développe
+∥xi−xT
+i.ωjωj
+∥ωj∥∥2= 1−2(xT
+i.ωj)2
+∥ωj∥+ (xT
+i.ωj)2
+En ajoutant la contrainte ∥ωj∥2= 1et en réinjectant dans (5.1) on obtient la nouvelle fonction objectif :
+arg max
+ωj,∥ωj∥2=11
+nnX
+i=1(xT
+i.ωj)2,∀j∈[|1, d|]
+On peut montrer que cela revient à chercher les composantes qui maximisent la variance :
+var(xT
+i.ωj) =1
+nnX
+i=1(xT
+i.ωj)2− 
+1
+nnX
+i=1xT
+i.ωj!2
+
+En effet, si on consid ère que les données sont centrées, c’est- à-dire quenX
+i=1xi= 0, alors on peut simplifier
+:
+var(xT
+i.ωj) =1
+nnX
+i=1(xT
+i.ωj)2
+On peut réécrire le probl ème sous forme matricielle en notant X∈ M n,d(R)la matrice contenant les
+observation :
+1
+nnX
+i=1(xT
+i.ωj)2=1
+n(Xωj)T(Xωj)
+=ωT
+j(1
+nXTX)ωj
+=ωT
+jVωj
+avecV=1
+nXTX, V∈ M d,d(R)la covariance de X. Ainsi le probl ème se réécris :
+arg max
+ωj,∥ω∥2=1ωT
+jVωj,∀j∈[|1, d|] (5.2)
+Pour pouvoir résoudre ce probl ème, il est nécessaire d’introduire quelques notions qui nous permettrons à
+terme d’utiliser le multiplicateur de Lagrange. Commençons par la notion d’extremum local sous contrainte.
+Soient fetgde fonctions de deux variables définies respectivement sur DfetDg. Soit P0= (x0, y0)un
+point appartenant àDf∩Dgtel que g(x0, y0) = 0 .P0est un maximum (respectivement minimum) local
+defsurD={(x, y)|g(x, y) = 0}s’il existe un voisinage VdeP0tel que pour tout (x, y)∈ V tel que
+g(x, y) = 0 , f(x, y)≤f(x0, y0)(respectivement f(x, y)≥f(x0, y0)).
+Après cela on peuténoncer le théorème de la condition nécessaire sur l’extremum local. On a toujours fet
+gdeux fonctions de deux variables mais qui sont cette fois-ci de classe C1ainsi que P0= (x0, y0)∈Df∩Dg
+avecg(x0, y0) = 0 . SiP0est un extremum local de fsurD={(x, y)|g(x, y) = 0}et∇g(x0, y0)̸= 0alors
+il existe λ0∈Rtel que :
+∇f(x0, y0) =λ0∇g(x0, y0)
+On dit alors que P0est un point stationnaire de fsurDetλ0est appelé multiplicateur de Lagrange
+associé. Ce multiplicateur de Lagrange est utilisé pour trouver les maximums et minimums locaux d’une
+fonction sooumise à des contraintes.
+Une propriété fondamentale du multiplicateur de Lagrange est la suivante. P0est un extrema de fsurD
+associé au multiplicateur de Lagrange λ0∈Rsi et seulement si (x0, y0, λ0)est solution de :
+
+
+∂L
+∂x(x, y, λ ) = 0
+∂L
+∂y(x, y, λ ) = 0
+∂L
+∂λ(x, y, λ ) = 0
+avecL=f+λg.
+Une fois ces notions introduites on peut les appliquer au probl ème (5.2) en réécrivant la fonction objectif:
+
+L(ωj, λ) =ωT
+jVωj−λ(ωT
+jωj−1)
+On veut maximiser cette fonction, il faut donc la dériver et trouver le point en lequel cette dérivée est
+nulle :
+∂L
+∂ωj(ωj, λ) = 2 Vωj−2λωj= 0
+On obtient alors la solution :
+Vωj=λω
+Ainsi la composante principale qui satisfait la fonction souhaitée est un vecteur propre de la matrice de
+covariance V. De plus celle qui maximise L(ω, λ)est celle ayant la plus grande valeur propre. On peut donc
+trouver tous les ωjen décomposant Ven valeurs singuli ères (ou SVD en anglais).
+Écrivons maintenant la matrice de covariance V. Pour ce faire on notera xi,jlaj-ème composante de xi
+:
+V=
+V ar(x.,1) Covar (x.,1, x.,2) ··· Covar (x.,1, x.,d)
+Covar (x.,2, x.,1) V ar(x.,2) ··· Covar (x.,2, x.,d)
+Covar (x.,d−1, x.,1) ··· V ar(x.,d−1) Covar (x.,d−1, x.,d)
+Covar (x.,d, x.,1) ··· Covar (x.,d, x.,d−1) V ar(x.,d)
+
+Avec
+V ar(x.,j) =1
+nnX
+i=1x2
+i,j− 
+1
+nnX
+i=1xi,j!2
+Et
+Covar (x.,j1, x.,j2) =1
+nnX
+i=1xi,j1xi,j2− 
+1
+nnX
+i=1xi,j1! 
+1
+nnX
+i=1xi,j2!
+Il existe plusieurs approches pour choisir la dimension réduite d′, qui correspond à la composante prin-
+cipale que l’on conserve. Une méthode courante s’appuie sur le constat suivant : si on conserve des données
+de dimension d′, alors les d−d′valeurs propres qui ne sont pas retenues doiventêtre relativement petites
+par rapport au probl ème. On utilise alors comme crit ère le rapport :
+Prop =d′X
+i=1λi
+dX
+i=1λi
+Ce rapport donne la proportion de variance que l’on conserve en réduisant la dimension des données.
+Onécrit Ωd′∈ M d(R)la matrice carrée de taille dqui contient les d′vecteurs propres correspondant aux
+valeurs propres les plusélevées et dont les d−d′colonnes restantes sont nulles. Le théorème d’Eckart-Young
+[31] nous permet alors de déterminer l’erreur de la réduction de dimension :
+
+Err PCA=∥V−ΩT
+d′VΩd′∥2
+F=dX
+i=d′+1λ2
+i
+L’algorithme PCA
+Pour appliquer le PCA en pratique sur un jeu de donnéesD={xi}n
+i=1on doit suivre l’algorithme dont le
+pseudo-code est le suivant :
+1. Calculer la covariance VdeD
+2.Évaluer la SVD de V, on note {ωi}d
+i=1les vecteurs propres et {λi}d
+i=1les valeurs
+propres
+3. Ordonner les valeurs propres et les vecteurs propres associés par ordre décroissant
+4. Prendre les d′premiers vecteurs tels que Prop atteigne un crit ère prédéfini
+5. Projeter les données sur cette nouvelle base
+5.1.3 Utilisation de noyaux (kernels)
+Le ”kernel trick”
+Les méthodes utilisant des noyaux sont utilisées pour définir des fonctions de décision non-linéaire tout en
+utilisant des méthodes linéaires, comme c’est le cas pour le PCA. Ces méthodes permettent de projeter les
+données dans un espace non-linéaire pouvantêtre de dimension infinie, dans lesquels des méthodes linéaires
+pourraientêtre utilisées.
+Commençons par définir un noyau (on utilisera souvent le terme anglais kernel ). Il s’agit d’une fonction
+K:X × X → Rqui est symétrique et hermitienne.
+Cependant on travaille presque toujours sur des kernels définis positifs, c’est- à-dire un kernel tel que
+∀{x1, ..., x n} ∈ Xnet∀{α1, ..., α n} ∈Cnon a :
+nX
+i=1nX
+j=1αiα∗
+jK(xi, xj)≥0
+Avec un tel kernel on peut définir une matrice de similaritéK= (K(xi, xj))i,j∈[|1,n|]qui est définie
+semi-positive. On peut aussi appeler une telle matrice matrice de Gram ou matrice kernel (c’est une matrice
+de ce type qui est représentée en Figure 5.2 (a)).
+Pour aller plus loin il est nécessaire de rappeler la définition d’un espace de Hilbert. Il s’agit d’un espace
+vectoriel Hmuni d’un produit scalaire réel ou complexe complet, ce qui signifie que toute suite de Cauchy
+d’élement de cette espace converge dans cet espace.
+On dispose du théorème de Moore-Aronszajn qui stipule qu’un kernel Kest défini positif si et seulement
+si il existe un espace de Hilbert Het une fonction ϕ:X → H telle que
+K(xi, xj) =< ϕ(xi), ϕ(xj)>H
+Où< ., . > Hest le produit scalaire de l’espace H.
+
+Définissons maintenant un espace de Hilbert à noyau reproduisant (abrégé en RKHS en anglais). Soit
+(H, < ., . > H) un espace de Hilbert de fonctions de XdansC. La fonction K:X × X → Cest le noyau
+reproduisant de H, en supposant qu’il en admette un, si et seulement si on a les propriétés suivantes :
+•Pour tout x∈ X, la fonction k(x, .) :t→ K(x, t)appartient àH
+•Pour tout x∈ X, g∈ H, la propriété reproduisante est vérifiée c’est à dire: g(x) =< g, k (x, .)>H
+Si un noyau reproduisant existe, alors Hest dit espace de Hilbert à noyau reproduisant (RKHS).
+Une fois cette notion définie on peuténoncer le théorème du représentant (Representer theorem). Soient
+un espace Xdoté d’un kernel défini positif K,HKle RKHS correspondant et x1, ..., x n∈ X un jeu fini de
+points. Soit ψ:Rn+1→Rune fonction de n+ 1variables strictement croissante par rapport à la derni ère
+variable. Alors toute solution du probl ème d’optimisation :
+min
+g∈HKψ(g(x1), ..., g (xn),∥g∥HK)
+Admet une représentation de la forme :
+∀x∈ X, g(x) =nX
+i=1αiK(xi, x)
+Où∥g∥HK=√< g, g > HK.
+Ce théorème est tr ès important, car il permet d’approximer n’importe quelle fonction dans le RKHS.
+Le kernel PCA
+On consid ère toujours un jeu de donnéesD={xi}n
+i=1. On peut utiliser une fonction de mapping vers un
+RKHS H, qui peut avoir des propriétés intéressantes :
+ϕ=(
+Rd→ H
+xi→ϕ(xi)
+La fonction ϕpeutêtre non-linéaire et dépend du choix du noyau utilisé. En supposant que l’on ait choisi
+un kernel, le but du kernel PCA (KPCA) est de trouver l’ensemble {ωj}d
+j=1qui minimise la quantité :
+∀j∈[|1, P|],1
+nnX
+i=1∥ϕ(xi)−< ϕ(xi),ωj>HKωj
+∥ωj∥2
+HK∥2
+HK
+En faisant un calcul similaire à celui effectué pour le PCA on finit par obtenir :
+L(ωj, λ=1
+nnX
+i=1< ϕ(xi),ωj>2
+HK−λ(∥ωj∥2
+HK−1)
+Avec λ∈R. Le théorème du représentant nous permet d’écrire :
+ωj=nX
+q=1αq,jϕ(xq)
+
+D’où
+L(αj, λ) =1
+nnX
+i=1
+nX
+q=1αq,j< ϕ(xi), ϕ(xq)>HK
+2
+−λ
+X
+(k,q)∈[|1,n|]2αq,jαk,jK(xq,xk)−1
+
+On peut le réécrire sous forme matricielle avec la notation K= (K(xi, xj))i,j∈[|1,n|]:
+L(αj, λ) =1
+nαT
+jK2αj−λ(αT
+jKαj−1)
+Le principal avantage du kernel trick vient du fait que l’on peut utiliser différents kernels sans avoir à
+déterminer explicitement la fonction de mapping ϕ. Grâceà cela on peut utiliser une tr ès grande variété de
+kernels. Parmi les plus populaires on peut citer :
+•les noyaux polynomiaux : K(xi,xj) = (<xi,xj>Rd+c)PavecPle degré du noyau et cune constante.
+•les noyaux rbf, ou gaussiens : K(xi,xj) = exp
+−∥xi−xj∥2
+Rd
+2σ2
+avec un param ètreσ.À noter que ce noyau
+amène les données dans un espace de dimension infinie.
+Figure 5.4: (a) Données classées en 2 sph ères concentiques, (b) KPCA polynomial avec p= 5, (c) KPCA
+gaussien avec σ, (d) KPCA gaussien avec 5.σ, (e) KPCA gaussien avec 8.σ, (f) KPCA gaussien avec 15.σ
+La Figure 5.4 montre bien l’importance du choix du KPCA utilisé. En effet, les données initiales sont
+difficiles à séparer à cause de la forme sphérique des deux classes et il semble alors judicieux de les transformer.
+Toufois tous les KPCA n’ont pas la même efficacité sur ces données et les noyaux utilisés en (b) et (f) n’offrent
+aucune aide à la séparation des données. Sur cet exemple il serait judicieux de choisir un des KPCA utilisés
+en (d) ou (e) car les données y sont clairement séparées.
+
+5.1.4 Positionnement multidimensionnel (MDS)
+Le positionnement multidimensionnel, ou Multidimensional scaling (MDS ), est une technique utilisée en data
+mining permettant de diminuer la dimension des données en faisant en sorte de conserver les distances entre
+les données :
+D={xi}n
+i=1→ D′={x′
+i}n
+i=1
+Avec∀i, j∈[|1, n|]2,∥xi−xj∥ ≃ ∥ x′
+i−x′
+j∥
+Il existe principalement deux fonctions objectifs pouvantêtre utilisées pour cette méthode, la plus simple
+est :
+ϕ(D′) =X
+i,j∈[|1,n|]2|∥xi−xj∥2
+2− ∥x′
+i−x′
+j∥2
+2|
+La seconde est appelée fonction de coût de Sammon :
+ϕ(D′) =1X
+i,j∈[|1,n|]2∥xi−xj∥2X
+i,j∈[|1,n|]2|∥xi−xj∥2
+2− ∥x′
+i−x′
+j∥2
+2|
+La principale différence entre ces deux fonctions est le facteur1X
+i,j∈[|1,n|]2∥xi−xj∥2qui permet de mettre
+en valeur leséléments de Dqui sont les plus similaires. Dans la suite de cette section on notera Dla matrice
+de distance entre les données telle que Di,j=∥xi−xj∥2etSla matrice telle que Si,j=∥xi−xj∥2
+2.
+L’idée de base du MDS est de transformer la matrice de distances en une matrice de produits scalaires.
+Cette matrice G, aussi appelée matrice de Gram, peutêtre définie telle que Gi,j=<xi,xj>ou cencore
+commeétant G=XTXavecXla matrice contenant les données.
+Montrons maintenant le lien entre DetG. Par définition on a :
+∥xi−xj∥2=p<xi−xj,xi−xj>
+∥xi−xj∥2=p
+<xi,xi>+<xj,xj>−2<xi,xj>
+Di,j=p
+Gi,i+Gj,j−2Gi,j
+Pour la suite on aura besoin d’une matrice de centralisation H=I−1
+n11Tavec 1le vecteur colonne de
+taille nne contenant que des 1. On peut montrer rapidement en utilisant que 11.11T=n.11T:
+H×H=H
+De même avec 1T×11T=n.1Ton a :
+H×1= 0
+Enfin si on a Xune matrice de données centrée, c’est- à-dire que moyenne (X) = 0 , alors H×X=X.
+On peut le montrer en utilisant qu’avec Xcentrée,X×11T= 0.
+
+Dans la suite on indiquera qu’une matrice Mest centrée ainsi : Mc. Les trois propriétés précédentes sur
+Hnous permettent de dire que, pour une matrice de donnéesXcde matrice de Gram associéeGc, on a :
+H×Gc×H=Gc(5.3)
+La preuve tient en une ligne : Gc= (Xc)TXc=H(Xc)TXcH=HGcH.
+Après ça on peut montrer en utilisant que ∥xi−xj∥2=∥(xi−moyenne (X))−(xj−moyenne (X))∥2:
+Di,j=q
+Gc
+i,i+Gc
+j,j−2Gc
+i,j (5.4)
+Montrons maintenant la relation entre la matrice Gcet la matrice Sc:
+Gc=−1
+2.Sc=−1
+2.HS (5.5)
+Pour le prouver on traduit matriciellement la relation (5.3) :
+H×Gc×H= (I−1
+n·11T)×Gc×(I−1
+n·11T)
+Ainsi H×Gc×H=Gc−1
+n·11T×Gc−1
+n·Gc×11T+1
+n2·11T×Gc×11T=Gc
+Donc, 11T×Gc+Gc×11T−1
+n·11T×Gc×11T= 0
+Cependant on a :
+11T×Gc=
+1. . .1
+1. . .1
+×
+Gc
+Gc
+nn
+
+Puis par produit on a 11T×Gc=
+Pn
+i=1Gc
+i1. . .Pn
+i=1Gc
+i=1Gc
+i1. . .Pn
+i=1Gc
+in
+
+De la même façon : Gc×11T=
+Pn
+j=1Gc
+1j. . .Pn
+j=1Gc
+1j
+j=1Gc
+nj. . .Pn
+j=1Gc
+nj
+
+Et alors : 11T×Gc×11T=
+P
+i,j∈[1,n]2Gc
+ij. . .P
+i,j∈[1,n]2Gc
+ij
+i,j∈[1,n]2Gc
+ij. . .P
+i,j∈[1,n]2Gc
+ij
+
+
+On obtient finalement:
+
+Pn
+i=1Gc
+i1. . .Pn
+i=1Gc
+i=1Gc
+i1. . .Pn
+i=1Gc
+in
++
+Pn
+j=1Gc
+1j. . .Pn
+j=1Gc
+1j
+j=1Gc
+nj. . .Pn
+j=1Gc
+nj
+
+−1
+n·
+P
+i,j∈[1,n]2Gc
+ij. . .P
+i,j∈[1,n]2Gc
+ij
+i,j∈[1,n]2Gc
+ij. . .P
+i,j∈[1,n]2Gc
+ij
+= 0n(R)
+En multipliant cetteéquation à droite par 1on a:
+
+P
+i,j∈[1,n]2Gc
+ij
+...P
+i,j∈[1,n]2Gc
+ij
++n·
+Pn
+j=1Gc
+1j
+...Pn
+j=1Gc
+nj
+−
+P
+i,j∈[1,n]2Gc
+ij
+...P
+i,j∈[1,n]2Gc
+ij
+= 0n,1(R)
+Donc∀i∈[1, n]on aPn
+j=1Gc
+ij= 0 et grâceà la symétrie de Gc,∀j∈[1, n]on aPn
+i=1Gc
+ij= 0.
+Cependant on a D2
+i,j=Gc
+i,i+Gc
+j,j−2Gc
+i,jgrâceà (5.4) donc finalement,
+nX
+i=1D2
+i,j=nX
+i=1Gc
+i,i+n·Gc
+j,j (5.6)
+nX
+j=1D2
+i,j=n·Gc
+i,i+nX
+j=1Gc
+j,j (5.7)
+Mais on a aussi
+Sc=H×S×H= (I−1
+n·11T)×S×(I−1
+n·11T)
+Sc=S−1
+n·11T×S−1
+n·S×11T−1
+n2·11T×S×11T
+En réécrivant matriciellement, et en utilisant S={D2
+ij}i,j∈[1,n]2ainsi que toutes les opérations matricielles
+que l’on a effectuées précédemment on a :
+Sc
+ij=D2
+ij−1
+n·nX
+i=1D2
+i,j−1
+n·nX
+j=1D2
+i,j+1
+n2·X
+i,j∈[1,n]2D2
+ij (5.8)
+
+En utilisant 5.6 et en mettant ceséquations dans 5.8 on a la nouvelleéquation :
+Sc
+ij=D2
+ij−1
+n·(nX
+i=1Gc
+i,i+n·Gc
+j,j−n·Gc
+i,i+nX
+j=1Gc
+j,j−1
+n·X
+i,j∈[1,n]2D2
+ij)
+Sc
+ij=D2
+ij−Gc
+ii−Gc
+jj
+Grâceà (5.4) on a :
+Sc
+ij=−2·Gc
+ij (5.9)
+Maintenant que l’on dispose de cette relation, intoduisons la norme Froebenius pour les matrices A=
+{aij}i,j∈[1,n]2∈Mn(R):
+∥A∥F=sX
+i,j∈[1,n]2|aij|2 (5.10)
+Cette norme a la propriété suivante : si on a A,U∈Mn(R)2tel que ∥U∥F= 1, alors on a :
+∥A×U∥F=∥U×A∥F=∥A∥F (5.11)
+Revenons à notre probl ème qui consiste en la minimisation de
+ϕ(D′) =X
+i,j∈[1,n]2(∥x′
+i−x′
+j∥2− ∥xi−xj∥2)
+On note Xla matrice associée au jeu de données{xi}i∈[1,n]∈Rd,X′celle associéeà{x′
+i}i∈[1,n]∈Rd′,
+SetS′les matrices des distances euclidiennes au carré deXetX′,GetG′les matrices de Gram associées.
+Un autre point de vue pour chercher S′est de minimiser
+ϕ(S′) =X
+i,j∈[1,n]2(S′
+ij−Sij)avecrang(S′) =d′
+X
+i,j∈[1,n]2(S′
+ij−Sij)≤X
+i,j∈[1,n]2|S′
+ij−Sij|
+Grâceà l’équivalence des normes dans Mn(R), on a :
+∃α∈R+∥S′−S∥1=X
+i,j∈[1,n]2|S′
+ij−Sij| ≤α· ∥S′−S∥F
+Ainsi notre but est maintenant de minimiser
+Φ(S′) =∥S′−S∥Favecrang(S′) =d′(5.12)
+
+Ainsi en utilisant (5.4) avec ˜H=H
+∥H∥Fon a :
+∥S′−S∥F=∥˜H×(S′−S)×˜H∥F=1
+∥H∥2
+F· ∥H×(S′−S)×H∥F
+∥S′−S∥F=2
+∥H∥2
+F· ∥G′−G∥F
+On doit donc trouver G′qui minimise :
+ϕ(G′) =∥G′−G∥Favecrang(G′) =d′
+Pour cela on va utiliser le théorème d’Eckart-Young.
+Soit une matrice A∈Mnm(R), avec (n, m)∈N2. On peutécrire la décomposition en valeurs singuli ères
+A=UA×ΣA×VT
+racines des valeurs propres de A×A) dans l’ordre décroissant, UA∈Mnr(R)etVA∈Mrm(R)ont des
+vecteurs orthogonaux qui contiennent les vecteurs singuliers gauche et droite de A, et o ùr=rang(A). Si
+l’on appelle A′∈Mnm(R)la meilleure matrice de rang d′approximant Apour la norme Frobenius alors :
+A′=UA,d′×ΣA,d′×VT
+A,d′
+Avec ΣA,d′la matrice diagonale contenant les d′valeurs singuli ères les plus grandes de Adans l’ordre
+décroissant, et UA,d′∈Mnr(R)etVA,d′∈Mrm(R)qui contiennent les verteurs singuliers de Aassociés.
+De plus l’erreur de minimisation est
+∥A′−A∥F=vuutrX
+i=d′+1σ2
+i (5.13)
+On applique alors ce théorème à notre probl ème et on a G′=UG,d′×ΣG,d×UT
+G,d′. Comme on a
+G′=X′T×X′alors X′= Σ1/2
+G,d′×UT
+G,d′.
+5.1.5 Algorithme t-SNE
+L’algorithme t-SNE (pour t-distributed Stochastic Neighbor Embedding ) est un algorithme d’apprentissage
+automatique non supervisé permettant de visualiser des données de grande dimension en projectant chaque
+point dans une carte de dimension deux ou trois. Cette méthode peut trouver des connexions non-linéaires
+contrairement au PCA. Elle repose sur trois grandesétapes :
+•On calcule les similarités des points dans l’espace initial de grande dimension.
+•On crée un espace de dimension inférieure dans lequel on représentera nos données.
+•On optimise la répartition des points dans le nouvel espace.
+
+Premi èreétape
+On dispose d’une base de donnéesD={xi}n
+i=1∈Rd. La premi èreétape consiste à calculer les probabilités
+pijqui expriment la similarité des donnéesxietxj. Pour i̸=jon a :
+pj|i=exp 
+−∥xi−xj∥2
+2/2σ2
+X
+k̸=iexp 
+−∥xi−xk∥2
+2/2σ2
+On en déduit chaque pij:
+pij=pi|j+pj|i
+2n
+Le param ètreσdu noyau gaussien est appelé la perplexité et est à définir.
+Deuxi èmeétape
+Le but du t-SNE est d’apprendre un mapping D′={x′
+i}n
+i=1∈Rd′qui refl ète au mieux les similaritéspij.
+En règle générale, d′vaut 2 ou 3 puique l’on veut utiliser la réduction de dimension pour pouvoir visualiser
+les données. De mani ère analogue à la premi èreétape, on calcule les similaritésqijdes points dans l’espace
+nouvellement créé en utilisant une loi de Student au lieu d’une gaussienne. On obtient donc :
+qij=(1 +∥x′
+i−x′
+j∥2
+2)−1
+nX
+k=1X
+l̸=k(1 +∥x′
+k−x′
+l∥2
+2)−1
+Troisi èmeétape
+On utilise la divergence de Kullback-Leiber pour faire en sorte que la distribution de probabilité jointe des
+nouvelles donnéesx′
+isoit aussi similaire que possible à celle de l’ancienne base de données. Ainsi on minimise
+la divergence de Kullback-Leiber entre les distributions PetQ:
+KL(P∥Q) =X
+i̸=jpijlogpij
+qij
+Ce probl ème de minimisation se résout en utilisant l’algorithme de la descente de gradient. Attention
+contrairement à la PCA cette technique est juste une technique de visualisation.
+5.1.6 Auto-encodeur
+Un auto-encodeur est un réseau de neurones créé dans le but d’apprendre une fonction d’identité de mani ère
+non supervisée pour reconstruire les données entrées initialement tout en les compressant pendant le pro-
+cessus.
+Dans cette méthode on cherche encore à passer d’une base D={xi}n
+i=1∈Rdà une base D′={x′
+i}n
+i=1∈
+Rd. On notera gϕl’encodeur DNN (par exemple Deep Neural Network). ϕreprésente les poids du réseau de
+neurones. De même on note fθle décodeur DNN o ùθreprésente les poids du réseau de neurones. On a alors
+que∀i∈[|1, n|],x′
+i=fθ(gϕ(xi)).
+
+Figure 5.5: Schéma de fonctionnement d’un auto-encodeur [32]
+Il existe beaucoup de métriques différentes pour quantifier la différence entre deux vecteurs, comme
+l’entropie croisée quand la fonction d’activation est une sigmo ¨ıde (une fonction de la forme f(x) =1
+1−exp(−λx)).
+On peut aussi utiliser la fonction de coût des moindres carrés :
+L(ϕ, θ) =1
+nnX
+i=1∥xi−fθ(gϕ(xi))∥2
+2
+
+Il existe une variante des auto-encodeurs qui sont dits ”robustes”. En effet il est possible qu’un auto-
+encodeur rencontre un probl ème de sur-apprentissage lorsqu’il y a plus de param ètres pour le réseau de
+neurones que de données. Une solution à ce probl ème peut- être de corrompre partiellement l’entrée en
+ajoutant du bruit ou en masquant aléatoirement certaines valeurs par exemple.
+Figure 5.6: Schéma de fonctionnement d’un auto-encodeur robuste [32]
+5.2 Clustering
+Une autre application de l’apprentissage non supervisé est le clustering. On consid ère cette fois une base de
+donnéesD={xi}n
+i=1∈Rdet on consid ère qu’il existe un jeu de Kdistributions Ckaveck∈[|1, K|]. On
+consid èreégalement que tous les xisont une réalisation de l’un des Ck. Toutefois, dans le cas général, on ne
+dispose pas d’information sur Ket les Ck.
+Le but du clustering va alorsêtre de déterminer le nombre de clusters (ou au moins avoir un nombre qui
+fait sens) et de répartir les données de Dsans avoir aucune information.
+5.2.1 Algorithme K-means
+Supposons que nous ayons choisi une valeur pour K. Construisons maintenant une nouvelle variable ziavec
+i∈[|1, n|], qui assigne à chaque xiun cluster.
+∀i∈[|1, n|], zi=ksi l’on assigne xià la classe k
+L’objectif de l’algorithme K-means peutêtre décrit ainsi :
+L(z, µ) = arg min
+z,µ∥xi−µzi∥2
+2
+Avecµk=1
+|Ck|X
+i∈Ckvi
+AvecCk={xi,∀i∈[|1, n|]|zi=k}
+
+Ainsi, l’algorithme du K-means apprend les clusters de telle sorte que leur distance avec la moyenne du
+cluster (= le centro ¨ıde) ne soit pas trop loin. Pour faire simple le but est de faire en sorte de regrouper les
+données qui ressemblent a la valeur moyenne.
+L’algorithme K-means
+Entrée :D,Kle nombre de clusters, MaxIter le nombre d’itération, ϵle seuil d’arrêt
+Initialiser chaque centro ¨ıde de cluster avec une valeur aléatoire
+Répéter tant que l’on a pas atteint le seuil d’arrêt ou MaxIter :
+•Assigner chaque observation au groupe avec le centro ¨ıde le plus proche.
+•Recalculer les centro ¨ıdes à partir des individus rattachés aux groupes.
+•Évaluer si la fonction de coût a atteint le seuil ϵ
+Figure 5.7: Exemple de cheminement de l’algorithme K-means [33]
+L’algorithme K-means a l’avantage d’ être facile à comprendre et à interpréter en plus d’ être apte à
+s’adapter à des bases de données tr ès grandes. En effet seules les coordonnées des centro ¨ıdes doiventêtre
+stockées en mémoire.
+Cependant sa simplicité n’est pas synonyme de perfection et le temps de calcul peutêtre problématique
+puisque l’on traite plusieurs fois chaque donnée. De plus il n’y a pas de garantie que l’algorithme atteigne
+l’optimum global de la fonction de coût. Enfin, et peut- être le point le plus gênant, la solution sur laquelle
+débouche l’algorithme dépend des valeurs initialement choisies pour les centro ¨ıdes.
+
+Figure 5.8: Exemple de mauvaise initialisation [33]
+Nous avons ici illustré l’algorithme K-means avec la distance euclidienne, on peut néanmoins utiliser
+d’autre mesures de dissimilarités :
+•La distance cosinus détermine l’angle entre les vecteurs formés par deux points avec l’origine :
+d(x,y) = 1−xT.y
+∥x∥.∥y∥
+•La distance de Manhattan qui somme les différences entre chaque coordonnée des deux points :
+d(x,y) =dX
+i=1|xi−yi|
+•La distance de Minkowski, aussi connue sous le nom de métrique de distance généralisée :
+d(x,y) = dX
+i=1|xi−yi|1
+p!p
+
+5.2.2 DBSCAN
+Cette méthode part du constat que, dans un probl ème de clustering, les clusters correspondent aux régions
+où la densité de données estélevée. Ces clusters sont séparés par des zones o ù cette densité est faible. Un
+cluster est défini commeétant un jeu maximal de points connectés par densité. Cette méthode permet de
+découvrir un nombre arbitraire de clusters de n’importe quelle forme.
+Pour pouvoir mesurer la densité d’un point il faut définir ce qu’est un voisinage. Le ϵ-voisinage d’un
+point xpour une distance dest l’ensemble des points situésà une distance inférieure àϵdex.
+Vϵ(x) ={y, d(x,y)≤ϵ}
+La méthode DBSCAN va, pour un ϵet un entier MinPts , classer les points dans trois catégories distinctes.
+La premi ère est appelée points cœur, un point est catégorisé comme tel s’il y a plus de MinPts situés dans
+sonϵ-voisinage :
+xest un point cœur si Vϵ> MinPts
+Un point cœur est un point situéà l’intérieur d’un cluster. À partir de cette notion on peut définir
+l’accessibilité par densité. On dit qu’un objet pest directement accessible par densitéà partir d’un objet
+qsi ce dernier est un point cœur et que pest dans le ϵ-voisinage de q.
+Figure 5.9: pest directement accessible par densité par qmais pas l’inverse car pn’est pas un point cœur [34]
+On remarque que cette relation n’est pas symétrique. On dit qu’un point pest accessible par densité par
+un point qs’il existe une cha ˆıne de points directement accessibles par densité qui relie qàp.
+
+Figure 5.10: pest accessible par densité par qmais pas l’inverse car pn’est pas un point cœur [34]
+De même cette relation n’est pas symétrique.
+Commeévoqué plus tôt il existe deux autres types de points dans la méthode DBSCAN : les points de
+bordure et les points aberrants (annomalies). Les premiers sont définis commeétant ceux qui ont moins de
+MinPts dans leur ϵ-voisinage, mais qui sont situés dans le voisinage d’un point cœur.
+Les points aberrants sont simplement définis commeétant les points qui ne sont ni des points cœur ni
+des points de bordure.
+Figure 5.11: Représentation des 3 types de points dans la méthode DBSCAN [35]
+Un cluster Cest un sous-ensemble maximal de points xtel que tous les points de Csont connectés par
+densités deux à deux. On dit qu’un sous-ensemble est maximal si toutélément accessible par densité par un
+point de ce sous-ensemble appartient au même cluster.
+
+Figure 5.12: Exemple de résultat du DBSCAN
+La méthode DBSCAN à l’avantage d’ être moins sensible au bruit que l’algorithme K-means, qui peut
+très vite donner de mauvais résultat à cause de points aberrants et ne pas dépendre du nombre du cluster.
+Cependant les hyperparametres de cette technique sont plus dure à ma ˆıtriser.
+Figure 5.13: Comparaison des méthodes DBSCAN et K-means [36]
+
+[1] Analyse des parties entre Kasparov et Deep Blue de 1997 . 1 (cit. on p. 7).
+[10] k-nearest neighbors algorithm . 10 (cit. on pp. 29, 30).
+[11] http://nsi.renoir.free.fr/term/arbre/cours arbres.pdf . 11 (cit. on p. 34).
+[12] machine-learning-an-overview . 12 (cit. on p. 35).
+[13] Introduction au Machine Learning par Chloé-Agathe Azencott . 13 (cit. on pp. 36, 52, 53, 55, 63, 89).
+[14] https://fhernanb.github.io/libro mod pred/arb-de-regre.html . 14 (cit. on p. 40).
+[15] https://python.plainenglish.io/adaboost-classifier-in-python-8d34a9f20459 . 15 (cit. on p. 42).
+[16] https://medium.com/big-apps-tech/nlp-natural-language-processing-text-classification-workflow-take-n-grams-
+as-input-e549037b658d . 16 (cit. on p. 43).
+[17] https://medium.com/@ar.ingenious/applying-random-forest-classification-machine-learning-algorithm-from-
+scratch-with-real-24ff198a1c57 . 17 (cit. on p. 44).
+[18] https://dustinstansbury.github.io/theclevermachine/bias-variance-tradeoff . 18 (cit. on p. 45).
+[19] https://www.csee.umbc.edu/courses/graduate/678/spring21/boosting.pdf . 19 (cit. on p. 48).
+[2] Article traitant de la victoire d’Alpha GO sur le champion du monde Ke Jie . 2 (cit. on p. 7).
+[20] https://www.mdpi.com/2079-6374/10/12/193 . 20 (cit. on p. 57).
+[21] http://cedric.cnam.fr/vertigo/cours/ml2/coursSVMLineaires.html . 21 (cit. on pp. 58, 60).
+[22] https://www.slideserve.com/aimee/gradient-descent . 22 (cit. on p. 62).
+[23] https://www.slideshare.net/Paxcel/binary-and-multi-class-strategies-for-machine-learning . 23 (cit. on p. 68).
+[24] https://medium.com/@b.terryjack/tips-and-tricks-for-multi-class-classification-c184ae1c8ffc . 24 (cit. on p. 69).
+[25] https://durofy.com/machine-learning-introduction-to-the-artificial-neural-network . 25 (cit. on p. 71).
+[26] https://eszkola.pl/biologia/tkanka-nerwowa-i-tkanka-glejowa-3474.html . 26 (cit. on p. 71).
+[27] http://ciml.info/dl/v0 99/ciml-v0 99-ch04.pdf . 27 (cit. on p. 78).
+[28] https://www.youtube.com/watch?v=UJ3WGuJ1zao . 28 (cit. on p. 80).
+[29] https://arxiv.org/abs/1812.11118 . 29 (cit. on p. 81).
+[3] Article traitant de la victoire d’AlphaStar . 3 (cit. on p. 8).
+[30] https://lucidar.me/fr/neural-networks/single-layer-gradient-descent/ . 30 (cit. on p. 83).
+[31] The approximation of one matrix by another of lower rank par Carl Eckart et Gale Young . 31 (cit. on p. 93).
+[32] https://lilianweng.github.io/ . 32 (cit. on pp. 103, 104).
+[33] https://www.irit.fr/ Yoann.Pitarch/ . 33 (cit. on pp. 105, 106).
+111BIBLIOGRAPHY BIBLIOGRAPHY
+[34] https://engineering.buffalo.edu/computer-science-engineering.html . 34 (cit. on pp. 107, 108).
+[35] https://elutins.medium.com/dbscan-what-is-it-when-to-use-it-how-to-use-it-8bd506293818 . 35 (cit. on p. 108).
+[36] https://www.geeksforgeeks.org/ . 36 (cit. on p. 109).
+[37] https://www.datasciencecentral.com/lenet-5-a-classic-cnn-architecture/ . 37 (cit. on p. 88).
+[38] https://k21academy.com/microsoft-azure/convolutional-neural-network/ . 38 (cit. on p. 88).
+[39] https://nasirml.wordpress.com/2019/01/08/convnet-in-tensorflow/ . 39 (cit. on p. 86).
+[4] Article détaillant le fonctionnement d’Alpha GO Zero . 4 (cit. on p. 10).
+[5] The Elements of Statistical Learning de T.Hastie, R.Tibshirani et J.Friedman . 5 (cit. on p. 11).
+[6] Explications concernant les courbes ROC . 6 (cit. on p. 14).
+[7] Reconhecimento facial . 7 (cit. on p. 16).
+[8] Pattern Recognition and Machine Learning de C.M.Bishop . 8 (cit. on pp. 18–20).
+[9] PythonDataScienceHandbook . 9 (cit. on pp. 22, 26, 27).
