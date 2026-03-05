@@ -142,9 +142,14 @@ class LocalModelClient:
                 {"role": "system", "content": task["system_prompt"]},
                 {"role": "user", "content": task["user_prompt"]},
             ]
-            inputs = self.tokenizer.apply_chat_template(
+            result = self.tokenizer.apply_chat_template(
                 messages, return_tensors="pt", add_generation_prompt=True
-            ).to(self.model.device)
+            )
+            # apply_chat_template may return BatchEncoding or Tensor depending on version
+            if hasattr(result, 'input_ids'):
+                inputs = result.input_ids.to(self.model.device)
+            else:
+                inputs = result.to(self.model.device)
 
             with torch.no_grad():
                 out = self.model.generate(
