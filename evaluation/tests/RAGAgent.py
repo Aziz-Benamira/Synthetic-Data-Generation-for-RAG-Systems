@@ -1,3 +1,16 @@
+"""
+Simple RAG implementation. 
+Create an agent with RAGAgent(args), specifying a data source, a chunker, an embedding model and a LLM answerer. Calling without args defaults to very small models.
+Methods : 
+-RAGAgent.retrieve(query, k) returns the k-closest chunks from the data (as langchain documents) to answer the specified query.
+-RAGAgent.answer(query, context) concatenates a context with a query and generates an answer.
+-RAGAgent.rag_answer(query, k) runs the full pipeline : finds the k best chunks for this query, concatenates them to the prompt and generates an answer.
+-RAGAgent.answer_file(inputPath, outputPath) reads a jsonl file containing at least a "question" field in each line, and answer the questions using its database.
+    Writes an output file containing the original jsonl lines, with the added fields generated_answer and context_used.
+
+"""
+
+
 import sys
 from pathlib import Path
 import logging
@@ -13,10 +26,8 @@ src_path = root / "src"
 sys.path.insert(0, str(src_path))
 
 
-from chunking.semantic_chunker import SemanticChunk, SemanticChunker
+from chunking.semantic_chunker import SemanticChunker
 from llm.manager import LLMManager
-from llm.base import LLMConfig
-from config import Config
 
 
 
@@ -29,11 +40,9 @@ logger = logging.getLogger(__name__)
 
 
 
-# Enhanced RAG Agent with critic integration
+
 class RAGAgent:
-    """
-    Complete RAG pipeline with answer evaluation.
-    """
+    
     
     def __init__(self, 
                  data_path : Path , #Should contain a pdf/ and a vectorDb/ folder
@@ -45,7 +54,7 @@ class RAGAgent:
             self.llm_manager = LLMManager.from_ollama(
                 model="qwen3.5:0.8b",
                 base_url="http://localhost:11434/v1"
-            )qwe
+            )
         else:
             self.llm_manager = manager
         
@@ -88,12 +97,23 @@ class RAGAgent:
         """
         Answer a question given a context. To test the model itself, leave the context empty.
         """
-        system_prompt = f"""
-Use the following context to answer the question. When unsure, always answer that you don't know.
----
-CONTEXTE :
-{context}
-"""
+        if context : 
+            system_prompt = f"""
+    You are a helpful assistant, trained to be honest and truthful.
+    Use the following context to answer the question. When unsure, always answer that you don't know.
+    ---
+    CONTEXTE :
+    {context}
+    """
+        else:
+            system_prompt = f"""
+    You are a helpful assistant, trained to be honest and truthful.
+    Answer the user's question. When unsure, always answer that you don't know.
+    ---
+    CONTEXTE :
+    {context}
+    """
+
 
         
         messages = [
@@ -104,9 +124,7 @@ CONTEXTE :
         response = self.llm_manager.generate_from_messages(messages)
         return response.content
     
-    def rag_answer(self, 
-                query : str,
-                k = 3):
+    def rag_answer(self, query : str, k = 3):
         #  vector retrieval
         docs = self.retrieve(query, k)
 
@@ -131,7 +149,7 @@ CONTEXTE :
             return []
 
         with open(inputPath, 'r', encoding='utf-8') as f:
-            for line in f:
+            for line in tqdm(f, desc = 'Answering file...'):
                 if not line.strip(): continue
                 
                 data = json.loads(line)

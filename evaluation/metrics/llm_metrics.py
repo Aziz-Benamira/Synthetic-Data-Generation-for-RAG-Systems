@@ -6,6 +6,9 @@ import sys
 import torch
 import os
 workspace_root = os.path.abspath("../..")
+sys.path.insert(0, workspace_root)
+
+
 from src.llm.manager import LLMManager
 from src.llm.base import LLMConfig
 
