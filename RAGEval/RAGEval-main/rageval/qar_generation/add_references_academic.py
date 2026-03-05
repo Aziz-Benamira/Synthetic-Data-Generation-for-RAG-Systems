@@ -160,9 +160,20 @@ def main():
                 total_missing += 1
                 logging.info(f"  [{key}][{idx}] Extracting ref for: {item.get('question', '')[:60]}...")
 
-                user_prompt = ref_prompt['user_prompt'].format(
-                    doc=doc_content[:12000],  # limit doc to avoid exceeding context
-                    qa_pairs=json.dumps([item], ensure_ascii=False),
+                # Build prompt without .format() to avoid crashes on { } in French doc
+                doc_excerpt = doc_content[:12000]
+                qa_pairs_str = json.dumps([item], ensure_ascii=False)
+                user_prompt = (
+                    "CRITICAL LANGUAGE RULE: The source document is written in FRENCH.\n"
+                    "All references MUST be verbatim sentences copied DIRECTLY from the French document.\n"
+                    "Do NOT translate. Do NOT paraphrase. Copy the exact French text character by character.\n\n"
+                    f"Source document (French):\n{doc_excerpt}\n\n"
+                    f"For each question-answer pair below, find the verbatim French sentence(s) from the document "
+                    f"that support the answer. Copy them exactly.\n\n"
+                    f"QA pairs:\n{qa_pairs_str}\n\n"
+                    "Return a JSON array with the same items, each with a 'ref' field containing a list of verbatim French sentences:\n"
+                    '[{"question type": "...", "question": "...", "answer": "...", "ref": ["verbatim French sentence 1", ...]}, ...]\n'
+                    "Output only the JSON array, no other text."
                 )
 
                 response = client.generate_one(ref_prompt['system_prompt'], user_prompt)

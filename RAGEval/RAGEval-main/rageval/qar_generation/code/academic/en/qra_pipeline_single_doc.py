@@ -142,6 +142,64 @@ def process_chapter(client: LocalModelClient, config_path: str, prompts: Dict) -
     config['document_excerpt'] = doc_content[:EXCERPT_LEN]
     config['Generated Article'] = doc_content
 
+    # Build user prompts directly (avoid .format() on doc content which may contain { } chars)
+    excerpt = doc_content[:EXCERPT_LEN]
+    keywords_str = ', '.join(config.get('keywords', []))
+
+    def build_user_prompt(prompt_type: str) -> str:
+        chapter = config.get('chapter', '')
+        course_code = config.get('course_code', '')
+        course_title = config.get('course_title', '')
+        institution = config.get('institution', '')
+        if prompt_type == 'Factual Question':
+            return (
+                f"Factual questions have a single, precise answer. Based on the course document excerpt below, "
+                f"generate factual questions about concepts, definitions, algorithms, and formulas.\n\n"
+                f"Course: {course_code} - {course_title} ({institution})\n"
+                f"Chapter: {chapter}\n"
+                f"Keywords: {keywords_str}\n\n"
+                f"Document excerpt:\n{excerpt}\n\n"
+                f"Instructions:\n"
+                f"1. Generate exactly 10 factual questions.\n"
+                f"2. Each question must have a single correct answer grounded in the document.\n"
+                f"3. Questions should cover different concepts (not all about the same topic).\n"
+                f"4. Use English for both questions and answers.\n"
+                f"5. Format as a JSON array:\n"
+                f'[{{"question type": "Factual Question", "question": "...", "answer": "..."}}, ...]\n'
+                f"Output only the JSON array, no other text."
+            )
+        elif prompt_type == 'Multi-hop Reasoning Question':
+            return (
+                f"Multi-hop questions require combining 2 or more facts from the document to reach an answer.\n\n"
+                f"Course: {course_code} - {course_title} ({institution})\n"
+                f"Chapter: {chapter}\n"
+                f"Keywords: {keywords_str}\n\n"
+                f"Document excerpt:\n{excerpt}\n\n"
+                f"Instructions:\n"
+                f"1. Generate exactly 5 multi-hop reasoning questions.\n"
+                f"2. Each question must require connecting at least 2 separate facts from the document.\n"
+                f"3. Use English for both questions and answers.\n"
+                f"4. Format as a JSON array:\n"
+                f'[{{"question type": "Multi-hop Reasoning Question", "question": "...", "answer": "..."}}, ...]\n'
+                f"Output only the JSON array, no other text."
+            )
+        elif prompt_type == 'Summarization Question':
+            return (
+                f"Summarization questions require a comprehensive answer covering multiple aspects of a topic.\n\n"
+                f"Course: {course_code} - {course_title} ({institution})\n"
+                f"Chapter: {chapter}\n"
+                f"Keywords: {keywords_str}\n\n"
+                f"Document excerpt:\n{excerpt}\n\n"
+                f"Instructions:\n"
+                f"1. Generate exactly 2 summarization questions.\n"
+                f"2. Each question should require synthesizing information from across the section.\n"
+                f"3. Use English for both questions and answers.\n"
+                f"4. Format as a JSON array:\n"
+                f'[{{"question type": "Summarization Question", "question": "...", "answer": "..."}}, ...]\n'
+                f"Output only the JSON array, no other text."
+            )
+        return ''
+
     # Generate QA for each type
     qa_tasks = []
     qa_keys = []
@@ -156,7 +214,7 @@ def process_chapter(client: LocalModelClient, config_path: str, prompts: Dict) -
         p = prompts[prompt_type]
         qa_tasks.append({
             'system_prompt': p['system_prompt'],
-            'user_prompt': p['user_prompt'].format(config=config),
+            'user_prompt': build_user_prompt(prompt_type),
         })
         qa_keys.append(qa_key)
 
