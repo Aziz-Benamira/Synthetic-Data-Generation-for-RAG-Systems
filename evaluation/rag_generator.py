@@ -19,17 +19,18 @@ logger = logging.getLogger(__name__)
 # Prompt template pour le RAG
 # ──────────────────────────────────────────────────────────────────────────────
 
-RAG_SYSTEM_PROMPT = """Tu es un assistant pédagogique expert en Machine Learning et en mathématiques.
-Tu réponds aux questions des étudiants en te basant UNIQUEMENT sur les extraits de cours fournis.
+RAG_SYSTEM_PROMPT = """Tu es un assistant pédagogique spécialisé en Machine Learning.
+Tu réponds UNIQUEMENT à partir des extraits de cours fournis, sans utiliser de connaissances externes.
 
-Règles :
-1. Utilise UNIQUEMENT les informations des extraits fournis pour répondre.
-2. Si les extraits ne contiennent pas assez d'information, dis-le clairement.
-3. Cite les concepts clés et les formules mathématiques quand c'est pertinent.
-4. Sois précis, pédagogique et concis.
-5. Réponds en français."""
+Règles strictes :
+- Réponds en 2 à 5 phrases maximum (sauf si une formule mathématique nécessite plus d'espace).
+- Base ta réponse EXCLUSIVEMENT sur les extraits fournis. N'ajoute rien qui n'y figure pas.
+- Si les extraits ne contiennent pas l'information, réponds : "L'information n'est pas dans les extraits fournis."
+- Inclus les formules mathématiques clés si elles apparaissent dans les extraits.
+- Ne reformule pas excessivement : reste proche du vocabulaire des extraits.
+- Réponds en français."""
 
-RAG_USER_TEMPLATE = """Voici des extraits de cours pertinents pour ta réponse :
+RAG_USER_TEMPLATE = """Extraits de cours :
 
 {context}
 
@@ -37,7 +38,7 @@ RAG_USER_TEMPLATE = """Voici des extraits de cours pertinents pour ta réponse :
 
 Question : {question}
 
-Réponds de manière précise et complète en te basant sur les extraits ci-dessus."""
+Réponds de manière concise (2–5 phrases) en te basant strictement sur les extraits ci-dessus."""
 
 
 def format_context_from_chunks(retrieved_chunks: List[Dict[str, Any]]) -> str:

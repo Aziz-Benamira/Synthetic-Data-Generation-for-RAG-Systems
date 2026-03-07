@@ -52,7 +52,7 @@ DEFAULT_CONFIG = {
     
     # Modèles
     "rag_llm_path": os.path.expanduser(
-        "~/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
+        "~/models/qwen2.5-32b-instruct/Qwen2.5-32B-Instruct-Q4_K_M.gguf"
     ),
     "judge_llm_path": os.path.expanduser(
         "~/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
@@ -70,7 +70,7 @@ DEFAULT_CONFIG = {
     
     # LLM
     "n_gpu_layers": -1,
-    "n_ctx": 4096,       # Proven working with DeepSeek-R1-32B (job 13133, 1h12); 5 chunks ≈ 1600 tokens + overhead
+    "n_ctx": 8192,       # 5 chunks × ~1274 chars avg ÷ 4 ≈ 1600 tokens + overhead + 1024 génération
     "temperature": 0.3,
     "max_tokens": 1024,
     
@@ -110,10 +110,14 @@ def load_gold_dataset(path: str) -> list:
     """Charge le Gold Dataset JSONL."""
     entries = []
     with open(path, 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if line:
+        for i, line in enumerate(f):
+            line = line.replace('\x00', '').strip()  # strip null bytes (NFS artefact)
+            if not line:
+                continue
+            try:
                 entries.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                logger.warning(f"Ligne {i+1} ignorée (JSON invalide): {repr(line[:60])} — {e}")
     logger.info(f"Loaded {len(entries)} Gold QA pairs from {path}")
     return entries
 
@@ -167,14 +171,23 @@ def run_evaluation(config: dict):
         n_ctx=config["n_ctx"]
     )
     
-    # LLM Judge (optionnel, peut être le même ou différent)
+    # LLM Judge — DeepSeek R1 chargé séparément pour éviter le biais self-evaluation
+    # VRAM : Qwen Q4 (19GB) + DeepSeek IQ3 (14GB) + bge-m3 (2GB) + xlm-roberta (2GB) ≈ 37GB / 46GB L40S ✅
     judge_llm = None
     if config["use_llm_judge"]:
-        logger.info("  Loading Judge LLM (DeepSeek-R1-32B)...")
-        # Utiliser le même modèle RAG comme juge pour éviter de charger 2 modèles
-        # (Le Qwen2.5 est aussi capable de juger)
-        judge_llm = rag_generator.llm
-        logger.info("  → Using RAG LLM as judge (single model)")
+        from llama_cpp import Llama
+        judge_path = config["judge_llm_path"]
+        logger.info(f"\n  Loading Judge LLM (DeepSeek-R1-32B)...")
+        logger.info(f"    Path: {judge_path}")
+        # n_ctx=2048 suffit pour le juge : question (~50) + gold (~150) + generated (~200) + context excerpt (~750) + output (~200)
+        judge_llm = Llama(
+            model_path=judge_path,
+            n_gpu_layers=config["n_gpu_layers"],
+            n_ctx=3072,  # 2048 trop court pour questions avec formules LaTeX longues
+            verbose=False,
+            chat_format="chatml"
+        )
+        logger.info("  → LLM-as-Judge: DeepSeek-R1-32B loaded (modèle distinct de Qwen RAG, sans biais self-eval)")
     
     # ── Étape 3 : Évaluation QA par QA ──
     logger.info("\n[3/4] Running evaluation on Gold Dataset...")

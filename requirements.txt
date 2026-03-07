@@ -1,52 +1,43 @@
-# Core dependencies
-python-dotenv==1.0.0
-pydantic==2.5.0
-pyyaml==6.0.1
+# ──────────────────────────────────────────────────────────────────────────────
+# Agentic AI — Pipeline QA + Évaluation RAG
+# Versions testées sur ENSTA cluster (L40S, CUDA 12, Python 3.10)
+# ──────────────────────────────────────────────────────────────────────────────
 
-# LLM and AI
-openai==1.0.0
-anthropic==0.8.0
-langchain==0.1.0
-langchain-community==0.0.10
-langchain-openai==0.0.5
-langgraph==0.2.35
-llama-cpp-python==0.2.90
+# LLM local (llama-cpp-python — inference GPU via CUDA)
+# IMPORTANT : installer avec support CUDA :
+#   CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python==0.3.16 --no-cache-dir
+llama-cpp-python==0.3.16
 
-# MCP
-mcp==0.9.0
+# LangChain — chunking & document splitting
+langchain==1.2.8
+langchain-community==0.4.1
+langchain-core==1.2.8
+langchain-text-splitters==1.1.0
 
-# Vector stores and embeddings
-chromadb==0.5.20
-sentence-transformers==2.2.2
+# Vector store
+chromadb==1.4.1
 
-# RAG evaluation
-ragas==0.2.7
+# Embeddings
+sentence-transformers==5.2.2
 
-# Document processing
-pymupdf==1.24.13
-PyPDF2==3.0.1
-python-docx==1.0.0
-beautifulsoup4==4.12.0
+# PDF parsing
+PyMuPDF==1.26.7
 
-# Data handling
-pandas==2.1.0
-numpy==1.24.0
+# Évaluation — métriques de génération
+rouge-score==0.1.2
+bert-score==0.3.13
+
+# Core data
+numpy==2.3.5
+pydantic==2.12.5
 jsonlines==4.0.0
+tqdm==4.67.2
 
-# Utilities
-tqdm==4.66.0
-requests==2.31.0
+# Utilitaires
+python-dotenv>=1.0.0
+requests>=2.31.0
+pyyaml>=6.0.0
 
-# Development
-pytest==7.4.0
-black==23.9.0
-flake8==6.1.0
-mypy==1.5.0
-
-# Jupyter
-jupyter==1.0.0
-ipykernel==6.25.0
-
-# MLOps (optional)
-mlflow==2.8.0
-langsmith==0.0.60
+# Dev / tests (optionnel)
+pytest>=7.4.0
+black>=23.9.0
