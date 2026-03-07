@@ -79,6 +79,13 @@ experiments/**/*.jsonl
 **/dataset_*.json
 **/dataset_*.jsonl
 
+# Folders to exclude
+réunion/
+maloe_metrics/
+results_final/
+PRESENTATION_TUTEUR.md
+RAPPORT_PROJET.md
+
 # Documentation (non-essential)
 COMPARISON_*.md
 SEMANTIC_*.md
