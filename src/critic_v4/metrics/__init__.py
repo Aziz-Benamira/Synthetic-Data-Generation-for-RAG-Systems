@@ -8,16 +8,21 @@ Phase 1 (Question Evaluation):
 Phase 2 (Answer Validation):
 - answer_completeness: Vérifie la complétude de la réponse
 - answer_anchoring: Vérifie l'ancrage de la réponse dans le chunk
+
+Phase 3 (Question Difficulty — optionnelle):
+- difficulty_grader: Évalue le niveau de difficulté cognitif (Bloom 1–5)
 """
 
 from .contextual_answerability import ContextualAnswerability
 from .pedagogical_value import PedagogicalValue
 from .answer_completeness import AnswerCompleteness
 from .answer_anchoring import AnswerAnchoring
+from .difficulty_grader import DifficultyGrader
 
 __all__ = [
     "ContextualAnswerability",
     "PedagogicalValue",
     "AnswerCompleteness",
     "AnswerAnchoring",
+    "DifficultyGrader",
 ]

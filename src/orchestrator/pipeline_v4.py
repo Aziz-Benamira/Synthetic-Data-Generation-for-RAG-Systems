@@ -73,6 +73,7 @@ class PipelineV4Config:
     q_temperature: float = 0.7
     a_temperature: float = 0.3
     checkpoint_every: int = 10
+    enable_difficulty_grading: bool = False   # Phase 3 optionnelle (Bloom 1–5)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -104,6 +105,11 @@ class GoldEntry:
     a_attempts: int                # tentatives pour la réponse
     key_concepts: List[str]
     timestamp: str = ""
+
+    # Difficulté (Phase 3, optionnelle)
+    difficulty_level: Optional[int] = None       # 1–5 (taxonomie de Bloom)
+    difficulty_label: Optional[str] = None       # Factuel / Compréhension / Application / Analyse / Synthèse
+    difficulty_justification: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -142,7 +148,7 @@ class PipelineV4:
         """Initialise tous les composants (lazy, partagent le même LLM)."""
         from src.utils.scoped_memory import ScopedMemory
         from src.critic_v4 import QuestionEvaluator
-        from src.critic_v4.metrics import AnswerCompleteness, AnswerAnchoring
+        from src.critic_v4.metrics import AnswerCompleteness, AnswerAnchoring, DifficultyGrader
         from src.agents import QuestionGeneratorV3, AnswerGeneratorV3
 
         self.memory = ScopedMemory()
@@ -172,7 +178,17 @@ class PipelineV4:
             max_retries=self.config.max_a_retries,
         )
 
-        logger.info("Composants initialisés : ScopedMemory, QuestionGeneratorV3, AnswerGeneratorV3")
+        # Phase 3 — Difficulty Grader (instancié uniquement si activé)
+        self.difficulty_grader = (
+            DifficultyGrader(llm=self.llm, temperature=0.1, max_tokens=600)
+            if self.config.enable_difficulty_grading
+            else None
+        )
+
+        components = "ScopedMemory, QuestionGeneratorV3, AnswerGeneratorV3"
+        if self.difficulty_grader:
+            components += ", DifficultyGrader"
+        logger.info(f"Composants initialisés : {components}")
 
     # ── Public API ────────────────────────────────────────────────────────────
 
@@ -305,7 +321,7 @@ class PipelineV4:
         global_score = round(0.4 * phase1_score + 0.6 * phase2_score, 3)
 
         # ── Construire l'entrée Gold ──────────────────────────────
-        return GoldEntry(
+        entry = GoldEntry(
             question=question,
             answer=a_result["answer"],
             chunk_id=chunk.get("chunk_id", ""),
@@ -323,6 +339,25 @@ class PipelineV4:
             key_concepts=q_result.get("key_concepts", []),
             timestamp=datetime.now().isoformat(),
         )
+
+        # ── Phase 3 : Difficulty Grading (optionnelle) ────────────
+        if self.difficulty_grader is not None:
+            try:
+                diff = self.difficulty_grader.grade(
+                    question=question,
+                    chunk_content=chunk.get("content", ""),
+                )
+                entry.difficulty_level = diff["level"]
+                entry.difficulty_label = diff["label"]
+                entry.difficulty_justification = diff["justification"]
+                logger.info(
+                    f"  📊 Difficulty: Level {diff['level']} — {diff['label']}"
+                )
+            except Exception as exc:
+                # Non-bloquant : on conserve l'entrée sans difficulté
+                logger.warning(f"  ⚠ Difficulty grading échoué (non bloquant): {exc}")
+
+        return entry
 
     def _load_chunks(self) -> List[Dict[str, Any]]:
         """Charge les chunks depuis un fichier JSON."""

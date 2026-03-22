@@ -9,6 +9,9 @@ Phase 1 (Question Filtering):
 Phase 2 (Answer Validation):
 - Answer Completeness: Vérifie que la réponse couvre tous les aspects
 - Answer Anchoring: Vérifie l'ancrage de la réponse dans le chunk
+
+Phase 3 (Question Difficulty — optionnelle):
+- DifficultyGrader: Évalue le niveau cognitif 1–5 selon la taxonomie de Bloom
 """
 
 from .question_evaluator import QuestionEvaluator
@@ -18,9 +21,10 @@ from .metrics import (
     PedagogicalValue,
     AnswerCompleteness,
     AnswerAnchoring,
+    DifficultyGrader,
 )
 
-__version__ = "4.0.0"
+__version__ = "4.1.0"
 __all__ = [
     "CriticV4",
     "QuestionEvaluator",
@@ -28,4 +32,5 @@ __all__ = [
     "PedagogicalValue",
     "AnswerCompleteness",
     "AnswerAnchoring",
+    "DifficultyGrader",
 ]

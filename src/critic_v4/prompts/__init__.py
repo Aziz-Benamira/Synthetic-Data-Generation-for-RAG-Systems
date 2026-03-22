@@ -8,16 +8,21 @@ Phase 1 (Question Evaluation):
 Phase 2 (Answer Validation):
 - answer_completeness_prompt (à implémenter)
 - answer_anchoring_prompt (à implémenter)
+
+Phase 3 (Question Difficulty — optionnelle):
+- difficulty_grader_prompt: Évalue le niveau cognitif selon la taxonomie de Bloom
 """
 
 from .contextual_answerability_prompt import get_contextual_answerability_prompt
 from .pedagogical_value_prompt import get_pedagogical_value_prompt
 from .answer_completeness_prompt import get_answer_completeness_prompt
 from .answer_anchoring_prompt import get_answer_anchoring_prompt
+from .difficulty_grader_prompt import get_difficulty_grader_prompt
 
 __all__ = [
     "get_contextual_answerability_prompt",
     "get_pedagogical_value_prompt",
     "get_answer_completeness_prompt",
     "get_answer_anchoring_prompt",
+    "get_difficulty_grader_prompt",
 ]
