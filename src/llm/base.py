@@ -58,6 +58,8 @@ class LLMConfig:
         frequency_penalty: Pénalité de répétition
         presence_penalty: Pénalité de présence
         stop_sequences: Séquences d'arrêt
+        reasoning: "none", "minimal", "low", "medium", "high", "xhigh"
+        extra_params: Dict for provider-specific parameters
     """
     temperature: float = 0.7
     max_tokens: int = 2000
@@ -65,6 +67,9 @@ class LLMConfig:
     frequency_penalty: float = 0.0
     presence_penalty: float = 0.0
     stop_sequences: Optional[List[str]] = None
+    reasoning: Optional[str] = None  # Reasoning parameters
+    extra_params: Optional[Dict[str, Any]] = None  # Provider-specific params
+
 
 
 class BaseLLMProvider(ABC):

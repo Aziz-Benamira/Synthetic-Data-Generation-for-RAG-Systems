@@ -21,13 +21,16 @@ import json
 from tqdm import tqdm
 
 # Add src folder to path
-root = Path("../../").resolve()
+root = Path("/home/ensta/ensta-aymonier/dev/Synthetic-Data-Generation-for-RAG-Systems").resolve()
 src_path = root / "src"
-sys.path.insert(0, str(src_path))
+sys.path.insert(0, src_path.as_posix())
+
+print(src_path.as_posix())
 
 
 from chunking.semantic_chunker import SemanticChunker
 from llm.manager import LLMManager
+
 
 
 
@@ -45,20 +48,21 @@ class RAGAgent:
     def __init__(self, 
                  data_path = None , #Should contain a pdf/ and a vectorDb/ folder
                  manager : LLMManager = None,
+                 config = None,
                  chunker = None,
-                 embedding_model : OllamaEmbeddings = None
+                 embedding_model : OllamaEmbeddings = None,
+                 model_name = "unknown"
                  ):
-        
+        self.config = config
         if not manager : 
-            self.llm_manager = LLMManager.from_ollama(
-                model="qwen3.5:0.8b",
-                base_url="http://localhost:11434/v1"
+            self.llm_manager = LLMManager.from_direct_llamacpp(
+                model_path= "/home/ensta/ensta-aymonier/models/qwen2.5-32b-instruct/Qwen2.5-32B-Instruct-Q4_K_M.gguf",
+                n_gpu_layers = -1
             )
             self.answererName = 'qwen3.5:0.8b'
         else:
             self.llm_manager = manager
-            self.answererName = "unknown"
-        
+            self.answererName = model_name
         if not chunker:
             chunker = SemanticChunker
 
@@ -83,54 +87,59 @@ class RAGAgent:
                 docs += [c.to_langchain_document() for c in chunks.chunk_document()] #concatenate to get flat list of docs
 
             # 2-Get embeddings from file, or compute them if not available
-            if not self.dataF / 'vectorDB':
+            if (self.dataF / 'vectorDb').exists():
                 self.vector_db = Chroma(persist_directory=(self.dataF / 'vectorDb').as_posix(),
-                                    embedding_function=self.embedding_model
-                                    )
+                        embedding_function=self.embedding_model
+                        )
             else:
-                self.vector_db = Chroma.from_documents(
-                    documents=docs,
-                    embedding=self.embedding_model,
-                    persist_directory= (self.dataF / 'vectorDb').as_posix()
-                )
+                self.vector_db = Chroma.from_documents(...)
             print(f"Base créée avec {len(docs)} chunks.")
 
     def retrieve(self, query : str, k=3):
         #return the list of the k best langchain documents to answer the question
         return self.vector_db.similarity_search(query, k=k)
 
-    def answer(self, query: str, context: str = ""):
+    def answer(self, query: str, context: str = "", config= None, reasoning=None):
         """
         Answer a question given a context. To test the model itself, leave the context empty.
+        
+        Args:
+            query: The question to answer
+            context: Optional context to use for answering
+            config: Optional LLMConfig
+            reasoning: Optional reasoning parameters (e.g., {"effort": "none"})
         """
+        if not config:
+            config = self.config
+        if reasoning:
+            config.reasoning = reasoning
         if context : 
             system_prompt = f"""
     You are a helpful assistant, trained to be honest and truthful.
     Use the following context to answer the question. When unsure, always answer that you don't know.
     ---
-    CONTEXTE :
+    CONTEXT :
     {context}
     """
         else:
             system_prompt = f"""
     You are a helpful assistant, trained to be honest and truthful.
     Answer the user's question. When unsure, always answer that you don't know.
-    ---
-    CONTEXTE :
-    {context}
     """
 
 
-        
+
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": query}
         ]
         
-        response = self.llm_manager.generate_from_messages(messages)
+        response = self.llm_manager.generate_from_messages(messages, config)
+        if not response.content:
+            print("Empty response. The reasoning most likely used all tokens and exceeded the limit.")
         return response.content
     
-    def rag_answer(self, query : str, k = 3):
+    def rag_answer(self, query : str, k = 3, reasoning=None):
         #  vector retrieval
         if self.dataF:
             docs = self.retrieve(query, k)
@@ -140,7 +149,7 @@ class RAGAgent:
             docs = []
             context = ""
 
-        answer = self.answer(query, context)
+        answer = self.answer(query, context, reasoning=reasoning)
 
         return docs, answer
 

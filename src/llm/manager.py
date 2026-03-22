@@ -207,10 +207,15 @@ class LLMManager:
         Args:
             messages: Liste de messages (dict ou LLMMessage)
             config: Configuration optionnelle
+            reasoning: Reasoning parameters (e.g., {"effort": "low"}). Defaults to {"effort": "low"}
             
         Returns:
             LLMResponse avec la réponse
         """
+        # Set default reasoning
+        if not config.reasoning:
+            config.reasoning = "low"
+
         # Convertir dict en LLMMessage si nécessaire
         if messages and isinstance(messages[0], dict):
             messages = [
@@ -231,17 +236,22 @@ class LLMManager:
         Args:
             messages: Liste de messages (dict ou LLMMessage)
             config: Configuration optionnelle
+            reasoning: Reasoning parameters (e.g., "none, "low", "high")
             
         Returns:
             LLMResponse avec la réponse
         """
+        # Set default reasoning
+        if not config.reasoning:
+            config.reasoning = "low"
+            
         # Convertir dict en LLMMessage si nécessaire
         if messages and isinstance(messages[0], dict):
             messages = [
                 LLMMessage(role=m["role"], content=m["content"])
                 for m in messages
             ]
-        
+                
         return await self.provider.agenerate(messages, config)
     
     def count_tokens(self, text: str) -> int:

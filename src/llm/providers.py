@@ -65,10 +65,11 @@ class OllamaProvider(BaseLLMProvider):
     ) -> LLMResponse:
         """Générer réponse en mode sync"""
         cfg = config or self.config
-        
+        print(config.reasoning)
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
+                reasoning_effort = config.reasoning,
                 messages=messages_to_dict(messages),
                 temperature=cfg.temperature,
                 max_tokens=cfg.max_tokens,
@@ -100,6 +101,7 @@ class OllamaProvider(BaseLLMProvider):
         try:
             response = await self.async_client.chat.completions.create(
                 model=self.model,
+                reasoning_effort= config.reasoning,
                 messages=messages_to_dict(messages),
                 temperature=cfg.temperature,
                 max_tokens=cfg.max_tokens,
