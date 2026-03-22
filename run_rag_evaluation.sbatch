@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=rag_eval
-#SBATCH --output=/home/ensta/ensta-ben-amira/projects/Agentic_AI/logs/rag_eval_%j.log
-#SBATCH --error=/home/ensta/ensta-ben-amira/projects/Agentic_AI/logs/rag_eval_%j.err
+#SBATCH --output="/home/ensta/ensta-ghozzi/AI RAG/logs/rag_eval_%j.log"
+#SBATCH --error="/home/ensta/ensta-ghozzi/AI RAG/logs/rag_eval_%j.err"
 #SBATCH --partition=ENSTA-l40s
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -17,7 +17,7 @@ echo "Date:   $(date)"
 echo "======================================================"
 
 source ~/envs/agentic_ai/bin/activate
-cd /home/ensta/ensta-ben-amira/projects/Agentic_AI
+cd "/home/ensta/ensta-ghozzi/AI RAG"
 
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
 

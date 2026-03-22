@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=critic_v4_test
-#SBATCH --output=/home/ensta/ensta-ben-amira/projects/Agentic_AI/logs/critic_v4_test_%j.log
-#SBATCH --error=/home/ensta/ensta-ben-amira/projects/Agentic_AI/logs/critic_v4_test_%j.err
+#SBATCH --output="/home/ensta/ensta-ghozzi/AI RAG/logs/critic_v4_test_%j.log"
+#SBATCH --error="/home/ensta/ensta-ghozzi/AI RAG/logs/critic_v4_test_%j.err"
 #SBATCH --partition=ENSTA-l40s
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -20,7 +20,7 @@ echo "======================================================"
 source ~/envs/agentic_ai/bin/activate
 
 # Répertoire du projet
-cd /home/ensta/ensta-ben-amira/projects/Agentic_AI
+cd "/home/ensta/ensta-ghozzi/AI RAG"
 
 # Vérifier le GPU
 nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader

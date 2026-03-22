@@ -16,9 +16,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 sys.path.insert(0, str(__import__('pathlib').Path(__file__).parent))
 
-MODEL_PATH  = "/home/ensta/ensta-ben-amira/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
+MODEL_PATH  = "/home/ensta/ensta-ghozzi/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
 CHUNKS_PATH = "/home/ensta/ensta-ben-amira/projects/Agentic_AI/experiments/critic_v2_baseline/data/chunks_mi201.json"
-OUTPUT_PATH = "/home/ensta/ensta-ben-amira/projects/Agentic_AI/output/gold_dataset_v4_full.jsonl"
+OUTPUT_PATH = "/home/ensta/ensta-ghozzi/AI RAG/output/gold_dataset_v4_full.jsonl"
 
 def main():
     logger.info("=" * 60)
