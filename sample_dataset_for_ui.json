@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "source_file": "M2_cours.pdf",
+    "generation_date": "2026-01-14T22:00:00",
+    "total_entries": 5,
+    "config": {}
+  },
+  "data": [
+    {
+      "question": "Qu'est-ce qu'une tribu en mathématiques?",
+      "answer": "Une tribu (ou σ-algèbre) est une collection de sous-ensembles d'un ensemble Ω qui satisfait trois propriétés: elle contient Ω, est stable par complémentaire, et stable par union dénombrable.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [7, 11],
+      "chapter": "Chapitre 1",
+      "section": "Définitions",
+      "question_type": "definition",
+      "difficulty": "easy",
+      "critic_score": 0.85,
+      "criterion_scores": {
+        "relevance": 0.90,
+        "completeness": 0.85,
+        "accuracy": 0.90
+      },
+      "supporting_quotes": ["Une tribu est une collection..."],
+      "chunk_content": "1.1 Définition d'une Tribu\n\nUne tribu (ou σ-algèbre) est une collection de sous-ensembles d'un ensemble Ω qui satisfait les propriétés suivantes: 1. Ω appartient à la tribu..."
+    },
+    {
+      "question": "Pourquoi les tribus sont-elles importantes en théorie des probabilités?",
+      "answer": "Les tribus sont fondamentales car elles permettent de définir rigoureusement les événements mesurables. Sans cette structure, il serait impossible d'appliquer la théorie de la mesure aux probabilités.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.2.c1",
+      "page_range": [12, 15],
+      "chapter": "Chapitre 1",
+      "section": "Applications",
+      "question_type": "explanation",
+      "difficulty": "medium",
+      "critic_score": 0.78,
+      "criterion_scores": {
+        "relevance": 0.85,
+        "completeness": 0.75,
+        "accuracy": 0.80
+      },
+      "supporting_quotes": ["Les tribus permettent de définir..."],
+      "chunk_content": "Les tribus sont fondamentales en théorie de la mesure et en probabilités. Elles permettent de définir rigoureusement les événements mesurables..."
+    },
+    {
+      "question": "Comment construire une tribu à partir d'un ensemble donné?",
+      "answer": "Pour construire une tribu, on commence par prendre l'ensemble Ω. Ensuite, on inclut tous les sous-ensembles qui satisfont les propriétés requises. On vérifie ensuite la stabilité par complémentaire et par union dénombrable.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.3.c2",
+      "page_range": [16, 20],
+      "chapter": "Chapitre 1",
+      "section": "Construction",
+      "question_type": "application",
+      "difficulty": "hard",
+      "critic_score": 0.72,
+      "criterion_scores": {
+        "relevance": 0.80,
+        "completeness": 0.70,
+        "accuracy": 0.75
+      },
+      "supporting_quotes": ["On commence par..."],
+      "chunk_content": "La construction d'une tribu nécessite de vérifier plusieurs propriétés. On commence par s'assurer que l'ensemble total est inclus..."
+    },
+    {
+      "question": "Quelle est la différence entre une tribu et une algèbre?",
+      "answer": "Une algèbre est stable par union finie, tandis qu'une tribu (σ-algèbre) est stable par union dénombrable. La tribu est donc plus générale et permet de travailler avec des ensembles infinis.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "2.1.c1",
+      "page_range": [25, 28],
+      "chapter": "Chapitre 2",
+      "section": "Comparaisons",
+      "question_type": "comparison",
+      "difficulty": "medium",
+      "critic_score": 0.88,
+      "criterion_scores": {
+        "relevance": 0.90,
+        "completeness": 0.85,
+        "accuracy": 0.90
+      },
+      "supporting_quotes": ["La différence principale..."],
+      "chunk_content": "Il existe une différence importante entre algèbre et tribu. Une algèbre n'est stable que par union finie..."
+    },
+    {
+      "question": "Qui a développé le concept de tribu?",
+      "answer": "Le concept de tribu (σ-algèbre) a été développé dans le cadre de la théorie de la mesure au début du 20ème siècle, notamment par des mathématiciens comme Émile Borel et Henri Lebesgue.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "0.1.c1",
+      "page_range": [1, 3],
+      "chapter": "Introduction",
+      "section": "Histoire",
+      "question_type": "factoid",
+      "difficulty": "easy",
+      "critic_score": 0.65,
+      "criterion_scores": {
+        "relevance": 0.70,
+        "completeness": 0.60,
+        "accuracy": 0.70
+      },
+      "supporting_quotes": ["Le concept a été développé..."],
+      "chunk_content": "L'histoire de la théorie de la mesure remonte au début du 20ème siècle avec les travaux de Borel et Lebesgue..."
+    }
+  ]
+}

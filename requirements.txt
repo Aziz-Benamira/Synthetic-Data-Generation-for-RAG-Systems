@@ -8,17 +8,32 @@
 #   CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python==0.3.16 --no-cache-dir
 llama-cpp-python==0.3.16
 
+# LLM and AI (cloud)
+openai>=1.10.0
+anthropic>=0.8.0
+langgraph>=0.2.35
+
+# MCP
+mcp>=0.9.1
+
 # LangChain — chunking & document splitting
 langchain==1.2.8
 langchain-community==0.4.1
 langchain-core==1.2.8
 langchain-text-splitters==1.1.0
+langchain-openai>=0.0.5
 
 # Vector store
 chromadb==1.4.1
 
 # Embeddings
 sentence-transformers==5.2.2
+
+# UI and Visualization
+gradio>=4.0.0
+
+# RAG evaluation
+ragas==0.2.7
 
 # PDF parsing
 PyMuPDF==1.26.7
@@ -38,6 +53,15 @@ python-dotenv>=1.0.0
 requests>=2.31.0
 pyyaml>=6.0.0
 
-# Dev / tests (optionnel)
+# Dev / tests
 pytest>=7.4.0
 black>=23.9.0
+flake8==6.1.0
+mypy==1.5.0
+
+# Jupyter
+jupyter==1.0.0
+ipykernel==6.25.0
+
+# MLOps (optional)
+mlflow==2.8.0

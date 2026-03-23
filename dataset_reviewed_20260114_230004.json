@@ -1,0 +1,115 @@
+{
+  "metadata": {
+    "source_dataset": "sample_dataset_for_ui.json",
+    "review_date": "2026-01-14T23:00:04.065997",
+    "total_entries": 4,
+    "acceptance_rate": 16.666666666666664,
+    "human_validated": true
+  },
+  "data": [
+    {
+      "question": "Qu'est-ce qu'une tribu en mathématiques?",
+      "answer": "Une tribu (ou σ-algèbre) est une collection de sous-ensembles d'un ensemble Ω qui satisfait trois propriétés: elle contient Ω, est stable par complémentaire, et stable par union dénombrable.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "1.1.c1",
+      "page_range": [
+        7,
+        11
+      ],
+      "chapter": "Chapitre 1",
+      "section": "Définitions",
+      "question_type": "definition",
+      "difficulty": "easy",
+      "critic_score": 0.85,
+      "criterion_scores": {
+        "relevance": 0.9,
+        "completeness": 0.85,
+        "accuracy": 0.9
+      },
+      "supporting_quotes": [
+        "Une tribu est une collection..."
+      ],
+      "chunk_content": "1.1 Définition d'une Tribu\n\nUne tribu (ou σ-algèbre) est une collection de sous-ensembles d'un ensemble Ω qui satisfait les propriétés suivantes: 1. Ω appartient à la tribu...",
+      "human_edited": true,
+      "human_reviewed": true
+    },
+    {
+      "question": "Quelle est la différence entre une tribu et une algèbre?",
+      "answer": "Une algèbre est stable par union finie, tandis qu'une tribu (σ-algèbre) est stable par union dénombrable. La tribu est donc plus générale et permet de travailler avec des ensembles infinis.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "2.1.c1",
+      "page_range": [
+        25,
+        28
+      ],
+      "chapter": "Chapitre 2",
+      "section": "Comparaisons",
+      "question_type": "comparison",
+      "difficulty": "medium",
+      "critic_score": 0.88,
+      "criterion_scores": {
+        "relevance": 0.9,
+        "completeness": 0.85,
+        "accuracy": 0.9
+      },
+      "supporting_quotes": [
+        "La différence principale..."
+      ],
+      "chunk_content": "Il existe une différence importante entre algèbre et tribu. Une algèbre n'est stable que par union finie...",
+      "human_edited": false,
+      "human_reviewed": true
+    },
+    {
+      "question": "Qui a développé le concept de tribu?",
+      "answer": "Le concept de tribu (σ-algèbre) a été développé dans le cadre de la théorie de la mesure au début du 20ème siècle, notamment par des mathématiciens comme Émile Borel et Henri Lebesgue.",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "0.1.c1",
+      "page_range": [
+        1,
+        3
+      ],
+      "chapter": "Introduction",
+      "section": "Histoire",
+      "question_type": "factoid",
+      "difficulty": "easy",
+      "critic_score": 0.65,
+      "criterion_scores": {
+        "relevance": 0.7,
+        "completeness": 0.6,
+        "accuracy": 0.7
+      },
+      "supporting_quotes": [
+        "Le concept a été développé..."
+      ],
+      "chunk_content": "L'histoire de la théorie de la mesure remonte au début du 20ème siècle avec les travaux de Borel et Lebesgue...",
+      "human_edited": true,
+      "human_reviewed": true
+    },
+    {
+      "question": "Qui a développé le concept de tribu?",
+      "answer": "Le concept de tribu (σ-algèbre) a été développé dans le cadre de la théorie de la mesure au début du 20ème siècle, notamment par des mathématiciens comme yassine et seif ",
+      "source_file": "M2_cours.pdf",
+      "chunk_id": "0.1.c1",
+      "page_range": [
+        1,
+        3
+      ],
+      "chapter": "Introduction",
+      "section": "Histoire",
+      "question_type": "factoid",
+      "difficulty": "easy",
+      "critic_score": 0.65,
+      "criterion_scores": {
+        "relevance": 0.7,
+        "completeness": 0.6,
+        "accuracy": 0.7
+      },
+      "supporting_quotes": [
+        "Le concept a été développé..."
+      ],
+      "chunk_content": "L'histoire de la théorie de la mesure remonte au début du 20ème siècle avec les travaux de Borel et Lebesgue...",
+      "human_edited": true,
+      "human_reviewed": true
+    }
+  ]
+}

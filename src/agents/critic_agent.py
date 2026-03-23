@@ -27,6 +27,40 @@ from typing import List, Optional, Dict, Any, Tuple
 from enum import Enum
 import json
 import re
+import logging
+
+
+# =============================================================================
+# UTILITY FUNCTIONS FOR HARD RULES (Phase 4)
+# =============================================================================
+
+def extract_numbers(text: str) -> set:
+    """Extract all numbers from text (integers and floats)."""
+    # Match integers and floats (including decimals with comma or dot)
+    pattern = r'\b\d+(?:[.,]\d+)?\b'
+    numbers = re.findall(pattern, text)
+    # Normalize: replace comma with dot for comparison
+    return set(n.replace(',', '.') for n in numbers)
+
+
+def has_causal_markers(text: str) -> bool:
+    """Check if text contains causal/explanatory markers."""
+    causal_markers = [
+        'car', 'parce que', 'puisque', 'donc', 'ainsi', 
+        'par conséquent', 'entraîne', 'provoque', 'cause',
+        'en raison de', 'grâce à', 'dû à', 'résulte de'
+    ]
+    text_lower = text.lower()
+    return any(marker in text_lower for marker in causal_markers)
+
+
+def is_why_how_question(question: str) -> bool:
+    """Check if question is a why/how question requiring explanation."""
+    question_lower = question.lower().strip()
+    return (question_lower.startswith('pourquoi') or 
+            question_lower.startswith('comment') or
+            question_lower.startswith('why') or
+            question_lower.startswith('how'))
 
 
 class CriterionResult(Enum):
@@ -245,70 +279,115 @@ RUBRICS_EN = {
 
 
 # =============================================================================
-# PROMPTS FOR CRITIC EVALUATION
+# PROMPTS FOR CRITIC EVALUATION  
 # =============================================================================
 
-SYSTEM_PROMPT_FR = """Tu es un évaluateur ULTRA-STRICT de qualité pour datasets de Question-Réponse.
+SYSTEM_PROMPT_FR = """Tu es un DÉTECTEUR DE DÉFAUTS, pas un validateur.
 
-⚠️⚠️⚠️ RÈGLE D'OR: TU DOIS REJETER AU MOINS 50% DES QA PAIRS ⚠️⚠️⚠️
+🔍 TON RÔLE: CHERCHER DES ERREURS (pas noter des qualités)
 
-Tu es IMPITOYABLE. Un score parfait (1.0) est IMPOSSIBLE à atteindre.
-Un score de 0.95 est déjà exceptionnel. La plupart des QA méritent 0.50-0.80.
+⚠️⚠️⚠️ RÈGLE D'OR: ASSUME QUE CHAQUE QA PAIR A DES PROBLÈMES ⚠️⚠️⚠️
+Ton travail est de LES TROUVER.
 
-PÉNALITÉS AUTOMATIQUES:
-- Réponse < 50 mots → max score 0.70
-- Aucune citation explicite → -0.15 points
-- Formulation vague ou orale → -0.20 points  
-- Toute paraphrase (non copie exacte) → -0.10 points
-- Réponse générique applicable à d'autres chunks → -0.30 points
+PROCESSUS OBLIGATOIRE (DANS CET ORDRE):
+1️⃣ LIS la question et la réponse
+2️⃣ CHERCHE activement des problèmes (ils existent!)
+3️⃣ LISTE toutes les issues potentielles par critère
+4️⃣ SEULEMENT APRÈS: décide PASS/FAIL
 
-En cas de MOINDRE doute → REJETTE et demande amélioration.
-Il vaut mieux rejeter 20 bons QA que d'accepter 1 médiocre.
+⚠️ NE COMMENCE PAS par scorer! COMMENCE par chercher les défauts!
+
+MENTALITÉ:
+- Un avocat du diable, pas un avocat de la défense
+- "Où est le piège?" pas "Est-ce que c'est bien?"
+- Rejette si le MOINDRE doute subsiste
+- 50% de rejections minimum (c'est NORMAL)
 
 === LES 5 CRITÈRES (TOUS OBLIGATOIRES) ===
 
-1. ANCRAGE (anchoring) - VÉRIFIE MOT PAR MOT
-   ✗ FAIL (score 0.0-0.5) si:
-     - La réponse ajoute des EXEMPLES non présents dans le chunk
-     - La réponse utilise des TERMES ou CONCEPTS absents du chunk
-     - La réponse fait des DÉDUCTIONS ou INFÉRENCES non explicites
-     - La réponse ajoute des EXPLICATIONS non présentes
-   ✓ PASS (score 0.8-1.0) UNIQUEMENT si:
-     - CHAQUE phrase de la réponse est DIRECTEMENT dans le chunk
-     - Aucune paraphrase qui change le sens
+1. ANCRAGE (anchoring)
+   
+   🔍 CHERCHE D'ABORD CES DÉFAUTS:
+   ❌ Mots-clés dans la réponse ABSENTS du chunk?
+   ❌ Nombres/chiffres dans la réponse NON présents dans le chunk?
+   ❌ Exemples ajoutés ("par exemple", "comme", "tel que") non dans le chunk?
+   ❌ Déductions/inférences ("donc", "ainsi", "cela implique", "on peut en déduire")?
+   ❌ Concepts ou termes techniques absents du chunk?
+   ❌ Paraphrases qui changent le sens?
+   
+   ✓ PASS UNIQUEMENT si:
+     Tu as vérifié CHAQUE élément ci-dessus ET trouvé ZÉRO problème
+     État explicitement: "Aucun problème d'ancrage détecté"
+   
+   ✗ FAIL si:
+     AU MOINS UN problème trouvé → score 0.0-0.5
 
 2. RÉPONDABILITÉ LOCALE (local_answerability)
-   ✗ FAIL si:
-     - La question demande une COMPARAISON avec autre chose
-     - La question demande des CONSÉQUENCES ou IMPLICATIONS non explicites
-     - La question est trop GÉNÉRALE pour ce chunk spécifique
+   
+   🔍 CHERCHE D'ABORD CES DÉFAUTS:
+   ❌ Question commence par "Pourquoi" ou "Comment" mais le chunk n'explique pas le mécanisme?
+   ❌ Question demande une comparaison ("par rapport à", "contrairement à", "différence avec")?
+   ❌ Question fait référence à d'autres chapitres/sections non présents?
+   ❌ Réponse nécessite des connaissances externes au chunk pour être comprise?
+   ❌ Le chunk ne contient qu'une PARTIE de la réponse (réponse incomplète)?
+   
    ✓ PASS UNIQUEMENT si:
-     - Le chunk contient EXPLICITEMENT la réponse complète
+     Tu as vérifié CHAQUE élément ET le chunk contient 100% de la réponse
+     État: "Chunk contient intégralement la réponse"
+   
+   ✗ FAIL si:
+     N'importe quel problème ci-dessus → score 0.0-0.4
 
 3. EXACTITUDE FACTUELLE (factual_accuracy)
-   ✗ FAIL si:
-     - Toute INTERPRÉTATION du texte source
-     - Toute REFORMULATION qui change le sens
-     - Tout ajout de NUANCE non présente
+   
+   🔍 CHERCHE D'ABORD CES DÉFAUTS:
+   ❌ Nombres/dates dans la réponse DIFFÉRENTS de ceux du chunk?
+   ❌ Noms propres ou termes techniques mal orthographiés?
+   ❌ Reformulation qui omet des conditions/nuances importantes?
+   ❌ Simplification excessive qui déforme le sens?
+   ❌ Contradiction avec le texte source?
+   ❌ Ajout de nuances ("généralement", "souvent", "parfois") absentes du chunk?
+   
    ✓ PASS UNIQUEMENT si:
-     - La réponse est FIDÈLE mot pour mot au chunk
+     Tu as vérifié CHAQUE élément ET trouvé ZÉRO erreur factuelle
+     État: "Aucune erreur factuelle détectée"
+   
+   ✗ FAIL si:
+     Moindre erreur/distorsion → score 0.0-0.5
 
 4. COMPLÉTUDE (completeness)
-   ✗ FAIL (score 0.3-0.5) si:
-     - La réponse est TROP COURTE (moins de 2 phrases pour une question complexe)
-     - La réponse ne répond qu'à UNE PARTIE de la question
-     - La réponse est TRIVIALE et n'apporte pas de valeur
-   ✗ FAIL (score 0.0-0.3) si:
-     - La réponse est une seule phrase vague
-     - La réponse répète juste la question
+   
+   🔍 CHERCHE D'ABORD CES DÉFAUTS:
+   ❌ Question a plusieurs parties ("et", ",", "?") mais la réponse n'adresse qu'une seule?
+   ❌ Réponse < 50 caractères pour une question complexe (>10 mots)?
+   ❌ Réponse est une reformulation de la question sans contenu nouveau?
+   ❌ Réponse est tronquée ou s'arrête brusquement?
+   ❌ Question demande "Qu'est-ce que X et comment..." mais réponse définit X sans expliquer "comment"?
+   ❌ Réponse générique qui pourrait s'appliquer à d'autres chunks?
+   
+   ✓ PASS UNIQUEMENT si:
+     Tu as vérifié CHAQUE aspect de la question ET tous sont adressés
+     État: "Tous les aspects de la question sont couverts"
+   
+   ✗ FAIL si:
+     Réponse incomplète/triviale → score 0.0-0.4
 
 5. CLARTÉ (clarity)
-   ✗ FAIL si:
-     - La question utilise des termes VAGUES ("le truc", "ça", "chose")
-     - La formulation est ORALE ou FAMILIÈRE
-     - La structure est CONFUSE ou MAL ORGANISÉE
+   
+   🔍 CHERCHE D'ABORD CES DÉFAUTS:
+   ❌ Question contient "truc", "machin", "chose", "ça", "on" (style oral)?
+   ❌ Pronoms ambigus ("il", "elle", "cela") sans antécédent clair?
+   ❌ Question commence par "C'est quoi" au lieu de "Qu'est-ce que"?
+   ❌ Termes vagues: "certains", "quelques", "des trucs"?
+   ❌ Structure grammaticale incorrecte ou confuse?
+   ❌ Jargon non défini ou acronymes non explicités?
+   
    ✓ PASS UNIQUEMENT si:
-     - Style ACADÉMIQUE et PRÉCIS
+     Tu as vérifié TOUS les points ET style académique confirmé
+     État: "Formulation claire et académique"
+   
+   ✗ FAIL si:
+     Style oral/vague détecté → score 0.0-0.3
 
 === EXEMPLES DE REJECTIONS (PATTERNS GÉNÉRIQUES) ===
 
@@ -627,6 +706,11 @@ class CriticAgent:
                 evidence=[]
             )
         
+        # 🔥 PHASE 4: Apply hard rules (deterministic rejections)
+        criteria_evaluations = self._apply_hard_rules(
+            qa_pair, chunk, criteria_evaluations
+        )
+        
         # Determine passed and failed criteria
         passed = [name for name, eval in criteria_evaluations.items() if eval.result == CriterionResult.PASS]
         failed = [name for name, eval in criteria_evaluations.items() if eval.result == CriterionResult.FAIL]
@@ -658,6 +742,105 @@ class CriticAgent:
             failed_criteria=failed,
             rejection_reasons=rejection_reasons
         )
+    
+    def _apply_hard_rules(
+        self,
+        qa_pair: Any,
+        chunk: Any,
+        criteria_evaluations: Dict[str, CriterionEvaluation]
+    ) -> Dict[str, CriterionEvaluation]:
+        """
+        Phase 4: Apply deterministic hard rules to catch common failures.
+        These rules override LLM evaluation when triggered.
+        
+        Args:
+            qa_pair: QAPair object
+            chunk: SemanticChunk object  
+            criteria_evaluations: Current evaluations from LLM
+            
+        Returns:
+            Updated criteria_evaluations with hard rules applied
+        """
+        question = qa_pair.question.lower()
+        answer = qa_pair.answer
+        chunk_content = chunk.content
+        
+        # RULE 1: Numbers in answer but not in chunk → ANCHORING FAIL
+        answer_numbers = extract_numbers(answer)
+        chunk_numbers = extract_numbers(chunk_content)
+        unexpected_numbers = answer_numbers - chunk_numbers
+        
+        if unexpected_numbers:
+            logging.info(f"[HARD RULE 1] Numbers rule triggered: {unexpected_numbers} not in chunk")
+            criteria_evaluations["anchoring"] = CriterionEvaluation(
+                criterion="anchoring",
+                result=CriterionResult.FAIL,
+                score=0.0,
+                explanation=f"🔴 HARD RULE 1: Nombres dans la réponse absents du chunk: {unexpected_numbers}",
+                evidence=[]
+            )
+        
+        # RULE 2: Why/How questions need causal markers in chunk
+        if is_why_how_question(qa_pair.question):
+            if not has_causal_markers(chunk_content):
+                logging.info(f"[HARD RULE 2] Why/How question without causal markers: '{qa_pair.question[:50]}...'")
+                criteria_evaluations["local_answerability"] = CriterionEvaluation(
+                    criterion="local_answerability",
+                    result=CriterionResult.FAIL,
+                    score=0.0,
+                    explanation="🔴 HARD RULE 2: Question 'Pourquoi/Comment' mais le chunk ne contient pas d'explication causale (car, donc, entraîne, etc.)",
+                    evidence=[]
+                )
+        
+        # RULE 3: Short answers for complex questions → COMPLETENESS FAIL
+        question_word_count = len(qa_pair.question.split())
+        answer_char_count = len(answer)
+        
+        if question_word_count > 10 and answer_char_count < 50:
+            logging.info(f"[HARD RULE 3] Short answer rule: {answer_char_count} chars for {question_word_count} word question")
+            criteria_evaluations["completeness"] = CriterionEvaluation(
+                criterion="completeness",
+                result=CriterionResult.FAIL,
+                score=0.3,
+                explanation=f"🔴 HARD RULE 3: Réponse trop courte ({answer_char_count} car) pour question complexe ({question_word_count} mots)",
+                evidence=[]
+            )
+        
+        # RULE 4: Answer is just question rephrased → COMPLETENESS FAIL
+        # Check if answer contains most words from question (>70% overlap)
+        question_words = set(qa_pair.question.lower().split())
+        answer_words = set(answer.lower().split())
+        # Remove common words
+        common_words = {'le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'à', 'au', 'en', 'et', 'ou', 'est', 'sont', 'que', 'qui', 'quoi', 'comment', 'pourquoi'}
+        question_words -= common_words
+        answer_words -= common_words
+        
+        if len(question_words) > 0:
+            overlap = len(question_words & answer_words) / len(question_words)
+            if overlap > 0.7 and len(answer.split()) < 15:
+                logging.info(f"[HARD RULE 4] Question repetition: {overlap*100:.0f}% word overlap")
+                criteria_evaluations["completeness"] = CriterionEvaluation(
+                    criterion="completeness",
+                    result=CriterionResult.FAIL,
+                    score=0.2,
+                    explanation=f"🔴 HARD RULE 4: Réponse répète la question ({overlap*100:.0f}% mots communs) sans apporter de contenu nouveau",
+                    evidence=[]
+                )
+        
+        # RULE 5: Oral/informal language in question → CLARITY FAIL
+        oral_markers = ['truc', 'machin', 'chose', "c'est quoi", 'ça', 'y a']
+        detected_markers = [m for m in oral_markers if m in question]
+        if detected_markers:
+            logging.info(f"[HARD RULE 5] Oral language detected: {detected_markers}")
+            criteria_evaluations["clarity"] = CriterionEvaluation(
+                criterion="clarity",
+                result=CriterionResult.FAIL,
+                score=0.1,
+                explanation=f"🔴 HARD RULE 5: Langage oral/familier détecté dans la question: {detected_markers}",
+                evidence=[]
+            )
+        
+        return criteria_evaluations
     
     def _create_fallback_evaluation(self) -> dict:
         """Create a conservative fallback evaluation when parsing fails."""

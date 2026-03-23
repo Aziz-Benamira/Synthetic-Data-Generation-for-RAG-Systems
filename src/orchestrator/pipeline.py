@@ -38,6 +38,9 @@ from semantic_chunker import SemanticChunker, SemanticChunk
 from question_generator import QuestionGenerator, CandidateQuestion, QuestionType, DifficultyLevel
 from answer_generator import AnswerGenerator, QAPair
 from critic_agent import CriticAgent, CriticEvaluation, FinalDecision
+from question_type_classifier import QuestionTypeClassifier
+from difficulty_estimator import DifficultyEstimator
+from diversity_manager import DiversityManager
 
 
 class PipelineStatus(Enum):
@@ -75,6 +78,10 @@ class PipelineConfig:
     
     # Retry settings (AGENTIC WORKFLOW)
     max_retries: int = 2  # Max retries when critic rejects (0 = no retry)
+    
+    # Diversity settings (NEW)
+    enable_diversity_check: bool = True  # Check for duplicate questions
+    diversity_threshold: float = 0.85  # Similarity threshold for duplicates
     
     # Language
     language: str = "fr"  # "fr" or "en"
@@ -123,6 +130,9 @@ class PipelineStats:
     total_retries: int = 0
     passed_after_retry: int = 0
     
+    # Diversity stats (NEW)
+    duplicates_detected: int = 0
+    
     # Rates
     pass_rate: float = 0.0
     questions_per_chunk_avg: float = 0.0
@@ -133,6 +143,10 @@ class PipelineStats:
     # Critic breakdown
     rejection_reasons: Dict[str, int] = field(default_factory=dict)
     criterion_averages: Dict[str, float] = field(default_factory=dict)
+    
+    # Distribution stats (NEW)
+    type_distribution: Dict[str, int] = field(default_factory=dict)
+    difficulty_distribution: Dict[str, int] = field(default_factory=dict)
     
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -149,12 +163,10 @@ class DatasetEntry:
     source_file: str
     chunk_id: str
     page_range: Tuple[int, int]
-    chapter: Optional[str]
-    section: Optional[str]
     
-    # Metadata
-    question_type: str
-    difficulty: str
+    # Metadata (ENHANCED)
+    question_type: str  # Classified by QuestionTypeClassifier
+    difficulty: str  # Estimated by DifficultyEstimator
     
     # Quality scores
     critic_score: float
@@ -163,6 +175,13 @@ class DatasetEntry:
     # Supporting evidence
     supporting_quotes: List[str]
     chunk_content: str  # Full chunk for reference
+    
+    # Optional fields (with defaults)
+    chapter: Optional[str] = None
+    section: Optional[str] = None
+    question_type_confidence: Optional[float] = None  # NEW
+    difficulty_confidence: Optional[float] = None  # NEW
+    difficulty_factors: Optional[Dict[str, float]] = None  # NEW: Factor breakdown
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -174,7 +193,10 @@ class DatasetEntry:
             "chapter": self.chapter,
             "section": self.section,
             "question_type": self.question_type,
+            "question_type_confidence": self.question_type_confidence,
             "difficulty": self.difficulty,
+            "difficulty_confidence": self.difficulty_confidence,
+            "difficulty_factors": self.difficulty_factors,
             "critic_score": self.critic_score,
             "criterion_scores": self.criterion_scores,
             "supporting_quotes": self.supporting_quotes,
@@ -266,6 +288,23 @@ class DatasetPipeline:
             temperature=0.2,  # Lower for consistent evaluation
             strict_mode=True
         )
+        
+        # Enhancement Agents (NEW - No LLM needed!)
+        self._log("🎯 Initializing enhancement agents...")
+        self.type_classifier = QuestionTypeClassifier()
+        self.difficulty_estimator = DifficultyEstimator(classifier=self.type_classifier)
+        
+        if self.config.enable_diversity_check:
+            self.diversity_manager = DiversityManager(
+                similarity_threshold=self.config.diversity_threshold
+            )
+        else:
+            self.diversity_manager = None
+        
+        self._log("   ✓ QuestionTypeClassifier ready")
+        self._log("   ✓ DifficultyEstimator ready")
+        if self.diversity_manager:
+            self._log("   ✓ DiversityManager ready")
     
     def _log(self, message: str):
         """Log a message with timestamp."""
@@ -406,13 +445,25 @@ class DatasetPipeline:
                 continue
     
     def _generate_questions(self, chunk: SemanticChunk) -> List[CandidateQuestion]:
-        """Generate questions for a chunk."""
+        """Generate questions for a chunk (with diversity checking)."""
         self._log(f"   📝 Génération de questions...")
         
         questions = self.question_generator.generate_from_chunk(
             chunk=chunk,
             num_questions=self.config.questions_per_chunk
         )
+        
+        # Filter duplicates with DiversityManager (if enabled)
+        if self.diversity_manager:
+            unique_questions = []
+            for q in questions:
+                is_dup, sim, similar_q = self.diversity_manager.check_similarity(q.question)
+                if is_dup:
+                    self.stats.duplicates_detected += 1
+                    self._log(f"      🚫 Duplicate skipped ({sim:.0%} similar)")
+                else:
+                    unique_questions.append(q)
+            questions = unique_questions
         
         self.stats.total_questions_generated += len(questions)
         self._log(f"      → {len(questions)} questions générées")
@@ -424,7 +475,7 @@ class DatasetPipeline:
         questions: List[CandidateQuestion], 
         chunk: SemanticChunk
     ) -> List[QAPair]:
-        """Generate answers for questions."""
+        """Generate answers for questions (with classification & estimation)."""
         self._log(f"   💬 Génération de réponses...")
         
         qa_pairs = []
@@ -434,7 +485,29 @@ class DatasetPipeline:
                 answer = self.answer_generator.generate_answer(q, chunk)
                 # Convert to QAPair
                 qa_pair = QAPair.from_question_and_answer(q, answer)
+                
+                # Classify question type (NEW)
+                qtype, confidence = self.type_classifier.classify(q.question)
+                qa_pair._classified_type = qtype
+                qa_pair._type_confidence = confidence
+                
+                # Estimate difficulty (NEW)
+                difficulty, diff_conf, factors = self.difficulty_estimator.estimate(q.question, qtype)
+                qa_pair._estimated_difficulty = difficulty
+                qa_pair._difficulty_confidence = diff_conf
+                qa_pair._difficulty_factors = factors
+                
                 qa_pairs.append(qa_pair)
+                
+                # Add to diversity history (if enabled)
+                if self.diversity_manager:
+                    self.diversity_manager.add_question(
+                        question=q.question,
+                        question_type=qtype,
+                        difficulty=difficulty,
+                        force=True  # Already checked in _generate_questions
+                    )
+                
             except Exception as e:
                 self._log(f"      ⚠️ Erreur réponse: {e}")
                 continue
@@ -539,7 +612,18 @@ class DatasetPipeline:
         chunk: SemanticChunk,
         evaluation: CriticEvaluation
     ) -> DatasetEntry:
-        """Create a dataset entry from QA pair."""
+        """Create a dataset entry from QA pair (with enhanced metadata)."""
+        # Get classified/estimated metadata (with fallback)
+        qtype = getattr(qa_pair, '_classified_type', qa_pair.question_type)
+        type_conf = getattr(qa_pair, '_type_confidence', None)
+        difficulty = getattr(qa_pair, '_estimated_difficulty', qa_pair.difficulty)
+        diff_conf = getattr(qa_pair, '_difficulty_confidence', None)
+        diff_factors = getattr(qa_pair, '_difficulty_factors', None)
+        
+        # Update stats distributions
+        self.stats.type_distribution[qtype] = self.stats.type_distribution.get(qtype, 0) + 1
+        self.stats.difficulty_distribution[difficulty] = self.stats.difficulty_distribution.get(difficulty, 0) + 1
+        
         return DatasetEntry(
             question=qa_pair.question,
             answer=qa_pair.answer,
@@ -548,8 +632,11 @@ class DatasetPipeline:
             page_range=chunk.page_range,
             chapter=chunk.chapter_title,
             section=chunk.section_title,
-            question_type=qa_pair.question_type,
-            difficulty=qa_pair.difficulty,
+            question_type=qtype,
+            question_type_confidence=type_conf,
+            difficulty=difficulty,
+            difficulty_confidence=diff_conf,
+            difficulty_factors=diff_factors,
             critic_score=evaluation.overall_score,
             criterion_scores={
                 name: eval.score 
@@ -663,7 +750,7 @@ class DatasetPipeline:
         return filepath
     
     def print_summary(self):
-        """Print a summary of the pipeline run."""
+        """Print a summary of the pipeline run (with diversity report)."""
         print("\n" + "=" * 60)
         print("RÉSUMÉ DU PIPELINE")
         print("=" * 60)
@@ -676,10 +763,31 @@ class DatasetPipeline:
         print(f"   ✅ Acceptés: {self.stats.passed_qa_pairs} ({100*self.stats.pass_rate:.1f}%)")
         print(f"   ❌ Rejetés: {self.stats.rejected_qa_pairs}")
         
+        if self.config.enable_diversity_check:
+            print(f"   🚫 Duplicates détectés: {self.stats.duplicates_detected}")
+        
         if self.stats.rejection_reasons:
             print(f"\n📉 Raisons de rejet:")
             for criterion, count in sorted(self.stats.rejection_reasons.items(), key=lambda x: -x[1]):
                 print(f"   - {criterion}: {count}")
+        
+        # Distribution report (NEW)
+        if self.stats.type_distribution:
+            print(f"\n🎯 Distribution des types:")
+            total = sum(self.stats.type_distribution.values())
+            for qtype, count in sorted(self.stats.type_distribution.items()):
+                pct = 100 * count / total
+                bar = "█" * int(pct / 5)
+                print(f"   {qtype:12} : {count:2} ({pct:5.1f}%) {bar}")
+        
+        if self.stats.difficulty_distribution:
+            print(f"\n📊 Distribution des difficultés:")
+            total = sum(self.stats.difficulty_distribution.values())
+            for diff in ['easy', 'medium', 'hard']:
+                count = self.stats.difficulty_distribution.get(diff, 0)
+                pct = 100 * count / total if total > 0 else 0
+                bar = "█" * int(pct / 5)
+                print(f"   {diff:12} : {count:2} ({pct:5.1f}%) {bar}")
         
         if self.stats.errors:
             print(f"\n⚠️  Erreurs ({len(self.stats.errors)}):")
