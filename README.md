@@ -15,17 +15,19 @@ SemanticChunker          → découpe le PDF en unités sémantiques (définitio
     │                       la structure TOC du document
     ▼
 PipelineV4 + CriticV4    → génère des paires QA (DeepSeek R1-32B)
-    │                       et les filtre via un Critic en 2 phases :
+    │                       et les filtre via un Critic en 3 phases :
     │                         Phase 1 : qualité / standalone de la question
     │                         Phase 2 : complétude + ancrage au chunk
+    │                         Phase 3 : niveau de difficulté cognitive (Bloom 1–5)
     ▼
-Gold Dataset (.jsonl)    → 123 QA pour Physique Dunod, 83 QA pour MI201
-    │
+Gold Dataset (.jsonl)    → 123 QA pour Physique Dunod, 84 QA pour MI201
+    │                       enrichi avec difficulty_level, difficulty_label
     ▼
 Évaluation RAG           → Qwen2.5-32B répond aux questions via RAG
     │                       (bge-m3 + ChromaDB, top-5)
     ▼
 Métriques + Rapport      → Hit Rate, MRR, ROUGE-L, BERTScore, LLM Judge
+                            stratifiés par niveau de difficulté (optionnel)
 ```
 
 ---
@@ -66,13 +68,31 @@ Agentic_AI/
 ├── Projet_Pipeline.py          ← POINT D'ENTRÉE PRINCIPAL
 │                                  Orchestre : chunking → Gold → RAG eval
 │
-├── run_physique_pipeline.sbatch  ← Lancer sur cluster SLURM (ENSTA)
+├── run_pipeline_v4_full.py     ← Lancer la génération Gold Dataset (script)
+│
+├── scripts/
+│   └── annotate_difficulty.py  ← Post-annoter un Gold Dataset existant
+│                                  avec les niveaux de difficulté (Bloom 1–5)
 │
 ├── src/
 │   ├── chunking/
 │   │   └── semantic_chunker.py   ← Découpage sémantique du PDF (TOC-aware)
-│   └── orchestrator/
-│       └── pipeline_v4.py        ← Génération Gold Dataset (QA + CriticV4)
+│   ├── orchestrator/
+│   │   └── pipeline_v4.py        ← Génération Gold Dataset (QA + CriticV4)
+│   └── critic_v4/
+│       ├── question_evaluator.py ← Orchestrateur Phase 1
+│       ├── metrics/
+│       │   ├── contextual_answerability.py
+│       │   ├── pedagogical_value.py
+│       │   ├── answer_completeness.py
+│       │   ├── answer_anchoring.py
+│       │   └── difficulty_grader.py  ← Phase 3 : niveau Bloom (1–5) [nouveau]
+│       └── prompts/
+│           ├── contextual_answerability_prompt.py
+│           ├── pedagogical_value_prompt.py
+│           ├── answer_completeness_prompt.py
+│           ├── answer_anchoring_prompt.py
+│           └── difficulty_grader_prompt.py        [nouveau]
 │
 ├── evaluation/
 │   ├── run_evaluation.py         ← Évaluation RAG complète
@@ -173,11 +193,57 @@ output/moncours/
 ├── chunks.json                         ← chunks extraits du PDF
 ├── gold_dataset.jsonl                  ← paires QA générées
 ├── gold_dataset.json                   ← idem en JSON lisible
+├── gold_dataset_with_difficulty.jsonl  ← enrichi avec niveaux Bloom (optionnel)
 └── evaluation/
     ├── detailed_<timestamp>.json       ← résultats détaillés par QA
     ├── summary_<timestamp>.json        ← métriques agrégées
     ├── rapport_lisible_<timestamp>.txt ← rapport lisible
     └── incremental_results.jsonl       ← sauvegarde progressive (reprise)
+```
+
+---
+
+## Phase 3 — Évaluation de la difficulté cognitive (Bloom)
+
+Le `DifficultyGrader` enrichit chaque entrée du Gold Dataset avec un niveau de difficulté
+cognitive selon la **taxonomie de Bloom révisée** (5 niveaux).
+
+| Niveau | Label | Opération cognitive |
+|---|---|---|
+| 1 | Factuel | Rappel direct d'une définition |
+| 2 | Compréhension | Reformulation / explication |
+| 3 | Application | Utilisation d'une méthode ou formule |
+| 4 | Analyse | Comparaison, raisonnement causal |
+| 5 | Synthèse | Connexion multi-concepts, évaluation critique |
+
+### Activer inline (lors de la génération)
+
+```python
+config = PipelineV4Config(
+    chunks_path="...",
+    output_path="...",
+    enable_difficulty_grading=True   # active la Phase 3
+)
+```
+
+### Post-annoter un dataset existant
+
+```bash
+source ~/envs/agentic_ai/bin/activate
+cd /chemin/vers/Agentic_AI
+
+python3 scripts/annotate_difficulty.py \
+    --gold  output/gold_dataset.jsonl \
+    --chunks data/chunks/chunks_mi201.json \
+    --output output/gold_dataset_with_difficulty.jsonl
+```
+
+### Résultats sur MI201 (84 entrées)
+
+```
+Level 2 — Compréhension :  7  ( 8.3%)
+Level 3 — Application   : 30  (35.7%)
+Level 4 — Analyse       : 47  (56.0%)
 ```
 
 ---
@@ -188,20 +254,23 @@ Le Gold Dataset produit est un fichier JSONL (une entrée par ligne) :
 
 ```jsonl
 {
-  "question":     "Expliquez pourquoi ...",
-  "answer":       "L'énergie potentielle est définie par ...",
-  "chunk_id":     "2.1.4.c1",
-  "chapter":      "DEUXIÈME PÉRIODE",
-  "section":      "Mécanique 2",
-  "page_range":   [580, 609],
-  "global_score": 0.85
+  "question":               "Expliquez pourquoi ...",
+  "answer":                 "L'énergie potentielle est définie par ...",
+  "chunk_id":               "2.1.4.c1",
+  "chapter":                "DEUXIÈME PÉRIODE",
+  "section":                "Mécanique 2",
+  "page_range":             [580, 609],
+  "global_score":           0.85,
+  "difficulty_level":       4,
+  "difficulty_label":       "Analyse",
+  "difficulty_justification": "La question nécessite de comparer deux approches..."
 }
 ```
 
 **Lecture du `chunk_id`** : `2.1.4.c1` = Chapitre 2, Section 1, Sous-section 4, Chunk 1.
 
 **Champs obligatoires pour l'évaluation** : `question`, `answer`, `chunk_id`.
-Les autres sont optionnels (utilisés pour les rapports et l'analyse).
+Les champs `difficulty_*` sont optionnels (présents si Phase 3 activée).
 
 ---
 
@@ -210,7 +279,9 @@ Les autres sont optionnels (utilisés pour les rapports et l'analyse).
 | Composant | Modèle | Rôle |
 |---|---|---|
 | Gold QA Generator | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Génère questions + réponses |
-| CriticV4 | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Valide et filtre les QA |
+| CriticV4 Phase 1 | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Valide qualité de la question |
+| CriticV4 Phase 2 | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Valide complétude + ancrage réponse |
+| CriticV4 Phase 3 | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Niveau difficulté Bloom 1–5 |
 | Embedder | BAAI/bge-m3 (local, 1024-dim) | Encode chunks et questions |
 | RAG Generator | Qwen2.5-32B-Instruct (Q4_K_M) | Génère les réponses RAG |
 | LLM Judge | DeepSeek-R1-Distill-Qwen-32B (IQ3_M) | Note les réponses RAG (0–5) |
@@ -221,4 +292,13 @@ Budget VRAM : ~40 GB (les modèles ne sont jamais chargés simultanément).
 
 ---
 
-## Branche active : `Aziz_branch`
+## Branches actives
+
+| Branche | Contributeur | Contenu |
+|---|---|---|
+| `Aziz_branch` | Ben Amira Aziz | Pipeline principal, CriticV4 Phase 1 & 2, évaluation RAG |
+| `Ghozzi_branch` | Ghozzi | CriticV4 Phase 3 (DifficultyGrader), script annotate_difficulty |
+| `Yassine_branch` | Zanned Yassine | Pipeline SoG, graphe de connaissances |
+| `Seif_branch` | Seif | Validation symbolique déterministe (hard rules) |
+| `Ameni_branch` | Ameni | — |
+| `Maloe_branch` | Maloe | — |
