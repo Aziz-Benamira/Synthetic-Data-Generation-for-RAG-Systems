@@ -117,6 +117,7 @@ class RAGAgent:
             system_prompt = f"""
     You are a helpful assistant, trained to be honest and truthful.
     Use the following context to answer the question. When unsure, always answer that you don't know.
+    State your answer clearly, without digressing. 
     ---
     CONTEXT :
     {context}

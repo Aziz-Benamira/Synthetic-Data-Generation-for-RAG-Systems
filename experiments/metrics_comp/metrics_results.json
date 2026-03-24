@@ -1,0 +1,352 @@
+{
+  "aggregate_metrics": {
+    "total_questions": 80,
+    "retrieval": {
+      "hit_rate@5": 0.2875,
+      "hit_rate@3": 0.2875,
+      "hit_rate@1": 0.025,
+      "mrr": 0.1354,
+      "avg_similarity": 0.9
+    },
+    "generation": {
+      "rouge_l_f1_mean": 0.094,
+      "rouge_l_f1_median": 0.0696,
+      "word_overlap_mean": 0.0725,
+      "faithfulness_mean": 0.1254,
+      "bert_score_f1_mean": 0.8422,
+      "bert_score_f1_median": 0.8424
+    }
+  },
+  "detailed_results": [
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.5,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0328,
+          "recall": 0.6667,
+          "f1": 0.0625
+        },
+        "word_overlap": 0.04878048780487805,
+        "faithfulness": 0.0,
+        "bert_score": {
+          "precision": 0.7797,
+          "recall": 0.8578,
+          "f1": 0.8169
+        }
+      },
+      "question": "What does the abbreviation LLM stand for in computer science?",
+      "gold_answer": "Large Language Model",
+      "generated_answer": "**LLM** is an acronym used in computer science to refer to **Large Language Models**.\n\nThese models are trained on vast amounts of text data from the internet and are designed for tasks such as generating text, answering questions, and understanding natural language. They are distinct from **LSTM**, which stands for **Long Short-Term Memory**, and are used in modern AI applications.",
+      "reference_page": 1
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.5,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "word_overlap": 0.0,
+        "faithfulness": 0.0,
+        "bert_score": {
+          "precision": 0.9076,
+          "recall": 0.83,
+          "f1": 0.8671
+        }
+      },
+      "question": "What is the primary function of an arXiv preprint server?",
+      "gold_answer": "To provide open access to scholarly articles before formal peer review and publication.",
+      "generated_answer": "I don't know.",
+      "reference_page": 1
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.3333333333333333,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0214,
+          "recall": 0.5333,
+          "f1": 0.0412
+        },
+        "word_overlap": 0.060240963855421686,
+        "faithfulness": 0.01532567049808429,
+        "bert_score": {
+          "precision": 0.8015,
+          "recall": 0.9047,
+          "f1": 0.85
+        }
+      },
+      "question": "In machine learning, what is a Gaussian Process used for?",
+      "gold_answer": "A stochastic process used for modeling distributions over functions, providing probabilistic predictions and uncertainty estimates.",
+      "generated_answer": "A **Gaussian Process (GP)** is a statistical framework in machine learning used to make predictions on new data points. It is particularly useful when the underlying data distribution is uncertain or unknown, and you want to model how uncertainty behaves across different inputs.\n\n### Key Applications of Gaussian Processes:\n\n1. **Uncertainty Quantification**:\n   - GPs provide a principled way to estimate the **variance** (or uncertainty) of a prediction, often called the \"covariance function\". This is crucial in fields like climate modeling, finance, and medicine where uncertainty is important.\n   - For example, in climate prediction, a Gaussian process can model how future climate temperatures might vary based on past data and climate models (e.g., from IPCC).\n\n2. **Regression and Classification**:\n   - GPs can be used to predict continuous values (e.g., house prices, stock prices) or categorical labels (e.g., whether a car is red or blue).\n   - They are especially effective in regression tasks, where the goal is to predict a continuous value.\n\n3. **Generalization**:\n   - GPs are known for their ability to generalize well from a limited number of training examples to new, unseen data. This is because the prediction is not just based on training data but on a **posterior distribution** over possible values, which can include uncertainty or \"shrinkage\" of predictions.\n\n4. **Model Reduction**:\n   - When the underlying noise is Gaussian (as in GPs), the predictive distribution can be reduced to a single value or a small set of parameters, improving model efficiency. This is particularly useful in high-dimensional problems where the number of parameters grows large.\n\n5. **Integration with Bayesian Methods**:\n   - GPs are used to integrate over uncertainty in both the data and the model, enabling the computation of predictive distributions. This is essential in Bayesian statistics and deep learning.\n\n### Example:\nIn machine learning, a Gaussian process can be defined as a collection of random variables, where the prediction of a new input is the mean of the posterior distribution of the Gaussian process, plus a small uncertainty term. This uncertainty helps in identifying which parts of the model are uncertain, which can then guide the selection of **SGPU (Stochastic Gradient Proximal Update)** for refining predictions.\n\nIn summary, Gaussian Processes are powerful tools for handling uncertainty in predictions, especially in complex and high-dimensional settings.",
+      "reference_page": 2
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.0,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0542,
+          "recall": 0.4737,
+          "f1": 0.0973
+        },
+        "word_overlap": 0.06666666666666667,
+        "faithfulness": 0.00909090909090909,
+        "bert_score": {
+          "precision": 0.8076,
+          "recall": 0.9059,
+          "f1": 0.8539
+        }
+      },
+      "question": "What is the definition of a binary classification task?",
+      "gold_answer": "A task that involves categorizing elements of a set into one of two groups based on a classification rule.",
+      "generated_answer": "A binary classification task is a type of machine learning problem where the goal is to determine the probability that an input belongs to one of two specific classes, typically labeled as **class 1** or **class 0**.\n\nUnlike regression tasks (which predict a continuous value), binary classification involves:\n1.  **Binary Labels:** The training data consists of pairs of inputs and two distinct classes.\n2.  **Output:** The model outputs a single value between 0 and 1, representing the probability distribution over the two classes.\n3.  **Thresholding:** The model's probability score is often compared against a threshold to produce a binary prediction (e.g., if the score is greater than 0.5, predict class 1; otherwise, predict class 0).\n\nCommon examples include:\n*   **Image Classification:** Classifying an image as \"cat\", \"dog\", or \"bird\".\n*   **Text Classification:** Classifying a document as \"spam\" or \"not spam\".\n*   **Medical Diagnosis:** Identifying if a patient has a specific disease or condition.\n*   **Computer Vision:** Detecting objects within an image (e.g., \"is this a car?\").",
+      "reference_page": 5
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.3333333333333333,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.038,
+          "recall": 0.4118,
+          "f1": 0.0697
+        },
+        "word_overlap": 0.05102040816326531,
+        "faithfulness": 0.07352941176470588,
+        "bert_score": {
+          "precision": 0.7993,
+          "recall": 0.887,
+          "f1": 0.8409
+        }
+      },
+      "question": "What is the general purpose of a sentence encoder like BERT?",
+      "gold_answer": "To map sentences into a dense vector space where semantically similar sentences are close to each other.",
+      "generated_answer": "Based on the context provided, specifically the sentence embedding model mentioned (which likely refers to **BERT** in the context of semantic uncer-\ntainty estimation), the general purpose of a sentence encoder is to perform **token-level semantic feature extraction**.\n\nHere is the breakdown of its function based on the provided text:\n\n1.  **Embedding Generation:** A sentence encoder takes an input sentence (or tokens) and produces an embedding vector that represents the semantic meaning of those tokens.\n2.  **Semantic Representation:** It encodes the input into a low-dimensional vector space where the position of the embedding vector indicates the semantic category of the token. For example, `word1` might map to the semantic class \"cat,\" `word2` to \"dog,\" etc.\n3.  **Contextual Alignment:** This embedding allows the model (in this context, a GPC-based uncer-\ntainty estimator) to align the generated tokens of the LVLM with the semantic meaning of the input sentence, rather than relying solely on positional token indices or raw character strings.\n\nIn summary, its primary purpose is to **transform raw token sequences into meaningful semantic features that the model can effectively reason about.**",
+      "reference_page": 2
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.5,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0167,
+          "recall": 0.2857,
+          "f1": 0.0315
+        },
+        "word_overlap": 0.029411764705882353,
+        "faithfulness": 0.06329113924050633,
+        "bert_score": {
+          "precision": 0.771,
+          "recall": 0.8833,
+          "f1": 0.8234
+        }
+      },
+      "question": "What does the term 'Hallucination' refer to in the context of AI models?",
+      "gold_answer": "Generating content that appears plausible but is factually incorrect or unfaithful to the input.",
+      "generated_answer": "Based on the context provided in your query (specifically referencing Figure 3 and the definition of unsafe predictions), the term **'Hallucination'** in the context of AI models refers to false information or predictions generated by the model.\n\nHere is the breakdown of the context provided:\n\n1.  **Definition of Hallucination:** In this specific AI framework, hallucinations are characterized by the generation of **false predictions** that occur within a specific **range of scores** defined by the model's confidence.\n2.  **Visual Indicators:** The figure (Figure 3) explicitly defines unsafe predictions. The condition for being considered unsafe is:\n    $$0.5 \\in [p - \\sigma/2, p + \\sigma/2]$$\n    where:\n    *   $p$ is the **SGPU score** (the confidence of the prediction).\n    *   $\\sigma$ is the **predicted standard deviation** associated with that score.\n    *   The set $[p - \\sigma/2, p + \\sigma/2]$ represents the confidence interval of the model's uncertainty.\n3.  **Consequence:** If the actual ground truth score falls within this interval, the model's output is considered a **hallucination**.\n4.  **Detection and Mitigation:** The text notes that such unsafe predictions are detected. This detection capability is used to:\n    *   Refine uncertainty predictions using SGPU (Standardized Graph Prediction Unification).\n    *   Prevent the model from making unsafe predictions in the future.\n\n**Summary:** In this context, a **hallucination** is an outcome where an AI model's confidence intervals (measured by the score and standard deviation) are too wide to distinguish between true uncertainty and false information, causing it to output incorrect answers.",
+      "reference_page": 1
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.3333333333333333,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0206,
+          "recall": 0.3889,
+          "f1": 0.0391
+        },
+        "word_overlap": 0.04964539007092199,
+        "faithfulness": 0.08620689655172414,
+        "bert_score": {
+          "precision": 0.7768,
+          "recall": 0.8858,
+          "f1": 0.8277
+        }
+      },
+      "question": "What is meant by 'Black-box' in model evaluation?",
+      "gold_answer": "A system where only the inputs and outputs are accessible, without knowledge of its internal workings or parameters.",
+      "generated_answer": "Based on the context provided (specifically the analysis of SGPU transfer experiments and Figure 3), the term **\"Black-box\"** in model evaluation typically refers to the following concept:\n\n**The inability of the model to be interpreted or explained by its internal decision-making process, particularly regarding its uncertainty.**\n\nHere is a breakdown based on the provided text and general ML knowledge:\n\n1.  **Meaning of \"Black-Box\" in this context:**\n    The context discusses a model called **SGPU** (Semantic Global Prediction Unit). It is described as an \"inherently uncertain\" model. In strict model evaluation terms, a \"black-box\" model is a model for which the internal state, decision rules, or reasoning process are not transparent or traceable (unlike a \"white-box\" model like a neural network or a classifier that can be traced back to its specific weights).\n\n2.  **Connection to Uncertainty and Confidence:**\n    The text explicitly links the term \"Black-box\" to the concept of **uncertainty** and **prediction accuracy**:\n    *   **Uncertainty vs. Confidence:** The text defines unsafe predictions in terms of the SGPU score `p` and standard deviation `σ`. Specifically, it states: \"Unsafe SGPU predictions are defined when **0.5 ∈[p −σ/2, p + σ/2]**.\"\n    *   **The Threshold:** This inequality represents the region where the model's confidence interval (centered at the score with a margin of error) includes the \"safe\" threshold of 0.5.\n    *   **Black-Box Nature:** Because the model's internal calculation of how confident it is (the `σ` term) is not explainable, the model is considered \"black-box\" regarding its uncertainty. We cannot see *how* the model calculates its confidence.\n\n3.  **Implications for Evaluation:**\n    *   **Insight:** The text suggests that a \"black-box\" nature allows for a \"fine-grained analysis.\" By looking at the uncertainty (as defined by the formula above), we can identify specific cases where the model is inherently uncertain.\n    *   **Refinement:** The text proposes that detecting these unsafe cases and refining their uncertainty predictions using SGPU can help the model improve. This refinement is done by looking at the \"black-box\" data (the raw uncertainty calculation) rather than just the final prediction",
+      "reference_page": 2
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.0,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0328,
+          "recall": 0.6429,
+          "f1": 0.0625
+        },
+        "word_overlap": 0.02830188679245283,
+        "faithfulness": 0.1783783783783784,
+        "bert_score": {
+          "precision": 0.7847,
+          "recall": 0.9129,
+          "f1": 0.844
+        }
+      },
+      "question": "What is the significance of the Shannon entropy formula?",
+      "gold_answer": "It quantifies the average amount of information or uncertainty in a set of outcomes.",
+      "generated_answer": "Based on the context provided, the **Shannon entropy formula** (equation 5) is significant for several key reasons:\n\n1.  **Quantification of Uncertainty**: Shannon entropy measures the degree of uncertainty or randomness in a probability distribution. In the context of Large Language Models (LLMs) and LLMs, it quantifies the model's **semantic uncertainty** or lack of confidence in its generated answers.\n2.  **Foundation for Discrete Semantic Entropy (DSE)**: The context explicitly links the Shannon formula to **Discrete Semantic Entropy (DSE)**. DSE is defined as the \"entropy of a discrete distribution\" (equation 6) over the generated answers. This suggests that the model's uncertainty in its answer distribution can be treated similarly to a probability distribution, allowing for the calculation of entropy.\n3.  **Mechanism for Semantic Similarity**: One of the proposed measures (Kernel Language Entropy, or KLE) uses the Shannon formula to compute the **von Neumann entropy** of a kernel formed by combinations of graph Laplacians. This indicates that the Shannon formula is a fundamental mathematical tool used to quantify the distance or similarity between different semantic representations.\n4.  **Semantic Uncertainty Measures**: The context notes the use of **Cos Eigenscore** and **Cov Eigen-score**, which are volume-based measures of semantic uncertainty. These measures essentially calculate the \"volume\" (in the feature space) of the semantic similarity matrix and the covariance matrix, which are mathematical representations of the entropy of the distribution of these features.\n\nIn summary, the Shannon formula is significant because it provides a mathematical framework to quantify the **uncertainty** and **probability distribution** of the model's responses, which is a prerequisite for developing measures like DSE, KLE, and various semantic uncertainty metrics (like Cos Eigenscore).",
+      "reference_page": 3
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 0.0,
+        "hit_rate_at_3": 0.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.0,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0305,
+          "recall": 0.6875,
+          "f1": 0.0584
+        },
+        "word_overlap": 0.06140350877192982,
+        "faithfulness": 0.004878048780487805,
+        "bert_score": {
+          "precision": 0.7879,
+          "recall": 0.9018,
+          "f1": 0.841
+        }
+      },
+      "question": "In statistics, what does 'majority vote' mean?",
+      "gold_answer": "A decision-making process where the option receiving more than half of the votes is selected.",
+      "generated_answer": "In statistics, a **majority vote** (or majority rule) refers to a voting system where the group with the most votes in a given set of candidates receives the majority of the total votes.\n\nSpecifically, if you have $N$ candidates and $V$ total votes:\n1.  You calculate the number of votes for each candidate.\n2.  The candidate with the highest number of votes is the **winner**.\n3.  If the winner receives a strictly greater vote count than any other candidate, the winner is said to have obtained a **majority** of the votes. This is sometimes referred to as a \"winning margin\" or a \"quadratic majority.\"\n\nKey characteristics include:\n*   **Strict Majority:** It is defined strictly as receiving more votes than any other candidate (e.g., 50% or more, though the standard mathematical definition requires strictly greater than, not equal to).\n*   **Quadratic Majority:** This is often used in political science to describe a situation where the winner gets more than half of the votes but less than two-thirds of the total votes (e.g., if 60% of voters support Candidate A but only 50% of the total vote count is cast, the winner still has a strict majority because their count exceeds the second-highest count).\n*   **Application:** It is commonly used in elections and voting systems to ensure that a single candidate wins without needing to eliminate the second-place candidate (e.g., in systems like the plurality system where the candidate with the most votes wins).\n\n**Example:**\nImagine 50 voters cast 1 vote each for three candidates: A, B, and C.\n*   Candidate A gets 50 votes.\n*   Candidate B gets 50 votes.\n*   Candidate C gets 0 votes.\nCandidate A has a strict majority because their count (50) is greater than Candidate B's count (50).\n\nIf the system required a strict majority of the *total* votes (i.e., needing more than 50 total votes), Candidate A would **not** have a strict majority. However, since the vote count exceeds the total count, they have a strict majority.\n\n**Note:** The term \"majority\" can also be used colloquially to mean \"more than half the group,\" but in the strict mathematical sense of statistical voting, it specifically",
+      "reference_page": 5
+    },
+    {
+      "retrieval": {
+        "hit_rate_at_5": 1.0,
+        "hit_rate_at_3": 1.0,
+        "hit_rate_at_1": 0.0,
+        "mrr": 0.3333333333333333,
+        "contextual_precision": 1.0,
+        "avg_similarity": 0.9,
+        "retrieved_ids": [
+          "0",
+          "1",
+          "2"
+        ]
+      },
+      "generation": {
+        "rouge_l": {
+          "precision": 0.0327,
+          "recall": 0.75,
+          "f1": 0.0627
+        },
+        "word_overlap": 0.06097560975609756,
+        "faithfulness": 0.03076923076923077,
+        "bert_score": {
+          "precision": 0.7403,
+          "recall": 0.9207,
+          "f1": 0.8207
+        }
+      },
+      "question": "What is a 'Gram matrix' in linear algebra?",
+      "gold_answer": "A matrix of all possible inner products of a set of vectors.",
+      "generated_answer": "In linear algebra, a **Gram matrix** is a fundamental concept used to describe the inner products of vectors.\n\nFormally, let $\\mathbf{x} = [x_1, x_2, \\dots, x_n]^T$ be an $n \\times 1$ column vector, and let $\\mathbf{V} = [v_1, v_2, \\dots, v_n]^T$ be an $n \\times n$ matrix. The **Gram matrix** of $\\mathbf{x}$ and $\\mathbf{V}$, denoted here as $G$ or $\\mathbf{G}$, is defined as:\n\n$$\nG_{ij} = \\mathbf{x}^T \\mathbf{v}_i = \\sum_{k=1}^n x_k v_{ik}\n$$\n\nIn other words, the $(i, j)$-th element of the Gram matrix represents the dot product of the $i$-th and $j$-th vectors in the set.\n\n### Key Properties:\n1. **Symmetry**: $G$ is symmetric ($G_{ij} = G_{ji}$), because the dot product is commutative.\n2. **Positive Semidefinite**: Every element of $G$ is non-negative, and the matrix is positive semidefinite ($G \\succeq 0$).\n3. **Rank**: The rank of the Gram matrix is equal to the rank of the set of vectors it describes (i.e., $\\text{rank}(G) = \\text{rank}(\\{\\mathbf{x}_1, \\dots, \\mathbf{x}_n\\})$).\n\n### Relation to Covariance:\nIn many contexts (especially in statistics and machine learning), the Gram matrix is used to define **covariance-like matrices** (sometimes called inner products or similarity matrices). If you define an $n \\times n$ matrix $\\Sigma$ as:\n\n$$\n\\Sigma_{ij} = \\mathbf{x}_i^T \\mathbf{x}_j\n$$\n\nthen $\\Sigma$ is often referred to as the **Gram matrix** of the set of vectors $\\{\\mathbf{x}_1, \\dots, \\mathbf{x}_n\\}$.\n\nHowever, in the context of your provided text, $\\Sigma$ appears to be an **empirical covariance matrix** of the",
+      "reference_page": 2
+    }
+  ]
+}

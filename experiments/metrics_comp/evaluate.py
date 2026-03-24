@@ -1,9 +1,15 @@
 import json
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import numpy as np
+import sys
 
+root = Path("../../").resolve()
+parent = root / "experiments" / "metrics_comp"
+
+sys.path.append(root.as_posix())
 from evaluation.metrics import evaluate_single_qa, compute_aggregate_metrics
+from src.llm.manager import LLMManager
 
 
 def load_rag_results_jsonl(filepath: Path) -> List[Dict[str, Any]]:
@@ -26,6 +32,61 @@ def convert_context_to_chunks(context_list: List[str]) -> List[Dict[str, str]]:
             "similarity": 1.0 - (0.1 * i)  # Dummy similarity decreasing with position
         })
     return chunks
+
+
+def initialize_llm_judge(
+    provider: str = "ollama",
+    model: str = "mistral:latest",
+    base_url: Optional[str] = None,
+    **kwargs
+):
+    """
+    Initialize an LLM judge model.
+    
+    Args:
+        provider: "ollama", "openrouter", "openai", or "llamacpp"
+        model: Model name/path
+        base_url: Optional base URL for the provider
+        **kwargs: Additional provider-specific arguments
+        
+    Returns:
+        LLM instance for use as judge
+    """
+    try:
+        if provider.lower() == "ollama":
+            base_url = base_url or "http://localhost:11434/v1"
+            judge = LLMManager.from_ollama(model, base_url=base_url)
+            print(f"✓ Loaded Ollama judge: {model} from {base_url}")
+            return judge.provider
+            
+        elif provider.lower() == "openrouter":
+            api_key = kwargs.get("api_key") or kwargs.get("openrouter_api_key")
+            if not api_key:
+                raise ValueError("openrouter_api_key required for OpenRouter provider")
+            judge = LLMManager.from_openrouter(model, api_key=api_key)
+            print(f"✓ Loaded OpenRouter judge: {model}")
+            return judge.provider
+            
+        elif provider.lower() == "openai":
+            api_key = kwargs.get("api_key") or kwargs.get("openai_api_key")
+            if not api_key:
+                raise ValueError("openai_api_key required for OpenAI provider")
+            judge = LLMManager.from_openai(model, api_key=api_key)
+            print(f"✓ Loaded OpenAI judge: {model}")
+            return judge.provider
+            
+        elif provider.lower() == "llamacpp":
+            gguf_path = kwargs.get("gguf_path") or model
+            judge = LLMManager.from_direct_llamacpp(gguf_path)
+            print(f"✓ Loaded llama-cpp judge from: {gguf_path}")
+            return judge.provider
+            
+        else:
+            raise ValueError(f"Unknown provider: {provider}. Choose from: ollama, openrouter, openai, llamacpp")
+    
+    except Exception as e:
+        print(f"✗ Failed to initialize LLM judge: {e}")
+        return None
 
 
 def compute_dataset_metrics(
@@ -122,17 +183,30 @@ def compute_dataset_metrics(
     }
 
 
-def main():
-    """Example usage."""
+if __name__ == "__main__":
     # Dataset path
-    dataset_path = Path("experiments/metrics_comp/output/qwen3.5:0.8b-context.jsonl")
-    output_path = Path("experiments/metrics_comp/metrics_results.json")
+    dataset_path = parent / "output/qwen3.5:0.8b-context.jsonl"
+    output_path = parent / "metrics_results.json"
+    
+    # Initialize LLM judge
+    print("\n" + "="*60)
+    print("INITIALIZING LLM JUDGE")
+    print("="*60)
+    llm_judge = initialize_llm_judge(
+        provider="ollama",
+        model="mistral:latest",
+        base_url="http://localhost:11434/v1"
+    )
     
     # Compute metrics
+    print("\n" + "="*60)
+    print("EVALUATING DATASET")
+    print("="*60)
     results = compute_dataset_metrics(
         dataset_path=dataset_path,
         output_path=output_path,
-        bert_device="cpu"  # Use "cuda" if available
+        bert_device="cpu",
+        llm_judge=llm_judge
     )
     
     # Print summary
@@ -144,5 +218,3 @@ def main():
     print(json.dumps(results['aggregate'], indent=2))
 
 
-if __name__ == "__main__":
-    main()
