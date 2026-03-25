@@ -60,9 +60,7 @@ tests/test_*.py
 **/test_*.py
 **/*_test.py
 
-# Batch/SLURM files
-*.sbatch
-*.sh
+# Batch/SLURM files — kept tracked for reproducibility
 logs/
 slurm-*.out
 *.log
@@ -102,7 +100,7 @@ CONTRIBUTING.md
 demo_*.py
 show_*.py
 verify_*.py
-scripts/
+# scripts/ directory is tracked — contains annotate_difficulty.py, run_multimodal_demo.py
 
 # Critic V2 experiment outputs
 experiments/critic_v2_baseline/*.json
