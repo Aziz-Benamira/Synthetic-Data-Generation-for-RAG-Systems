@@ -8,17 +8,17 @@ Le Machine Learning est un secteur en plein essor avec l’av ènement de l’in
 amené de nouveaux domaines comme le deep learning ou encore le big data . Cet engouement résulte de
 l’incapacitéà modéliser des probl èmes trop complexes malgré un grand nombre d’exemples à disposition.
 D’un point de vue scientifique, le Machine Learning est essentiel puisqu’il permet de donner une forme
-d’apprentissage aux machines, qui est une des facultés les plus essentielles desêtres vivants. Enfin le Ma-
+d’apprentissage aux machines, qui est une des facultés les plus essentielles des êtres vivants. Enfin le Ma-
 chine Learning devenait nécessaire enéconomie o ù la récolte de données est bien moins contraignante que
 le développement d’expertise.
 Au-del à des raisons qui ont poussé le Machine Learning à se développer, de nombreux domaines tech-
-niques lui ont trouvé une utilité. Tout d’abord il peutêtre utilisé comme un outil de conception en robotique,
+niques lui ont trouvé une utilité. Tout d’abord il peut être utilisé comme un outil de conception en robotique,
 en data mining, pour la recherche dans des bases de données, en vision et reconnaissance des formes par
 vision par ordinateur ou dans le traitement de la parole et du langage. Dans un second temps le Machine
 Learning peut se révéler comme un outil explicatif, notamment en neurosciences ou en psychologie.
 1.2 Exemples d’application
 Les exemples d’applications les plus connus et qui servent en quelque sorte de vitrine aux progr ès du Ma-
-chine Learning sont les jeux. En effet, même si le terme aété employé pour la premi ère fois en 1959 par
+chine Learning sont les jeux. En effet, m ême si le terme aété employé pour la premi ère fois en 1959 par
 l’informaticien américain Arthur Samuel, c’est en 1997 que le grand public découvre véritablement l’existence
 et le potentiel de l’intellingence artificielle et du Machine Learning lorsque l’IA DeepBlue bat auxéchecs le
 champion du monde incontesté de l’époque Garry Kasparov [1]. Suite à cet accomplissement les différents
@@ -40,35 +40,34 @@ internet.
 1.3.1 Point de vue du cours
 Dans ce cours, nous appréhendrons l’apprentissage automatique (la dénomination Machine Learning sera
 aussi utilisée pouréviter la redondance) comme une démarche de conception d’une fonction de prédiction
-à partir d’une base de données préexistante ou qu’il faudra constituer. Cette démarche devraêtre effectuée
-par une modélisation, ou programmation non explicite, sur les exemples de cette base qui pourrontêtre de
+à partir d’une base de données préexistante ou qu’il faudra constituer. Cette démarche devra être effectuée
+par une modélisation, ou programmation non explicite, sur les exemples de cette base qui pourront être de
 natures tr ès variées comme des images, des signaux, des textes, des mesures, etc…
 1.3.2 Formalisation mathématique
 Formalisation générale
 Avant d’entrer dans le vif du sujet, il est nécessaire de formaliser mathématiquement les différentséléments
 qui seront utiles tout au long du cours. On peut formaliser un probl ème d’apprentissage supervisé de la
-façon suivante :étant donnéesn observations {x1,x2, ...,xn}, avec ∀i,xi∈ X oùXest l’espace des ob-
+fac ¸on suivante :étant donnéesn observations {x1,x2, ...,xn}, avec ∀i,xi∈ X oùXest l’espace des ob-
 servations, et les prédictions ouétiquettes associéesà ces observations {y1, y2, ..., y n}, avec ∀i, yi∈ Y où
 Yest l’espace desétiquettes, l’objectif principal de l’apprentissage automatique supervisé est de déterminer
-une fonction f:X → Y telle que ∀(xi, yi)∈ X × Y ayant la même relation que les paires observées,
+une fonction f:X → Y telle que ∀(xi, yi)∈ X × Y ayant la m ême relation que les paires observées,
 arg maxy{f(xi)}=yi. On notera D={(xi, yi)}i=1,...,nl’échantillon ,l’ensemble d’apprentissage , ou encore
 jeu d’apprentissage .
-Comme indiqué précédemment, les données peuventêtre de types tr ès différents et il est nécessaire
+Comme indiqué précédemment, les données peuvent être de types tr ès différents et il est nécessaire
 de faire un travail de modélisation de ces derni ères en amont pour chaque probl ème différent. Dans de
 nombreuses situations on se ram ènera néanmoins au cas o ùX=Rpet on dira que les observations sont
 représentées par p variables . Dans ce cas on appellera matrice de donnéesoumatrice de design la matrice
 X∈Rn×ptelle que Xij=xij, c’est- à-dire la j-ème composante de la i-ème observation.
-Ce que l’on décrit comme prédiction peutêtre tout aussi varié. Il peut s’agir d’une décision, d’une ac-
+Ce que l’on décrit comme prédiction peut être tout aussi varié. Il peut s’agir d’une décision, d’une ac-
 tion, d’une réponse, d’un groupe, d’une commande, d’une valeur, d’une préférence, etc… Ainsi la phase de
 modélisation de cette prédiction est tout aussi importante que celle des données et dépendégalement du
 probl ème traité.
-
-Enfin l’échantillon correspond aux exemples de données et de prédictions (pouvantêtre bonnes ou mau-
+Enfin l’échantillon correspond aux exemples de données et de prédictions (pouvant être bonnes ou mau-
 vaises) dont on dispose. Il s’agit en fait de la base de donnéesévoquée en 1.3.1 et qui va servir de base
 d’apprentissage pour déterminer la prédiction à partir des données. On fait ici l’hypoth èse (tr ès) forte que
 leséchantillons exemples contiennent toute l’information exploitable et utile.
 Cette interpolation se déroule en deux phases distinctes que sont l’apprentissage et la prédiction qui
-peuventêtre représentées schématiquement et de mani ère plus détaillées sur la figure suivante:
+peuvent être représentées schématiquement et de mani ère plus détaillées sur la figure suivante:
 Figure 1.1: Schéma de principe de l’apprentissage automatique
 Ainsi la phase d’apprentissage consiste à trouver les param ètresωde telle sorte que yi=f(xi,ω)∀(xi, yi)∈
 D. On utilisera ensuite ωpendant la phase de prédiction sur de nouveaux exemples.
@@ -76,15 +75,14 @@ Le but de la phase d’apprentissage devient alors de rechercher le ωqui permet
 Lque nous détaillerons plus tard dans le paragraphe 1.5:
 ω= arg min
 ω′L(D,ω′)
-
 Les différents types d’apprentissages
 Il existe plusieurs formes d’apprentissages dans le domaine du Machine Learning. Parmi elles se trouvent les
 apprentissages supervisé et non supervisé. La principale différence entre ces deux types d’apprentissages est
-que, dans le cadre du premier, on a une connaissance préalable de ce que devraientêtre les valeurs de sortie
+que, dans le cadre du premier, on a une connaissance préalable de ce que devraient être les valeurs de sortie
 de noséchantillons. L’algorithme peut s’entra ˆıner sur une base de données dédiée pour laquelle on conna ˆıt
 les ”bonnes” réponses avant de pouvoir s’appliquer sur d’autres données.
 Pour l’apprentissage non supervisé, c’est un peu plus compliqué: il ne dispose pas de réponse correcte ni
-d’enseignant. En effet sa tâche est de déterminer lui-même une modélisation de la structure des données
+d’enseignant. En effet sa t âche est de déterminer lui-m ême une modélisation de la structure des données
 pour en extraire une information.
 Des deux opposés précédents résulte l’apprentissage semi-supervisé pour lequel on poss ède une base dont
 on conna ˆıt partiellement les valeurs de sortie.
@@ -93,7 +91,7 @@ proches du probl ème que l’on souhaite résoudre: on utilise une situation po
 pour enétudier une proche pour laquelle on manque de données, ce quiévite d’avoir à construire une base
 d’apprentissage et fait gagner du temps.
 Enfin on peut citer l’apprentissage par renforcement pour lequel les prédictions sont issues d’une séquence
-d’actions et sont plus ou moins bien récompensées. Le programme ne reçoit pas de données d’entra ˆınement
+d’actions et sont plus ou moins bien récompensées. Le programme ne rec ¸oit pas de données d’entra ˆınement
 mais est envoyé dans un environnement et prend ses décisions au fur et à mesure en fonction de sonétat
 courant. Ces décisions vont lui permettre d’obtenir des récompenses qui le guideront dans la suite de son
 apprentissage. Cette technique est notamment utilisée par Alpha GO Zero , un programme de jeu de GO qui,
@@ -108,15 +106,14 @@ Le deuxi ème type de prédiction qui vient naturellement à l’esprit est la r
 les prédictions de températures, de cours de bourse ou encore la localisation d’un objet dans une image. Ici la
 prédiction doitévaluer une variable continue, en opposition avec la classification qui est fondamentalement
 la prédiction d’une valeur discr ète. Ici l’espace desétiquettes est Y=R.
-Les prédictions peuventêtre plus complexes avec les prédictions de structure o ù l’algorithme cherche à
+Les prédictions peuvent être plus complexes avec les prédictions de structure o ù l’algorithme cherche à
 déterminer des objets structurels plus volumineux comme des arbres ou des graphes, car ces derniers ont
-une forte capacité de représentation d’objets réels comme les articulations d’unêtre humain par exemple.
+une forte capacité de représentation d’objets réels comme les articulations d’un être humain par exemple.
 Le Machine Learning peutégalement permettre de regrouper des données en fonction de leurs caractéristiques:
 ce sont les prédictions de type regroupement. On peut par exemple regrouper des photos de voitures en fonc-
 tions de leur couleur ou encore classer les selfies en fonction des personnes présentes.
 Pour finir les prédictions peuvent prendre la forme d’un texte dans le cas o ù les données sont des images ou
 des vidéos. Ainsi une vidéo pourrait donner la prédiction ”C’est un chat qui saute sur une table”.
-
 1.3.3 Description d’un premier exempleétape parétape
 Afin d’illustrer notre propos et de décomposer la marche à suivre pour appréhender un probl ème, nous
 allons traiter de la problématique de la reconnaissaice de chiffres manuscrits sur des enveloppes postales
@@ -128,14 +125,13 @@ Premi èreétape: choisir une base de données
 Pour commencer on choisit donc une base de donnéesDqui servira de base d’apprentissage pour la suite.
 Deux cas de figure sont alors possibles: soit des bases existent déjà (c’est le cas sur cet exemple) et dans ce
 cas on peut en utiliser une pour gagner du temps soit il faut la construire en utilisant un recueil de données
-existantes ou en expérimentant soi-même.
+existantes ou en expérimentant soi-m ême.
 Deuxi èmeétape: mettre en forme les données
 L’objectif de cetteétape est de transformer les données initiales, qui ne sont que de simples images en deux
 dimensions o ù appara ˆıt du bruit et qui sont tr ès volumineuses (une valeur par pixel de l’image), en une
 forme plus exploitable dans laquelle les données auront un format identique et seront d’une dimension plus
 raisonnable.
-
-Pour cela on ne va plus décrire une image pixel par pixel mais plutôt la décrire en utilisant certaines de
+Pour cela on ne va plus décrire une image pixel par pixel mais plut ôt la décrire en utilisant certaines de
 ses caractéristiques. Dans notre exemple des chiffres manuscrits on peut prendre comme crit ère les profils
 de l’image, qui nous donnent acc ès aux contours du chiffre en question : on crée 4 images blanches et on
 colorie chacune de ces images tant qu’on ne rencontre pas un pixel noir en partant d’une direction différente
@@ -145,7 +141,7 @@ Figure 1.3: Trois exemples de crit ères pour la reconnaissance de chiffres manu
 L’utilisation de tels crit ères permet d’obtenir à terme des données sous forme de vecteurs de petite di-
 mension permettant un temps de calcul moins exorbitant.
 Troisi èmeétape: choisir l’approche du probl ème
-Cetteétape a pour but de déterminer quels sont leséléments du probl ème traité pouvantêtre pris en compte
+Cetteétape a pour but de déterminer quels sont leséléments du probl ème traité pouvant être pris en compte
 dans le choix de la nature du prédicteur : quel est le type d’apprentissage? quel est le type de prédiction?
 quelle est la forme des données?…
 Chacune de ces informations va avoir une influence sur le choix de la nature du prédicteur, car chacune de
@@ -158,19 +154,18 @@ classe appartenant àG={0,1, ...,9}. De plus on conna ˆıt les classes cibles, 
 apprentissage supervisé.
 Les données sont représentées par des vecteurs, certes de taille fixe, mais qui restent de grande taille malgré
 la description des images par certains crit ères. Ces caractéristiques demandent des algorithmes ayant un bon
-contrôle de la régularisation, c’est- à-dire l’ajout d’information permettant d’éviter le surapprentissage (ou
+contr ôle de la régularisation, c’est- à-dire l’ajout d’information permettant d’éviter le surapprentissage (ou
 overfitting)1.
 1Cette notion est définie en 1.5.3
-
 La base de données est de grande taille ( ≥10000 exemples) car il en existe plusieurs pour ce probl ème ce qui
 va rendre notre optimisation efficace.
 La nature fonctionnelle du prédicteur dépend de la forme des données ainsi que du type de prédiction. Parmi
-les principales natures on peut citer: les plus proches voisins, les ensembles de classifieurs (forêts aléatoires,
+les principales natures on peut citer: les plus proches voisins, les ensembles de classifieurs (for êts aléatoires,
 ”boosting”…), la programmation logique, les mod èles probabilistes (réseaux bayésiens, cha ˆınes de Markov…),
 les machines à vecteurs de supports (ou SVM), les réseaux de neurones ou encore les arbres de décisions. Les
 spécificités de ces différentes approches seront détaillées dans les chapitres dédiés.
 Quatri èmeétape: optimisation
-L’apprentissage nécessite de définir un espace fonctionnel et un crit ère paramétrique, comme le coût ou
+L’apprentissage nécessite de définir un espace fonctionnel et un crit ère paramétrique, comme le co ût ou
 l’énergie par exemple. En outre on applique un optimiseur et on en r ègle les param ètres avant de vérifier que
 l’apprentissage fonctionne bien enévaluant sa capacité de généralisation ainsi que sa convergence.
 On peut citer quatre grand types d’optimisations: l’optimisation convexe pour minimiser un crit ère con-
@@ -196,13 +191,12 @@ du taux positif vrai, c’est- à-dire la proportion d’observations qui ontét
 TPV =pv
 pv+nf
 Oùpvcorrespond au nombre de cas prédits positifs qui le sont réellement et nfle nombre de cas prédits
-négatifs qui sont en réalité positifs. De même on définit le taux faux positif :
+négatifs qui sont en réalité positifs. De m ême on définit le taux faux positif :
 TFP =pf
 nv+pf
-
 Avec pfles prédits positifs qui sont négatifs et nvles négatifs qui le sont vraiment. Pour construire la
-courbe on fait alors varier le seuil de score à partir duquel le classificateur (qui doitêtre probabiliste) prédit
-qu’une donnée appartient à une classe plutôt qu’ à l’autre :
+courbe on fait alors varier le seuil de score à partir duquel le classificateur (qui doit être probabiliste) prédit
+qu’une donnée appartient à une classe plut ôt qu’ à l’autre :
 Figure 1.4: Exemple de courbe ROC[6]
 Une fois une telle courbe obtenue, l’aire sous la courbe indique la qualité de notre prédicteur.
 Pour ce qui est des probl èmes de type régression, on utilise en général l’erreur quadratique :
@@ -212,7 +206,7 @@ i=1(f(xi)−yi)2
 Conclusion
 La résolution d’un probl ème par apprentissage automatique demande une certaine rigueur et doit se tenir à
 une feuille de route pour pouvoir progresser. Cesétapes sont cruciales puisque chacune d’elles se construira
-sur le mod èle bâti par les précédentes. Enfin, il s’agit d’une méthode itérative : si le mod èle doitêtre modifié,
+sur le mod èle b âti par les précédentes. Enfin, il s’agit d’une méthode itérative : si le mod èle doit être modifié,
 il est nécessaire de revérifier le travail effectué au sein de chaqueétape pour que le nouveau mod èle puisse
 coller au formatage des données et aux caractéristiques que ce format permet d’extraire.
 1.4 Extraction des caractéristiques
@@ -220,20 +214,19 @@ coller au formatage des données et aux caractéristiques que ce format permet d
 Pour pouvoir utiliser des données dans le cadre de l’apprentissage automatique, il faut passer par deux
 étapes indispensables et complémentaires. Il faut commencer par préparer les données, c’est uneétape certes
 coûteuse mais toute aussi importante puisque c’est ce travail de mise en forme qui rend les données exploita-
-bles pour un programme. Ce passage obligatoire en Machine Learning est si crucial qu’il a même engendré
+bles pour un programme. Ce passage obligatoire en Machine Learning est si crucial qu’il a m ême engendré
 la création du métier de Data engineer, un ingénieur spécialisé sur les applications pratiques de la collecte de
 données et de leur analyse.
 De ce travail de préparation découle la transformation des données. L’objectif principal est alors d’extraire des
 données formalisées les informations qu’elles peuvent apporter. On parle de caractéristiques (ou ”features”
 en anglais).
-1Cette fonction de coûtsera introduite dans la section 1.5
-
+1Cette fonction de co ûtsera introduite dans la section 1.5
 1.4.2 Problématiques de l’extraction de caractéristiques
 Comme nous l’avons déjà vu dans l’exemple de la reconnaissance de chiffres manuscrits, les données brutes
 contenues dans les bases de données ne sont pas exploitables directement par l’algorithme. Ces données
 brutes sont tr ès souvent sujettes au bruit et leur dimension est trop grande pour espérer obtenir un résultat
 probant en un temps raisonnable. En outre les données de notre exemple ne sont que des images d’une
-taille relativement petite dont les pixels ne peuventêtre que noirs ou blancs. Ces données sont déjà trop
+taille relativement petite dont les pixels ne peuvent être que noirs ou blancs. Ces données sont déjà trop
 conséquentes alors qu’il existe une multitude de probl èmes sur deséléments infiniment plus volumineux
 comme des images en haute résolution et en couleurs voire sur une vidéo qui est une succession d’images
 de ce type. Les données brutes sont donc volumineuses et imprécises ce qui noie l’information utile dans un
@@ -241,14 +234,14 @@ océan de superflu.
 La définition de ces caractéristiques est notamment cruciale pour tout probl ème de reconnaissance des
 formes qui, par définition, travaille sur des données brutes initiales sous forme d’images. Tout est une ques-
 tion d’équilibre entre de nombreux crit ères incompatibles, symbolisé par l’opposition entre la robustesse et
-le coût de calcul. En effet si on privilégie la robustesse en voulant utiliser des caractéristiques trop riches,
+le co ût de calcul. En effet si on privilégie la robustesse en voulant utiliser des caractéristiques trop riches,
 notre algorithme aura une complexité trèsélevée qui réduira considérablement son efficacité. En plus de cela
 on resterait sensible au bruit et le programme aurait une grande variabilité.
-D’un autre côté, si l’on privilégie un coût de calcul faible en usant de caractéristiques trop simples, il est tout
+D’un autre c ôté, si l’on privilégie un co ût de calcul faible en usant de caractéristiques trop simples, il est tout
 à fait logique et moral que l’on obtienne de nombreuses confusions, puisqu’on ne disposera alors que de peu
 d’informations par manque de travail sur les données.
 Il existe alors deux cas de figure pour définir les caractéristiques que l’on souhaite extraire de la masse de
-données brutes. Soit on sait quelles sont les caractéristiques importantes et pourquoi grâceà une expertise
+données brutes. Soit on sait quelles sont les caractéristiques importantes et pourquoi gr âceà une expertise
 métier. C’est- à-dire que les expériences passées sur le sujet en question ou sur des probl èmes proches ont
 permis de déterminer quelles informationsétaient pertinentes à prendre en ligne de compte. On peut alors
 directement modéliser notre probl ème en formalisant les données brutes conformément à ces caractéristiques
@@ -257,10 +250,9 @@ Si, au contraire, on ne dispose d’aucun indice sur les points importants à pr
 inévitable de devoir passer par une phase d’apprentissage de ces crit ères importants en faisant différents
 tests. Ce n’est qu’apr ès avoir effectué ce travail supplémentaire que l’on peut passer à la modélisation du
 probl ème posé.
-
 1.4.3 Cha ˆıne de prédiction générique
 Les algorithmes d’apprentissage automatique suivent tous plus ou moins une certaine feuille de route. En
-effet la démarche générale reste toujours fixe et pourraitêtre représentée comme suit pour l’exemple de
+effet la démarche générale reste toujours fixe et pourrait être représentée comme suit pour l’exemple de
 reconnaissance de chiffres:
 Figure 1.5: Cha ˆıne de prédiction générique
 Ce schéma montre bien la premi ère phase de construction d’une représentation des données jusqu’ à
@@ -269,38 +261,36 @@ qu’apr ès avoir obtenu ces informations que l’on peut passer à la phase de
 pendant laquelle les renseignements extraits sont passés dans l’algorithme de prédiction.
 Exemples de caractéristiques
 Les caractéristiques que l’on peut observer sont divisées en deux grandes classes. Dans l’exemple de recon-
-naissance de chiffres manuscrits, les caractéristiques retenues sont de type forme. Elles sont détectées grâce
+naissance de chiffres manuscrits, les caractéristiques retenues sont de type forme. Elles sont détectées gr âce
 à un contraste avec le fond de l’image, il peut s’agir de segmentations ou de saillances comme par exem-
 ple les les ”extémités” des chiffres (les endroits o ù l’on pose ou l ève le stylo). Il peutégalement s’agir de
 caractéristiques structurelles.
 Figure 1.6: Exemple de détection de caractéristiques de formes [7]
-
 Les autres caractéristiques d’images sont celles de texture. Elles sont plus difficiles à associer à un objet
 précis. En effet cette analyse vise à renvoyer des informations sur l’arrangement spatial d’une image en util-
-isant ses couleurs. Ces caractéristiques peuventêtre notamment utiles dans le domaine de l’imagerie médicale
+isant ses couleurs. Ces caractéristiques peuvent être notamment utiles dans le domaine de l’imagerie médicale
 puisque ce type d’analyse permet de délimiter les contours de certainséléments aux textures différentes du
 reste de l’image:
 Figure 1.7: Exemple de détection d’une caratéristique de texture sur une imagerie Doppler
 Une approche plus moderne: le Deep Learning
 Aujourd’hui la démarche présentée précédemment laisse de plus en plus la place à une nouvelle vision de la
 chaˆıne de prédiction. Désormais il est devenu commun de prédire tout en extrayant les données et l’on utilise
-alors des caractéristiques appelées ”Deep features”. Pourêtre clair il s’agit d’apprendre les caractéristiques
+alors des caractéristiques appelées ”Deep features”. Pour être clair il s’agit d’apprendre les caractéristiques
 de l’image via des réseaux convolutifs, qui sont développés dans le chapitre 5 consacré au Deep Learning.
 1.5 Un concept central: la généralisation
 Pour obtenir un prédicteur de bonne qualité, il ne faut pas juste que le programme se contente ”d’apprendre
-par cœur” les résultats de l’échantillon, il faut utiliser ces données bien sûr mais dans l’optique de faire face
+par cœur” les résultats de l’échantillon, il faut utiliser ces données bien s ûr mais dans l’optique de faire face
 à de nouveaux cas de figure. Mais tout d’abord il est nécessaire d’introduire quelques notions avant d’aller
 plus loin sur le sujet de la généralisation.
-Il faut commencer par définir une fonction de coût, il s’agit d’une fonction L:Y × Y → Rutilisée pour
+Il faut commencer par définir une fonction de co ût, il s’agit d’une fonction L:Y × Y → Rutilisée pour
 quantifier la qualité d’une prédiction : L(y, f(x))est proportionnel à l’éloignement entre les valeurs de f(x)
-et de y. On cherche donc f qui minimise cette fonction de coût.
-En Machine Learning, on appelle risque l’espérance d’une fonction de coût:
+et de y. On cherche donc f qui minimise cette fonction de co ût.
+En Machine Learning, on appelle risque l’espérance d’une fonction de co ût:
 R(f) =EX×Y[L(y, f(x,ω))] =Z
 X×YL(y, f(x,ω))dP(x, y)
 OùdP(x, y)est la probabilité jointe de xety. On en déduit que la fonction bfrecherchée vérifie:
 bf= arg min
 fEX×Y[L(y, f(x))]
-
 Cependant ce probl ème reste généralement insoluble sans l’addition d’hypoth èses. On approchera cette
 espérance par l’estimateur de la moyenne empirique, ce qui nous amm ène la définition du risque empirique :
 bRn(f) =1
@@ -311,25 +301,24 @@ bf= arg min
 f1
 nnX
 i=1L(yi, f(xi))
-Pour ce qui est des fonctions de coût en elles-mêmes, il en existe une multitude mais on peut citer la
-fonction de coût 0/1 pour la classification binaire:
+Pour ce qui est des fonctions de co ût en elles-m êmes, il en existe une multitude mais on peut citer la
+fonction de co ût 0/1 pour la classification binaire:
 L0/1:Y × Y → R
 y, f(x)7→(
 1sif(x)̸=y
 0sinon
 Le risque empirique vaut alors le nombre moyen d’erreurs de prédiction.
 Afin d’illuster le concept de généralisation, nous allons nous intéresser à l’exemple de la régression poly-
-nomiale. Nous cherchons ici à approximer une fonction non polynomiale par un polynôme à partir de valeurs
+nomiale. Nous cherchons ici à approximer une fonction non polynomiale par un polyn ôme à partir de valeurs
 uniformémentéchantillonnées en xmais bruitées en y. Pourévaluer la pertinence de la fonction polynomiale
 on calculera une une erreur de régression qui sera la distance au carré entre les pointséchantillonnés et le
-polynôme estimé.
-Figure 1.8: Exemple de courbe à approximer (en vert) grâce aux donnéeséchantillonnées (en bleu) [8]
+polyn ôme estimé.
+Figure 1.8: Exemple de courbe à approximer (en vert) gr âce aux donnéeséchantillonnées (en bleu) [8]
 1.5.1 Présentation des mod èles linéaires généralisés
 La prédiction utilisera des fonctions de base de la régression polynomiale permettant d’encoder les données
 sources: ϕk(x) =xk
 La fonction de prédiction sera donc de la forme:
 y=f(x,ω) =ω0+ω1ϕ1(x) +...+ωMϕM(x)
-
 Dans le cadre de l’apprentissage on utilisera un ωqui sera issu maximum de vraisemblance:
 ωML= (ΦTΦ)−1ΦTy
 Φ =
@@ -347,7 +336,6 @@ d’observation ou de mesures qui sont sujettes à une certaine marge d’erreur
 ses données provoque inévitablement un sur-apprentissage quiéloigne considérablement la prédiction de la
 réalité dans la quasi-totalité des cas. C’est une fois de plus une question de compromis entre l’utilisation des
 données, qui est nécessaire, et la conservation d’un certain détachement de celles-ci et de leurs erreurs.
-
 1.5.2 Différence entre les données d’apprentissage (training) et les données opérationnelles
 (test):
 L’erreur de régression, qui constitue la métrique d’évaluation dans cet exemple, est calculée sur des jeux de
@@ -355,7 +343,7 @@ donnéesD={(xi, yi)}et s’obtient avec la formule suivante:
 bRn(ω) =nX
 i=1(ωTϕ(xi)−yi)2
 On voit que le risque fait intervenir la norme 2 entre fω(xi)etyi. Cependant on ne cherche pas à
-atteindre le même but en fonction des données que l’onévalue. Si l’on se place dans le cas de données
+atteindre le m ême but en fonction des données que l’onévalue. Si l’on se place dans le cas de données
 d’apprentissage, certes on cherche toujours à minimiser l’erreur de régression, mais c’est dans l’optique
 d’affiner notre modélisation car l’on conna ˆıt déjà les ”bonnes” prédictions sans avoir besoin de l’algorithme.
 Ces exemples servent à améliorer le mod èle pour que le programme ait une capacité de prédiction plus précise.
@@ -363,26 +351,25 @@ Au contraire, sur des données opérationnelles, on se place dans une situation 
 le programme nous donne une bonne prédiction sans lui donner la réponse. Ces données ne sont pas l à
 pour entra ˆıner à proprement parler le programme mais pour permettre de vérifier si un apprentissage sur les
 données d’entra ˆınement est efficace ou non.
-En pratique, dans ce probl ème de régression polynomiale, l’erreur en fonction du degré du polynôme esti-
+En pratique, dans ce probl ème de régression polynomiale, l’erreur en fonction du degré du polyn ôme esti-
 mateur a uneévolution à peu pr ès semblable entre les données d’entra ˆınement et les données de test jusqu’ à
 ce que l’on atteigne unétat de sur apprentissage.
-Figure 1.10: Graphique représentant l’évolution de l’erreur de régression en fonction du degré du polynôme
+Figure 1.10: Graphique représentant l’évolution de l’erreur de régression en fonction du degré du polyn ôme
 approximateur [8]
 Pour mesurer le bon fonctionnement du prédicteur on utilise l’erreur sur les données de test qui sont nou-
 velles pour lui. C’est ainsi que l’on peut vérifier que le prédicteur construit est capable de traiter les probl èmes
 inconnus sans se contenter de mémoriser les résultats. Les données d’apprentissage sont les ”cours” de la ma-
 chine tandis que les données opérationnelles sont ses ”exercices”.
-
 1.5.3 L’erreur de généralisation
 La problématique de la généralisation aux données nouvelles, c’est- à-dire celles qui ne sont ni dans les
 données d’entra ˆınement ni dans les données de test. Ainsi, ils’agit de données qui sont par définition in-
 connues. Autrement on s’en servirait pour l’apprentissage ou le test du prédicteur. Ainsi il est nécessaire de
 faire des hypoth èses sur la nature de ces données et sur le mod èle de prédiction.
 Le graphique présenté en Figure 1.10 met en lumi ère les deux principaux phénom ènes àéviter que l’on peut
-contrôler:
--le simplisme; on dit d’un mod èle qui est trop simple pour avoir de bonnes performances même sur les
+contr ôler:
+-le simplisme; on dit d’un mod èle qui est trop simple pour avoir de bonnes performances m ême sur les
 données utilisées pour le construire qu’il sous-apprend , on parle d’ underfitting en anglais.
--le sur-apprentissage; on dit d’un mod èle qui, plutôt que de capturer la nature des objets àétiqueter, modélise
+-le sur-apprentissage; on dit d’un mod èle qui, plut ôt que de capturer la nature des objets àétiqueter, modélise
 aussi le bruit et ne sera pas en mesure de généraliser qu’il sur-apprend , on parle d’ overfitting en anglais.
 Autrement dit l’algorithme apprend ”par cœur” les résultats des données d’apprentissage, qui sont bruitées,
 plutôt que de ”comprendre” réellement comment associer une prédiction correcte à n’importe quelle donnée.

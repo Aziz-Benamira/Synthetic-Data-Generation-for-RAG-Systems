@@ -1,26 +1,22 @@
-, etc…).
-Cette complexité peut néanmoinsêtre contrôlée grâceà plusieurs restrictions que l’on peut imposer :
 limitation de la profondeur de l’arbre, minoration du gain en homogénéité, ajout d’une pénalisation
-de complexité dans le coût ou encore en garantissant une bonne estimation des coûts en imposant
+de complexité dans le co ût ou encore en garantissant une bonne estimation des co ûts en imposant
 un nombre minimal d’échantillons par nœud.
-
 2.1.9 Résumé concernant les arbres de décision
-Nous avons vu dans cette partie que les arbres de décision constituaient une approche extrêmement
+Nous avons vu dans cette partie que les arbres de décision constituaient une approche extr êmement
 facile à interpréter d’un point de vue visuel et logique. En effet la représentation graphique d’un
 arbre permet de rester dans un cadre intuitif ou il est facile de se retrouver. De plus, au-del à de la
 phase de construction d’un arbre de prédiction, cette méthode offre un apprentissage et une clas-
 sification rapides et efficaces pour peu que l’on se restreigne à des tests simples. Cette affirmation
 reste vraie en grande dimension, contrairement aux méthodes abordées dans le premier chapitre.
-Toutefois cette approche, comme toutes les autres, a ses défauts. Le plus gênant pour la méthode
+Toutefois cette approche, comme toutes les autres, a ses défauts. Le plus g ênant pour la méthode
 des arbres de décision est sa tendance au sur-apprentissage mais nous avons vu qu’il existe cepen-
-dant des moyens de contrôler la complexité de l’arbre créé. De plus cette tendance provoque une
+dant des moyens de contr ôler la complexité de l’arbre créé. De plus cette tendance provoque une
 certaine sensibilité au bruit et aux points aberrants que pourrait contenir la base de données initiale.
 Enfin il faut retenir que les arbres de décision ne s’utilisent que dans le cadre de probl èmes de
 classification, voire de régression, et qu’ils sont capables de traiter des données aussi bien numériques
 que symboliques.
-
 2.2 Introduction des méthodes ensemblistes
-Commençons tout d’abord par définir ce que l’on entend par ”méthodes ensemblistes”. Il s’agit
+Commenc ¸ons tout d’abord par définir ce que l’on entend par ”méthodes ensemblistes”. Il s’agit
 de méthodes agrégeant des ensembles de classifieurs et dont l’objectif est de produire une variété
 de classifieurs enéchantillonant différemment les données, en modifiant les structures des classi-
 fieurs… Cette production va permettre de déterminer une classe finale en utilisant la fusion des
@@ -35,10 +31,9 @@ Figure 2.8: Schéma représentant les deux approches des méthodes ensemblistes 
 2.3 Bagging
 La technique du bagging consiste en la génération de multiples jeux de donnéesà partir de la base
 initiale puis d’entra ˆıner le programme sur chacun des jeux créés. Ici on ne se focalise pas sur le con-
-tenu de l’algorithme en lui-même mais sur la méthode d’entra ˆınement de celui-ci. Ainsi le bagging
+tenu de l’algorithme en lui-m ême mais sur la méthode d’entra ˆınement de celui-ci. Ainsi le bagging
 peut s’appliquer à n’importe quel mod èle d’apprentissage automatique : un arbre de décision, un
 réseau de neurone, une SVM, etc…
-
 On commence donc par construire des jeux de données˜D1,˜D2, ...,˜DKen effectuant un tirage
 avec remise dans la base de données initiale D. Cette méthode nous permet d’obtenir des jeux de
 données˜Dksimilaires mais qui ont chacun leurs spécificités. En effet la probabilité pour qu’un
@@ -49,7 +44,7 @@ nn
 lim
 N→∞P=1
 e≈0.3679
-Une fois ces Kjeux de données générés, on entra ˆıne le même algorithme sur chaque ˜Dkce qui
+Une fois ces Kjeux de données générés, on entra ˆıne le m ême algorithme sur chaque ˜Dkce qui
 nous permettra d’obtenir Kclassifieurs fkqui seront tous différents à cause de cet apprentissage
 sur des bases différentes malgré un code identique en tout autre point. Une fois cela fait on agr ège
 cesKclassifieurs soit par vote majoritaire soit par moyenne :
@@ -64,23 +59,22 @@ cause des sous-échantillon ˜Dkqui sont différents et moins riches en informat
 entre les erreurs commises par les fkvont assurer une variance d’apprentissage plus faible au clas-
 sifieur agrégé. Ainsi la méthode du bagging permet de régulariser le processus de prédiction.
 Figure 2.9: Schéma de principe du Bagging [16])
-
-2.4 Les forêts aléatoires (ou Random Forests)
-Les forêts aléatoires ont pour principe de construire plusieurs arbres, d’o ù le nom ”forêt”, se bas-
+2.4 Les for êts aléatoires (ou Random Forests)
+Les for êts aléatoires ont pour principe de construire plusieurs arbres, d’o ù le nom ”for êt”, se bas-
 ant non seulement sur deséchantillons différents, à l’instar du bagging, mais aussi sur des vari-
 ables différentes. Si, par exemple, on se trouve dans un probl ème àpvariables, on commence par
 sélectionner q < p variables aléatoirement puis on effectue les tests sur ces variables pour constru-
 ire des arbres de décision. En pratique on utilise q≈√ppour des probl èmes de classification et
 q≈p
 3en régression.
-La structure de ces arbres comprend les param ètres de contrôle de la complexité que sont la
+La structure de ces arbres comprend les param ètres de contr ôle de la complexité que sont la
 profondeur maximale, le nombre d’échantillons par nœud, le crit ère de pureté des nœud (seuil à
 partir duquel on estime qu’il s”agit d’un nœud terminal) etc… À cela s’ajoute une part d’aléatoire
 sur les attributs, les données et les tests.
-Figure 2.10: Schéma de principe d’une forêt aléatoire [17]
-2.4.1 Algorithme de construction d’une forêt aléatoire
+Figure 2.10: Schéma de principe d’une for êt aléatoire [17]
+2.4.1 Algorithme de construction d’une for êt aléatoire
 POUR k= 1...K :
-Tirage de ˜Dkde même taille que D(Bagging)
+Tirage de ˜Dkde m ême taille que D(Bagging)
 Tirage avec remise de qattributs Ajparmi les Mpossibles
 Construction de l’arbre Gkavec des seuils aléatoires
 Construction de fkla fonction de décision de Gkdont les feuilles sont remplies avec ˜Dk
@@ -91,7 +85,6 @@ k=1fk(x)(régression)
 fmaj(x) = arg max
 yKX
 k=1δ(fk(x), y)(classification)
-
 2.4.2 Biais et variance
 Pourévoquer les notions de biais et de variance, prenons l’exemple de la régression :
 y=f(x) +ϵ
@@ -112,16 +105,15 @@ bruit2+ (ED[bfD(x)]−y)2
 biais2+ED[(ED[bfD(x)]−bfD(x))2]| {z }
 variance
 L’origine de l’erreur de généralisation est double, cependant les deux termes sont difficiles à
-contrôler individuellement. Une telle décomposition est plus difficile à obtenir dans le cadre d’un
-probl ème de classification car les sources d’aléatoire peuventêtre plus compliquéesà déterminer,
+contr ôler individuellement. Une telle décomposition est plus difficile à obtenir dans le cadre d’un
+probl ème de classification car les sources d’aléatoire peuvent être plus compliquéesà déterminer,
 les comportements sont néanmoins comparables.
-Figure 2.11: Simulation d’une régression pour 50échantillons et des polynômes de degrés 1, 3 et 10 [18]
-Sur la Figure 2.11 on peut observer que pour un polynôme de degré 1 on a une variance faible
+Figure 2.11: Simulation d’une régression pour 50échantillons et des polyn ômes de degrés 1, 3 et 10 [18]
+Sur la Figure 2.11 on peut observer que pour un polyn ôme de degré 1 on a une variance faible
 (les différentes courbes approximées sont proches les unes des autres) mais on a un biais important
 (la prédiction moyenne est loin d’ être une bonne approximation de la fonction recherchée). Pour
-le polynôme de degré 3 on a une variance et un biais qui sont relativement faibles. Enfin pour le
-polynôme de degré 10 on a une variance tr ès importante et un biais assez faible.
-
+le polyn ôme de degré 3 on a une variance et un biais qui sont relativement faibles. Enfin pour le
+polyn ôme de degré 10 on a une variance tr ès importante et un biais assez faible.
 L’intérêt des approches ensemblistes est que l’on introduit une source d’aléatoire supplémentaire:
 choix des sous-échantillons, du sous-ensemble de variables, etc…
 LesKarbres nous fournissent les prédictions bf1(x), ...,bfK(x)qui sont des variables aléatoires iden-
@@ -152,19 +144,18 @@ Kσ2
 On déduit de cette formule que l’on a intérêtà construire des prédicteurs individuels indépendants,
 c’est- à-dire avoir ρ≈0, et avoir un grand nombre Kde ces prédicteurs pour minimiser le rapport.
 2.4.3 Résumé concernant les Random Forests
-Les forêts aléatoires constituent l’une des approches les plus preformantes et les plus simples à
+Les for êts aléatoires constituent l’une des approches les plus preformantes et les plus simples à
 mettre en place en pratique. En effet cette méthode permet d’obtenir des arbres plus décorrélés
 que par un simple bagging ce qui lui octroie une robustesse accrue et, comme elle utilise des ar-
-bres de décision, reste pertinente même en grande dimension. Le seul bémol restant est le temps
-d’entra ˆınement à cause de la construction de multiples arbres, mais cet obstacle peutêtre contourné
-assez aisément grâceà la facilité avec laquelle il est possible de paralléliser le code.
-Les Random Forests peuventêtre utilisées dans la résolution de probl èmes de classification et de
-régression à l’instar des arbres de décision, puisque ces forêts ne sont en réalité qu’un ensemble
+bres de décision, reste pertinente m ême en grande dimension. Le seul bémol restant est le temps
+d’entra ˆınement à cause de la construction de multiples arbres, mais cet obstacle peut être contourné
+assez aisément gr âceà la facilité avec laquelle il est possible de paralléliser le code.
+Les Random Forests peuvent être utilisées dans la résolution de probl èmes de classification et de
+régression à l’instar des arbres de décision, puisque ces for êts ne sont en réalité qu’un ensemble
 d’arbres. Elles peuvent traiter des données aussi bien numériques que symboliques. On choisit en
 général d’utiliser les Randoms Forests avec une faible profondeur d’arbre (généralement entre 2 et
 5), les autres hyper-param ètres sont à estimer par validation croisée mais elles ont l’avantage de ne
 pas dépendre crucialement de ces param ètres.
-
 2.5 Boosting
 2.5.1 Principe de la méthode du boosting
 Pour pouvoir utiliser le boosting il faut disposer d’un ensemble de donnéésD={(xi, yi)}n
@@ -210,7 +201,6 @@ iexp 
 −αkyibyi
 Classifieur pondéré final : f(x) =sgn KX
 k=1αkfk(x)!
-
 Figure 2.12: Apprentissage séquentiel des classifieurs et des pondérations par l’algorithme Adaboost [19]
 Figure 2.13: Classifieur final obtenu apr ès l’apprentissage présenté en Figure 2.12 [19]
 2.5.3 Gradient Boosting
@@ -220,7 +210,6 @@ i=1oùyi∈ {− 1,1}ainsi que
 d’un ensemble Hde classifieurs fkqui ne sont pas nécessairement performants. Cette fois-ci le
 principe est de construire pas- à-pas un classifieur performant en ajoutant un à un les weak learners
 pondérés. Ainsi l’objectif est de construire itérativement un strong learner :
-
 fT(x) =TX
 t=1αtft(x) =fT−1(x) +αTfT(x)
 Pour construire ce classifieur on va, à chaqueétape, chercher à minimiser le risque empirique :
@@ -228,7 +217,7 @@ bRn(fT) =1
 nnX
 i=1L(yi, fT(xi))
 Si on revient sur l’algorithme Adaboost, il s’agit en réalité d’un programme utilisant le gradient
-boosting avec une fonction de coûtL(y, f(x)) = exp( −y.f(x)). En effet Adaboost peutêtre vu
+boosting avec une fonction de co ûtL(y, f(x)) = exp( −y.f(x)). En effet Adaboost peut être vu
 comme une construction itérative d’un classifieur optimal par minimisation du risque empirique à
 chaque itération. Il existe de nombreuses autres versions utilisant différentes pénalités :
 •LogitBoost : L(y, f(x)) = log2(1 + exp( −2y.f(x)))
@@ -249,10 +238,9 @@ Il faut retenir que le boosting consiste en une agrégation adaptative de classi
 méthode tr ès efficace permet d’améliorer n’importe quel ensemble de classifieurs et est assez facile à
 mettre en place, cependant le gradient boosting est un peu plus complexe. Le boosting est toutefois
 assez sensible aux données aberrantes et atteint facilement unétat de sur-apprentissage.
-C’est pourquoi les weak learners ne doivent pasêtre trop performants sous peine d’overfitting. Au-
+C’est pourquoi les weak learners ne doivent pas être trop performants sous peine d’overfitting. Au-
 delà de ces probl èmes il faut choisir une pénalité qui sera adaptée au bruit des données. Les variantes
-du boosting peuventêtre utilisées pour résoudre des probl èmes de classification ou de régression.
-
+du boosting peuvent être utilisées pour résoudre des probl èmes de classification ou de régression.
 Régularisation / SVM
 3.1 Régularisation
 Lorsque les variables du probl ème sont fortement corrélées, ou que leur nombre dépasse celui des
@@ -262,13 +250,13 @@ entra ˆıne que la matrice ΦTΦn’est pas inversible et qu’il existe plusie
 de régression linéaire par minimisation des moindres carrés. L’absence d’unicité de la solution
 présente un fort risque de sur-apprentissage : comment pourrait-on garantir que le mod èle que l’on
 a sélectionné est celui qui généralise le mieux ?
-Afin de limiter ce risque d’overfitting, nous allons ajouter un contrôle des valeurs des coefficients
+Afin de limiter ce risque d’overfitting, nous allons ajouter un contr ôle des valeurs des coefficients
 de régression affectés aux variables. En effet si on reprend l’exemple de la section 1.5.1 :
-Figure 3.1: Coefficient des polynômes (tiré de Pattern Recognition and Machine Learning par Christopher M.
+Figure 3.1: Coefficient des polyn ômes (tiré de Pattern Recognition and Machine Learning par Christopher M.
 Bishop
 51Chapter 3 Régularisation / SVM 3.1 Régularisation
-On voit que, dans le cas du sur-apprentissage, les coefficients du polynôme sont grands. On
-peut donc penser que contrôler les valeurs de ces coefficients pourrait améliorer la qualité de la
+On voit que, dans le cas du sur-apprentissage, les coefficients du polyn ôme sont grands. On
+peut donc penser que contr ôler les valeurs de ces coefficients pourrait améliorer la qualité de la
 prédiction.
 3.1.1 Définition de la régularisation
 On appelle régularisation le fait d’apprendre un mod èle en minimisant la somme du risque em-
@@ -278,10 +266,10 @@ f= arg min
 f′1
 nnX
 i=1L(f′(xi,ω), yi) +λΩ(f′)
-où le coefficient de régularisation λ∈R+contrôle l’importance relative de chacun des ter-
+où le coefficient de régularisation λ∈R+contr ôle l’importance relative de chacun des ter-
 mes.[13]
 3.1.2 Modélisation mathématique de la régularisation
-Pour revenir à notre exemple, en considérant que l’on utilise toujours la fonction de coût des moin-
+Pour revenir à notre exemple, en considérant que l’on utilise toujours la fonction de co ût des moin-
 dres carrés, on peut utiliser la régression dite ridge en utilisant le terme de contrainte suivant:
 Ω(ω) =∥ω∥2
 2=MX
@@ -307,22 +295,20 @@ Si l’on note IM∈ M M(R)la matrice identité en dimension M, la solution s’
 La matrice λIM+ΦTΦest bien inversible car λ > 0. On en déduit qu’il existe toujours une
 unique solution explicite au probl ème : la régularisation a transformé un probl ème potentielle-
 ment mal posé en probl ème bien posé. Ainsi si on pénalise les grandes valeurs des coefficients du
-polynôme, on obtient une fonction aux variations moins prononcées qui est susceptible de mieux
+polyn ôme, on obtient une fonction aux variations moins prononcées qui est susceptible de mieux
 répondre au probl ème posé.
-
 3.1.3 Résultats de la régularisation
-Voyons quels résultats peuventêtre obtenus en modifiant la valeur du param ètreλ:
-Figure 3.2: Coefficient des polynômes en fonction de la valeur de lnλ(tiré dePattern Recognition and Machine
+Voyons quels résultats peuvent être obtenus en modifiant la valeur du param ètreλ:
+Figure 3.2: Coefficient des polyn ômes en fonction de la valeur de lnλ(tiré dePattern Recognition and Machine
 Learning par Christopher M. Bishop)
 Ce qui est présenté sur la Figure 3.2, à savoir la variation des valeurs des coefficients de régression
 en fonction de la valeur du coefficient de régularisation λ, constitue ce que l’on appelle le chemin
 de régularisation . Ce chemin permet de comprendre l’effet de la régularisation sur les valeurs des
-coefficients du polynôme représenté parω:
+coefficients du polyn ôme représenté parω:
 Figure 3.3: Chemin de régularisation de la régression ridge pour des donnéesà 12 variables, chaque ligne
 représente l’évolution d’un coefficient [13]
-
 À partir des valeurs de la Figure 3.2 on peut tracer la courbe de l’erreur quadratique en fonction
-delnλpour un polynôme de degré 9 :
+delnλpour un polyn ôme de degré 9 :
 Figure 3.4: Erreur quadratique en fonction de la valeur de lnλ(tiré dePattern Recognition and Machine Learn-
 ingpar Christopher M. Bishop)
 Si on compare ces valeurs à celles obtenues en Figure 1.10 en section 1.5.2 on voit que l’erreur
@@ -342,7 +328,6 @@ Entra ˆıner un mod èlefksurS
 l̸=kDl
 Évaluer ce mod èle sur Dken mesurant l’erreur empirique bRk
 n(fk)
-
 Chaque partition de DenDketS
 l̸=kDlest appelée un fold de la validation croisée. Il serait
 possible d’objecter que l’on ne résout pas le probl ème de la création arbitraire de sous-ensembles
@@ -364,7 +349,6 @@ Néanmoins il y a d’autres sources d’aléatoire qui ne rel èvent pas de la 
 par exemple les choix des attributs servant à construire des arbres dans les random forests, la
 découpe de la base de données dans un mod èle utilisant le bagging ou encore l’initialisation et
 l’optimisation des réseaux de neurones.
-
 3.2.3 La validation croisée stratifiée
 Une validation croisée est dite stratifiéesi la moyenne desétiquettes est sensiblement identique
 dans chacun des Dk:
@@ -378,14 +362,14 @@ i∈DKyi≈1
 |D|X
 i∈Dyi
 L’objectif de cette procédure est d’éviter d’avoir la malchance d’avoir unéchantillon Dkne
-contenant que des exemples de la même classe dans son jeu d’entra ˆınement, ce qui le pousserait
+contenant que des exemples de la m ême classe dans son jeu d’entra ˆınement, ce qui le pousserait
 inévitablement à prédire cette classe dans toutes les situations, ce qui serait tr ès mauvais.
 3.2.4 La validation croiséeleave-one-out
 Une autre stratégie possible pour la création des Dkest tout simplement de prendre K=n, c’est-
 à-dire que chaqueéchantillon Dkne contient qu’une seule observation (xk, yk). Ainsi chaque fold
 est composé den−1données d’entra ˆınement et d’un jeu de test de taille 1, c’est ce que l’on appelle
-la validation croiséeleave-one-out : on met de côté un unique exemple pour chaque fold.
-Cette méthode présente tout de même deux inconvénients majeurs. En premier lieu elle nécessite
+la validation croiséeleave-one-out : on met de c ôté un unique exemple pour chaque fold.
+Cette méthode présente tout de m ême deux inconvénients majeurs. En premier lieu elle nécessite
 un grand temps de calcul puisqu’il est nécessaire d’entra ˆınernmodèles au lieu d’en entra ˆıner entre
 5 et 10 en temps normal. À cela s’ajoute le fait que leséchantillons créés sont tr ès similaires entre
 eux et que les mod èles qui en découleront le seront tout autant.
@@ -396,12 +380,11 @@ de données pour ensuite pouvoir les exploiter, c’est ce type d’approche que
 dans le chapitre 1. Dans cette section nous allons nous intéresser à la seconde catégorie qui vise à
 la construction des meilleures fronti ères possibles entre les données.
 Figure 3.6: Présentation des approches génératives et discriminatives
-
 3.3.1 Position du probl ème
 Dans cette section on se placera dans le cadre d’un probl ème de classification binaire, avec
 ∀i∈[|1, n|], yi∈ {− 1,1}, sur des données dans Rp. De plus ici on fera l’hypoth èse que les données
 sont linéairement séparables , c’est- à-dire qu’il existe un hyperplan de Rptel que tous les points xi
-positifs ( yi= 1) soient d’un côté de cet hyperplan et tous les points négatifs de l’autre. Un tel hy-
+positifs ( yi= 1) soient d’un c ôté de cet hyperplan et tous les points négatifs de l’autre. Un tel hy-
 perplan est dit séparateur .
 L’équation d’un hyperplan séparateur est toujours de la forme :
 b+ωT.x= 0
@@ -421,8 +404,7 @@ On a fait l’hypoth èse que les donnéesétaient linéairement séparables, ce
 n’implique pas l’existence d’un, mais d’une infinité d’hyperplans séparateurs comme représenté en
 Figure 3.7. Cette situation am ène donc un probl ème : quel hyperplan devrait-on choisir ?
 Figure 3.7: Exemple de données linéairement séparables dans R2[20]
-
-Pour pouvoir répondre à cette question, commençons par introduire la notion de marge. La
+Pour pouvoir répondre à cette question, commenc ¸ons par introduire la notion de marge. La
 marge γd’un hyperplan séparateur est la distance de cet hyperplan à l’observation du jeu d’entra ˆınement
 la plus proche.
 On va donc chercher à déterminer l’hyperplan séparateur Hpour lequel la marge est maximale,
@@ -434,7 +416,7 @@ perplans H+etH−qui sont parall èles et situésà une distance γdeH.H+(respec
 contient alors au moins une observation positive (respectivement négative). On appelle vecteurs
 de support les observations situéesà une distance γdeH, elles appartiennent soit àH+soitàH−
 et on dit qu’elles ”soutiennent” ces deux hyperplans.
-C’est de l à que vient le nom de la méthode Support Vector Machines , en français machine à vecteurs
+C’est de l à que vient le nom de la méthode Support Vector Machines , en franc ¸ais machine à vecteurs
 de support ou encore séparatrice à vaste marge pour conserver l’acronyme SVM.
 La zone située entre H+etH−est appeléezone d’indécision , elle ne contient aucune observa-
 tion.
@@ -444,7 +426,6 @@ que cetteéquation sera de la forme b+ωT.x= 0. Ainsi nous savons que les hyperp
 sont définis par deséquations de la forme b+ωT.x=±CavecCune constante. On peut fixer
 C= 1sans perdre en généralité car le fait de multiplier ωetbne modifie pas l’équation de H.
 Figure 3.8: Représentation graphique de la recherche de H[21]
-
 On a donc ∀itel que yi= 1:b+ωT.xi≥1et∀itel que yi=−1:b+ωT.xi≤ −1avecégalité
 pour les vecteurs de support.
 Déterminons maintenant quelle est la formule permettant d’obtenir la distance entre l’hyperplan
@@ -473,7 +454,6 @@ d=|<− →PQ,− →n >|
 À cela s’ajoute que, par définition,− →n=ω, ce qui conduit à :
 d=|ωT.xQ−ωT.xP|
 ∥ω∥
-
 OrP∈Hdonc on a b+ωTxP= 0et donc ωTxP=−bce qui donne :
 d=|b+ωT.xQ|
 ∥ω∥
@@ -495,11 +475,10 @@ En règle générale les données ne sont pas linéairement séparables, ainsi c
 classifiés quel que soit l’hyperplan choisi. D’autres seront classifiés correctement mais se situeront
 dans la zone d’indécision.
 Figure 3.10: Exemple de données non linéairement séparables [21]
-
 Dans le but de pouvoir faire face à ce genre de situation, on cherche maintenant à obtenir une
 séparation robuste à quelques données non séparées. Pour pouvoir définir une telle séparation on
-va introduire la notion de variables de relâchement (ouSlack variables en anglais), que l’on
-noteξi,∀i∈[|1, n|]. Ces variables vont nous permettre de relâcher la contrainte de séparabilité
+va introduire la notion de variables de rel âchement (ouSlack variables en anglais), que l’on
+noteξi,∀i∈[|1, n|]. Ces variables vont nous permettre de rel âcher la contrainte de séparabilité
 pour chaque exemple :
 
 
@@ -512,10 +491,10 @@ L’idée est que les ξimodélisent l’erreur de classification pour quelques 
 les cas o ù il n’y a pas d’erreur on a yi(b+ωT.xi)≥1et donc ξi= 0. Par contre en cas d’erreur on
 ayi(b+ωT.xi)<1et donc ξi= 1−yi(b+ωT.xi)≥0. On impose donc comme contrainte :
 ∀i, ξ i= max(0 ,1−yi(b+ωT.xi)
-L’hyperparam ètre de coûtCest une constante qui permet de trouver un compromis entre la
-marge et le relâchement de la contrainte. La marge se voit alors conférée une certaine souplesse,
+L’hyperparam ètre de co ûtCest une constante qui permet de trouver un compromis entre la
+marge et le rel âchement de la contrainte. La marge se voit alors conférée une certaine souplesse,
 d’où le nom se SVM à marge souple . En r ègle générale les slack variables prennent la forme d’une
-fonction de coûtL(b+ωT.xi, yi).
+fonction de co ûtL(b+ωT.xi, yi).
 Le probl ème se résume alors à :
 arg min
 ω∈Rp,b∈R∥ω∥2+CnX
@@ -531,7 +510,7 @@ Avec :
 r(ω) =1
 C∥ω∥2
 L(f(xi,ω), yi) = max(0 ,1−yi(b+ωT.xi))
-On peutégalement envisager l’utilisation d’autres fonctions de coût
+On peutégalement envisager l’utilisation d’autres fonctions de co ût
 (on pose y′=f(xi,ω) =b+ωT.xi):
 0/1 loss : L(y′, y) =(
 1siyy′≤0
@@ -539,10 +518,9 @@ On peutégalement envisager l’utilisation d’autres fonctions de coût
 Squared loss : L(y′, y) = (y−y′)2
 Hinge : L(y′, y) = max(0 ,1−yy′)
 Exponential : L(y′, y) = exp( −yy′)
-
-Ces différentes fonctions de coût ont les variations suivantes en fonction de yy′(en fonction de
+Ces différentes fonctions de co ût ont les variations suivantes en fonction de yy′(en fonction de
 y−y′pour Squared loss) :
-Figure 3.11: Courbe de variation des différentes fonctions de coût [22]
+Figure 3.11: Courbe de variation des différentes fonctions de co ût [22]
 3.3.5 Forme duale du SVM à marge souple
 Montrons maintenant que notre probl ème d’optimisation:
 arg min
@@ -571,7 +549,6 @@ i=1ξi−nX
 i=1αi(yi(b+ωT.xi)−1 +ξi)−nX
 i=1βiξi
 (3.3)
-
 Lafonction duale de Lagrange est donc la fonction :
 q:Rn
 +×Rn
@@ -596,10 +573,10 @@ De plus le lagrangien est affine en b, son infinimum est donc −∞ sauf si son
 nul, c’est- à-dire si
 nX
 i=1αiyi= 0 (3.6)
-Il estégalement affine en ξ, de même son infinimum est donc −∞ sauf si son gradient en ξest
+Il estégalement affine en ξ, de m ême son infinimum est donc −∞ sauf si son gradient en ξest
 nul, c’est- à-dire si
 ∀i, βi=C−αi (3.7)
-La fonction duale qest donc maximisée quand les relations 3.6 et 3.7 sont vérifiées. En remplaçant
+La fonction duale qest donc maximisée quand les relations 3.6 et 3.7 sont vérifiées. En remplac ¸ant
 ωgrâceà la relation 3.5 dans l’expression de la fonction duale, on peut réécrire 3.4 ainsi :
 max
 α∈Rn−1
@@ -614,7 +591,6 @@ i=1αiξi
 tel quenX
 i=1αiyi= 0,0≤αi≤C∀i
 On retrouve ainsi le probl ème 3.2.[13]
-
 Afin de pouvoir interpréter ce résultat, introduisons maintenant les conditions de Karush-Kuhn-
 Tucker. Soit (P)un probl ème de la forme :
 (P) :
@@ -643,8 +619,7 @@ Ainsi on a trois cas de figure :
 d’indécision.
 •0< α i< C : dans ce cas xiest un vecteur de support.
 •βi= 0: dans ce cas αi=Cetmax(0 ,(1−yi(ωT.xi+b)))>0ce qui signifie que xiest du
-mauvais côté de la zone d’indécision.
-
+mauvais c ôté de la zone d’indécision.
 Avec cette inteerprétation on peut définir les vecteurs de support commeétant les observations
 telles que αi>0:
 Figure 3.12: Interprétation des αidans la construction de l’hyperplan

@@ -1,9 +1,7 @@
-ce n’est pas la seule raison qui peut rendre des données non
 linéairement séparables. En effet il n’est pas rare de se retrouver dans un cas o ù séparer linéairement
 les données n’est pas possible à cause de leur forme. Dans de tels cas on peut alors modifier les
-données grâceà une transformation polynomiale ou polaire afin de pouvoir les séparer :
+données gr âceà une transformation polynomiale ou polaire afin de pouvoir les séparer :
 Figure 3.13: Exemple de transformation polynomiale
-
 Figure 3.14: Exemple de transformation polaire
 3.3.7 Les noyaux dans les SVM
 Si on revient sur la formulation duale 3.2 du SVM, on peut utiliser ce que l’on appelle le Kernel
@@ -25,13 +23,12 @@ vecteurs de support :
 f(xi,ω) =b+nX
 i=1αiyiK(xi,xj)
 Voici quelques exemples de noyaux couramment utilisés :
-Polynôme de degrés supérieurs àd:K(x,y) = ( x.y+ 1)d
+Polyn ôme de degrés supérieurs àd:K(x,y) = ( x.y+ 1)d
 Noyau gaussien : K(x,y) = exp
 −(x−y)T(x−y)
 2σ2
 Intersection d’histogrammes : K(x,y) =nX
 i=1min(xi,yi)
-
 3.3.8 Résumé concernant les SVM
 Il s’agit d’obtenir une formulation optimale quadratique du probl ème de classification binaire. Le
 primal se présente sous la forme d’une optimisation d’un crit ère empirique à laquelle on ajoute la
@@ -45,12 +42,11 @@ En pratique, il faut régler :
 •Le type de noyau et ses param ètres ( dpour noyau polynomial, σpour un noyau gaussien
 etc…).
 •Les param ètres de l’optimiseur.
-
 3.4 Multiclasse
 On se place désormais dans le cas d’un probl ème o ù il existe plus de deux classes différentes. Ici il
 est nécessaire d’effectuer de multiples hypoth èses car il est possible que des classes soient plus rares
-que d’autres (on dit que les classes ne sont paséquilibrées) et le coût d’une erreur de classification
-peutêtre différent en fonction des classes. Par exemple, dans le cadre de classification d’animaux,
+que d’autres (on dit que les classes ne sont paséquilibrées) et le co ût d’une erreur de classification
+peut être différent en fonction des classes. Par exemple, dans le cadre de classification d’animaux,
 on peut considérer qu’il est plus grave de classer un lion commeétant une gazelle que comme un
 tigre.
 Face à des probl èmes de ce type il existe deux stratégies majeures. La premi ère consiste à opti-
@@ -65,7 +61,6 @@ choix de la classe se porte alors sur celle ayant le plus de votes, c’est- à-
 le plus grand nombre de classifieurs. Cependant cette méthode à ses limites et, dans certains cas,
 deségalités surviennent et il est alors impossible de déterminer quelle classe choisir.
 Figure 3.15: Illustration du principe One vs One [23]
-
 3.4.2 Le One vs Rest
 Avec cette approche on cherche à apprendre un classifieur par classe. Ainsi pour la classification
 on choisit la classe ayant le meilleur score. Toutefois on obtient un déséquilibre des données entre
@@ -74,14 +69,13 @@ Figure 3.16: Illustration du principe One vs Rest [24]
 3.4.3 Evaluation du multiclasse
 Il existe plusieurs crit ères permettant d’estimer la qualité d’un classifieur multiclasse. Le taux
 d’erreur moyen et la matrice de confusion sont présentés en 1.3.3 . Mais on peut définir un crit ère
-plus fin prenant en compte des coûts différents en fonction de l’erreur commise : le coût moyen.
+plus fin prenant en compte des co ûts différents en fonction de l’erreur commise : le co ût moyen.
 bR=NX
 i=1NX
 j=1λ(i, j)conf(i, j)p(j)
-Avec λ(i, j)le coût de décider ilorsque la vraie classe est j, conf (i, j)la probabilité de décider i
+Avec λ(i, j)le co ût de décider ilorsque la vraie classe est j, conf (i, j)la probabilité de décider i
 lorsque la vraie classe est jet en enfin p(j)la proportion d’exemple de la classe jdans les données
 de validation.
-
 Introduction aux réseaux de neurones
 4.1 Le mod èle du neurone
 4.1.1 Motivation du mod èle
@@ -93,10 +87,10 @@ d’un cerveau humain.
 Figure 4.1: Illustration du parall èle entre le cerveau biologique et le mod èle du neurone [25][26]
 71Chapter 4 Introduction aux réseaux de neurones 4.1 Le mod èle du neurone
 4.1.2 Passage du neurone au réseau
-Bien sûr, d’un point de vue biologique, l’excitation du neurone n’est pas une simple somme pondérée
+Bien s ûr, d’un point de vue biologique, l’excitation du neurone n’est pas une simple somme pondérée
 de ses signaux entrants, la réalité est bien plus complexe et elle ne sert que d’inspiration au mod èle
 informatique. Nous considérons un mod èle simplifié où les neurones ont deuxétats. Le neurone
-est soit activé soit désactivé. Chaque neurone peut alorsêtre assimiléà un hyperplan séparateur de
+est soit activé soit désactivé. Chaque neurone peut alors être assimiléà un hyperplan séparateur de
 l’espace des données.
 On peut alors se demander quelle est la différence avec les SVM si on assimile un neurone à un
 hyperplan permettant de séparer les données. Cette distinction vient du fait que, dans certains cas,
@@ -118,9 +112,8 @@ a=ωT.x+b
 Ainsi on peut définir formellement un neurone n:
 nω,b:Rd→R
 x7→ωT.x+b
-
 Une fois cette définition posée on peut introduire la notion de couche de ψneurones (notéec)
-qui est une séquence de ψneurones prenant la même entrée et dont les ψsorties sont regroupées
+qui est une séquence de ψneurones prenant la m ême entrée et dont les ψsorties sont regroupées
 en un vecteur :
 cΩ,b:Rd→Rψ
 x7→
@@ -136,7 +129,7 @@ une seule couche :
 Cependant, dans le mod èle du neurone, la notion d’activation est une source de non linéarité :
 Ω′activation (Ωx+b) +b′̸=activation ((Ω′Ω)x+ (Ω′b+b′))
 Il existe de nombreuses fonctions d’activation, la plus ancienneétant la fonction signe . Une
-condition sur les fonctions d’activation est qu’elles doiventêtre non linéaires.
+condition sur les fonctions d’activation est qu’elles doivent être non linéaires.
 C’est sous cette forme que sont définis les réseaux de neurones : il s’agit d’un empilement de
 couches de neurones en prenant l’activation en compte. La fonction d’activation la plus utilisée de
 nos jours est appeléerelu et s’exprime ainsi :
@@ -148,8 +141,7 @@ reseau Ω:Rd→Rd′
 x7→ ΩQ(relu(ΩQ−1relu(...(relu(Ω1x)))))
 IciΩ={Ω1, ...,ΩQ}représentes Qmatrices qui ont pour conditions que Ω1∈ M n,d(R)avec
 nquelconque, ΩQ∈ M d′,n(R)etΩq∈ M n,n(R)∀q∈[|2, Q−1|]. Les dimensions de ces matrices
-doivent néanmoinsêtre cohérentes entre elles afin de pouvoir effectuer les calculs matriciels.
-
+doivent néanmoins être cohérentes entre elles afin de pouvoir effectuer les calculs matriciels.
 4.1.3 Les réseaux de neurones et les SVM
 Les principes de base des réseaux de neurones sont semblables à ceux des SVM. En effet dans les deux
 cas on applique une fonction f(x,ω)à la donnée et le signe de cette fonction donne la prédiction
@@ -173,7 +165,7 @@ Avec 12=
 . Ici on utilise un réseau à deux couches dont la premi ère contient deux neurones
 et la seconde un seul. Ainsi trois neurones permettent de calculer la valeur absolue d’un réelx.
 La norme 1 pour x∈R2
-De la même façon on peut appliquer les réseaux de neurones au calcul de la norme 1 pour x=
+De la m ême fac ¸on on peut appliquer les réseaux de neurones au calcul de la norme 1 pour x=
 x1
 x2
 dansR2:
@@ -213,9 +205,8 @@ Avec 14=
 1
 .Ainsi on utilise un réseau de neurone de profondeur deux avec 4 neurones dans
 la premi ère couche et 1 dans la seconde.
-
 La norme 1 pour x∈Rd
-On peut généraliser le résultat précédent en dimension den suivant le même cheminement et en
+On peut généraliser le résultat précédent en dimension den suivant le m ême cheminement et en
 réorganisant les lignes de la matrices, ce que l’on peut faire sans soucis puisqu’une seule composante
 de la matrice est non nulle par ligne et que le produit matriciel final s’effectue avec le vecteur 1de
 dimension d:
@@ -240,7 +231,7 @@ x
 OùIdest la matrice identité de dimension d. On a donc toujours un réseau de profondeurs 2
 avec 2dneurones dans la premi ère couche et un dans la seconde.
 La norme 1 avec biais
-On peut même coder la distance en norme 1 à un point quelconque qen rajoutant simplement un
+On peut m ême coder la distance en norme 1 à un point quelconque qen rajoutant simplement un
 terme de biais dans la premi ère couche :
 ∥x−q∥1=|(1,0).(x−q)|+|(0,1).(x−q)|
 ∥x∥1=|(1,0).x|+|(0,1).x|+|(−1,0).q|+|(0,−1).q|
@@ -252,7 +243,6 @@ x+
 −q
 q
 Une fois encore on utilise une simple couche de 2dneurones en plus d’un neurone pour sommer.
-
 Le pseudo-dirac
 Pour montrer un peu plus la diversité des applications des réseaux de neurones relu, voici comment
 on peut définir une pseudo fonction de Dirac :
@@ -300,8 +290,7 @@ qu’il n’existe pas de séparation.
 Avec un réseau de neurones on utilise f(x,Ω) = Ω Qrelu(ΩQ−1relu(...relu (Ω1x)))et on sait
 qu’avec O(ND)neurones et 3 couches, on peut tout apprendre. Cependant, nous avons déjà vu
 dans les chapitres précédents que tout apprendre n’était pas nécessairement une bonne chose et
-que, dans la plupart des cas, il s’agissait même de quelque chose de négatif.
-
+que, dans la plupart des cas, il s’agissait m ême de quelque chose de négatif.
 Figure 4.2: Comparaison des prédicteurs SVM et d’un réseau de neurones qui aurait appris la base
 d’apprentissage
 On voit sur la Figure 4.2 qu’un mod èle de réseau de neurones ayant appris la base d’apprentissage
@@ -315,12 +304,11 @@ modèle des réseaux de neurones en utilisant l’algorithme du perceptron.
 Il s’agit d’un algorithme classique d’apprentissage pour le mod èle des réseaux de neurones
 simple composés d’une seule couche de perceptron . En pratique, nous utilisons pour les
 réseaux de neurones plus profonds la descente de gradient stochastique (présentée en section 4.3).
-L’algorithme perceptron est un programme dans le même style que l’approche des kplus proches
+L’algorithme perceptron est un programme dans le m ême style que l’approche des kplus proches
 voisins puisqu’il s’agit d’un algorithme certes simple, mais qui obtient de tr ès bons résultats pour
 certains types de probl èmes.
-
 Figure 4.3: L’algorithme du perceptron [27]
-Avant d’aller plus loin dans l’interprétation de l’algorithme, commençons par introduire toutes
+Avant d’aller plus loin dans l’interprétation de l’algorithme, commenc ¸ons par introduire toutes
 les notations utilisées. Tout d’abord les wicorrespondent aux poids qui seront affectés aux com-
 posantes des données,bcorrespond au biais, aest le résultat de la prédiction et yest la classe réelle
 de la donnéex, il prend en entrée la base d’entra ˆınement ici notéeDainsi que MaxIter qui cor-
@@ -330,12 +318,12 @@ MaxIter très grand pour obtenir un excellent prédicteur.
 Arrêtons-nous maintenant sur le fonctionnement de cet algorithme. Il s’agit d’un algorithme
 d’apprentissage incrémental (ou apprentissage online en anglais), ce qui signifie qu’il effectue
 une ou plusieurs opérations à chaque nouvelle observation qui lui est fournie, à mettre en oppo-
-sition d’un apprentissage dit hors-ligne qui op ère sur toute la base d’entra ˆınement en même temps.
+sition d’un apprentissage dit hors-ligne qui op ère sur toute la base d’entra ˆınement en m ême temps.
 De plus cet algorithme est dirigé par ses erreurs, c’est- à-dire que, tant que les résultats obtenus
 sont corrects, il ne modifie pas ses param ètres. Ces derniers correspondent aux poids w1, w2, ..., w D
 des différentes composantes des données et le biais bqui permet de ”recentrer” la prédiction. L’algorithme
 parcourt la base de donnéesDMaxIter fois et, pour chaque donnéex, calcule sa prédiction aavant
-de vérifier que celle-ci est du même signe (et donc correcte puisqu’on se trouve dans un probl ème
+de vérifier que celle-ci est du m ême signe (et donc correcte puisqu’on se trouve dans un probl ème
 de classification binaire) que la véritable classe ydex. Si la prédiction est bonne alors on ne change
 rien, si au contraire elle est erronée alors on modifie les poids et le biais afin que la prédiction asoit
 plus proche de y.
@@ -343,7 +331,6 @@ En réalité la Figure 4.3 ne présente qu’un cas particulier d’un algorithm
 sur la descente de gradient. En effet, on cherche en réalitéà minimiser le risque empirique et son
 gradient nous indique la direction à prendre pour atteindre ce but. Ainsi pour chaque observation
 (xi, yi)∈ D on actualise les poids en utilisant ce gradient :
-
 ∀j∈[|1, d|], ω j←ωj−η∂L(f(xi,ω), yi)
 ∂ωj
 b←b−η∂L(f(xi,ω), yi)
@@ -354,12 +341,11 @@ grand, l’algorithme pourrait ne pas réussir à affiner sa solution tandis que
 convergence sera tr ès lente. Dans le cas de la classification binaire on utilise souvent la fonction de
 coût connue sous le nom de critère du perceptron :
 L(f(xi,ω), yi) = max(0 ,−yi(ωT.xi))
-Avec cette fonction de coût la r ègle d’actualisation 4.1 devient :
+Avec cette fonction de co ût la r ègle d’actualisation 4.1 devient :
 ∂L
 ∂ωj←(
 0 siyi(ωT.xi)>0
 −yi(xi)jsinon
-
 La convergence de l’algorithme du perceptron aété démontrée en 1962 par l’ukrainien Al-
 bert Novikoff sous la forme d’un théorème stipulant que, pour un jeu de nobservations D=
 {(xi, yi)}i∈[|1,n|]etD, γ∈R∗
@@ -373,7 +359,7 @@ D
 γ2
 étapes.
 On peut noter qu’il est aussi possible d’utiliser l’algorithme du perceptron dans le cadre d’un
-probl ème de régression, en général avec la fonction de coût :
+probl ème de régression, en général avec la fonction de co ût :
 L(f(xi,ω), yi) =1
 2(yi−f(xi,ω))2
 Ainsi la r ègle d’actualisation 4.1 devient :
@@ -386,7 +372,6 @@ effet dans le premier cas on ne disposerait pas de ressources suffisantes pour p
 rectement tandis que dans le second on ne ferait qu’apprendre la base d’apprentissage sans pouvoir
 généraliser aux autres données inconnues.
 Figure 4.4: L’ancien paradigme des réseaux de neurones [28]
-
 Toutefois un phénom ène de ”double descente” aété découvert tout récemment par Mikhail
 Belkin et al. dans une publication qui date seulement de décembre 2018.[29] Ce phénom ène est
 illustré par la Figure 4.5 :
@@ -406,7 +391,7 @@ il est possible de fusionner les différents mod èles et de tendre vers les per
 moyen f∗qui, attention, n’est pas forcément optimal.
 La complexité n’augmente pas avec le nombre de mod èles mais seulement avec leur capacité.
 Ainsi créer plein de mod èleséquivalents n’augmente pas l’overfitting.
-Dans l’ancien paradigme on cherchait à créerKréseaux de Qneurones, ce qui n’est pas la même
+Dans l’ancien paradigme on cherchait à créerKréseaux de Qneurones, ce qui n’est pas la m ême
 chose que de créer un seul réseau de KQ neurones. Ici Kne crée pas d’overfitting et la qualité du
 modèle reposait grandement sur la valeur sélectionnée pour Q: si ce dernierétait trop petit, on
 apprenait pas, et s’ilétait trop grand on entrait dans unétat de sur-apprentissage.
@@ -414,10 +399,9 @@ Avec la découverte de la double descente est apparu un nouveau paradigme qui as
 réseau de Hneurones va se décomposer naturellement en Kréseaux deH
 Kneurones. Cette taille
 de réseau serait en plus adaptée au probl ème traité.
-
 Il faut néanmoins garder à l’esprit qu’il s’agit d’un phénom ène que l’on observe dans un certain
 nombre d’expériences dans un domaine borné. Il ne s’agit pas d’une vérité générale. Cette spécificité
-vient de la façon d’entra ˆıner les réseaux de neurones : la descente de gradient stochastique.
+vient de la fac ¸on d’entra ˆıner les réseaux de neurones : la descente de gradient stochastique.
 4.3 La descente de gradient stochastique
 4.3.1 La descente de gradient
 SoitFune fonction dérivable de RddansR, le gradient de Fen un point unoté∇F(u)est la
@@ -436,9 +420,9 @@ Retourner u
 L’hyperparam ètreλa une importance capitale dans cet algorithme car c’est lui qui va déterminer la
 vitesse de convergence de l’algorithme. S’il est choisi trop petit alors l’algorithme convergera tr ès lentement,
 cependant il ne suffit pas de le prendre trop grand non plus car l’actualisation de une serait alors pas assez
-fine pour converger vers le minimum et l’algorithme pourrait même diverger.
+fine pour converger vers le minimum et l’algorithme pourrait m ême diverger.
 Pour palier à ce probl ème on peut utiliser un pas adaptatif qui sera de plus en plus petit à mesure que
-l’on s’approche du minimum. Une deuxi ème version de l’algorithme du gradient peut alorsêtre :
+l’on s’approche du minimum. Une deuxi ème version de l’algorithme du gradient peut alors être :
 Input : F,u0, ϵ
 1.u=u0
 2. Calculer ∇F(u)
@@ -448,31 +432,29 @@ Input : F,u0, ϵ
 5. Tant que F(u−λ∇F(u))≥F(u)faireλ= 0.5λ
 6.u=u−λ∇F(u)
 7. Retour à l’étape 2
-
 Figure 4.6: Principe de l’algorithme de la descente de gradient [30]
 Dans l’application de cet algorithme à l’apprentissage on remplace la variable upar les poids ωdu réseau.
-En ce qui concerne la fonctionnelle Fon la remplace par une fonction de coûtL(f(ω))de la forme :
+En ce qui concerne la fonctionnelle Fon la remplace par une fonction de co ûtL(f(ω))de la forme :
 L(f(ω)) =nX
 i=1l(f(xi,ω), yi)
-Pour que l’algorithme de la descente de gradient puisse fonctionner, ldoitêtre une fonction assez lisse.
-De plus ldoit avoir une valeur proche de 0 si yif(xi,ω)est grand (les deux facteurs sont de même signe donc
+Pour que l’algorithme de la descente de gradient puisse fonctionner, ldoit être une fonction assez lisse.
+De plus ldoit avoir une valeur proche de 0 si yif(xi,ω)est grand (les deux facteurs sont de m ême signe donc
 la prédiction est bonne) et au contraire doit fortement pénaliser les cas o ùyif(xi,ω)est petit. On peut par
 exemple utiliser la fonction hinge loss :
 l(f(xi,ω), yi) =relu(1−yif(xi,ω))
 4.3.2 Les limites de la descente de gradient
 Le probl ème majeur de l’algorithme de la descente de gradient est la quantité de calculs nécessaires à sa
 réalisation. En effet si l’on dispose d’une base de données de grande taille, comme n= 1000000 par exemple,
-alors il est nécessaire d’appliquer f, elle même constituée de plusieurs couches, à 1000000 de points et ce à
+alors il est nécessaire d’appliquer f, elle m ême constituée de plusieurs couches, à 1000000 de points et ce à
 chaque itération de l’algorithme. Ainsi cette premi ère version, bien que valable mathématiquement et efficace
 pour des bases de données de tailles modestes, nécessite une puissance de calcul bien trop importante pour
 être utilisée telle quelle.
-
 4.3.3 L’algorithme du gradient stochastique
-Il s’agit d’une variante de l’algorithme du gradient visant à résoudre le probl ème de coût calculatoire prohibitif
-sur les bases de données conséquentes. Toutefois cette amélioration n’a puêtre montrée mathématiquement
+Il s’agit d’une variante de l’algorithme du gradient visant à résoudre le probl ème de co ût calculatoire prohibitif
+sur les bases de données conséquentes. Toutefois cette amélioration n’a pu être montrée mathématiquement
 que dans le cas o ùL(f(ω)) =nX
 i=1li(f(ω))est convexe (o ùli(f(ω)) = l(f(xi,ω), yi). Pour ce faire on va
-bien sûr reprendre le principe d’une descente de gradient mais sur une sous somme des litirée aléatoirement.
+bien s ûr reprendre le principe d’une descente de gradient mais sur une sous somme des litirée aléatoirement.
 Voici le pseudo-code de l’algorithme du gradient stochastique avec un pas adaptatif λet une tolérance ϵ:
 Choisir u∈Rd
 Tant que ∥∇F(u)∥2
@@ -485,7 +467,7 @@ Retourner u
 4.3.4 La méthode mini Batch SGD
 En pratique, en Python, l’algorithme présenté ci-dessus n’est qu’un cas particulier de la méthode appelée
 mini Batch SGD dans laquelle la base de données est découpée en sous-ensembles appelésBatch sur lesquels
-on calcule la fonction de coût partielle partial L. On appelle uneépoque une période pendant laquelle toute
+on calcule la fonction de co ût partielle partial L. On appelle uneépoque une période pendant laquelle toute
 la base de données aété utilisée dans les calculs de partial L. Une fois uneépoque passée, on change les
 Batchs afin d’ajouter de la diversité dans chacun d’eux. L’algorithme du gradient stochastique n’est en fait
 qu’un algorithme mini Batch SGD dans lequel les Batchs sont de taille 1. L’actualisation des poids dans le cas
@@ -494,13 +476,12 @@ partial L(f(ω)) =X
 i∈Batchrelu(1−yif(xi,ω))
 ω=ω−λiter∇partial L(f(ω))
 Oùλiterest le pas adaptatif de l’algorithme.
-
 4.4 Le réseau neuronal convolutif
-Dans cette section nous allons traiter d’une adaptation des réseaux de neurones au deep learning grâce au
+Dans cette section nous allons traiter d’une adaptation des réseaux de neurones au deep learning gr âce au
 modèle du réseau neuronal convolutif.
 Nous avons jusqu’ à présent traité des données vectorielles x∈Rd. Toutefois il est possible d’appliquer
 les réseaux de neurones à tout type de donnéesà condition de pouvoir les transformer en vecteurs.
-Par exemple on pourraitêtre intéressé par des données sous la forme d’images. On consid ère que les
+Par exemple on pourrait être intéressé par des données sous la forme d’images. On consid ère que les
 images sont composées de trois matrices de dimensions H×L(hauteur ×largeur) dans le cas général :
 Xr,g,b= [Xr, Xg, Xb]avecXr∈ M H,L(R), Xg∈ M H,L(R)etXb∈ M H,L(R). On consid ère alors les
 donnéesà traiter sous la forme x∈R3×H×L.
@@ -508,10 +489,9 @@ On peut généraliser ce formalisme en posant que X∈RC×H×LavecC= 3si l’ima
 (en couleur) ou encore C= 1si elle est en niveau de gris. Le deep learning permet d’automatiser toutes les
 étapes de l’apprentissage automatique :
 Figure 4.7: Comparaison de la démarche du machine learning avant et apr ès le deep learning
-
 4.4.1 Le neurone convolutif
 Soit une image entréeI∈RC×H×L. On peut considérer la convolution de Iavec un noyau K∈RC×(2δH+1)×(2δL+1),
-les dimensions de Kdoiventêtre impaires pour que le noyau ait une case ”centrale” comme nous l’expliquerons
+les dimensions de Kdoivent être impaires pour que le noyau ait une case ”centrale” comme nous l’expliquerons
 après. Cette convolution sera notéeI ⋆ K ∈RH×Let définie par :
 (I ⋆ K )h∈[|1,H|],l∈[|1,L|]=CX
 c=12δHX
@@ -533,7 +513,6 @@ une valeur de I ⋆ K , typiquement :
 c=12δHX
 α=02δLX
 β=0Ic,h−δH+α,l−δL+β×Kc,α,β
-
 On voit que cette valeur peut tout à fait se coder avec un neurone classique I.Kavec :
 Ki,j=
 
@@ -547,17 +526,17 @@ une couche classique (perceptron). Pour donner un exemple concret on cela donne 
 Un autre point essentiel est qu’une couche de convolution fait ressortir l’information locale.
 Nous pouvons considérer qu’un réseau convolutionnel est similaire à un réseau Fully connected (Percep-
 tron), mais avec un apriori fort sur ses poids. Cette apriori consiste à dir que les poids d’une unité couche
-caché doiventêtre identiques aux poids de son voisin, mais décalés dans l’espace. L’apriori indiqueégalement
-que les poids doiventêtre nuls, sauf dans le petit champ proche du pixel d’intérêt. Globalement, on peut con-
+caché doivent être identiques aux poids de son voisin, mais décalés dans l’espace. L’apriori indiqueégalement
+que les poids doivent être nuls, sauf dans le petit champ proche du pixel d’intérêt. Globalement, on peut con-
 sidérer que l’utilisation de la convolution introduit une distribution de probabilité sur les param ètres d’une
 couche. Ce priors dit que la couche ne doit apprendre que des interactions locales et estéquivariante à la
 translation.
-Bien sûr, la mise en œuvre d’un réseau convolutif comme un réseau enti èrement codé par cette apriori
-serait extrêmement coûteuse en termes de calcul, c’est pourquoi on utilise des corrélations croisé pour coder
+Bien s ûr, la mise en œuvre d’un réseau convolutif comme un réseau enti èrement codé par cette apriori
+serait extr êmement co ûteuse en termes de calcul, c’est pourquoi on utilise des corrélations croisé pour coder
 ces couches de convolution.
 Une autre idée est que nous ne devrions comparer les mod èles convolutifs à d’autres mod èles non con-
 volutifs tel que les fully connected (Pereceptron). Les mod èles qui n’utilisent pas la convolution seraient
-capables d’apprendre même si l’on mélange tous les pixels de l’image. Les mod èles convolutifs quant à eux
+capables d’apprendre m ême si l’on mélange tous les pixels de l’image. Les mod èles convolutifs quant à eux
 travaillent de mani ère local et base leur décision sur l’information locale.
 4.4.2 Le pooling
 On prend toujours une image entréeI∈RC×H×L. Le pooling consiste en la création de pool(I)∈RC×H
@@ -573,13 +552,12 @@ Les réseaux de neurones convolutifs sont quant à eux issue de la concaténatio
 suivie de non-linéarité et d’opération de pooling qui concentre l’information. Une fois la représentation
 convolutif fini, vient souvent des fully connected qui permette de transformer l’image en un vecteur de
 probabilité.
-L’acte de créer une architecture consiste à décider quelle couche mettre ou cette tâche est assez dure et
+L’acte de créer une architecture consiste à décider quelle couche mettre ou cette t âche est assez dure et
 sera vue plus en détails en troisi ème année. Nous allons expliquer LeNet-5 qui est l’un des réseaux les plus
 simple.
 L’architecture de LeNet-5 (Figure 4.10) se compose de deux couches convolutives et qui sont suivie cha-
 cune d’une fonction d’activation et d’une couche de pooling, apr ès ces deux couches il y a trois couches fully
 connected (Perceptron) suivie chacune d’une fonction d’activation enfin d’un softmax.
-
 Figure 4.9: Schéma de principe du pooling [38]
 Figure 4.10: Schéma de LeNet-5 [37]
 L’entrée de LeNet-5 est une image en niveaux de gris 32 ×32 (de la base de donnée MNIST) qui passe par la
@@ -591,7 +569,7 @@ Ensuite, le LeNet-5 applique une couche de mise de pooling par la moyenne ( S2) 
 Ensuite, il y a une deuxi ème couche convolutive ( C3) avec 16 cartes de caractéristiques et un filtre de
 taille 5 ×5 et un stride de 1. Les dimensions de l’image résultante seront de 10x10x16.
 La quatri ème couche ( S4) està nouveau une couche de pooling par la moyenne avec une taille de filtre 2 ×2
-et un stride de 2. Cette couche est la même que la deuxi ème couche sauf qu’elle a 16 cartes de caractéristiques,
+et un stride de 2. Cette couche est la m ême que la deuxi ème couche sauf qu’elle a 16 cartes de caractéristiques,
 donc la sortie sera réduite à 5x5x16. Enfin, on applique un reshape pour transformer ce tenseur de 5x5x16 en
 vecteur de taille 400.
 Puis, une cinqui ème couche ( C5) qui est une fully connected avec 120 cartes neurones de sortie est ap-
@@ -601,7 +579,7 @@ La sixi ème et septi ème couche sont des respectivement des fully connected av
 de sortie
 Une couche de softmax est appliqué sur les 10 derniers neurones qu’on nomme logit permettant de prédire
 les classes entre 0 et 9 des images d’entrée.
-
 Unsupervised Learning
 Dans les chapitres précédents, nous nous sommes concentrés sur l’apprentissage supervisé, c’est- à-dire que
 l’on disposait d’uneétiquette yipour chaque observation xi. A contrario dans ce chapitre nous allons aborder
+l’apprentissage non supervisé. La différence majeure entre ces deux branches de l’apprentissage automatique
