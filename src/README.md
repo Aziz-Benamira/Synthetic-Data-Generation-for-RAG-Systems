@@ -33,6 +33,8 @@ sog/
 ├── sog_pipeline.py             # Full pipeline CLI (batch, multi-doc)
 ├── run_on_pdf.py               # Single-PDF test runner (start here)
 ├── test_sog.py                 # Smoke tests (no API key required)
+├── evaluate_sog.py             # Evaluation suite — Hit@K, MRR,    
+                                  ROUGE-L, BERTScore, LLM Judge
 └── _gen_graph_html.py          # Generates an interactive HTML visualisation of the context graph
 ```
 
@@ -132,6 +134,71 @@ Four offline unit tests that validate the pipeline without any LLM or embedding 
 
 Run with: `python test_sog.py`
 
+### `evaluate_sog.py` — Evaluation Suite
+*Measures how well the built graph and generated QA pairs support retrieval and generation tasks*
+
+Two independent evaluation phases — only the second requires an LLM:
+
+**Phase 1 — Retrieval** (always runs, no API key needed)  
+Embeds every question with `sentence-transformers`, retrieves the top-K paragraphs from the corpus, and checks whether the gold paragraphs (stored as `path_ids` in the JSONL) are recovered.
+
+| Metric | Description |
+|--------|-------------|
+| **Hit@1** | Fraction of questions where the gold paragraph ranks first |
+| **Hit@5** | Fraction of questions where the gold paragraph appears in the top 5 |
+| **MRR** | Mean Reciprocal Rank of the first gold paragraph |
+
+**Phase 2 — Generation** (`--generate`, requires an LLM API key)  
+For each question, retrieves the top-K context passages, generates a fresh answer via an LLM, then compares it against the reference answer from the JSONL.
+
+| Metric | Description |
+|--------|-------------|
+| **ROUGE-L F1** | Lexical overlap between generated and reference answer |
+| **BERTScore F1** | Semantic similarity via a small BERT model |
+| **LLM Judge (/5)** | A second LLM call scores the generated answer 1–5 vs. the reference |
+
+Supports **any OpenAI-compatible provider** via `--base_url` / `--api_key`:
+
+```powershell
+# Retrieval only (fast, no tokens consumed):
+python evaluate_sog.py `
+    --graph outputs/Attention_Is_All_You_Need_context_graph.json `
+    --qa    outputs/Attention_Is_All_You_Need_sog_qa.jsonl
+
+# Full suite with Groq (free tier):
+python evaluate_sog.py `
+    --graph    outputs/Attention_Is_All_You_Need_context_graph.json `
+    --qa       outputs/Attention_Is_All_You_Need_sog_qa.jsonl `
+    --generate --groq --model llama-3.1-8b-instant
+
+# Full suite with OpenAI:
+python evaluate_sog.py `
+    --graph    outputs/Attention_Is_All_You_Need_context_graph.json `
+    --qa       outputs/Attention_Is_All_You_Need_sog_qa.jsonl `
+    --generate --model gpt-4o-mini
+
+# Batch — evaluate all output pairs in the outputs/ directory:
+python evaluate_sog.py --output_dir outputs/ [--generate] [--groq]
+```
+
+Key arguments:
+
+| Argument | Default | Description |
+|---|---|---|
+| `--graph` | — | Context graph JSON |
+| `--qa` | — | QA JSONL |
+| `--output_dir` | — | Batch mode: auto-discover all matching pairs in a directory |
+| `--generate` | off | Enable generation metrics (requires API key) |
+| `--groq` | off | Shortcut: sets Groq base URL, reads `GROQ_API_KEY` |
+| `--base_url` | `None` | Any custom OpenAI-compatible endpoint |
+| `--api_key` | `None` | Explicit API key (overrides env var) |
+| `--model` | `gpt-4o-mini` | Model for generation + LLM judge |
+| `--top_k` | `5` | Passages retrieved per question |
+| `--limit` | `None` | Only evaluate the first N QA pairs |
+| `--output` | `None` | Save results as a JSON file |
+
+---
+
 ### `_gen_graph_html.py` — Interactive Graph Visualisation
 
 Reads `paper_input_context_graph.json` and writes a fully self-contained `context_graph.html` (~100 KB) with:
@@ -146,6 +213,30 @@ Run with: `python _gen_graph_html.py`, then open `context_graph.html` in any bro
 ---
 
 ## Quick start
+
+### Running the evaluation
+
+```bash
+# Install evaluation-specific dependencies (on top of base requirements):
+pip install rouge-score bert-score
+
+# Retrieval metrics only — no API key needed:
+python evaluate_sog.py \
+    --graph outputs/Attention_Is_All_You_Need_context_graph.json \
+    --qa    outputs/Attention_Is_All_You_Need_sog_qa.jsonl
+
+# Full suite with Groq free tier:
+export GROQ_API_KEY=gsk_...
+python evaluate_sog.py \
+    --graph    outputs/Attention_Is_All_You_Need_context_graph.json \
+    --qa       outputs/Attention_Is_All_You_Need_sog_qa.jsonl \
+    --generate --groq --model llama-3.1-8b-instant
+
+# Batch over all documents:
+python evaluate_sog.py --output_dir outputs/ --generate --groq
+```
+
+---
 
 ### Option A — Ollama (free, local, recommended)
 
@@ -240,9 +331,11 @@ pip install -r requirements.txt
 | Package | Purpose |
 |---|---|
 | `openai` | HTTP client library used by **all three providers** (Ollama, Groq, OpenAI) via the OpenAI-compatible API — still required even when not using OpenAI |
-| `sentence-transformers` | Local paragraph embeddings for similarity-guided graph traversal (runs fully offline) |
+| `sentence-transformers` | Local paragraph embeddings for similarity-guided graph traversal and retrieval evaluation (runs fully offline) |
 | `pypdf` | PDF text extraction |
 | `numpy` | Vector maths for cosine similarity |
+| `rouge-score` | ROUGE-L F1 computation in `evaluate_sog.py` |
+| `bert-score` | BERTScore F1 computation in `evaluate_sog.py` |
 
 **Additional provider-specific setup (outside pip):**
 

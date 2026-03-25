@@ -21,7 +21,7 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
 
-from openai import OpenAI  # or swap for anthropic / any LLM client
+from openai import OpenAI
 
 
 # ---------------------------------------------------------------------------
