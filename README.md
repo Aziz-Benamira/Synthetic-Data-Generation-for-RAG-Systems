@@ -9,10 +9,10 @@ Génération automatique de paires Question-Réponse (QA) de haute qualité à p
 | Membre | Module | Dossier |
 |--------|--------|---------|
 | **Aziz Ben Amira** | Pipeline principal de génération QA (agents, chunking, critic, orchestrateur, évaluation RAG) | `pipeline/` |
-| **Yassine Jmal** | Synthesize-on-Graph (SoG) — génération par graphes de contexte, multi-hop, cross-document | `sog/` |
-| **Ameni Zouaoui** | RAGEval — adaptation du framework d'évaluation RAG | `rageval/` |
-| **Maloé Musik** | Métriques d'évaluation (traditionnelles + LLM-as-judge) | `metrics/` |
-| **Seif Briki** | Chunking multimodal (images/captions) + estimation de difficulté des questions | `multimodal/` |
+| **Yassine Zanned** | Synthesize-on-Graph (SoG) — génération par graphes de contexte, multi-hop, cross-document | `sog/` |
+| **Ameni Hidouri** | RAGEval — adaptation du framework d'évaluation RAG | `rageval/` |
+| **Maloé Aymonier** | Métriques d'évaluation (traditionnelles + LLM-as-judge) | `metrics/` |
+| **Seif Ghozzi** | Chunking multimodal (images/captions) + estimation de difficulté des questions | `multimodal/` |
 
 ## Structure du projet
 
