@@ -1,0 +1,25 @@
+{
+    "course_code": "MI201",
+    "course_title": "Decision Trees and Ensemble Methods",
+    "institution": "ENSTA Paris",
+    "instructors": [
+        "Gianni Franchi",
+        "Stephane Herbin",
+        "Adrien Chan Hon Tong"
+    ],
+    "language": "french",
+    "chapter": "Chapter 2: Decision Trees and Ensemble Methods",
+    "topic": "Ch2_Decision_Trees",
+    "keywords": [
+        "decision tree",
+        "random forest",
+        "boosting",
+        "bagging",
+        "Gini impurity",
+        "entropy",
+        "AdaBoost",
+        "gradient boosting"
+    ],
+    "pages": "pages 33-50",
+    "content_summary": "commence par préparer les données, en les faisant passer de résultats bruts bruités et de grande dimension à des informations simplifiées, formatées et homogénisées. On divise ensuite ces données préparées en deux grands ensembles: celui d’apprentissage, qui permet d’optimiser les param ètres du mod èle, et celui de test, qui permet d’évaluer la qualité de l’apprentissage sur les données d’entra ˆınement dans son contexte d’utilisation. Les tests permettent alors de conna ˆıtre l’erreur de génér"
+}

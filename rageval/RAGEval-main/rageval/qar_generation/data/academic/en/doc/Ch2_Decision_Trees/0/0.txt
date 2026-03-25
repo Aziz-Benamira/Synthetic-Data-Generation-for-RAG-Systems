@@ -1,0 +1,452 @@
+commence par préparer les données, en les faisant passer de résultats bruts bruités et de grande dimension à
+des informations simplifiées, formatées et homogénisées.
+On divise ensuite ces données préparées en deux grands ensembles: celui d’apprentissage, qui permet d’optimiser
+les param ètres du mod èle, et celui de test, qui permet d’évaluer la qualité de l’apprentissage sur les données
+d’entra ˆınement dans son contexte d’utilisation. Les tests permettent alors de conna ˆıtre l’erreur de généralisation
+du prédicteur construit.
+Enfin il faut garder à l’esprit de ne jamais utiliser l’ensemble de test pour l’apprentissage , sinon quoi l’on
+se retrouverait dans l’incapacité d’estimer la qualité du prédicteur sans avoir à recréer de nouvelles données.
+1.5.5 Le mod èle de régression linéaire en Python
+Cette partie va nous permettre de voir comment on utilise ce mod èle de régression en pratique avec la
+biblioth èque scikit-learn de Python. Commenc ¸ons par la génération des puissances avec la fonction
+PolynomialFeatures :
+Figure 1.11: Exemple d’utilisation de PolynomialFeatures [9]
+On peut ensuite utiliser make pipeline pour créer un mod èle de régression au degré souhaité, par ex-
+emple 7 dans l’exemple suivant:
+Figure 1.12: Exemple d’utilisation de make pipeline [9]
+On crée ensuite unéchantillon de données puis on applique notre mod èle. La phase d’apprentissage
+s’effectue avec la méthode fitet la phase de prédiction avec predict :
+Figure 1.13: Exemple d’utilisation du mod èle de régression en Python[9]
+1.6 Modélisation bayésienne
+Dans le cadre de la théorie bayésienne de la décision, on consid ère les donnéesx, ycomme des variables
+aléatoires. On va alors les modéliser par des lois de probabilités:
+-P(X=x), P(Y=y): lois a priori (ou marginales)
+-P(X=x, Y=y): loi jointe
+-P(X=x|Y=y): vraisemblance conditionnelle
+-P(Y=y|X=x): loi a posteriori
+À partir de maintenant onécrira P(x)à la place de P(X=x)et il en sera de m ême pour les autres variables
+aléatoires, le butétant de simplifier l’écriture.
+Dans le cadre de la classification on a la prédiction y∈ {1,2...N}et est appeléeétiquette. Dans cette section
+on se placera en classification binaire, ainsi il n’y aura que deux classes possibles : ”1” et ”2”. On cheche à
+prédire une uniqueétiquette y∗à partir de x:
+x7→y∗
+Pour prédire la classe de l’observation y, on va comparer P(Y= 1|X=x)etP(Y= 2|X=x). Ainsi
+on défini la r ègle suivante :
+y∗=(
+1siP(Y= 1|X=x)> P(Y= 2|X=x)
+2sinon
+Dans le cas multiclasse la r ègle est la suivante :
+y∗= arg max
+yP(y|x)
+Cette approche du probl ème pose deux questions fondamentales qui trouvent leurs réponse gr âce aux
+deux phases de l’apprentissage automatique. Celle d’apprentissage permet le calcul de P(y|x)tandis que la
+phase de prédiction permet de trouver le maximum de P(y|x)et donc l’étiquette y∗correspondante.
+Pour simplifier le probl ème on peut utiliser la loi de Bayes:
+P(y|x) =P(x|y)P(y)
+P(x)
+En règle générale on conna ˆıt la fréquence d’occurence des classes yce qui nous permet de conna ˆıtreP(y).
+De plus il est plus facile de calculer la vraisemblance P(x|y)que la loi a posteriori P(y|x): ”si je sais dans
+quelle classe je suis, je sais décrire le comportement/la distribution de mes données”. De la loi de Bayes il
+découle que le maximum sur yne dépend que de P(x|y)et de P(y). Ainsi on recherchera le maximum sous
+la forme:
+y∗= arg max
+yP(x|y)P(y)
+1.6.1 Approche bayésienne multivariée:
+Ici le calcul de la loi contionnelle se fait selon un mod èle multivarié. Supposons qu’on ait un ensemble de
+données d’entra ˆınement D={(xi, yi)}n
+i=1, on suppose qu’il s’agit d’un probl ème de classification binaire
+donc∀i∈[|1, n|]1, yi∈ {1,2}. On consid ère que xi∈Rdavec d∈Net donc xi= [xi1, xi2, ..., x id.
+Supposons que les vraisemblances des classes sontégales à (mod èle gaussien):
+P(X=xi|Y= 1;µ1,Σ1) =1
+(2π)d/2p
+|Σ1|exp
+−1
+2(xi−µ1)′Σ−1
+1(xi−µ1)
+P(X=xi|Y= 2;µ2,Σ2) =1
+(2π)d/2p
+|Σ2|exp
+−1
+2(xi−µ2)′Σ−1
+2(xi−µ2)
+Dans le cas o ùP(Y= 1) = P(Y= 2) = 0 .5on a la r ègle de classification suivante :
+y∗=(
+1siP(X=xi|Y= 1;µ1,Σ1)> P(X=xi|Y= 2;µ2,Σ2)
+2sinon
+y∗=(
+1silog(P(X=xi|Y= 1;µ1,Σ1))>log(P(X=xi|Y= 2;µ2,Σ2))
+2sinon
+y∗=(
+1si(xi−µ1)′Σ−1
+1(xi−µ1)−(xi−µ2)′Σ−1
+2(xi−µ2)<log
+|Σ2|
+|Σ1|
+2sinon
+Cette approche permet de décrire les corrélations entre les dimensions. Toutefois elle demande de conna ˆıtre
+la forme des distributions et se limite malheureusement aux petites dimensions. Dans le cas d’un modélisation
+gaussienne à deux classes, la prédiction se réduit alors à calculer une fonction de degré 2 et la classe est prédite
+en fonction de sa position par rapport à la séparatrice de l’espace:
+Figure 1.14: Exemple d’approche gaussienne multivariée
+1Ensemble des entiers naturels de 1 à n.
+1.6.2 Approche bayésienne na ¨ıve
+On utilise une hypoth èse d’indépendance pour faire le calcul de la loi conditionnelle:
+P(x1, x2, ..., x d|y) =P(x1|x2, ..., x d, y)P(x2, ..., x d|y)
+=P(x1|y)P(x2, ..., x d|y)
+=P(x1|y)P(x2|y)...P(xd|y)
+On peut alors calculer la vraisemblance dimension par dimension ce qui est beaucoup plus simple. Le
+probl ème devient un ensemble de probl èmes 1D, qui sont des mod èles faciles à estimer (gaussien, binomial,
+histogrammes…).
+Cette approche permet de traiter des probl èmes de plus grande dimension gr âceà ce découpage en sous-
+probl èmes.
+En pratique on utilise plut ôt la log-vraisemblance afin de conserver une meilleure stabilité numérique:
+logP(x|y) =X
+ilogP(xi|y)
+y∗= arg max
+ylogP(x|y) + log P(y)
+Cette approche na ¨ıve peut se révéler commeétant tr ès efficace malgré l’hypoth èse d’indépendance assez
+forte. Comparons-la à l’approche multivariée sur un exemple:
+Figure 1.15: Comparaison entre l’approche bayésienne multivariée (schématisée par les ensembles colorés)
+et na ¨ıve (schématisée par les courbes à côté des axes)
+On voit que l’approche multivariée désigne deux zones de l’espace qui ont une grande intersection, ce
+qui pourrait pr êter à confusion, l à où l’approche na ¨ıve (représentée par les courbes pr ès des axes) délimite
+bien la zone de chaque classe. Cette approche dite na ¨ıve n’est donc pas à négliger malgré sa dénommination
+péjorative.
+1.6.3 Résumé concernant l’approche bayésienne
+L’approche bayésienne est une théorie probabiliste de la décision qui nécessite le calcul de la loi a posteriori
+afin de déterminer une prédiction.
+Pour trouver l’expression de cette loi a posteriori on peut poser une hypoth èse d’indépendance conditionnelle
+pour se ramener en dimension 1 ou alors utiliser un mod èle gaussien multivarié.
+La phase d’apprentissage consiste alors en une estimation de lois paramétriques simples. Pendant la phase
+de prédiction le programme va effectuer le calcul de la log-vraisemblance et la maximiser sur les différentes
+hypoth èses.
+Cependant cette approche se limite aux petits probl èmes bien modélisés dans le cas du mod èle gaussien
+multivarié et aux caractéristiques non corrélées pour une approche bayésienne na ¨ıve (il est toutefois possible
+que ce mod èle fonctionne dans des cas particuliers o ù les caractéristiques sont corrélées).
+1.6.4 L’approche bayésienne en Python
+Dans cette partie nous allons voir comment générer un exemple d’échantillon qui peut êtreétudié par une
+approche bayésienne na ¨ıveà l’aide de la biblioth èque scikit-learn . On va plus particuli èrement utiliser
+la fonction make blobs qui permet de générer unéchantillon gaussien isotrope :
+Figure 1.16: Exemple de génération par la fonction make blobs [9]
+Le mod èle bayésien na ¨ıf gaussien est inclus dans la biblioth èque sous le nom GaussianNB , on lui donne
+les données générées précédemment pour son apprentissage:
+Figure 1.17: Définition du mod èle bayésien na ¨ıf gaussien[9]
+Après c ¸a il ne reste plus qu’ à générer d’autres données pour déterminer approximativement o ù se trouve
+la surface de séparation de décision:
+Figure 1.18: Exemple d’utilisation de l’approche bayésienne na ¨ıve en Python[9]
+1.7 La classification Plus Proche Voisin (PPV)
+1.7.1 Principe général de l’approche 1-PPV
+On se place dans un cas dans lequel on dispose de deuxéchantillons proches dans l’espace de représentation
+et dont les prédictions sont identiques au sein de chacun de ceséchantillons.
+Pour prédire la classe d’une nouvelle donnée on va alors chercher l’exemple annoté le plus proche et lui
+associer son annotation:
+Figure 1.19: Exemple illustrant le principe de fonctionnement de l’approche plus proche voisin
+Cette approche repose sur une notion de proximité entre les données qui nécessite la définition d’une
+métrique, ou mesure de similaritéd(x,x′). Il existe plusieurs métriques qui peuvent être utilisées dans le
+cadre d’un algorithme qui suit le principe de classification PPV. On peut citer les distances euclidienne, city-
+block (dite ”de Manhattan”), Minkowski et Mahalanobis.
+Il estégalement envisageable d’apprendre la métrique ou mesure de similarité la plus pertinente pour un
+probl ème en particulier.
+Il faut maintenant définir formellement ce que l’on entend par ”plus proche” voisin:
+On dispose d’une base d’échantillons annotésL={(x1, y1),(x2, y2), ...(xn, yn)}
+La recherche de l’échantillon le plus proche de notre nouvelle donnéexse résume à la recherche de i∗tel
+quei∗= arg min
+id(x,xi)
+Une fois ce plus proche voisin déterminé on assigne son annotation à la prédiction de la nouvelle donnée:
+y∗=yi
+On voit que, certes la fonction d’approximation n’est pas continue, mais elle a l’avantage de passer par
+tous les points de notre base de données initiale sans avoir de variations excessives comme c’était le cas dans
+le mod èle linéaire utilisé en 1.5.1 qui atteignait unétat de sur-apprentissage.
+Figure 1.20: Exemple d’application du schéma plus proche voisin en régression
+Cependant ce mod èle n’est pas exempt de tout défaut notamment sur des fonctions de classifications :
+Figure 1.21: Exemple d’application du schéma plus proche voisin en deux dimensions [10]
+On voit sur cet exemple que des données initiales bruitées conduisent à des prédictions irréguli ères. En
+effet il plus probable que, sur cet exemple, le seul point vert en haut à gauche soit d û au bruit et ne devrait
+pas avoir autant d’influence sur la zone. Pour remédier à ce probl ème on va pousser un peu plus le principe
+PPV.
+1.7.2 L’approche des k-plus proches voisins (dite ”k-NN”)
+Pour approfondir le principe PPV de base, on va maintenant utiliser plusieurs exemples de la base de données
+d’apprentissage pour déterminer une prédiction pour la nouvelle donnée. On commence donc par ordonner
+leséchantillons d’apprentissage en fonction de leur distance à la donnéeà classer:
+d(x,x1)≤d(x,x2)≤...≤d(x,xn)
+Cette ordonnement va nous permettre de choisir les k exemples de la base les plus proches de la nouvelle
+donnée. Apr ès cela on va prédire la classe de cette donnée en choisissant celle qui recueille le plus de ”votes”
+parmi ces k plus proches voisins:
+y∗= arg max
+ykX
+i=1δ(y, yi)
+Oùδest la fonction de Kronecker, qui vaut 1 si ses deux arguments sontégaux et qui vaut 0 sinon.
+Attention: s’il n’y a pas de maximum, cela signifie qu’il y a ambigu ¨ıté sur la prédiction. Dans ce cas on ne
+décide pas et on laisse la donnée nouvelle sans annotation!
+Il estégalement possible de pondérer les votes, pour donner plus de poids aux voisins les plus proches par
+exemple. Dans ce cas onécrit:
+y∗= arg max
+ykX
+i=1K(x,xi)δ(y, yi)
+Observons les effets de cette nouvelle approche sur l’exemple de tout à l’heure en utilisant les cinq voisins
+les plus proches de chaque point de l’espace:
+Figure 1.22: Reprise de l’exemple présenté en Figure 1.14 en prenant cette fois-ci en compte les 5 plus proches
+voisins [10]
+On voit que les points qui semblaient peut cohérents, sans doute à cause du bruit, n’ont désorais plus
+d’influence ce qui donne des régions plus homog ènes au sein de l’espace de représentation.
+Cette approche des k-plus proches voisins dispose de la propriété statistique suivante:
+EBayes≤lim
+N→∞EkNN≤EBayes
+2−LEBayes
+L−1
+OùEBayes est l’erreur théorique optimale (dite de Bayes)1,Lest le nombre de classes et EkNN est l’erreur
+des k-plus proches voisins. Il en découle entre autre que l’erreur de l’approche k-NN est au plus deux fois
+moins bonne que l’erreur minimale théorique.
+1.7.3 Le co ût le la prédiction k-ppv
+Si la prédiction du k-plus proches voisins peut sembler efficace, elle a un co ût non négligeable puisqu’elle
+nécessite un calcul pour chaque exemple xainsi qu’un tri par rapport aux nexemples de la base.
+Pour net d (la dimension des données) grands, le co ût de la recherche exhaustive est important puisque ce
+dernier cro ˆıt enO(nd).
+On peut néanmoins aborder le probl ème d’une autre mani ère en pré-calculant les surfaces de séparation entre
+les classes. La complexité de prédiction est alors liéeà la complexité de la surface et/ou de son approximation.
+1.7.4 La malédiction des grandes dimensions
+Lorsque la dimension dde l’espace de représentation des données augmente, les points de cet espace sont
+tous situés, plus ou moins, à la m ême distance les uns des autres. Les donnéesétant de plus en plus dispersées,
+elles apportent moins d’information pour la méthode des plus proches voisins.
+Nonobstant cette propriété ne s’applique heureusement pas aux distributions structurées. On peut in-
+terpréter les techniques de Machine Learning comme des moyens de détection des bonnes corrélations entre
+les données.
+Toutefois la propriété précédente limite les approches plus proches voisins aux faibles dimensions, à moins
+qu’il ne soit possible de réduire le nombre de dimensions de représentation des données avant de calculer les
+distances comme en apprentissage non supervisé.
+1.7.5 Le comportement des approches PPV
+Le schéma des plus proches voisins dispose de plusieurs avantages intéressants, notamment sa flexibilité, sa
+facilité de mise en œuvre, le choix de la définition d’une similarité entre les données ainsi que ses bonnes
+propriétés statistiques asymptotiques lorsque n→ ∞ .
+Toutefois son temps de calcul l’exclue totalement des probl èmes aux bases de données conséquentes et la
+malédiction des grandes dimensions l’emp êche de fonctionner pour des données aux dimensions tropélevées.
+Enfin la régularité de l’algorithme dans ce schéma dépend des données et non de l’apprentissage, m ême si le
+k-PPV permet de réduire l’effet du bruit sur les données.
+1Pour information EBayes =E"KX
+k=1(1−δ(ck, f(x))P(ck|x)#
+où lesckconstituent l’ensemble des classes possibles et δest la
+fonction de Kronecker.
+1.7.6 Résumé concernant l’approche plus proches voisins
+Pour pouvoir utiliser ce schéma, il faut d’abord pouvoir faire l’hypoth èse que le probl èmeétudié poss ède
+une certaine régularité. C’est- à-dire que des observations dont les caractéristiques sont proches auront un
+comportement similaire.
+Après avoir vérifié que cette hypoth èse est cohérente, il faut répondre à deux questions. Tout d’abord, il
+faut définir ce que ”proche” signifie dans le probl èmeétudié et introduire une métrique en accord avec cette
+définition. Il faut ensuite déterminer quelles données de la base sont les plus proches de la donnéeà classer.
+L’approche des plus proches voisins n’a pas de phase d’apprentissage à proprement parler puisqu’elle se
+contente d’utiliser les données de la base. En contrepartie la phase de prédiction est plus onéreuse car elle
+nécessite de trier les distances auxéchantillons de la nouvelle donnée avant de procéder à un vote entre les
+k plus proches.
+L’utilisation de ce schéma est pertinente sur des probl èmes d’une taille modeste aussi bien en dimensions
+des données que du nombre d’exemples de la base de données. Autrement on risque de se heurter à des
+probl èmes de temps de calcul et à la malédiction des grandes dimensions qui sont difficiles à résoudre. Il faut
+également s’assurer de disposer d’une mesure de similarité adaptée aux données du probl ème pour obtenir
+une classification optimale.
+1.8 L’essentiel à retenir du chapitre
+Nous avons commencé ce chapitre avec les principes de base de l’apprentissage automatique, et notamment
+que son objectifétait de programmer à partir des données avec une démarche qui se décompose en deux
+phases que sont l’apprentissage et la prédiction et que chacune de ces phases peut être de plusieurs variétés.
+Nous avons ensuite parcouru la démarche générique du traitement d’un probl ème à travers l’exemple des
+chiffres manuscrits à reconna ˆıtre. Cette démarche est en cinqétapes qui ont chacune leur importance dans
+le développement du programme:
+1. la constitution d’une base d’apprentissage
+2. l’analyse préliminaire des données ainsi que leur préparation
+3. la conception du mod èle
+4. l’optimisation
+5. l’évaluation de l’efficacité du prédicteur construit
+La minimisation de l’erreur de généralisation est l’objectif principal du Machine Learning et pour attein-
+dre ce but on divise la base de données initiale en deuxéchantillons distincts. Le premier est utilisé pour
+l’apprentissage de l’algorithme puis onévalue l’efficacité de cet apprentissage sur l’échantillon test. Il ne
+faut surtout pas utiliser l’échantillon test pour la phase d’entra ˆınement de l’algorithme sous peine de ne plus
+pouvoir effectuer de vérification sans obtenir de nouvelles données.
+Enfin nous avons terminé avec la présentation de deux approchesélémentaires que sont la modélisation
+bayésienne, qui traite xetycomme des variables aléatoires en calculant la loi a posteriori de y, et l’approche
+des plus proches voisins, qui annote les nouvelles données en fonction deséchantillons les plus proches de
+la base de données sous hypoth èse de régularité.
+Arbres de décision et méthodes ensemblistes
+2.1 Les arbres de décision
+2.1.1 Des graphes aux arbres
+Definition 2.1 (Graphe) .Un graphe que l’on note G= (V, E)est constitué d’un ensemble non vide Vde
+sommets (ou noeuds) et d’un ensemble Ed’arêtes qui relient les sommets. Chaque ar ête a soit un ou deux
+sommets qui lui sont associés, appelés ses points d’extrémité.
+Figure 2.1: Exemple d’un graphe avec 5 sommets et 7 arr êtes.
+Dans la Figure 2.1 on a representé un graphe simple.
+Definition 2.2 (Arbre) .Un arbre est un graphe non orienté dans lequel deux sommets quelconques sont
+connectés par exactement un chemin, ou de mani èreéquivalente un graphe non orienté acyclique connecté.
+Definition 2.3 (Foret) .Une for êt est un graphe non orienté dans lequel deux sommets quelconques sont
+connectés par au plus un chemin.
+Definition 2.4 (Arbre enraciné).Un arbre enraciné est un arbre dans lequel un sommet aété désigné comme
+étant la racine et chaque ar ête est dirigéeà partir de la racine
+2.1.2 Présentation de la structure d’arbre
+Avant d’entrer dans la partie Machine Learning de cette section, il est nécessaire de présenter ce que l’on
+entend par ”arbre de décision” dans le domaine de l’informatique en général. Il s’agit d’une structure de
+33Chapter 2 Arbres de décision et méthodes ensemblistes 2.1 Les arbres de décision
+Figure 2.2: Exemple d’un arbre avec 5 sommets et 4 arr êtes.
+données qui se peut se décrire de deux fac ¸ons. On peut tout d’abord adopter un point de vue récursif et dire
+qu’un arbre est soit vide, soit il s’agit d’un nœud racine et de sous-arbresétant eux-m ême des arbres. Sinon
+on peut dire qu’un arbre est composé de nœuds qui poss èdent chacun un unique nœud parent (ou nœud p ère)
+à l’exception de la racine qui n’en a pas. A contrario un nœud peut avoir plusieurs enfants.
+On peut définir d’autreséléments d’un arbre :
+•Une feuille est un nœud qui n’a pas d’enfant.
+•Une branche est un chemin allant de la racine à une feuille.
+•Une arêteest un segment qui relie deux nœuds.
+L’avantage des arbres, au-del à de leur structure permettant facilement la mise en place d’algorithmes récursifs,
+réside dans leur représentation intuitive et visuelle :
+Figure 2.3: Exemple d’arbre généalogique (les fl èches signifient ”a pour enfant”)[11]
+2.1.3 Principe général
+Le mod èle des arbres de décision vise à décomposer une décision globale en une succession de décisions
+locales plus faciles à traiter. On représente cette décomposition par un arbre dans lequel chaque nœud corre-
+spond à une question simple, une décision locale. En fonction de la réponse à cette question on va continuer
+avec un des nœud fils si d’autres informations sont nécessaires ou on arrivera sur une feuille de l’arbre qui
+donnera une réponse à la question globale.
+Les questions posées au sein d’un tel arbre doivent être fermées, c’est- à-dire que le nombre de réponses pos-
+sibles doit être fini. Dans le cas o ù une question nécessite une réponse numérique, comme l’estimation d’une
+durée par exemple, il faut décomposer l’espace des réponses en un nombre fini de sous-espaces pour pouvoir
+décrire la suite de l’arbre.
+2.1.4 Un premier exemple
+Pour se familiariser avec les arbres de décisions,étudions un premier exemple qui traite d’une situation
+connue de tous : faut-il attendre qu’une table se lib ère dans un restaurant plein ?
+Il faut commencer par déterminer quels sont les facteurs importants à prendre en compte lors de cette décision
+et les formuler en questions les plus simples possibles : Est-ce que nous avons vraiment faim ? Est-ce qu’il
+y a d’autres restaurant à proximité ? Quel est le temps d’attente estimé ? Est-ce qu’il pleut ? Est-ce qu’il y a
+un bar dans le restaurant pour pouvoir patienter ?…
+On classe alors ces questions par ordre de crucialité puis on construit l’arbre de décision en plac ¸ant la question
+la plus importante à la racine (ici ce serait ”le restaurant accueille-t-il encore des clients ?” par exemple) puis,
+en fonction de la réponse, soit on a déjà suffisamment d’informations pour prendre la décision globale (si la
+réponse est ”non” alors il faut changer de restaurant), soit d’autres questions se posent pour pouvoir trancher
+et dans ce cas on pose la question restante la plus importante et on it ère ce procédé jusqu’ à ce que tous les
+cas de figure aientété couverts par l’arbre.
+Pour le probl ème du restaurant on peut par exemple parvenir à un arbre de ce genre :
+Figure 2.4: Exemple d’arbre de décision pour le probl ème du restaurant [12]
+2.1.5 Les différentes questions possibles
+Les questions utilisées dans la création d’arbres de décision peuvent être de natures tr ès différentes. Cette
+caractéristique donne une tr ès grande flexibilitéà ce mod èle. Néanmoins il faut bien garder à l’esprit que
+ces questions doivent rester tr ès simples à traiter pour le programme afin de pouvoir lui assurer une certaine
+efficacité. Les questions peuvent porter sur la valeur d’un attribut caractéristique, sur la véracité d’une clause
+logique, sur l’appartenance à un intervalle ou un sous-ensemble, sur des attributs discrets ou numériques…
+Les possibilités de questions sont infinies et il faut trouver unéquilibre entre le nombre d’informations dont
+on souhaite disposer et le temps de calcul que nécessitera la prédiction globale.
+2.1.6 Formalisation de la structure d’un arbre de décision
+Maintenant que nous avons une vision un peut plus claire et pratique de ce qu’est un arbre de décision,
+voyons comment nous pouvons le formaliser dans le cadre d’une application à l’apprentissage automatique :
+Les données seront codées commeétant un ensemble d’attributs permettant de répondre facilement aux
+différentes questions qui aurontété retenues lors de la création de l’arbre.
+Un nœud de décision sera associéà un test, d’appartenance ou de véracité selon les cas, ou à une question
+qui portera toujours sur un et un seul attribut des données pour que la réponse soit facile d’acc ès et donc la
+plus rapide possible.
+Les branches de l’arbre représenteront les différentes valeurs possibles de l’attribut testé ou des réponses
+possibles à la question posées par le nœud de décision p ère.
+Enfin un nœud terminal, que l’on pourra aussi appeler feuille, désignera la classe qui servira de prédiction
+pour la donnée entrée dans l’algorithme.
+2.1.7 Apprentissage hiérarchique
+Nous n’avons vu jusqu’ à maintenant que des techniques de classification ne nécessitant qu’une seule opération
+pourétiqueter une certaine observation x. Ces mod èles utilisent le m ême ensemble de variables pour l’ensemble
+des classes en accordant la m ême importance à chacune de ces variables. Ainsi ils ne sont pas adaptés aux
+situations o ù les classes sont déterminées par différentes variables dans différentes régions de l’espace. Par
+exemple une pomme peut être décrite comme rouge et grande ou comme jaune et ronde, c’est ce que l’on
+appelle une classe multi-modale .
+Les arbres de décision nécessitent, pour leur part, de multiples tests conditionnels qui vont permettre de clas-
+sifier les données, chacun de ces tests dépendant de ses antécédents. Cette série de tests place les arbres de
+décision dans la catégorie des modèles hiérarchiques . On en arrive alors à la définition suivante d’un arbre de
+décision :
+On appelle arbre de décision un mod èle de prédiction qui peut être représenté sous la forme d’un ar-
+bre. Chaque nœud de l’arbre teste une condition sur une variable et chacun de ses enfants correspond à
+une réponse possible à cette condition. Les feuilles de l’arbre correspondent à uneétiquette. Pour prédire
+l’étiquette d’une observation, on ”suit” les réponses aux tests depuis la racine de l’arbre, et on retourne
+l’étiquette de la feuille à laquelle on arrive.[13]
+Position du probl ème d’apprentissage
+SoitD={(xi, yi}i≤nl’ensemble des données décrites chacunes par un ensemble d’attributs xi= [A1
+i, A2
+i, ..., AM
+i],
+avec{Aj
+i}j∈[|1,M|]à valeurs numériques ou symboliques, Mle nombre d’attributs d’une donnée et yila
+prédiction associée, qui est ici connue puisque Dest notre base de données initiale.
+À partir de cette base de données on va donc chercher à déterminer le plus petit arbre de décision compat-
+ible avec notre probl ème. Malheureusement, la recherche d’un tel arbre est impossible puisqu’il s’agit d’un
+probl ème NP-complet à l’instar du probl ème du voyageur de commerce par exemple. Dans un tel probl ème
+il est possible de vérifier qu’une solution proposée est optimale, cependant on ne sait pas en trouver une
+efficacement. On peut seulement se conformer à une heuristique assurant la création d’un arbre ayant une
+certaine cohérence avec les données.
+Dans ce but on peut utiliser des principes comme celui du rasoir d’Occam qui est un principe de raisonnement
+philosophique selon lequel il faut ”éliminer des explications improbables d’un phénom ène”. Aujourd’hui on
+l’utilise plus sous l’énoncé suivant : ”les hypoth èses suffisantes les plus simples doivent être préférées”, ce
+qui revient pour notre probl ème à trouver l’hypoth èse la plus simple possible compatible avec les données.
+Un autre principe important est celui du Minimum Description Length basé sur le fait que toute régularité
+dans un ensemble de données peut être utilisée afin de compresser l’information. Ce principe consiste en la
+recherche de l’hypoth èse qui produit le plus petit nombre d’opérations gr âceà la compression des données.
+2.1.8 Algorithme de construction d’un arbre de décisions
+Dans cette partie nous allons voir comment construire un arbre de décision gr âceà un algorithmeélémentaire.
+On se place dans l’optique de construire l’arbre de fac ¸on incrémentale dont chaqueétape sera décomposée en
+deux phases. Tout d’abord on commence par décider si le nœud traité lors de l’étape est un nœud terminal,
+si c’est le cas alors on lui associe une prédiction et, dans le cas contraire, on choisit alors un attribut parmis
+ceux des données, un test à effectuer sur l’attribut sélectionné ainsi que les branches pouvant être empruntées
+après ce test.
+La structure d’arbre encourage fortement l’utilisation d’un algorithme récursif. En effet un arbre se
+décompose toujours commeétant un nœud racine et les différents fils de ce nœud ne sont que des sous-
+arbres auxquels on peut appliquer la fonction de construction. On pourrait présenter une premi ère version
+de l’algorithme avec le pseudo-code suivant :
+Fonction Construire-arbre( D):
+SItous les points de Dsont de m ême classe :
+Créer une feuille associéeà cette classe
+SINON :
+Choisir la meilleure paire ( Aj, test) pour créer un nœud
+Ce test sépareDenqparties D1, ...,Dq
+Construire-arbre( Dk) pour k∈ {1, ..., p}
+Ce pseudo-code correspond à l’algorithme appeléIterative Dichotomiser 3 (ouID3) le plus
+basique possible. Toutefois cette premi ère version n’est pas vraiment optimale puisqu’il faut atten-
+dre que toutes les données de l’échantillon Daient la m ême classe pour pouvoir créer une feuille.
+Cette vision risquerait de conduire à une situation de sur-apprentissage puisque, comme on peut
+le voir sur l’exemple de la Figure 2.2 avec certains points associésà des classes différentes de tous
+leurs voisins les plus proches, les données de la base initiale peuvent être bruitées. Ainsi partition-
+ner l’espace des attributs de telle sorte que chaque sous-espace ne contienne qu’une seule classe
+rendrait le programme trop proche des données et entra ˆınerait un phénom ène d’overfitting.
+Pour palier à ce probl ème il existe plusieurs crit ères permettant de mesurer l’hétérogénéité (ou
+la pureté) d’une base de données, et donc de déterminer à quel moment il serait judicieux d’arr êter
+de découper l’espace des attributs. Pour pouvoir définir de tels crit ères nous allons commencer par
+introduire la notation Pc(R)qui correspond à la proportion d’exemples d’entra ˆınement de la région
+Rqui appartiennent à la classe c:
+Pc(R) =1
+|R|X
+i/xi∈Rδ(yi, c)
+Un premier crit ère, utilisé pour mesurer l’information et que l’on int ègre souvent à l’algorithme
+ID3, est l’ entropie :
+H(R) =−CX
+c=1Pc(R) log2(Pc(R))
+On peut noter que ce crit ère estégalement utilisé réguli èrement dans l’algorithme C4.5 , qui
+découle de ID3 mais qui calcule à chaqueétape et pour chaque attribut le ratio de gain d’information1
+et sélectionne l’attribut pour lequel il est maximal.
+Dans une variante de l’algorithme ID3, l’algorithme Classification And Regression Tree (ou
+CART ), on se restreint aux arbres binaires (un nœud ne peut avoir que deux fils) et on utilise
+le crit ère connu sous l’appellation d’indice de Gini, et qui sert à mesurer les inégalités entre les
+différentes classes :
+IG(R) =CX
+c=1Pc(R)(1−Pc(R)) = 1 −CX
+c=1Pc(R)2
+1La formule est détaillée sur la page suivante.
+Figure 2.5: Exemple de partition de l’ensemble en fonction de différentes valeurs de l’indice de Gini
+Enfin on peut citer l’indice d’erreur qui peut permettre de conna ˆıtre la probabilité qu’une donnée
+n’appartienne pas à la classe prédominante de l’échantillon :
+Ierr(R) = 1−max
+c∈[|1,C|]Pc(R)
+Pour le choix du test, on cherche à maximiser le gain d’homogénéité apporté par un test Tpour
+séparer une région Ren sous-régions Rj:
+Gain (R, T) =H(R)−X
+jP(Rj)H(Rj)
+Avec P(Rj)la proportion d’exemples d’entra ˆınement dans la région Rqui sont dans Rj. Avec
+cette notion on obtient la formule du du ratio de gain d’informationévoqué précédemment :
+IGR(R, T) =Gain (R, T)
+H(R)
+En pratique, on utilise une approche empirique pour tout les attributs Ajpuis on effectue un tri
+des valeurs de gains par ordre croissant avant de tirer un test selon une approche dichotomique.
+Figure 2.6: Exemple d’arbre pouvant être obtenu en utilisant un crit ère de type Gini[14]
+Comme dit précédemment, il faut à tout prix essayer d’éviter le sur-apprentissage lors de la con-
+truction d’un l’arbre de décision puisque, non seulement il risquerait de mal généraliser le probl ème,
+mais en plus il risquerait d’ être maléquilibré, ce qui augmenterait fortement le temps de traitement
+de nouvelles données. Si on atteint une telle situation il est recommandé d’utiliser des techniques
+d’élagage (ou pruning en anglais) pour améliorer la qualité de l’arbre a posteriori.
+Figure 2.7: Exemple d’espace partitionné en suivant trop les données
+Complexité de la construction d’un arbre
+La construction d’un arbre de décision peut vite devenir un probl ème nécessitant un temps déraisonnable
+pour de multiples raisons (nombreuses classes possibles, base de données de grande taille, etc…).
+Cette complexité peut néanmoins être contr ôlée gr âceà plusieurs restrictions que l’on peut imposer :

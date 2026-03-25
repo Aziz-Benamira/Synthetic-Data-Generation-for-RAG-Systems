@@ -1,0 +1,24 @@
+{
+    "course_code": "MI201",
+    "course_title": "Unsupervised Learning",
+    "institution": "ENSTA Paris",
+    "instructors": [
+        "Gianni Franchi",
+        "Stephane Herbin",
+        "Adrien Chan Hon Tong"
+    ],
+    "language": "french",
+    "chapter": "Chapter 5: Unsupervised Learning",
+    "topic": "Ch5_Unsupervised",
+    "keywords": [
+        "k-means",
+        "clustering",
+        "PCA",
+        "dimensionality reduction",
+        "DBSCAN",
+        "EM algorithm",
+        "Gaussian mixture"
+    ],
+    "pages": "pages 89-104",
+    "content_summary": "est que les données traitées en unsupervised learning ne sont pasétiquetées, le but va alors être d’apprendre une fonction sur l’espace des données qui vérifie certaines propriétés. Nous traiterons de deux grands types de probl èmes d’apprentissage non supervisé : la réduction de dimension et le clustering. 5.1 Réduction de dimension La réduction de dimension vise, comme son nom l’indique, à trouver une représentation des données dans un espace de dimension plus faible que celle de l’espace d’or"
+}

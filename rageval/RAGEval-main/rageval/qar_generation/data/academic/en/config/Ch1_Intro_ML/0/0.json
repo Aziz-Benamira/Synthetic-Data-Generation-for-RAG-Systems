@@ -1,0 +1,25 @@
+{
+    "course_code": "MI201",
+    "course_title": "Introduction to Machine Learning",
+    "institution": "ENSTA Paris",
+    "instructors": [
+        "Gianni Franchi",
+        "Stephane Herbin",
+        "Adrien Chan Hon Tong"
+    ],
+    "language": "french",
+    "chapter": "Chapter 1: Introduction to Machine Learning",
+    "topic": "Ch1_Intro_ML",
+    "keywords": [
+        "machine learning",
+        "k-NN",
+        "Bayesian",
+        "generalization",
+        "supervised learning",
+        "feature extraction",
+        "linear regression",
+        "bias-variance"
+    ],
+    "pages": "pages 7-32",
+    "content_summary": "Apprentissage automatique: introduction 1.1 Généralités L’apprentissage automatique, ou Machine Learning, est un domaine tr èséclectique. En effet il met notamment à contribution des notions de statistique, d’intelligence artificielle, de computer science ou encore de traite- ment du signal. De plus les techniques utilisées dans ce domaine sontégalement généralistes puisqu’elles font intervenir de la gestion de base de données, de l’optimisation numérique ainsi que du hardware. Le Machine Learni"
+}

@@ -1,0 +1,1311 @@
+{
+  "metadata": {
+    "source_pdf": "MI201_2022_poly.pdf",
+    "total_chunks_available": 133,
+    "chunks_selected": 100,
+    "selection_strategy": "uniform_sampling_by_type",
+    "extraction_date": "2026-02-15"
+  },
+  "chunks": [
+    {
+      "chunk_id": "1.2.c1",
+      "content": "Chapter 1\nApprentissage automatique: introduction\n1.1\nG´en´eralit´es\nL’apprentissage automatique, ou Machine Learning, est un domaine tr`es ´eclectique. En effet il met notamment\n`a contribution des notions de statistique, d’intelligence artificielle, de computer science ou encore de traite-\nment du signal. De plus les techniques utilis´ees dans ce domaine sont ´egalement g´en´eralistes puisqu’elles\nfont intervenir de la gestion de base de donn´ees, de l’optimisation num´erique ainsi que du hardware.\nLe Machine Learning est un secteur en plein essor avec l’av`enement de l’intelligence artificielle qui a\namen´e de nouveaux domaines comme le deep learning ou encore le big data. Cet engouement r´esulte de\nl’incapacit´e `a mod´eliser des probl`emes trop complexes malgr´e un grand nombre d’exemples `a disposition.\nD’un point de vue scientifique, le Machine Learning est essentiel puisqu’il permet de donner une forme\nd’apprentissage aux machines, qui est une des facult´es les plus essentielles des ˆetres vivants. Enfin le Ma-\nchine Learning devenait n´ecessaire en ´economie o`u la r´ecolte de donn´ees est bien moins contraignante que\nle d´eveloppement d’expertise.\nAu-del`a des raisons qui ont pouss´e le Machine Learning `a se d´evelopper, de nombreux domaines tech-\nniques lui ont trouv´e une utilit´e. Tout d’abord il peut ˆetre utilis´e comme un outil de conception en robotique,\nen data mining, pour la recherche dans des bases de donn´ees, en vision et reconnaissance des formes par\nvision par ordinateur ou dans le traitement de la parole et du langage. Dans un second temps le Machine\nLearning peut se r´ev´eler comme un outil explicatif, notamment en neurosciences ou en psychologie.\n1.2\nExemples d’application\nLes exemples d’applications les plus connus et qui servent en quelque sorte de vitrine aux progr`es du Ma-\nchine Learning sont les jeux. En effet, mˆeme si le terme a ´et´e employ´e pour la premi`ere fois en 1959 par",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Exemples d'application",
+      "subsection": "",
+      "page_range": [
+        7,
+        7
+      ],
+      "length": 1947
+    },
+    {
+      "chunk_id": "1.2.c2",
+      "content": "chine Learning sont les jeux. En effet, mˆeme si le terme a ´et´e employ´e pour la premi`ere fois en 1959 par\nl’informaticien am´ericain Arthur Samuel, c’est en 1997 que le grand public d´ecouvre v´eritablement l’existence\net le potentiel de l’intellingence artificielle et du Machine Learning lorsque l’IA DeepBlue bat aux ´echecs le\nchampion du monde incontest´e de l’´epoque Garry Kasparov [1]. Suite `a cet accomplissement les diff´erents\njeux de r´eflexion de ce type vont tous tomber un par un jusqu’`a ce qu’il ne reste plus que le jeu de GO, qui\nr´esistera pendant quelques ann´ees avant que le champion du monde Ke Jie soit finalement battu par Alpha\nGO en 2017[2].\n7",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Exemples d'application",
+      "subsection": "",
+      "page_range": [
+        7,
+        7
+      ],
+      "length": 676
+    },
+    {
+      "chunk_id": "1.3.2.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.3 Probl´ematique g´en´erale\nUne fois que les jeux de r´eflexion classiques ont tous ´et´e domin´es par les machines, les d´eveloppeurs de\ntels programmes se sont pench´es sur les jeux vid´eo. Ainsi, `a peine deux ans apr`es le jeu de GO, AlphaStar\ndevenait champion de StarCraft, un c´el`ebre jeu de strat´egie[3].\nDerri`ere cette vitrine qui a fait connaˆıtre le Machine Learning et plus g´en´eralement l’intelligence arti-\nficielle au grand public, l’apprentissage automatique s’est peu `a peu implant´e dans notre quotidien, si bien\nqu’aujourd’hui il fait partie int´egrante de notre quotidien sans que nous ne nous en rendions forc´ement\ncompte. S’il est parfois facile `a d´eceler, comme un syst`eme anti-spam pour boˆıte mail, un chat bot ou la\nd´etection de visages sur un appareil photo, il peut aussi nous affecter de mani`ere plus discr`ete, avec no-\ntamment les recommandations (ou publicit´es) cibl´ees en fonction des recherches effectu´ees r´ecemment sur\ninternet.\n1.3\nProbl´ematique g´en´erale\n1.3.1\nPoint de vue du cours\nDans ce cours, nous appr´ehendrons l’apprentissage automatique (la d´enomination Machine Learning sera\naussi utilis´ee pour ´eviter la redondance) comme une d´emarche de conception d’une fonction de pr´ediction\n`a partir d’une base de donn´ees pr´eexistante ou qu’il faudra constituer. Cette d´emarche devra ˆetre effectu´ee\npar une mod´elisation, ou programmation non explicite, sur les exemples de cette base qui pourront ˆetre de\nnatures tr`es vari´ees comme des images, des signaux, des textes, des mesures, etc…\n1.3.2\nFormalisation math´ematique\nFormalisation g´en´erale\nAvant d’entrer dans le vif du sujet, il est n´ecessaire de formaliser math´ematiquement les diff´erents ´el´ements\nqui seront utiles tout au long du cours. On peut formaliser un probl`eme d’apprentissage supervis´e de la\nY est l’espace des ´etiquettes, l’objectif principal de l’apprentissage automatique supervis´e est de d´eterminer",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Formalisation mathématique",
+      "page_range": [
+        8,
+        10
+      ],
+      "length": 1999
+    },
+    {
+      "chunk_id": "1.3.2.c3",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.3 Probl´ematique g´en´erale\nEnfin l’´echantillon correspond aux exemples de donn´ees et de pr´edictions (pouvant ˆetre bonnes ou mau-\nvaises) dont on dispose. Il s’agit en fait de la base de donn´ees ´evoqu´ee en 1.3.1 et qui va servir de base\nd’apprentissage pour d´eterminer la pr´ediction `a partir des donn´ees. On fait ici l’hypoth`ese (tr`es) forte que\nles ´echantillons exemples contiennent toute l’information exploitable et utile.\nCette interpolation se d´eroule en deux phases distinctes que sont l’apprentissage et la pr´ediction qui\npeuvent ˆetre repr´esent´ees sch´ematiquement et de mani`ere plus d´etaill´ees sur la figure suivante:\nFigure 1.1: Sch´ema de principe de l’apprentissage automatique\nAinsi la phase d’apprentissage consiste `a trouver les param`etres ω de telle sorte que yi = f(xi, ω)∀(xi, yi) ∈\nD. On utilisera ensuite ω pendant la phase de pr´ediction sur de nouveaux exemples.\nLe but de la phase d’apprentissage devient alors de rechercher le ω qui permet d’optimiser un certain crit`ere\nL que nous d´etaillerons plus tard dans le paragraphe 1.5:\nω = arg min\nω′\nL(D, ω′)\nMI201-ENSTA Paris\n9",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Formalisation mathématique",
+      "page_range": [
+        8,
+        10
+      ],
+      "length": 1173
+    },
+    {
+      "chunk_id": "1.3.2.c4",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.3 Probl´ematique g´en´erale\nLes diff´erents types d’apprentissages\nIl existe plusieurs formes d’apprentissages dans le domaine du Machine Learning. Parmi elles se trouvent les\napprentissages supervis´e et non supervis´e. La principale diff´erence entre ces deux types d’apprentissages est\nque, dans le cadre du premier, on a une connaissance pr´ealable de ce que devraient ˆetre les valeurs de sortie\nde nos ´echantillons. L’algorithme peut s’entraˆıner sur une base de donn´ees d´edi´ee pour laquelle on connaˆıt\nles ”bonnes” r´eponses avant de pouvoir s’appliquer sur d’autres donn´ees.\nPour l’apprentissage non supervis´e, c’est un peu plus compliqu´e: il ne dispose pas de r´eponse correcte ni\nd’enseignant. En effet sa tˆache est de d´eterminer lui-mˆeme une mod´elisation de la structure des donn´ees\npour en extraire une information.\nDes deux oppos´es pr´ec´edents r´esulte l’apprentissage semi-supervis´e pour lequel on poss`ede une base dont\non connaˆıt partiellement les valeurs de sortie.\nOn peut ´egalement citer l’apprentissage par transfert pour lequel on utilise des donn´ees d’apprentissage\nproches du probl`eme que l’on souhaite r´esoudre: on utilise une situation pour laquelle on a d´ej`a des exemples\npour en ´etudier une proche pour laquelle on manque de donn´ees, ce qui ´evite d’avoir `a construire une base\nd’apprentissage et fait gagner du temps.\nEnfin on peut citer l’apprentissage par renforcement pour lequel les pr´edictions sont issues d’une s´equence\nd’actions et sont plus ou moins bien r´ecompens´ees. Le programme ne rec¸oit pas de donn´ees d’entraˆınement\nmais est envoy´e dans un environnement et prend ses d´ecisions au fur et `a mesure en fonction de son ´etat\ncourant. Ces d´ecisions vont lui permettre d’obtenir des r´ecompenses qui le guideront dans la suite de son\napprentissage. Cette technique est notamment utilis´ee par Alpha GO Zero, un programme de jeu de GO qui,",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Formalisation mathématique",
+      "page_range": [
+        8,
+        10
+      ],
+      "length": 1963
+    },
+    {
+      "chunk_id": "1.3.2.c5",
+      "content": "apprentissage. Cette technique est notamment utilis´ee par Alpha GO Zero, un programme de jeu de GO qui,\nen partant de rien, est devenu plus fort qu’Alpha GO en seulement quelques jours![4]\nLes diff´erents types de pr´edictions\nTout comme la phase d’apprentissage, la phase de pr´ediction est elle aussi subdivis´ees en plusieurs cat´egories.\nLa premi`ere d’entre elles est la classification. Comme son nom l’indique cette pr´ediction doit d´eterminer `a\nquelle classe appartient la donn´ee en entr´ee. Il peut s’agir d’une pr´ediction binaire (si un mail est un spam ou\nnon) ou d’une identification (reconnaissance d’une lettre manuscrite). Ce cas est caract´eris´e par un espace\nLe deuxi`eme type de pr´ediction qui vient naturellement `a l’esprit est la r´egression, qui regroupe par exemple\nles pr´edictions de temp´eratures, de cours de bourse ou encore la localisation d’un objet dans une image. Ici la\npr´ediction doit ´evaluer une variable continue, en opposition avec la classification qui est fondamentalement\nla pr´ediction d’une valeur discr`ete. Ici l’espace des ´etiquettes est Y = R.\nLes pr´edictions peuvent ˆetre plus complexes avec les pr´edictions de structure o`u l’algorithme cherche `a\nd´eterminer des objets structurels plus volumineux comme des arbres ou des graphes, car ces derniers ont\nune forte capacit´e de repr´esentation d’objets r´eels comme les articulations d’un ˆetre humain par exemple.\nLe Machine Learning peut ´egalement permettre de regrouper des donn´ees en fonction de leurs caract´eristiques:\nce sont les pr´edictions de type regroupement. On peut par exemple regrouper des photos de voitures en fonc-\ntions de leur couleur ou encore classer les selfies en fonction des personnes pr´esentes.\nPour finir les pr´edictions peuvent prendre la forme d’un texte dans le cas o`u les donn´ees sont des images ou\ndes vid´eos. Ainsi une vid´eo pourrait donner la pr´ediction ”C’est un chat qui saute sur une table”.\nMI201-ENSTA Paris\n10",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Formalisation mathématique",
+      "page_range": [
+        8,
+        10
+      ],
+      "length": 1968
+    },
+    {
+      "chunk_id": "1.3.3.c2",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.3 Probl´ematique g´en´erale\nPour cela on ne va plus d´ecrire une image pixel par pixel mais plutˆot la d´ecrire en utilisant certaines de\nses caract´eristiques. Dans notre exemple des chiffres manuscrits on peut prendre comme crit`ere les profils\nde l’image, qui nous donnent acc`es aux contours du chiffre en question : on cr´ee 4 images blanches et on\ncolorie chacune de ces images tant qu’on ne rencontre pas un pixel noir en partant d’une direction diff´erente\n(voir exemple ci-dessous), au nombre de cavit´es sur l’image pour pouvoir l’associer `a un r´esultat, enfin on\npourrait d´ecouper l’image en sous-sections et observer lesquelles sont occup´ees:\nFigure 1.3: Trois exemples de crit`eres pour la reconnaissance de chiffres manuscrits\nL’utilisation de tels crit`eres permet d’obtenir `a terme des donn´ees sous forme de vecteurs de petite di-\nmension permettant un temps de calcul moins exorbitant.\nTroisi`eme ´etape: choisir l’approche du probl`eme\nCette ´etape a pour but de d´eterminer quels sont les ´el´ements du probl`eme trait´e pouvant ˆetre pris en compte\ndans le choix de la nature du pr´edicteur : quel est le type d’apprentissage? quel est le type de pr´ediction?\nquelle est la forme des donn´ees?…\nChacune de ces informations va avoir une influence sur le choix de la nature du pr´edicteur, car chacune de\nces approches a ses points forts et ses points faibles (puissance et temps de calcul n´ecessaires, plus efficace\nsur un probl`eme en petite/grande dimension…). Il faut alors essayer de trouver la nature de pr´edicteur qui\nsera la plus apte `a r´epondre correctement au probl`eme pos´e. Maintenant que l’on dispose des mat´eriaux de\nbase pour notre exemple, il est temps de cr´eer les outils qui vont nous permettre de les travailler pour obtenir\nun pr´edicteur efficace. Le probl`eme de pr´ediction est de type classification: chaque donn´ee est associ´ee `a une\napprentissage supervis´e.",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Description d'un premier exemple étape par étape",
+      "page_range": [
+        11,
+        13
+      ],
+      "length": 1969
+    },
+    {
+      "chunk_id": "1.3.3.c3",
+      "content": "un pr´edicteur efficace. Le probl`eme de pr´ediction est de type classification: chaque donn´ee est associ´ee `a une\napprentissage supervis´e.\nLes donn´ees sont repr´esent´ees par des vecteurs, certes de taille fixe, mais qui restent de grande taille malgr´e\nla description des images par certains crit`eres. Ces caract´eristiques demandent des algorithmes ayant un bon\ncontrˆole de la r´egularisation, c’est-`a-dire l’ajout d’information permettant d’´eviter le surapprentissage (ou\noverfitting)1.\n1Cette notion est d´efinie en 1.5.3\nMI201-ENSTA Paris\n12",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Description d'un premier exemple étape par étape",
+      "page_range": [
+        11,
+        13
+      ],
+      "length": 555
+    },
+    {
+      "chunk_id": "1.3.3.c4",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.3 Probl´ematique g´en´erale\nLa base de donn´ees est de grande taille (≥10000 exemples) car il en existe plusieurs pour ce probl`eme ce qui\nva rendre notre optimisation efficace.\nLa nature fonctionnelle du pr´edicteur d´epend de la forme des donn´ees ainsi que du type de pr´ediction. Parmi\nles principales natures on peut citer: les plus proches voisins, les ensembles de classifieurs (forˆets al´eatoires,\n”boosting”…), la programmation logique, les mod`eles probabilistes (r´eseaux bay´esiens, chaˆınes de Markov…),\nles machines `a vecteurs de supports (ou SVM), les r´eseaux de neurones ou encore les arbres de d´ecisions. Les\nsp´ecificit´es de ces diff´erentes approches seront d´etaill´ees dans les chapitres d´edi´es.\nQuatri`eme ´etape: optimisation\nL’apprentissage n´ecessite de d´efinir un espace fonctionnel et un crit`ere param´etrique, comme le coˆut ou\nl’´energie par exemple. En outre on applique un optimiseur et on en r`egle les param`etres avant de v´erifier que\nl’apprentissage fonctionne bien en ´evaluant sa capacit´e de g´en´eralisation ainsi que sa convergence.\nOn peut citer quatre grand types d’optimisations: l’optimisation convexe pour minimiser un crit`ere con-\nvexe dans un ensemble lui aussi convexe comme pour la minimisation s´equentielle d’un probl`eme quadra-\ntique; l’optimisation stochastique dans le cas o`u certaines contraintes d´ependent de variables al´eatoires, avec\nl’exemple de la descente de gradient stochastique ou celui des algorithmes g´en´etiques; l’optimisation sous\ncontraintes o`u l’on ´evalue l’ensemble des sc´enarios possibles pour un probl`eme donn´e pour en d´eduire les\nchemins puis les choix optimaux comme en programmation lin´eaire; l’optimisation combinatoire consiste `a\ntrouver un des meilleurs sous-ensembles r´ealisables, c’est le principe des algorithmes gloutons.\nCinqui`eme ´etape: ´evaluation",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Description d'un premier exemple étape par étape",
+      "page_range": [
+        11,
+        13
+      ],
+      "length": 1913
+    },
+    {
+      "chunk_id": "1.4.2.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.4 Extraction des caract´eristiques\nAvec pf les pr´edits positifs qui sont n´egatifs et nv les n´egatifs qui le sont vraiment. Pour construire la\ncourbe on fait alors varier le seuil de score `a partir duquel le classificateur (qui doit ˆetre probabiliste) pr´edit\nqu’une donn´ee appartient `a une classe plutˆot qu’`a l’autre :\nFigure 1.4: Exemple de courbe ROC[6]\nUne fois une telle courbe obtenue, l’aire sous la courbe indique la qualit´e de notre pr´edicteur.\nPour ce qui est des probl`emes de type r´egression, on utilise en g´en´eral l’erreur quadratique :\nbRn(f)1 = 1\nn\nn\nX\ni=1\n(f(xi) −yi)2\nConclusion\nLa r´esolution d’un probl`eme par apprentissage automatique demande une certaine rigueur et doit se tenir `a\nune feuille de route pour pouvoir progresser. Ces ´etapes sont cruciales puisque chacune d’elles se construira\nsur le mod`ele bˆati par les pr´ec´edentes. Enfin, il s’agit d’une m´ethode it´erative : si le mod`ele doit ˆetre modifi´e,\nil est n´ecessaire de rev´erifier le travail effectu´e au sein de chaque ´etape pour que le nouveau mod`ele puisse\ncoller au formatage des donn´ees et aux caract´eristiques que ce format permet d’extraire.\n1.4\nExtraction des caract´eristiques\n1.4.1\nTravailler avec les donn´ees\nPour pouvoir utiliser des donn´ees dans le cadre de l’apprentissage automatique, il faut passer par deux\n´etapes indispensables et compl´ementaires. Il faut commencer par pr´eparer les donn´ees, c’est une ´etape certes\ncoˆuteuse mais toute aussi importante puisque c’est ce travail de mise en forme qui rend les donn´ees exploita-\nbles pour un programme. Ce passage obligatoire en Machine Learning est si crucial qu’il a mˆeme engendr´e\nla cr´eation du m´etier de Data engineer, un ing´enieur sp´ecialis´e sur les applications pratiques de la collecte de\ndonn´ees et de leur analyse.\nDe ce travail de pr´eparation d´ecoule la transformation des donn´ees. L’objectif principal est alors d’extraire des",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Extraction des caractéristiques",
+      "subsection": "Problématiques de l'extraction de caractéristiques",
+      "page_range": [
+        14,
+        15
+      ],
+      "length": 1983
+    },
+    {
+      "chunk_id": "1.4.2.c2",
+      "content": "donn´ees et de leur analyse.\nDe ce travail de pr´eparation d´ecoule la transformation des donn´ees. L’objectif principal est alors d’extraire des\ndonn´ees formalis´ees les informations qu’elles peuvent apporter. On parle de caract´eristiques (ou ”features”\nen anglais).\n1Cette fonction de coˆut sera introduite dans la section 1.5\nMI201-ENSTA Paris\n14",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Extraction des caractéristiques",
+      "subsection": "Problématiques de l'extraction de caractéristiques",
+      "page_range": [
+        14,
+        15
+      ],
+      "length": 351
+    },
+    {
+      "chunk_id": "1.4.2.c3",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.4 Extraction des caract´eristiques\n1.4.2\nProbl´ematiques de l’extraction de caract´eristiques\nComme nous l’avons d´ej`a vu dans l’exemple de la reconnaissance de chiffres manuscrits, les donn´ees brutes\ncontenues dans les bases de donn´ees ne sont pas exploitables directement par l’algorithme. Ces donn´ees\nbrutes sont tr`es souvent sujettes au bruit et leur dimension est trop grande pour esp´erer obtenir un r´esultat\nprobant en un temps raisonnable. En outre les donn´ees de notre exemple ne sont que des images d’une\ntaille relativement petite dont les pixels ne peuvent ˆetre que noirs ou blancs. Ces donn´ees sont d´ej`a trop\ncons´equentes alors qu’il existe une multitude de probl`emes sur des ´el´ements infiniment plus volumineux\ncomme des images en haute r´esolution et en couleurs voire sur une vid´eo qui est une succession d’images\nde ce type. Les donn´ees brutes sont donc volumineuses et impr´ecises ce qui noie l’information utile dans un\noc´ean de superflu.\nLa d´efinition de ces caract´eristiques est notamment cruciale pour tout probl`eme de reconnaissance des\nformes qui, par d´efinition, travaille sur des donn´ees brutes initiales sous forme d’images. Tout est une ques-\ntion d’´equilibre entre de nombreux crit`eres incompatibles, symbolis´e par l’opposition entre la robustesse et\nle coˆut de calcul. En effet si on privil´egie la robustesse en voulant utiliser des caract´eristiques trop riches,\nnotre algorithme aura une complexit´e tr`es ´elev´ee qui r´eduira consid´erablement son efficacit´e. En plus de cela\non resterait sensible au bruit et le programme aurait une grande variabilit´e.\nD’un autre cˆot´e, si l’on privil´egie un coˆut de calcul faible en usant de caract´eristiques trop simples, il est tout\n`a fait logique et moral que l’on obtienne de nombreuses confusions, puisqu’on ne disposera alors que de peu\nd’informations par manque de travail sur les donn´ees.",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Extraction des caractéristiques",
+      "subsection": "Problématiques de l'extraction de caractéristiques",
+      "page_range": [
+        14,
+        15
+      ],
+      "length": 1954
+    },
+    {
+      "chunk_id": "1.4.3.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.4 Extraction des caract´eristiques\n1.4.3\nChaˆıne de pr´ediction g´en´erique\nLes algorithmes d’apprentissage automatique suivent tous plus ou moins une certaine feuille de route. En\neffet la d´emarche g´en´erale reste toujours fixe et pourrait ˆetre repr´esent´ee comme suit pour l’exemple de\nreconnaissance de chiffres:\nFigure 1.5: Chaˆıne de pr´ediction g´en´erique\nCe sch´ema montre bien la premi`ere phase de construction d’une repr´esentation des donn´ees jusqu’`a\nce que l’on obtienne les caract´eristiques de ces derni`eres en sortie de la phase de pr´etraitement. Ce n’est\nqu’apr`es avoir obtenu ces informations que l’on peut passer `a la phase de pr´ediction `a proprement parler\npendant laquelle les renseignements extraits sont pass´es dans l’algorithme de pr´ediction.\nExemples de caract´eristiques\nLes caract´eristiques que l’on peut observer sont divis´ees en deux grandes classes. Dans l’exemple de recon-\nnaissance de chiffres manuscrits, les caract´eristiques retenues sont de type forme. Elles sont d´etect´ees grˆace\n`a un contraste avec le fond de l’image, il peut s’agir de segmentations ou de saillances comme par exem-\nple les les ”ext´emit´es” des chiffres (les endroits o`u l’on pose ou l`eve le stylo). Il peut ´egalement s’agir de\ncaract´eristiques structurelles.\nFigure 1.6: Exemple de d´etection de caract´eristiques de formes [7]\nMI201-ENSTA Paris\n16",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Extraction des caractéristiques",
+      "subsection": "Chaîne de prédiction générique",
+      "page_range": [
+        16,
+        16
+      ],
+      "length": 1432
+    },
+    {
+      "chunk_id": "1.5.1.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.5 Un concept central: la g´en´eralisation\nCependant ce probl`eme reste g´en´eralement insoluble sans l’addition d’hypoth`eses. On approchera cette\nesp´erance par l’estimateur de la moyenne empirique, ce qui nous amm`ene la d´efinition du risque empirique :\nbRn(f) = 1\nn\nn\nX\ni=1\nL(yi, f(xi))\nD’o`u le pr´edicteur par minimisation du risque empirique :\nbf = arg min\nf\n1\nn\nn\nX\ni=1\nL(yi, f(xi))\nPour ce qui est des fonctions de coˆut en elles-mˆemes, il en existe une multitude mais on peut citer la\nfonction de coˆut 0/1 pour la classification binaire:\nL0/1 : Y × Y →R\ny, f(x) 7→\n(\n1\nsi f(x) ̸= y\n0\nsinon\nLe risque empirique vaut alors le nombre moyen d’erreurs de pr´ediction.\nAfin d’illuster le concept de g´en´eralisation, nous allons nous int´eresser `a l’exemple de la r´egression poly-\nnomiale. Nous cherchons ici `a approximer une fonction non polynomiale par un polynˆome `a partir de valeurs\nuniform´ement ´echantillonn´ees en x mais bruit´ees en y. Pour ´evaluer la pertinence de la fonction polynomiale\non calculera une une erreur de r´egression qui sera la distance au carr´e entre les points ´echantillonn´es et le\npolynˆome estim´e.\nFigure 1.8: Exemple de courbe `a approximer (en vert) grˆace aux donn´ees ´echantillonn´ees (en bleu) [8]\n1.5.1\nPr´esentation des mod`eles lin´eaires g´en´eralis´es\nLa pr´ediction utilisera des fonctions de base de la r´egression polynomiale permettant d’encoder les donn´ees\nsources: ϕk(x) = xk\nLa fonction de pr´ediction sera donc de la forme:\nMI201-ENSTA Paris\n18",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Un concept central: la généralisation",
+      "subsection": "Présentation des modèles linéaires généralisés",
+      "page_range": [
+        18,
+        19
+      ],
+      "length": 1562
+    },
+    {
+      "chunk_id": "1.5.1.c2",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.5 Un concept central: la g´en´eralisation\nDans le cadre de l’apprentissage on utilisera un ω qui sera issu maximum de vraisemblance:\nωML = (ΦT Φ)−1ΦT y\nΦ =\n\n\nϕ0(x1)\nϕ1(x1)\n· · ·\nϕM−1(x1)\nϕ0(x2)\nϕ1(x2)\n· · ·\nϕM−1(x2)\nϕ0(xn)\nϕ1(xn)\n· · ·\nϕM−1(xn)\n\n∈Mn,M(R)\nVoici les r´esultats obtenus dans les cas o`u l’on utilise M = 0, M = 1, M = 3 et M = 9:\nFigure 1.9: Approximation de la courbe (en rouge) en utilisant des fonctions polynomiales de degr´es 0, 1, 3 et\n9 [8]\nAvec ces r´esultats vient une des id´ees les plus cruciales dans le domaine de l’apprentissage automatique:\nil ne faut jamais faire aveugl´ement confiance `a ses donn´ees!\nEn effet, si ces derni`eres servent de base `a l’apprentissage du programme, elles ne r´esultent souvent que\nd’observation ou de mesures qui sont sujettes `a une certaine marge d’erreur. Vouloir parfaitement coller `a\nses donn´ees provoque in´evitablement un sur-apprentissage qui ´eloigne consid´erablement la pr´ediction de la\nr´ealit´e dans la quasi-totalit´e des cas. C’est une fois de plus une question de compromis entre l’utilisation des\ndonn´ees, qui est n´ecessaire, et la conservation d’un certain d´etachement de celles-ci et de leurs erreurs.\nMI201-ENSTA Paris\n19",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Un concept central: la généralisation",
+      "subsection": "Présentation des modèles linéaires généralisés",
+      "page_range": [
+        18,
+        19
+      ],
+      "length": 1271
+    },
+    {
+      "chunk_id": "1.5.2.c2",
+      "content": "velles pour lui. C’est ainsi que l’on peut v´erifier que le pr´edicteur construit est capable de traiter les probl`emes\ninconnus sans se contenter de m´emoriser les r´esultats. Les donn´ees d’apprentissage sont les ”cours” de la ma-\nchine tandis que les donn´ees op´erationnelles sont ses ”exercices”.\nMI201-ENSTA Paris\n20",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Un concept central: la généralisation",
+      "subsection": "Différence entre les données d'apprentissage (training) et les données opérationnelles (test):",
+      "page_range": [
+        20,
+        20
+      ],
+      "length": 322
+    },
+    {
+      "chunk_id": "1.5.4.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.5 Un concept central: la g´en´eralisation\n1.5.3\nL’erreur de g´en´eralisation\nLa probl´ematique de la g´en´eralisation aux donn´ees nouvelles, c’est-`a-dire celles qui ne sont ni dans les\ndonn´ees d’entraˆınement ni dans les donn´ees de test. Ainsi, ils’agit de donn´ees qui sont par d´efinition in-\nconnues. Autrement on s’en servirait pour l’apprentissage ou le test du pr´edicteur. Ainsi il est n´ecessaire de\nfaire des hypoth`eses sur la nature de ces donn´ees et sur le mod`ele de pr´ediction.\nLe graphique pr´esent´e en Figure 1.10 met en lumi`ere les deux principaux ph´enom`enes `a ´eviter que l’on peut\ncontrˆoler:\n-le simplisme; on dit d’un mod`ele qui est trop simple pour avoir de bonnes performances mˆeme sur les\ndonn´ees utilis´ees pour le construire qu’il sous-apprend, on parle d’underfitting en anglais.\n-le sur-apprentissage; on dit d’un mod`ele qui, plutˆot que de capturer la nature des objets `a ´etiqueter, mod´elise\naussi le bruit et ne sera pas en mesure de g´en´eraliser qu’il sur-apprend, on parle d’overfitting en anglais.\nAutrement dit l’algorithme apprend ”par cœur” les r´esultats des donn´ees d’apprentissage, qui sont bruit´ees,\nplutˆot que de ”comprendre” r´eellement comment associer une pr´ediction correcte `a n’importe quelle donn´ee.\nIl est possible d’introduire la notion de compromis biais-variance pour mieux comprendre le risque d’un\nmod`ele f : X →Y. Il suffit d’abord de comparer ce mod`ele `a l’erreur minimale R∗qui peut-ˆetre atteinte par\nn’importe quelle fonction meusurable de X dans Y pour obtenir ce que l’on appelle l’exc`es d’erreur :\nR(f) −R∗=\n\u0014\nR(f) −R(h)\nh\n\u0015\n+\n\u0014\nR(h)\nh\n−R∗\n\u0015\nSous cette forme d´ecompos´ee on obtient deux termes distincts, le premier quantifie la distance entre le\nmod`ele f et le meilleur mod`ele possible sur l’espace de fonctions consid´er´e. Le second quantifie quant `a lui",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Un concept central: la généralisation",
+      "subsection": "Résumé de la construction d'un chantier d'apprentissage",
+      "page_range": [
+        21,
+        21
+      ],
+      "length": 1903
+    },
+    {
+      "chunk_id": "1.5.4.c2",
+      "content": "mod`ele f et le meilleur mod`ele possible sur l’espace de fonctions consid´er´e. Le second quantifie quant `a lui\nla qualit´e du choix de cet espace d´efini par les diff´erentes hypoth`eses faites lors de la cr´eation du mod`ele.\nCette ´ecriture permet de comprendre ais´ement qu’il y a un compromis `a faire lors de la d´efinition de l’espace\ndes hypoth`eses. En effet plus celui-ci sera grand, plus il sera probable qu’il contienne une solution proche\nde la solution optimale. Cependant un espace plus grand implique que cette fonction sera plus difficile `a\nd´eterminer. C’est ce compromis entre l’erreur d’approximation et l’erreur d’estimation qui porte le nom de\ncompromis biais-variance.\n1.5.4\nR´esum´e de la construction d’un chantier d’apprentissage\nPour cr´eer un chantier d’apprentissage qui sera apte `a am´eliorer un programme de Machine Learning, on\ncommence par pr´eparer les donn´ees, en les faisant passer de r´esultats bruts bruit´es et de grande dimension `a\ndes informations simplifi´ees, format´ees et homog´enis´ees.\nOn divise ensuite ces donn´ees pr´epar´ees en deux grands ensembles: celui d’apprentissage, qui permet d’optimiser\nles param`etres du mod`ele, et celui de test, qui permet d’´evaluer la qualit´e de l’apprentissage sur les donn´ees\nd’entraˆınement dans son contexte d’utilisation. Les tests permettent alors de connaˆıtre l’erreur de g´en´eralisation\ndu pr´edicteur construit.\nEnfin il faut garder `a l’esprit de ne jamais utiliser l’ensemble de test pour l’apprentissage, sinon quoi l’on\nse retrouverait dans l’incapacit´e d’estimer la qualit´e du pr´edicteur sans avoir `a recr´eer de nouvelles donn´ees.\nMI201-ENSTA Paris\n21",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Un concept central: la généralisation",
+      "subsection": "Résumé de la construction d'un chantier d'apprentissage",
+      "page_range": [
+        21,
+        21
+      ],
+      "length": 1665
+    },
+    {
+      "chunk_id": "1.6.2.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.6 Mod´elisation bay´esienne\n1.6.1\nApproche bay´esienne multivari´ee:\nIci le calcul de la loi contionnelle se fait selon un mod`ele multivari´e. Supposons qu’on ait un ensemble de\ndonn´ees d’entraˆınement D = {(xi, yi)}n\ni=1, on suppose qu’il s’agit d’un probl`eme de classification binaire\nSupposons que les vraisemblances des classes sont ´egales `a (mod`ele gaussien):\nP(X = xi|Y = 1; µ1, Σ1) =\n1\n(2π)d/2p\n|Σ1|\nexp\n\u0014\n−1\n2(xi −µ1)′Σ−1\n1 (xi −µ1)\n\u0015\nP(X = xi|Y = 2; µ2, Σ2) =\n1\n(2π)d/2p\n|Σ2|\nexp\n\u0014\n−1\n2(xi −µ2)′Σ−1\n2 (xi −µ2)\n\u0015\nDans le cas o`u P(Y = 1) = P(Y = 2) = 0.5 on a la r`egle de classification suivante :\ny∗=\n(\n1\nsi P(X = xi|Y = 1; µ1, Σ1) > P(X = xi|Y = 2; µ2, Σ2)\n2\nsinon\ny∗=\n(\n1\nsi log(P(X = xi|Y = 1; µ1, Σ1)) > log(P(X = xi|Y = 2; µ2, Σ2))\n2\nsinon\ny∗=\n(\n1\nsi (xi −µ1)′Σ−1\n1 (xi −µ1) −(xi −µ2)′Σ−1\n2 (xi −µ2) < log\n\u0010\n|Σ2|\n|Σ1|\n\u0011\n2\nsinon\nCette approche permet de d´ecrire les corr´elations entre les dimensions. Toutefois elle demande de connaˆıtre\nla forme des distributions et se limite malheureusement aux petites dimensions. Dans le cas d’un mod´elisation\ngaussienne `a deux classes, la pr´ediction se r´eduit alors `a calculer une fonction de degr´e 2 et la classe est pr´edite\nen fonction de sa position par rapport `a la s´eparatrice de l’espace:\nFigure 1.14: Exemple d’approche gaussienne multivari´ee\n1Ensemble des entiers naturels de 1 `a n.\nMI201-ENSTA Paris\n24",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Modélisation bayésienne",
+      "subsection": "Approche bayésienne naïve",
+      "page_range": [
+        24,
+        25
+      ],
+      "length": 1435
+    },
+    {
+      "chunk_id": "1.6.2.c2",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.6 Mod´elisation bay´esienne\n1.6.2\nApproche bay´esienne na¨ıve\nOn utilise une hypoth`ese d’ind´ependance pour faire le calcul de la loi conditionnelle:\nOn peut alors calculer la vraisemblance dimension par dimension ce qui est beaucoup plus simple. Le\nprobl`eme devient un ensemble de probl`emes 1D, qui sont des mod`eles faciles `a estimer (gaussien, binomial,\nhistogrammes…).\nCette approche permet de traiter des probl`emes de plus grande dimension grˆace `a ce d´ecoupage en sous-\nprobl`emes.\nEn pratique on utilise plutˆot la log-vraisemblance afin de conserver une meilleure stabilit´e num´erique:\nlog P(x|y) =\nX\ni\nlog P(xi|y)\ny∗= arg max\ny\nlog P(x|y) + log P(y)\nCette approche na¨ıve peut se r´ev´eler comme ´etant tr`es efficace malgr´e l’hypoth`ese d’ind´ependance assez\nforte. Comparons-la `a l’approche multivari´ee sur un exemple:\nFigure 1.15: Comparaison entre l’approche bay´esienne multivari´ee (sch´ematis´ee par les ensembles color´es)\net na¨ıve (sch´ematis´ee par les courbes `a cˆot´e des axes)\nOn voit que l’approche multivari´ee d´esigne deux zones de l’espace qui ont une grande intersection, ce\nqui pourrait prˆeter `a confusion, l`a o`u l’approche na¨ıve (repr´esent´ee par les courbes pr`es des axes) d´elimite\nbien la zone de chaque classe. Cette approche dite na¨ıve n’est donc pas `a n´egliger malgr´e sa d´enommination\np´ejorative.\nMI201-ENSTA Paris\n25",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Modélisation bayésienne",
+      "subsection": "Approche bayésienne naïve",
+      "page_range": [
+        24,
+        25
+      ],
+      "length": 1431
+    },
+    {
+      "chunk_id": "1.6.4.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.6 Mod´elisation bay´esienne\n1.6.3\nR´esum´e concernant l’approche bay´esienne\nL’approche bay´esienne est une th´eorie probabiliste de la d´ecision qui n´ecessite le calcul de la loi a posteriori\nafin de d´eterminer une pr´ediction.\nPour trouver l’expression de cette loi a posteriori on peut poser une hypoth`ese d’ind´ependance conditionnelle\npour se ramener en dimension 1 ou alors utiliser un mod`ele gaussien multivari´e.\nLa phase d’apprentissage consiste alors en une estimation de lois param´etriques simples. Pendant la phase\nde pr´ediction le programme va effectuer le calcul de la log-vraisemblance et la maximiser sur les diff´erentes\nhypoth`eses.\nCependant cette approche se limite aux petits probl`emes bien mod´elis´es dans le cas du mod`ele gaussien\nmultivari´e et aux caract´eristiques non corr´el´ees pour une approche bay´esienne na¨ıve (il est toutefois possible\nque ce mod`ele fonctionne dans des cas particuliers o`u les caract´eristiques sont corr´el´ees).\n1.6.4\nL’approche bay´esienne en Python\nDans cette partie nous allons voir comment g´en´erer un exemple d’´echantillon qui peut ˆetre ´etudi´e par une\napproche bay´esienne na¨ıve `a l’aide de la biblioth`eque scikit-learn. On va plus particuli`erement utiliser\nla fonction make blobs qui permet de g´en´erer un ´echantillon gaussien isotrope :\nFigure 1.16: Exemple de g´en´eration par la fonction make blobs [9]\nLe mod`ele bay´esien na¨ıf gaussien est inclus dans la biblioth`eque sous le nom GaussianNB, on lui donne\nles donn´ees g´en´er´ees pr´ec´edemment pour son apprentissage:\nFigure 1.17: D´efinition du mod`ele bay´esien na¨ıf gaussien[9]\nMI201-ENSTA Paris\n26",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Modélisation bayésienne",
+      "subsection": "L'approche bayésienne en Python",
+      "page_range": [
+        26,
+        27
+      ],
+      "length": 1694
+    },
+    {
+      "chunk_id": "1.7.1.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.7 La classification Plus Proche Voisin (PPV)\n1.7\nLa classification Plus Proche Voisin (PPV)\n1.7.1\nPrincipe g´en´eral de l’approche 1-PPV\nOn se place dans un cas dans lequel on dispose de deux ´echantillons proches dans l’espace de repr´esentation\net dont les pr´edictions sont identiques au sein de chacun de ces ´echantillons.\nPour pr´edire la classe d’une nouvelle donn´ee on va alors chercher l’exemple annot´e le plus proche et lui\nassocier son annotation:\nFigure 1.19: Exemple illustrant le principe de fonctionnement de l’approche plus proche voisin\nCette approche repose sur une notion de proximit´e entre les donn´ees qui n´ecessite la d´efinition d’une\nm´etrique, ou mesure de similarit´e d(x, x′). Il existe plusieurs m´etriques qui peuvent ˆetre utilis´ees dans le\ncadre d’un algorithme qui suit le principe de classification PPV. On peut citer les distances euclidienne, city-\nblock (dite ”de Manhattan”), Minkowski et Mahalanobis.\nIl est ´egalement envisageable d’apprendre la m´etrique ou mesure de similarit´e la plus pertinente pour un\nprobl`eme en particulier.\nIl faut maintenant d´efinir formellement ce que l’on entend par ”plus proche” voisin:\nLa recherche de l’´echantillon le plus proche de notre nouvelle donn´ee x se r´esume `a la recherche de i∗tel\nque i∗= arg min\ni\nd(x, xi)\nUne fois ce plus proche voisin d´etermin´e on assigne son annotation `a la pr´ediction de la nouvelle donn´ee:\ny∗= yi\nOn voit que, certes la fonction d’approximation n’est pas continue, mais elle a l’avantage de passer par\ntous les points de notre base de donn´ees initiale sans avoir de variations excessives comme c’´etait le cas dans\nle mod`ele lin´eaire utilis´e en 1.5.1 qui atteignait un ´etat de sur-apprentissage.\nMI201-ENSTA Paris\n28",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "Principe général de l'approche 1-PPV",
+      "page_range": [
+        28,
+        28
+      ],
+      "length": 1795
+    },
+    {
+      "chunk_id": "1.7.2.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.7 La classification Plus Proche Voisin (PPV)\nFigure 1.20: Exemple d’application du sch´ema plus proche voisin en r´egression\nCependant ce mod`ele n’est pas exempt de tout d´efaut notamment sur des fonctions de classifications :\nFigure 1.21: Exemple d’application du sch´ema plus proche voisin en deux dimensions [10]\nOn voit sur cet exemple que des donn´ees initiales bruit´ees conduisent `a des pr´edictions irr´eguli`eres. En\neffet il plus probable que, sur cet exemple, le seul point vert en haut `a gauche soit dˆu au bruit et ne devrait\npas avoir autant d’influence sur la zone. Pour rem´edier `a ce probl`eme on va pousser un peu plus le principe\nPPV.\nMI201-ENSTA Paris\n29\n\nChapter 1 Apprentissage automatique: introduction\n1.7 La classification Plus Proche Voisin (PPV)\n1.7.2\nL’approche des k-plus proches voisins (dite ”k-NN”)\nPour approfondir le principe PPV de base, on va maintenant utiliser plusieurs exemples de la base de donn´ees\nd’apprentissage pour d´eterminer une pr´ediction pour la nouvelle donn´ee. On commence donc par ordonner\nles ´echantillons d’apprentissage en fonction de leur distance `a la donn´ee `a classer:\nCette ordonnement va nous permettre de choisir les k exemples de la base les plus proches de la nouvelle\ndonn´ee. Apr`es cela on va pr´edire la classe de cette donn´ee en choisissant celle qui recueille le plus de ”votes”\nparmi ces k plus proches voisins:\ny∗= arg max\ny\nk\nX\ni=1\nδ(y, yi)\nO`u δ est la fonction de Kronecker, qui vaut 1 si ses deux arguments sont ´egaux et qui vaut 0 sinon.\nAttention: s’il n’y a pas de maximum, cela signifie qu’il y a ambigu¨ıt´e sur la pr´ediction. Dans ce cas on ne\nd´ecide pas et on laisse la donn´ee nouvelle sans annotation!\nIl est ´egalement possible de pond´erer les votes, pour donner plus de poids aux voisins les plus proches par",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "L'approche des k-plus proches voisins (dite \"k-NN\")",
+      "page_range": [
+        29,
+        30
+      ],
+      "length": 1863
+    },
+    {
+      "chunk_id": "1.7.5.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.7 La classification Plus Proche Voisin (PPV)\nOn voit que les points qui semblaient peut coh´erents, sans doute `a cause du bruit, n’ont d´esorais plus\nd’influence ce qui donne des r´egions plus homog`enes au sein de l’espace de repr´esentation.\nCette approche des k-plus proches voisins dispose de la propri´et´e statistique suivante:\nEBayes ≤lim\nN→∞EkNN ≤EBayes\n\u0012\n2 −LEBayes\nL −1\n\u0013\nO`u EBayes est l’erreur th´eorique optimale (dite de Bayes)1, L est le nombre de classes et EkNN est l’erreur\ndes k-plus proches voisins. Il en d´ecoule entre autre que l’erreur de l’approche k-NN est au plus deux fois\nmoins bonne que l’erreur minimale th´eorique.\n1.7.3\nLe coˆut le la pr´ediction k-ppv\nSi la pr´ediction du k-plus proches voisins peut sembler efficace, elle a un coˆut non n´egligeable puisqu’elle\nn´ecessite un calcul pour chaque exemple x ainsi qu’un tri par rapport aux n exemples de la base.\nPour n et d (la dimension des donn´ees) grands, le coˆut de la recherche exhaustive est important puisque ce\ndernier croˆıt en O(nd).\nOn peut n´eanmoins aborder le probl`eme d’une autre mani`ere en pr´e-calculant les surfaces de s´eparation entre\nles classes. La complexit´e de pr´ediction est alors li´ee `a la complexit´e de la surface et/ou de son approximation.\n1.7.4\nLa mal´ediction des grandes dimensions\nLorsque la dimension d de l’espace de repr´esentation des donn´ees augmente, les points de cet espace sont\ntous situ´es, plus ou moins, `a la mˆeme distance les uns des autres. Les donn´ees ´etant de plus en plus dispers´ees,\nelles apportent moins d’information pour la m´ethode des plus proches voisins.\nNonobstant cette propri´et´e ne s’applique heureusement pas aux distributions structur´ees. On peut in-\nterpr´eter les techniques de Machine Learning comme des moyens de d´etection des bonnes corr´elations entre\nles donn´ees.",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "Le comportement des approches PPV",
+      "page_range": [
+        31,
+        31
+      ],
+      "length": 1890
+    },
+    {
+      "chunk_id": "1.7.6.c1",
+      "content": "Chapter 1 Apprentissage automatique: introduction\n1.8 L’essentiel `a retenir du chapitre\n1.7.6\nR´esum´e concernant l’approche plus proches voisins\nPour pouvoir utiliser ce sch´ema, il faut d’abord pouvoir faire l’hypoth`ese que le probl`eme ´etudi´e poss`ede\nune certaine r´egularit´e. C’est-`a-dire que des observations dont les caract´eristiques sont proches auront un\ncomportement similaire.\nApr`es avoir v´erifi´e que cette hypoth`ese est coh´erente, il faut r´epondre `a deux questions. Tout d’abord, il\nfaut d´efinir ce que ”proche” signifie dans le probl`eme ´etudi´e et introduire une m´etrique en accord avec cette\nd´efinition. Il faut ensuite d´eterminer quelles donn´ees de la base sont les plus proches de la donn´ee `a classer.\nL’approche des plus proches voisins n’a pas de phase d’apprentissage `a proprement parler puisqu’elle se\ncontente d’utiliser les donn´ees de la base. En contrepartie la phase de pr´ediction est plus on´ereuse car elle\nn´ecessite de trier les distances aux ´echantillons de la nouvelle donn´ee avant de proc´eder `a un vote entre les\nk plus proches.\nL’utilisation de ce sch´ema est pertinente sur des probl`emes d’une taille modeste aussi bien en dimensions\ndes donn´ees que du nombre d’exemples de la base de donn´ees. Autrement on risque de se heurter `a des\nprobl`emes de temps de calcul et `a la mal´ediction des grandes dimensions qui sont difficiles `a r´esoudre. Il faut\n´egalement s’assurer de disposer d’une mesure de similarit´e adapt´ee aux donn´ees du probl`eme pour obtenir\nune classification optimale.\n1.8\nL’essentiel `a retenir du chapitre\nNous avons commenc´e ce chapitre avec les principes de base de l’apprentissage automatique, et notamment\nque son objectif ´etait de programmer `a partir des donn´ees avec une d´emarche qui se d´ecompose en deux\nphases que sont l’apprentissage et la pr´ediction et que chacune de ces phases peut ˆetre de plusieurs vari´et´es.",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "Résumé concernant l'approche plus proches voisins",
+      "page_range": [
+        32,
+        32
+      ],
+      "length": 1920
+    },
+    {
+      "chunk_id": "1.7.6.c2",
+      "content": "phases que sont l’apprentissage et la pr´ediction et que chacune de ces phases peut ˆetre de plusieurs vari´et´es.\nNous avons ensuite parcouru la d´emarche g´en´erique du traitement d’un probl`eme `a travers l’exemple des\nchiffres manuscrits `a reconnaˆıtre. Cette d´emarche est en cinq ´etapes qui ont chacune leur importance dans\nle d´eveloppement du programme:\n1. la constitution d’une base d’apprentissage\n2. l’analyse pr´eliminaire des donn´ees ainsi que leur pr´eparation\n3. la conception du mod`ele\n4. l’optimisation\n5. l’´evaluation de l’efficacit´e du pr´edicteur construit\nLa minimisation de l’erreur de g´en´eralisation est l’objectif principal du Machine Learning et pour attein-\ndre ce but on divise la base de donn´ees initiale en deux ´echantillons distincts. Le premier est utilis´e pour\nl’apprentissage de l’algorithme puis on ´evalue l’efficacit´e de cet apprentissage sur l’´echantillon test. Il ne\nfaut surtout pas utiliser l’´echantillon test pour la phase d’entraˆınement de l’algorithme sous peine de ne plus\npouvoir effectuer de v´erification sans obtenir de nouvelles donn´ees.\nEnfin nous avons termin´e avec la pr´esentation de deux approches ´el´ementaires que sont la mod´elisation\nbay´esienne, qui traite x et y comme des variables al´eatoires en calculant la loi a posteriori de y, et l’approche\ndes plus proches voisins, qui annote les nouvelles donn´ees en fonction des ´echantillons les plus proches de\nla base de donn´ees sous hypoth`ese de r´egularit´e.\nMI201-ENSTA Paris\n32",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "Résumé concernant l'approche plus proches voisins",
+      "page_range": [
+        32,
+        32
+      ],
+      "length": 1509
+    },
+    {
+      "chunk_id": "2.1.2.c1",
+      "content": "Chapter 2\nArbres de d´ecision et m´ethodes ensemblistes\n2.1\nLes arbres de d´ecision\n2.1.1\nDes graphes aux arbres",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 112
+    },
+    {
+      "chunk_id": "2.1.4.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.1 Les arbres de d´ecision\nLes questions pos´ees au sein d’un tel arbre doivent ˆetre ferm´ees, c’est-`a-dire que le nombre de r´eponses pos-\nsibles doit ˆetre fini. Dans le cas o`u une question n´ecessite une r´eponse num´erique, comme l’estimation d’une\ndur´ee par exemple, il faut d´ecomposer l’espace des r´eponses en un nombre fini de sous-espaces pour pouvoir\nd´ecrire la suite de l’arbre.\n2.1.4\nUn premier exemple\nPour se familiariser avec les arbres de d´ecisions, ´etudions un premier exemple qui traite d’une situation\nconnue de tous : faut-il attendre qu’une table se lib`ere dans un restaurant plein ?\nIl faut commencer par d´eterminer quels sont les facteurs importants `a prendre en compte lors de cette d´ecision\net les formuler en questions les plus simples possibles : Est-ce que nous avons vraiment faim ? Est-ce qu’il\ny a d’autres restaurant `a proximit´e ? Quel est le temps d’attente estim´e ? Est-ce qu’il pleut ? Est-ce qu’il y a\nun bar dans le restaurant pour pouvoir patienter ?…\nOn classe alors ces questions par ordre de crucialit´e puis on construit l’arbre de d´ecision en plac¸ant la question\nla plus importante `a la racine (ici ce serait ”le restaurant accueille-t-il encore des clients ?” par exemple) puis,\nen fonction de la r´eponse, soit on a d´ej`a suffisamment d’informations pour prendre la d´ecision globale (si la\nr´eponse est ”non” alors il faut changer de restaurant), soit d’autres questions se posent pour pouvoir trancher\net dans ce cas on pose la question restante la plus importante et on it`ere ce proc´ed´e jusqu’`a ce que tous les\ncas de figure aient ´et´e couverts par l’arbre.\nPour le probl`eme du restaurant on peut par exemple parvenir `a un arbre de ce genre :\nFigure 2.4: Exemple d’arbre de d´ecision pour le probl`eme du restaurant [12]\nMI201-ENSTA Paris\n35",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Un premier exemple",
+      "page_range": [
+        35,
+        35
+      ],
+      "length": 1872
+    },
+    {
+      "chunk_id": "2.1.7.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.1 Les arbres de d´ecision\n2.1.5\nLes diff´erentes questions possibles\nLes questions utilis´ees dans la cr´eation d’arbres de d´ecision peuvent ˆetre de natures tr`es diff´erentes. Cette\ncaract´eristique donne une tr`es grande flexibilit´e `a ce mod`ele. N´eanmoins il faut bien garder `a l’esprit que\nces questions doivent rester tr`es simples `a traiter pour le programme afin de pouvoir lui assurer une certaine\nefficacit´e. Les questions peuvent porter sur la valeur d’un attribut caract´eristique, sur la v´eracit´e d’une clause\nlogique, sur l’appartenance `a un intervalle ou un sous-ensemble, sur des attributs discrets ou num´eriques…\nLes possibilit´es de questions sont infinies et il faut trouver un ´equilibre entre le nombre d’informations dont\non souhaite disposer et le temps de calcul que n´ecessitera la pr´ediction globale.\n2.1.6\nFormalisation de la structure d’un arbre de d´ecision\nMaintenant que nous avons une vision un peut plus claire et pratique de ce qu’est un arbre de d´ecision,\nvoyons comment nous pouvons le formaliser dans le cadre d’une application `a l’apprentissage automatique :\nLes donn´ees seront cod´ees comme ´etant un ensemble d’attributs permettant de r´epondre facilement aux\ndiff´erentes questions qui auront ´et´e retenues lors de la cr´eation de l’arbre.\nUn nœud de d´ecision sera associ´e `a un test, d’appartenance ou de v´eracit´e selon les cas, ou `a une question\nqui portera toujours sur un et un seul attribut des donn´ees pour que la r´eponse soit facile d’acc`es et donc la\nplus rapide possible.\nLes branches de l’arbre repr´esenteront les diff´erentes valeurs possibles de l’attribut test´e ou des r´eponses\npossibles `a la question pos´ees par le nœud de d´ecision p`ere.\nEnfin un nœud terminal, que l’on pourra aussi appeler feuille, d´esignera la classe qui servira de pr´ediction\npour la donn´ee entr´ee dans l’algorithme.\n2.1.7\nApprentissage hi´erarchique",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Apprentissage hiérarchique",
+      "page_range": [
+        36,
+        36
+      ],
+      "length": 1969
+    },
+    {
+      "chunk_id": "2.1.7.c2",
+      "content": "Enfin un nœud terminal, que l’on pourra aussi appeler feuille, d´esignera la classe qui servira de pr´ediction\npour la donn´ee entr´ee dans l’algorithme.\n2.1.7\nApprentissage hi´erarchique\nNous n’avons vu jusqu’`a maintenant que des techniques de classification ne n´ecessitant qu’une seule op´eration\npour ´etiqueter une certaine observation x. Ces mod`eles utilisent le mˆeme ensemble de variables pour l’ensemble\ndes classes en accordant la mˆeme importance `a chacune de ces variables. Ainsi ils ne sont pas adapt´es aux\nsituations o`u les classes sont d´etermin´ees par diff´erentes variables dans diff´erentes r´egions de l’espace. Par",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Apprentissage hiérarchique",
+      "page_range": [
+        36,
+        36
+      ],
+      "length": 640
+    },
+    {
+      "chunk_id": "2.1.8.c2",
+      "content": "2.1.8\nAlgorithme de construction d’un arbre de d´ecisions\nDans cette partie nous allons voir comment construire un arbre de d´ecision grˆace `a un algorithme ´el´ementaire.\nOn se place dans l’optique de construire l’arbre de fac¸on incr´ementale dont chaque ´etape sera d´ecompos´ee en\ndeux phases. Tout d’abord on commence par d´ecider si le nœud trait´e lors de l’´etape est un nœud terminal,\nsi c’est le cas alors on lui associe une pr´ediction et, dans le cas contraire, on choisit alors un attribut parmis\nceux des donn´ees, un test `a effectuer sur l’attribut s´electionn´e ainsi que les branches pouvant ˆetre emprunt´ees\napr`es ce test.\nLa structure d’arbre encourage fortement l’utilisation d’un algorithme r´ecursif. En effet un arbre se\nd´ecompose toujours comme ´etant un nœud racine et les diff´erents fils de ce nœud ne sont que des sous-\narbres auxquels on peut appliquer la fonction de construction. On pourrait pr´esenter une premi`ere version\nde l’algorithme avec le pseudo-code suivant :\nFonction Construire-arbre(D):\nSI tous les points de D sont de mˆeme classe :\nCr´eer une feuille associ´ee `a cette classe\nSINON :\nChoisir la meilleure paire (Aj, test) pour cr´eer un nœud\nMI201-ENSTA Paris\n37",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Algorithme de construction d'un arbre de décisions",
+      "page_range": [
+        37,
+        40
+      ],
+      "length": 1215
+    },
+    {
+      "chunk_id": "2.1.8.c3",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.1 Les arbres de d´ecision\nCe pseudo-code correspond `a l’algorithme appel´e Iterative Dichotomiser 3 (ou ID3) le plus\nbasique possible. Toutefois cette premi`ere version n’est pas vraiment optimale puisqu’il faut atten-\ndre que toutes les donn´ees de l’´echantillon D aient la mˆeme classe pour pouvoir cr´eer une feuille.\nCette vision risquerait de conduire `a une situation de sur-apprentissage puisque, comme on peut\nle voir sur l’exemple de la Figure 2.2 avec certains points associ´es `a des classes diff´erentes de tous\nleurs voisins les plus proches, les donn´ees de la base initiale peuvent ˆetre bruit´ees. Ainsi partition-\nner l’espace des attributs de telle sorte que chaque sous-espace ne contienne qu’une seule classe\nrendrait le programme trop proche des donn´ees et entraˆınerait un ph´enom`ene d’overfitting.\nPour palier `a ce probl`eme il existe plusieurs crit`eres permettant de mesurer l’h´et´erog´en´eit´e (ou\nla puret´e) d’une base de donn´ees, et donc de d´eterminer `a quel moment il serait judicieux d’arrˆeter\nde d´ecouper l’espace des attributs. Pour pouvoir d´efinir de tels crit`eres nous allons commencer par\nintroduire la notation Pc(R) qui correspond `a la proportion d’exemples d’entraˆınement de la r´egion\nR qui appartiennent `a la classe c :\nPc(R) = 1\n|R|\nX\ni/xi∈R\nδ(yi, c)\nUn premier crit`ere, utilis´e pour mesurer l’information et que l’on int`egre souvent `a l’algorithme\nID3, est l’entropie :\nH(R) = −\nC\nX\nc=1\nPc(R) log2(Pc(R))\nOn peut noter que ce crit`ere est ´egalement utilis´e r´eguli`erement dans l’algorithme C4.5, qui\nd´ecoule de ID3 mais qui calcule `a chaque ´etape et pour chaque attribut le ratio de gain d’information1\net s´electionne l’attribut pour lequel il est maximal.\nDans une variante de l’algorithme ID3, l’algorithme Classification And Regression Tree (ou\nCART), on se restreint aux arbres binaires (un nœud ne peut avoir que deux fils) et on utilise",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Algorithme de construction d'un arbre de décisions",
+      "page_range": [
+        37,
+        40
+      ],
+      "length": 1970
+    },
+    {
+      "chunk_id": "2.1.8.c4",
+      "content": "Dans une variante de l’algorithme ID3, l’algorithme Classification And Regression Tree (ou\nCART), on se restreint aux arbres binaires (un nœud ne peut avoir que deux fils) et on utilise\nle crit`ere connu sous l’appellation d’indice de Gini, et qui sert `a mesurer les in´egalit´es entre les\ndiff´erentes classes :\nIG(R) =\nC\nX\nc=1\nPc(R)(1 −Pc(R)) = 1 −\nC\nX\nc=1\nPc(R)2\n1La formule est d´etaill´ee sur la page suivante.\nMI201-ENSTA Paris\n38",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Algorithme de construction d'un arbre de décisions",
+      "page_range": [
+        37,
+        40
+      ],
+      "length": 437
+    },
+    {
+      "chunk_id": "2.1.8.c6",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.1 Les arbres de d´ecision\nFigure 2.6: Exemple d’arbre pouvant ˆetre obtenu en utilisant un crit`ere de type Gini[14]\nComme dit pr´ec´edemment, il faut `a tout prix essayer d’´eviter le sur-apprentissage lors de la con-\ntruction d’un l’arbre de d´ecision puisque, non seulement il risquerait de mal g´en´eraliser le probl`eme,\nmais en plus il risquerait d’ˆetre mal ´equilibr´e, ce qui augmenterait fortement le temps de traitement\nde nouvelles donn´ees. Si on atteint une telle situation il est recommand´e d’utiliser des techniques\nd’´elagage (ou pruning en anglais) pour am´eliorer la qualit´e de l’arbre a posteriori.\nFigure 2.7: Exemple d’espace partitionn´e en suivant trop les donn´ees\nComplexit´e de la construction d’un arbre\nLa construction d’un arbre de d´ecision peut vite devenir un probl`eme n´ecessitant un temps d´eraisonnable\npour de multiples raisons (nombreuses classes possibles, base de donn´ees de grande taille, etc…).\nCette complexit´e peut n´eanmoins ˆetre contrˆol´ee grˆace `a plusieurs restrictions que l’on peut imposer :\nlimitation de la profondeur de l’arbre, minoration du gain en homog´en´eit´e, ajout d’une p´enalisation\nde complexit´e dans le coˆut ou encore en garantissant une bonne estimation des coˆuts en imposant\nun nombre minimal d’´echantillons par nœud.\nMI201-ENSTA Paris\n40",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Algorithme de construction d'un arbre de décisions",
+      "page_range": [
+        37,
+        40
+      ],
+      "length": 1375
+    },
+    {
+      "chunk_id": "2.1.9.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.1 Les arbres de d´ecision\n2.1.9\nR´esum´e concernant les arbres de d´ecision\nNous avons vu dans cette partie que les arbres de d´ecision constituaient une approche extrˆemement\nfacile `a interpr´eter d’un point de vue visuel et logique. En effet la repr´esentation graphique d’un\narbre permet de rester dans un cadre intuitif ou il est facile de se retrouver. De plus, au-del`a de la\nphase de construction d’un arbre de pr´ediction, cette m´ethode offre un apprentissage et une clas-\nsification rapides et efficaces pour peu que l’on se restreigne `a des tests simples. Cette affirmation\nreste vraie en grande dimension, contrairement aux m´ethodes abord´ees dans le premier chapitre.\nToutefois cette approche, comme toutes les autres, a ses d´efauts. Le plus gˆenant pour la m´ethode\ndes arbres de d´ecision est sa tendance au sur-apprentissage mais nous avons vu qu’il existe cepen-\ndant des moyens de contrˆoler la complexit´e de l’arbre cr´e´e. De plus cette tendance provoque une\ncertaine sensibilit´e au bruit et aux points aberrants que pourrait contenir la base de donn´ees initiale.\nEnfin il faut retenir que les arbres de d´ecision ne s’utilisent que dans le cadre de probl`emes de\nclassification, voire de r´egression, et qu’ils sont capables de traiter des donn´ees aussi bien num´eriques\nque symboliques.\nMI201-ENSTA Paris\n41",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Résumé concernant les arbres de décision",
+      "page_range": [
+        41,
+        41
+      ],
+      "length": 1395
+    },
+    {
+      "chunk_id": "2.3.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.2 Introduction des m´ethodes ensemblistes\n2.2\nIntroduction des m´ethodes ensemblistes\nCommenc¸ons tout d’abord par d´efinir ce que l’on entend par ”m´ethodes ensemblistes”. Il s’agit\nde m´ethodes agr´egeant des ensembles de classifieurs et dont l’objectif est de produire une vari´et´e\nde classifieurs en ´echantillonant diff´eremment les donn´ees, en modifiant les structures des classi-\nfieurs… Cette production va permettre de d´eterminer une classe finale en utilisant la fusion des\npr´edictions donn´ees par les diff´erents classifieurs.\nLe principe est donc de tirer parti de plusieurs classifieurs peu performants (que l’on appelle aussi\nfaibles) afin de construire une fusion de ces classifieurs qui sera performante (classifieur ”fort”).\nCette fusion va permettre de r´eduire la variance d’aprentissage et de moyenner les erreurs des\nclassifieurs. En d’autre terme on adopte la philosophie de l’union fait la force!\nIl existe deux grandes approches pour ce type de m´ethode : le bagging, qui d´eveloppe plusieurs\nmod`eles en parall`ele, et le boosting, qui est une am´elioration s´equentielle du mod`ele.\nFigure 2.8: Sch´ema repr´esentant les deux approches des m´ethodes ensemblistes [15]\n2.3\nBagging\nLa technique du bagging consiste en la g´en´eration de multiples jeux de donn´ees `a partir de la base\ninitiale puis d’entraˆıner le programme sur chacun des jeux cr´e´es. Ici on ne se focalise pas sur le con-\ntenu de l’algorithme en lui-mˆeme mais sur la m´ethode d’entraˆınement de celui-ci. Ainsi le bagging\npeut s’appliquer `a n’importe quel mod`ele d’apprentissage automatique : un arbre de d´ecision, un\nr´eseau de neurone, une SVM, etc…\nMI201-ENSTA Paris\n42",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Bagging",
+      "subsection": "",
+      "page_range": [
+        42,
+        43
+      ],
+      "length": 1733
+    },
+    {
+      "chunk_id": "2.4.1.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.4 Les forˆets al´eatoires (ou Random Forests)\n2.4\nLes forˆets al´eatoires (ou Random Forests)\nLes forˆets al´eatoires ont pour principe de construire plusieurs arbres, d’o`u le nom ”forˆet”, se bas-\nant non seulement sur des ´echantillons diff´erents, `a l’instar du bagging, mais aussi sur des vari-\nables diff´erentes. Si, par exemple, on se trouve dans un probl`eme `a p variables, on commence par\ns´electionner q < p variables al´eatoirement puis on effectue les tests sur ces variables pour constru-\nire des arbres de d´ecision. En pratique on utilise q ≈√p pour des probl`emes de classification et\nq ≈p\n3 en r´egression.\nLa structure de ces arbres comprend les param`etres de contrˆole de la complexit´e que sont la\nprofondeur maximale, le nombre d’´echantillons par nœud, le crit`ere de puret´e des nœud (seuil `a\npartir duquel on estime qu’il s”agit d’un nœud terminal) etc… `A cela s’ajoute une part d’al´eatoire\nsur les attributs, les donn´ees et les tests.\nFigure 2.10: Sch´ema de principe d’une forˆet al´eatoire [17]\n2.4.1\nAlgorithme de construction d’une forˆet al´eatoire\nTirage de ˜Dk de mˆeme taille que D (Bagging)\nTirage avec remise de q attributs Aj parmi les M possibles\nConstruction de l’arbre Gk avec des seuils al´eatoires\nConstruction de fk la fonction de d´ecision de Gk dont les feuilles sont remplies avec ˜Dk\nAgr´egation :\nfmoy(x) = 1\nK\nK\nX\nk=1\nfk(x) (r´egression)\nfmaj(x) = arg max\ny\nK\nX\nk=1\nδ(fk(x), y) (classification)\nMI201-ENSTA Paris\n44",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Algorithme de construction d'une forêt aléatoire",
+      "page_range": [
+        44,
+        44
+      ],
+      "length": 1529
+    },
+    {
+      "chunk_id": "2.4.2.c1",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.4 Les forˆets al´eatoires (ou Random Forests)\n2.4.2\nBiais et variance\nPour ´evoquer les notions de biais et de variance, prenons l’exemple de la r´egression :\ny = f(x) + ϵ\nDans un probl`eme comme celui-ci on peut identifier deux grandes sources d’al´eatoires : le bruit\nϵ auquel sont soumises les donn´ees ainsi que l’´echantillonnage de ces donn´ees d’apprentissage D.\nPour un pr´edicteur appris bfD(x) on d´efinit les trois notions suivantes :\nL’erreur est l’´ecart quadratique moyen entre la pr´ediction et la valeur id´eale (qui on le rappelle\nest connue pour les donn´ees d’apprentissage).\nLe biais est l’erreur de la pr´ediction moyenne par rapport `a la valeur id´eale.\nLa variance est l’´ecart quadratique moyen entre une pr´ediction et la pr´ediction moyenne.\nL’erreur pour un x donn´e dans un tel probl`eme de r´egression peut se d´ecomposer en trois termes\ndistincts :\nErr(x) = ED[(y −bfD(x))2]\n= ϵ2\n|{z}\nbruit2\n+ (ED[ bfD(x)] −y)2\n|\n{z\n}\nbiais2\n+ ED[(ED[ bfD(x)] −bfD(x))2]\n|\n{z\n}\nvariance\nL’origine de l’erreur de g´en´eralisation est double, cependant les deux termes sont difficiles `a\ncontrˆoler individuellement. Une telle d´ecomposition est plus difficile `a obtenir dans le cadre d’un\nprobl`eme de classification car les sources d’al´eatoire peuvent ˆetre plus compliqu´ees `a d´eterminer,\nles comportements sont n´eanmoins comparables.\nFigure 2.11: Simulation d’une r´egression pour 50 ´echantillons et des polynˆomes de degr´es 1, 3 et 10 [18]\nSur la Figure 2.11 on peut observer que pour un polynˆome de degr´e 1 on a une variance faible\n(les diff´erentes courbes approxim´ees sont proches les unes des autres) mais on a un biais important\n(la pr´ediction moyenne est loin d’ˆetre une bonne approximation de la fonction recherch´ee). Pour\nle polynˆome de degr´e 3 on a une variance et un biais qui sont relativement faibles. Enfin pour le",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Biais et variance",
+      "page_range": [
+        45,
+        45
+      ],
+      "length": 1918
+    },
+    {
+      "chunk_id": "2.4.2.c2",
+      "content": "(la pr´ediction moyenne est loin d’ˆetre une bonne approximation de la fonction recherch´ee). Pour\nle polynˆome de degr´e 3 on a une variance et un biais qui sont relativement faibles. Enfin pour le\npolynˆome de degr´e 10 on a une variance tr`es importante et un biais assez faible.\nMI201-ENSTA Paris\n45",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Biais et variance",
+      "page_range": [
+        45,
+        45
+      ],
+      "length": 303
+    },
+    {
+      "chunk_id": "2.4.3.c2",
+      "content": "g´en´eral d’utiliser les Randoms Forests avec une faible profondeur d’arbre (g´en´eralement entre 2 et\n5), les autres hyper-param`etres sont `a estimer par validation crois´ee mais elles ont l’avantage de ne\npas d´ependre crucialement de ces param`etres.\nMI201-ENSTA Paris\n46",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Résumé concernant les Random Forests",
+      "page_range": [
+        46,
+        50
+      ],
+      "length": 275
+    },
+    {
+      "chunk_id": "2.4.3.c3",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.5 Boosting\n2.5\nBoosting\n2.5.1\nPrincipe de la m´ethode du boosting\nPour pouvoir utiliser le boosting il faut disposer d’un ensemble de donn´e´es D = {(xi, yi)}n\ni=1 pour\nlequel on a ∀i ∈[|1, n|], yi ∈{−1, 1}. On suppose que l’on dispose d’un ensemble (ou famille) H de\nclassifieurs fk `a valeur dans {−1, 1}. Ces classifieurs ne sont pas forc´ement performants et seront\nappel´es weak learners.\nL’objectif du boosting est de construire un classifieur performant `a partir de ces weak learners en\nutilisant une moyenne pond´er´ee de ces classifieurs :\nf(x) =\nK\nX\nk=1\nαkfk(x)\nPour construire ce classifieur appel´e strong learner, il va falloir d´eterminer quels poids associer\n`a chacun des weak learners. Pour cela on va utiliser l’algorithme Adaboost (ou Adaptative boosting\nalgorithm).\n2.5.2\nL’algorithme Adaboost\nL’Adaptative boosting algorithm vise `a la minimisation de l’erreur globale de f de mani`ere it´erative.\nPour cela l’algorithme va, `a chaque it´eration k, modifier f k (le classifieur obtenu apr`es la k-i`eme\nit´eration) de mani`ere `a donner plus de poids aux donn´ees difficiles, c’est-`a-dire aux donn´ees qui ont\n´et´e mal class´ees pr´ec´edemment, ce qui va permettre de corriger les erreurs commises par f k−1 :\nL’algorithme Adaboost dans le cas y ∈{−1, 1} :\nInitialiser les poids li´es aux donn´ees :\nd0 ←( 1\nK, 1\nK)\nEntraˆıner fk sur les donn´ees D pond´er´ees par dk−1\n \nfk = arg min\nf\nX\ni\ndk−1\ni\n(1 −δ(yi, f(xi)))\n!\nPr´edire byi = fk(xi)∀i\nCalculer l’erreur pond´er´ee ϵk =\nX\ni\ndk−1\ni\n(1 −δ(yi, byi))\nCalculer les param`etres adaptatifs αk = 1\n2 log\n\u0010\n1−ϵk\nϵk\n\u0011\nRe-pond´erer les donn´ees dk avec ∀i, dk\ni = dk−1\ni\nexp\n\u0000−αkyibyi\n\u0001\nClassifieur pond´er´e final : f(x) = sgn\n K\nX\nk=1\nαkfk(x)\n!\nMI201-ENSTA Paris\n47",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Résumé concernant les Random Forests",
+      "page_range": [
+        46,
+        50
+      ],
+      "length": 1794
+    },
+    {
+      "chunk_id": "2.4.3.c4",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.5 Boosting\nFigure 2.12: Apprentissage s´equentiel des classifieurs et des pond´erations par l’algorithme Adaboost [19]\nFigure 2.13: Classifieur final obtenu apr`es l’apprentissage pr´esent´e en Figure 2.12 [19]\n2.5.3\nGradient Boosting\nDans cette section nous allons aborder une variante de boosting : le Gradient Boosting. On suppose\ntoujours que l’on dispose d’un ensemble de donn´ees D = {(xi, yi)}n\ni=1 o`u yi ∈{−1, 1} ainsi que\nd’un ensemble H de classifieurs fk qui ne sont pas n´ecessairement performants. Cette fois-ci le\nprincipe est de construire pas-`a-pas un classifieur performant en ajoutant un `a un les weak learners\npond´er´es. Ainsi l’objectif est de construire it´erativement un strong learner :\nMI201-ENSTA Paris\n48",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Résumé concernant les Random Forests",
+      "page_range": [
+        46,
+        50
+      ],
+      "length": 792
+    },
+    {
+      "chunk_id": "2.4.3.c6",
+      "content": "del`a de ces probl`emes il faut choisir une p´enalit´e qui sera adapt´ee au bruit des donn´ees. Les variantes\ndu boosting peuvent ˆetre utilis´ees pour r´esoudre des probl`emes de classification ou de r´egression.\nMI201-ENSTA Paris\n49",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Résumé concernant les Random Forests",
+      "page_range": [
+        46,
+        50
+      ],
+      "length": 234
+    },
+    {
+      "chunk_id": "2.4.3.c7",
+      "content": "Chapter 2 Arbres de d´ecision et m´ethodes ensemblistes\n2.5 Boosting\nMI201-ENSTA Paris\n50",
+      "semantic_type": "text",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les forêts aléatoires (ou Random Forests)",
+      "subsection": "Résumé concernant les Random Forests",
+      "page_range": [
+        46,
+        50
+      ],
+      "length": 89
+    },
+    {
+      "chunk_id": "3.1.2.c2",
+      "content": "ment mal pos´e en probl`eme bien pos´e. Ainsi si on p´enalise les grandes valeurs des coefficients du\npolynˆome, on obtient une fonction aux variations moins prononc´ees qui est susceptible de mieux\nr´epondre au probl`eme pos´e.\nMI201-ENSTA Paris\n52",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Régularisation",
+      "subsection": "Modélisation mathématique de la régularisation",
+      "page_range": [
+        52,
+        52
+      ],
+      "length": 249
+    },
+    {
+      "chunk_id": "3.1.3.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.1 R´egularisation\n3.1.3\nR´esultats de la r´egularisation\nVoyons quels r´esultats peuvent ˆetre obtenus en modifiant la valeur du param`etre λ :\nFigure 3.2: Coefficient des polynˆomes en fonction de la valeur de ln λ (tir´e de Pattern Recognition and Machine\nLearning par Christopher M. Bishop)\nCe qui est pr´esent´e sur la Figure 3.2, `a savoir la variation des valeurs des coefficients de r´egression\nen fonction de la valeur du coefficient de r´egularisation λ, constitue ce que l’on appelle le chemin\nde r´egularisation. Ce chemin permet de comprendre l’effet de la r´egularisation sur les valeurs des\ncoefficients du polynˆome repr´esent´e par ω :\nFigure 3.3: Chemin de r´egularisation de la r´egression ridge pour des donn´ees `a 12 variables, chaque ligne\nrepr´esente l’´evolution d’un coefficient [13]\nMI201-ENSTA Paris\n53",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Régularisation",
+      "subsection": "Résultats de la régularisation",
+      "page_range": [
+        53,
+        53
+      ],
+      "length": 863
+    },
+    {
+      "chunk_id": "3.2.1.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.2 Validation crois´ee\n`A partir des valeurs de la Figure 3.2 on peut tracer la courbe de l’erreur quadratique en fonction\nde ln λ pour un polynˆome de degr´e 9 :\nFigure 3.4: Erreur quadratique en fonction de la valeur de ln λ (tir´e de Pattern Recognition and Machine Learn-\ning par Christopher M. Bishop)\nSi on compare ces valeurs `a celles obtenues en Figure 1.10 en section 1.5.2 on voit que l’erreur\nsur les donn´ees de test est bien inf´erieure (≈0.30 avec la r´egularisation contre presque 1 sans).\n3.2\nValidation crois´ee\n3.2.1\nQu’est-ce que la validation crois´ee ?\nLa validation crois´ee est une m´ethode visant `a am´eliorer la phase de validation d’un mod`ele. En\neffet la s´eparation de la base de donn´ees D en un ensemble d’entraˆınement et un ensemble de test\ncontient n´ecessairement une part d’al´eatoire. Il n’est pas impossible de cr´eer des jeux de donn´ees\nqui ne sont pas repr´esentatifs du probl`eme, notamment lorsque la base D est de faible taille. La\nvalidation crois´ee permet d’estimer l’erreur de g´en´eralisation `a partir des donn´ees d’apprentissage\ngrˆace `a une petite astuce.\nLa proc´edure `a suivre dans le cadre de la validation crois´ee est la suivante :\nEntraˆıner un mod`ele fk sur S\nl̸=k Dl\n´Evaluer ce mod`ele sur Dk en mesurant l’erreur empirique bRk\nn(fk)\nMI201-ENSTA Paris\n54",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Validation croisée",
+      "subsection": "Qu'est-ce que la validation croisée ?",
+      "page_range": [
+        54,
+        54
+      ],
+      "length": 1354
+    },
+    {
+      "chunk_id": "3.3.2.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\n3.3.1\nPosition du probl`eme\nDans cette section on se placera dans le cadre d’un probl`eme de classification binaire, avec\n∀i ∈[|1, n|], yi ∈{−1, 1}, sur des donn´ees dans Rp. De plus ici on fera l’hypoth`ese que les donn´ees\nsont lin´eairement s´eparables, c’est-`a-dire qu’il existe un hyperplan de Rp tel que tous les points xi\npositifs (yi = 1) soient d’un cˆot´e de cet hyperplan et tous les points n´egatifs de l’autre. Un tel hy-\nperplan est dit s´eparateur.\nL’´equation d’un hyperplan s´eparateur est toujours de la forme :\nb + ωT.x = 0\nLe classifieur est d´efini par l’expression :\nf(x, ω) = sgn(b + ωT.x)\nAinsi pour un probl`eme `a deux classes:\n(\ny = +1\nsi\nb + ωT.x > 0\ny = −1\nsi\nb + ωT.x < 0\nAttribuer la classe de y revient `a savoir o`u se situe la donn´ee x par rapport `a l’hyperplan H. Ce\nqui nous donne l’erreur :\nbRn(f) = 1\nn\nn\nX\ni=1\nδ(yif(x, ω), −1)\n3.3.2\nChoix de l’hyperplan\nOn a fait l’hypoth`ese que les donn´ees ´etaient lin´eairement s´eparables, cependant cette hypoth`ese\nn’implique pas l’existence d’un, mais d’une infinit´e d’hyperplans s´eparateurs comme repr´esent´e en\nFigure 3.7. Cette situation am`ene donc un probl`eme : quel hyperplan devrait-on choisir ?\nFigure 3.7: Exemple de donn´ees lin´eairement s´eparables dans R2 [20]\nMI201-ENSTA Paris\n57",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Choix de l'hyperplan",
+      "page_range": [
+        57,
+        57
+      ],
+      "length": 1358
+    },
+    {
+      "chunk_id": "3.3.3.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nPour pouvoir r´epondre `a cette question, commenc¸ons par introduire la notion de marge. La\nmarge γ d’un hyperplan s´eparateur est la distance de cet hyperplan `a l’observation du jeu d’entraˆınement\nla plus proche.\nOn va donc chercher `a d´eterminer l’hyperplan s´eparateur H pour lequel la marge est maximale,\nc’est ce que l’on appelle le classifieur `a marge large. Il y a alors au moins une observation positive\net une observation n´egative situ´ees `a une distance γ de l’hyperplan s´eparateur, dans le cas contraire\non pourrait rapprocher H des observation situ´ees `a une distance sup´erieure pour augmenter γ.\nSupposons que nous disposons de l’hyperplan s´eparateur H, on peut alors d´efinir les deux hy-\nperplans H+ et H−qui sont parall`eles et situ´es `a une distance γ de H. H+ (respectivement H−)\ncontient alors au moins une observation positive (respectivement n´egative). On appelle vecteurs\nde support les observations situ´ees `a une distance γ de H, elles appartiennent soit `a H+ soit `a H−\net on dit qu’elles ”soutiennent” ces deux hyperplans.\nC’est de l`a que vient le nom de la m´ethode Support Vector Machines, en franc¸ais machine `a vecteurs\nde support ou encore s´eparatrice `a vaste marge pour conserver l’acronyme SVM.\nLa zone situ´ee entre H+ et H−est appel´ee zone d’ind´ecision, elle ne contient aucune observa-\ntion.\n3.3.3\nFormulation de la SVM `a marge rigide\nNous allons maintenant chercher `a d´eterminer l’´equation de l’hyperplan s´eparateur H. Nous savons\nque cette ´equation sera de la forme b + ωT.x = 0. Ainsi nous savons que les hyperplans H+ et H−\nsont d´efinis par des ´equations de la forme b + ωT.x = ±C avec C une constante. On peut fixer\nC = 1 sans perdre en g´en´eralit´e car le fait de multiplier ω et b ne modifie pas l’´equation de H.\nFigure 3.8: Repr´esentation graphique de la recherche de H [21]\nMI201-ENSTA Paris\n58",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Formulation de la SVM à marge rigide",
+      "page_range": [
+        58,
+        59
+      ],
+      "length": 1945
+    },
+    {
+      "chunk_id": "3.3.3.c2",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nOn a donc ∀i tel que yi = 1 : b + ωT.xi ≥1 et ∀i tel que yi = −1 : b + ωT.xi ≤−1 avec ´egalit´e\npour les vecteurs de support.\nD´eterminons maintenant quelle est la formule permettant d’obtenir la distance entre l’hyperplan\ns´eparateur et un point. Pour ce faire nous allons nous placer dans le cas x =\n\u0000x1\nx2\n\u0001\n∈R2 et ω ∈R2.\nFigure 3.9\nComme illustr´e sur la Figure 3.9, on dispose d’un point P de coordonn´ees xP =\n\u0000x1P\nx2P\n\u0001\nque\nl’on supposera dans l’hyperplan s´eparateur et d’un point Q de coordonn´ees xQ =\n\u0000x1Q\nx2Q\n\u0001\nque l’on\nsupposera dans la marge. On note d la distance entre Q et H.\nOn a que :\ncos\n\u0010−→\nPQ, −→n\n\u0011\n= cos θ =\nd\n∥−→\nPQ∥\nD’o`u :\nd = ∥−→\nPQ∥cos θ\nDe plus on a :\n< −→\nPQ, −→n >= ∥−→\nPQ∥∥−→n ∥cos θ\nOn sait que d > 0, il d´ecoule alors de la relation pr´ec´edente que :\nd = | < −→\nPQ, −→n > |\n∥−→n ∥\n`A cela s’ajoute que, par d´efinition, −→n = ω, ce qui conduit `a :\nd = |ωT.xQ −ωT.xP|\n∥ω∥\nMI201-ENSTA Paris\n59",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Formulation de la SVM à marge rigide",
+      "page_range": [
+        58,
+        59
+      ],
+      "length": 1004
+    },
+    {
+      "chunk_id": "3.3.4.c2",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nDans le but de pouvoir faire face `a ce genre de situation, on cherche maintenant `a obtenir une\ns´eparation robuste `a quelques donn´ees non s´epar´ees. Pour pouvoir d´efinir une telle s´eparation on\nva introduire la notion de variables de relˆachement (ou Slack variables en anglais), que l’on\nnote ξi, ∀i ∈[|1, n|]. Ces variables vont nous permettre de relˆacher la contrainte de s´eparabilit´e\npour chaque exemple :\n\n\n\n\n\n\n\n\n\nTrouver\narg min\nω∈Rp,b∈R\n∥ω∥2 + C\nn\nX\ni=1\nξi\nSous contraintes\nyi(b + ωT.xi) ≥1 −ξi ∀i\nξi ≥0\nL’id´ee est que les ξi mod´elisent l’erreur de classification pour quelques donn´ees. En effet dans\nles cas o`u il n’y a pas d’erreur on a yi(b + ωT.xi) ≥1 et donc ξi = 0. Par contre en cas d’erreur on\na yi(b + ωT.xi) < 1 et donc ξi = 1 −yi(b + ωT.xi) ≥0. On impose donc comme contrainte :\n∀i,\nξi = max(0, 1 −yi(b + ωT.xi)\nL’hyperparam`etre de coˆut C est une constante qui permet de trouver un compromis entre la\nmarge et le relˆachement de la contrainte. La marge se voit alors conf´er´ee une certaine souplesse,\nd’o`u le nom se SVM `a marge souple. En r`egle g´en´erale les slack variables prennent la forme d’une\nfonction de coˆut L(b + ωT.xi, yi).\nLe probl`eme se r´esume alors `a :\narg min\nω∈Rp,b∈R\n∥ω∥2 + C\nn\nX\ni=1\nmax(0, 1 −yi(b + ωT.xi))\nSous cette forme le probl`eme d’optimisation est contraint et l’on peut utiliser d’autres m´ethodes\nde r´esolution, comme une descente de gradient par exemple.\nOn peut interpr´eter le SVM comme un cas particulier du formalisme combinant l’erreur em-\npirique combin´ee `a la r´egularisation en d´efinissant la fonction de p´enalisation :\nLoss(ω, D) = 1\nn\nn\nX\ni=1\nL(f(xi, ω), yi) + r(ω)\nAvec :\nr(ω) = 1\nC ∥ω∥2\nL(f(xi, ω), yi) = max(0, 1 −yi(b + ωT.xi))\nOn\npeut\n´egalement\nenvisager\nl’utilisation\nd’autres\nfonctions\nde\ncoˆut\n(on pose y′ = f(xi, ω) = b + ωT.xi):\n0/1 loss : L(y′, y) =\n(\n1 si yy′ ≤0\n0 sinon\nSquared loss : L(y′, y) = (y −y′)2",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Formulation de la SVM à marge souple",
+      "page_range": [
+        60,
+        61
+      ],
+      "length": 1989
+    },
+    {
+      "chunk_id": "3.3.4.c3",
+      "content": "On\npeut\n´egalement\nenvisager\nl’utilisation\nd’autres\nfonctions\nde\ncoˆut\n(on pose y′ = f(xi, ω) = b + ωT.xi):\n0/1 loss : L(y′, y) =\n(\n1 si yy′ ≤0\n0 sinon\nSquared loss : L(y′, y) = (y −y′)2\nHinge : L(y′, y) = max(0, 1 −yy′)\nExponential : L(y′, y) = exp(−yy′)\nMI201-ENSTA Paris\n61",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Formulation de la SVM à marge souple",
+      "page_range": [
+        60,
+        61
+      ],
+      "length": 276
+    },
+    {
+      "chunk_id": "3.3.5.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nCes diff´erentes fonctions de coˆut ont les variations suivantes en fonction de yy′ (en fonction de\ny −y′ pour Squared loss) :\nFigure 3.11: Courbe de variation des diff´erentes fonctions de coˆut [22]\n3.3.5\nForme duale du SVM `a marge souple\nMontrons maintenant que notre probl`eme d’optimisation:\narg min\nω∈Rp,b∈R,ξ∈Rn\n∥ω∥2\n2\n+ C\nn\nX\ni=1\nξi\ntel que yi(b + ωT.xi) ≥1 −ξi ∀i\nξi ≥0 ∀i\n(3.1)\nEst ´equivalent au probl`eme :\narg max\nα∈Rn\nn\nX\ni=1\nαi −1\n2\nn\nX\ni=1\nn\nX\nj=1\nαiαjyiyjxT\ni .xj\ntel que\nn\nX\ni=1\nαiyi = 0; 0 ≤αi ≤C ∀i\n(3.2)\nL : Rp × R × Rn × Rn\n+ × Rn\n+ →R\nω, b, ξ, α, β 7→∥ω∥2\n2\n+ C\nn\nX\ni=1\nξi −\nn\nX\ni=1\nαi(yi(b + ωT.xi) −1 + ξi) −\nn\nX\ni=1\nβiξi\n(3.3)\nMI201-ENSTA Paris\n62\n\nChapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nLa fonction duale de Lagrange est donc la fonction :\nq : Rn\n+ × Rn\n+ →R\nα, β 7→\ninf\nω∈Rp,b∈R,ξ∈Rn L(ω, b, ξ, α, β)\nAinsi le probl`eme dual ´equivalent `a l’´equation 3.1 est :\nmax\nα∈Rn\n+,β∈Rn\n+\ninf\nω∈Rp,b∈R,ξ∈Rn\n∥ω∥2\n2\n+ C\nn\nX\ni=1\nξi −\nn\nX\ni=1\nαi(yi(b + ωT.xi) −1 + ξi) −\nn\nX\ni=1\nβiξi\n(3.4)\nLe lagrangien est convexe en ω, il est donc minimal quand son gradient en ω est nul, c’est-`a-dire\nsi\nω =\nn\nX\ni=1\nαiyixi\n(3.5)\nDe plus le lagrangien est affine en b, son infinimum est donc −∞sauf si son gradient en b est\nnul, c’est-`a-dire si\nn\nX\ni=1\nαiyi = 0\n(3.6)\nIl est ´egalement affine en ξ, de mˆeme son infinimum est donc −∞sauf si son gradient en ξ est\nnul, c’est-`a-dire si\n∀i, βi = C −αi\n(3.7)\nLa fonction duale q est donc maximis´ee quand les relations 3.6 et 3.7 sont v´erifi´ees. En remplac¸ant\nω grˆace `a la relation 3.5 dans l’expression de la fonction duale, on peut r´e´ecrire 3.4 ainsi :\nmax\nα∈Rn −1\n2\nn\nX\ni=1\nn\nX\nj=1\nαiαjyiyjxT\ni .xj +\nn\nX\ni=1\nαi + C\nn\nX\ni=1\nξi −\nn\nX\ni=1\n(C −αi)ξi −\nn\nX\ni=1\nαiξi\ntel que\nn\nX\ni=1\nαiyi = 0, 0 ≤αi ≤C ∀i\nOn retrouve ainsi le probl`eme 3.2.[13]\nMI201-ENSTA Paris\n63",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Forme duale du SVM à marge souple",
+      "page_range": [
+        62,
+        64
+      ],
+      "length": 1932
+    },
+    {
+      "chunk_id": "3.3.6.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nAvec cette inteerpr´etation on peut d´efinir les vecteurs de support comme ´etant les observations\ntelles que αi > 0 :\nFigure 3.12: Interpr´etation des αi dans la construction de l’hyperplan\n3.3.6\nDonn´ees non lin´eairement s´eparables\nNous avons vu comment s´eparer des donn´ees qui ne sont pas lin´eairement s´eparables `a cause de\nquelques observations. Toutefois ce n’est pas la seule raison qui peut rendre des donn´ees non\nlin´eairement s´eparables. En effet il n’est pas rare de se retrouver dans un cas o`u s´eparer lin´eairement\nles donn´ees n’est pas possible `a cause de leur forme. Dans de tels cas on peut alors modifier les\ndonn´ees grˆace `a une transformation polynomiale ou polaire afin de pouvoir les s´eparer :\nFigure 3.13: Exemple de transformation polynomiale\nMI201-ENSTA Paris\n65",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Données non linéairement séparables",
+      "page_range": [
+        65,
+        65
+      ],
+      "length": 876
+    },
+    {
+      "chunk_id": "3.3.7.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\nFigure 3.14: Exemple de transformation polaire\n3.3.7\nLes noyaux dans les SVM\nSi on revient sur la formulation duale 3.2 du SVM, on peut utiliser ce que l’on appelle le Kernel\ntrick pour pouvoir l’adapter aux donn´ees transform´ees, le probl`eme devient alors :\narg max\nα∈R\nn\nX\ni=1\nαi −1\n2\nn\nX\ni=1\nn\nX\nj=1\nαiαjyiyjK(xi, xj)\ntel que\n∀i,\n0 ≤αi ≤C\nLe noyau K est un produit scalaire dans l’espace transform´e :\nK(xi, xj) = ϕ(xi)Tϕ(xj)\nIl est uniquement n´ecessaire de connaˆıtre la similarit´e entre les donn´ees pour introduire la non\nlin´earit´e dans le probl`eme. L’utilisation de noyaux dans les SVM permet notamment d’introduire\ndes mesures de similarit´es propres au domaine ´etudi´e et sans avoir `a g´erer la complexit´e de la\ntransformation. De plus elle d´efinit la fonction de classification `a partir de noyaux ”centr´es” sur les\nvecteurs de support :\nf(xi, ω) = b +\nn\nX\ni=1\nαiyiK(xi, xj)\nVoici quelques exemples de noyaux couramment utilis´es :\nPolynˆome de degr´es sup´erieurs `a d :\nK(x, y) = (x.y + 1)d\nNoyau gaussien :\nK(x, y) = exp\n\u0012\n−(x −y)T(x −y)\n2σ2\n\u0013\nIntersection d’histogrammes :\nK(x, y) =\nn\nX\ni=1\nmin(xi, yi)\nMI201-ENSTA Paris\n66",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Les noyaux dans les SVM",
+      "page_range": [
+        66,
+        66
+      ],
+      "length": 1224
+    },
+    {
+      "chunk_id": "3.3.8.c1",
+      "content": "Chapter 3 R´egularisation / SVM\n3.3 Les ”Support Vector Machines” (ou SVM)\n3.3.8\nR´esum´e concernant les SVM\nIl s’agit d’obtenir une formulation optimale quadratique du probl`eme de classification binaire. Le\nprimal se pr´esente sous la forme d’une optimisation d’un crit`ere empirique `a laquelle on ajoute la\nr´e´egularisation. Le dual permet quant-`a-lui d’introduire la parcimonie et le kernel trick.\nLes solutions s’expriment comme des combinaisons lin´eaires ´eparses de noyaux :\nf(x) = b +\nn\nX\ni=1\nαiyiK(xi, x)\no`u αi > 0 seulement pour les vecteurs de support, sinon αi = 0.\nEn pratique, il faut r´egler :\n• Le coefficient de r´egularisation C.\n• Le type de noyau et ses param`etres (d pour noyau polynomial, σ pour un noyau gaussien\netc…).\n• Les param`etres de l’optimiseur.\nMI201-ENSTA Paris\n67",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Résumé concernant les SVM",
+      "page_range": [
+        67,
+        70
+      ],
+      "length": 804
+    },
+    {
+      "chunk_id": "3.3.8.c3",
+      "content": "Chapter 3 R´egularisation / SVM\n3.4 Multiclasse\n3.4.2\nLe One vs Rest\nAvec cette approche on cherche `a apprendre un classifieur par classe. Ainsi pour la classification\non choisit la classe ayant le meilleur score. Toutefois on obtient un d´es´equilibre des donn´ees entre\nla classe cible et les autres.\nFigure 3.16: Illustration du principe One vs Rest [24]\n3.4.3\nEvaluation du multiclasse\nIl existe plusieurs crit`eres permettant d’estimer la qualit´e d’un classifieur multiclasse. Le taux\nd’erreur moyen et la matrice de confusion sont pr´esent´es en 1.3.3. Mais on peut d´efinir un crit`ere\nplus fin prenant en compte des coˆuts diff´erents en fonction de l’erreur commise : le coˆut moyen.\nbR =\nN\nX\ni=1\nN\nX\nj=1\nλ(i, j)conf(i, j)p(j)\nAvec λ(i, j) le coˆut de d´ecider i lorsque la vraie classe est j, conf(i, j) la probabilit´e de d´ecider i\nlorsque la vraie classe est j et en enfin p(j) la proportion d’exemple de la classe j dans les donn´ees\nde validation.\nMI201-ENSTA Paris\n69\n\nChapter 3 R´egularisation / SVM\n3.4 Multiclasse\nMI201-ENSTA Paris\n70",
+      "semantic_type": "text",
+      "chapter": "Régularisation / SVM",
+      "section": "Les \"Support Vector Machines\" (ou SVM)",
+      "subsection": "Résumé concernant les SVM",
+      "page_range": [
+        67,
+        70
+      ],
+      "length": 1055
+    },
+    {
+      "chunk_id": "4.1.1.c1",
+      "content": "Chapter 4\nIntroduction aux r´eseaux de neurones\n4.1\nLe mod`ele du neurone\n4.1.1\nMotivation du mod`ele\nLa biologie moderne a montr´e que le cerveau humain ´etait constitu´e d’environ 100 milliards de pe-\ntites unit´es appel´ees neurones. Ces neurones assurent le fonctionnement du cerveau en s’envoyant\nmutuellement des signaux ´electriques. L’apprentissage automatique vise `a reprodruire la reflexion\nhumaine en l’am´eliorant, ainsi il n’est pas incongru d’imaginer un mod`ele reprenant l’architecture\nd’un cerveau humain.\nFigure 4.1: Illustration du parall`ele entre le cerveau biologique et le mod`ele du neurone [25][26]\n71",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Le modèle du neurone",
+      "subsection": "Motivation du modèle",
+      "page_range": [
+        71,
+        71
+      ],
+      "length": 627
+    },
+    {
+      "chunk_id": "4.1.2.c1",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.1 Le mod`ele du neurone\n4.1.2\nPassage du neurone au r´eseau\nBien sˆur, d’un point de vue biologique, l’excitation du neurone n’est pas une simple somme pond´er´ee\nde ses signaux entrants, la r´ealit´e est bien plus complexe et elle ne sert que d’inspiration au mod`ele\ninformatique. Nous consid´erons un mod`ele simplifi´e o`u les neurones ont deux ´etats. Le neurone\nest soit activ´e soit d´esactiv´e. Chaque neurone peut alors ˆetre assimil´e `a un hyperplan s´eparateur de\nl’espace des donn´ees.\nOn peut alors se demander quelle est la diff´erence avec les SVM si on assimile un neurone `a un\nhyperplan permettant de s´eparer les donn´ees. Cette distinction vient du fait que, dans certains cas,\non ne peut pas s´eparer les donn´ees avec un seul hyperplan.\nEn pratique, dans le cas d’une classification binaire y ∈{−1, 1}, pour savoir si un neurone est\na =\nd\nX\ni=1\nωixi = ωT.x\nLa valeur de cette somme va d´eterminer si le neurone s’active ou non. Si a > 0 alors il pr´edit\ny = 1, sinon y = −1. On peut ais´ement interpr´eter les diff´erents poids utilis´es par le neurone. En\neffet une dimension i de la donn´ee telle que ωi = 0 indique que cet ´el´ement n’est pas pris en compte\npendant la pr´ediction tandis que que celles avec un poids positif sont d´ecisive dans l’activation du\nneurone.\nIl est aussi possible de choisir un seuil d’activation θ non nul, ce qui n’activerait le neurone\nque pour une valeur a > θ. Pour ce faire on introduit un terme de biais b dans le calcul effectu´e par\nle neurone :\na = ωT.x + b\nAinsi on peut d´efinir formellement un neurone n :\nnω,b :\nRd\n→\nR\nx\n7→\nωT.x + b\nMI201-ENSTA Paris\n72",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Le modèle du neurone",
+      "subsection": "Passage du neurone au réseau",
+      "page_range": [
+        72,
+        73
+      ],
+      "length": 1671
+    },
+    {
+      "chunk_id": "4.1.4.c1",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.1 Le mod`ele du neurone\n4.1.3\nLes r´eseaux de neurones et les SVM\nLes principes de base des r´eseaux de neurones sont semblables `a ceux des SVM. En effet dans les deux\ncas on applique une fonction f(x, ω) `a la donn´ee et le signe de cette fonction donne la pr´ediction\nassoci´ee `a cette donn´ee. La seule diff´erence est l’expression de cette fonction f qui pour les SVM\nest de la forme :\nf(x, ω) = b + ωT.x\nTandis que pour les MLP on a :\n4.1.4\nPreuves de l’universalit´e des r´eseaux relu\nLa valeur absolue\nLes r´eseaux de neurones relu sont assez universels et peuvent par exemple servir `a calculer la valeur\nabsolue pour x ∈R :\n|x| = relu(x) + relu(−x) = 1T\n2 .relu\n\u0012\nx\n\u0014\n1\n−1\n\u0015\u0013\nAvec 12 =\n\u0014\n1\n1\n\u0015\n. Ici on utilise un r´eseau `a deux couches dont la premi`ere contient deux neurones\net la seconde un seul. Ainsi trois neurones permettent de calculer la valeur absolue d’un r´eel x.\nLa norme 1 pour x ∈R2\nDe la mˆeme fac¸on on peut appliquer les r´eseaux de neurones au calcul de la norme 1 pour x =\n\u0014\nx1\nx2\n\u0015\ndans R2 :\n∥x∥1 = |x1| + |x2| = |[1, 0].\n\u0014\nx1\nx2\n\u0015\n| + |[0, 1].\n\u0014\nx1\nx2\n\u0015\n|\n∥x∥1 = relu([1, 0].\n\u0014\nx1\nx2\n\u0015\n) + relu([−1, 0].\n\u0014\nx1\nx2\n\u0015\n) + relu([0, 1].\n\u0014\nx1\nx2\n\u0015\n) + relu([0, −1].\n\u0014\nx1\nx2\n\u0015\n)\n∥x∥1 = 1T\n4 .relu\n\n\n\n\n\n\n\n\n1\n0\n−1\n0\n0\n1\n0\n−1\n\n\n\nx\n\n\n\n\nAvec 14 =\n\n\n1\n1\n1\n1\n\n.Ainsi on utilise un r´eseau de neurone de profondeur deux avec 4 neurones dans\nla premi`ere couche et 1 dans la seconde.\nMI201-ENSTA Paris\n74",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Le modèle du neurone",
+      "subsection": "Preuves de l'universalité des réseaux relu",
+      "page_range": [
+        74,
+        75
+      ],
+      "length": 1496
+    },
+    {
+      "chunk_id": "4.1.4.c2",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.1 Le mod`ele du neurone\nLa norme 1 pour x ∈Rd\nOn peut g´en´eraliser le r´esultat pr´ec´edent en dimension d en suivant le mˆeme cheminement et en\nr´eorganisant les lignes de la matrices, ce que l’on peut faire sans soucis puisqu’une seule composante\nde la matrice est non nulle par ligne et que le produit matriciel final s’effectue avec le vecteur 1 de\ndimension d :\n∥x∥1 = 1T\nd .relu\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n1\n0\n0\n0\n1\n0\n0\n0\n1\n−1\n0\n0\n0\n−1\n0\n0\n0\n−1\n\n\n\n\n\n\n\n\n\n\n\nx\n\n\n\n\n\n\n\n\n\n\n\n∥x∥1 = 1T\nd .relu\n\u0012\u0014\nId\n−Id\n\u0015\nx\n\u0013\nO`u Id est la matrice identit´e de dimension d. On a donc toujours un r´eseau de profondeurs 2\navec 2d neurones dans la premi`ere couche et un dans la seconde.\nLa norme 1 avec biais\nOn peut mˆeme coder la distance en norme 1 `a un point quelconque q en rajoutant simplement un\nterme de biais dans la premi`ere couche :\n∥x −q∥1 = |(1, 0).(x −q)| + |(0, 1).(x −q)|\n∥x∥1 = |(1, 0).x| + |(0, 1).x| + |(−1, 0).q| + |(0, −1).q|\n∥x −q∥1 = 1T\nd .relu\n\u0012\u0014\nId\n−Id\n\u0015\nx +\n\u0014\n−q\nq\n\u0015\u0013\nUne fois encore on utilise une simple couche de 2d neurones en plus d’un neurone pour sommer.\nMI201-ENSTA Paris\n75",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Le modèle du neurone",
+      "subsection": "Preuves de l'universalité des réseaux relu",
+      "page_range": [
+        74,
+        75
+      ],
+      "length": 1182
+    },
+    {
+      "chunk_id": "4.2.1.c1",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.2 Apprentissage des r´eseaux relu\nLe pseudo-dirac\nPour montrer un peu plus la diversit´e des applications des r´eseaux de neurones relu, voici comment\non peut d´efinir une pseudo fonction de Dirac :\nδq(x) ≈δ′\nq(x) = 1T\nd .relu(1 −∥x −q∥1)\nCette fonction v´erifie :\n(\nδ′\nq(q)\n> 0\n(ici δq(q) = 1)\nδ′\nq(x)\n= 0\n∀x/∥x −q∥1 > 1\n4.2\nApprentissage des r´eseaux relu\n4.2.1\nUne erreur `a ´eviter : apprendre la base de donn´ees par cœur\nSi l’on dispose d’une base de donn´ees D = {(xi, yi)}i∈[|1,n|] telle que ∀i ∈[|1, n|], x ∈Rd et yi ∈\n{−1, 1}, alors il suffit de 2 × n × d + n + 1 neurones pour apprendre la base de donn´ees ”par cœur”\navec :\nf(x, Ω) =\nn\nX\ni=1\nyirelu(1 −∥x −xi∥1)\nf(x, Ω) =\n\n\ny1\nyn\n\n\nT\nrelu(−I relu\n\n\n\n\n\n\n\n\n\nI\nI\n−I\n−I\n\n\nx +\n\n\n−x1\n−xn\nx1\nxn\n\n\n\n\n\n\n\n\n\n+ 1)\nSi l’on se trouve dans un probl`eme de classification de points color´es par exemple, utiliser un\nseul neurone reviendrait `a chercher un hyperplan s´eparateur f(x, ω) = b + ωT.x mais il se peut\nqu’il n’existe pas de s´eparation.\nqu’avec O(ND) neurones et 3 couches, on peut tout apprendre. Cependant, nous avons d´ej`a vu\ndans les chapitres pr´ec´edents que tout apprendre n’´etait pas n´ecessairement une bonne chose et\nque, dans la plupart des cas, il s’agissait mˆeme de quelque chose de n´egatif.\nMI201-ENSTA Paris\n76",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "Une erreur à éviter : apprendre la base de données par cœur",
+      "page_range": [
+        76,
+        76
+      ],
+      "length": 1382
+    },
+    {
+      "chunk_id": "4.2.2.c2",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.2 Apprentissage des r´eseaux relu\nFigure 4.3: L’algorithme du perceptron [27]\nAvant d’aller plus loin dans l’interpr´etation de l’algorithme, commenc¸ons par introduire toutes\nles notations utilis´ees. Tout d’abord les wi correspondent aux poids qui seront affect´es aux com-\nposantes des donn´ees, b correspond au biais, a est le r´esultat de la pr´ediction et y est la classe r´eelle\nde la donn´ee x, il prend en entr´ee la base d’entraˆınement ici not´ee D ainsi que MaxIter qui cor-\nrespond au nombre de parcours de la base de donn´ees, plus ce nombre sera ´elev´e, meilleurs seront\nles r´esultats du mod`ele sur les donn´ees d’entraˆınement. A priori il ne suffit donc pas de prendre\nMaxIter tr`es grand pour obtenir un excellent pr´edicteur.\nArrˆetons-nous maintenant sur le fonctionnement de cet algorithme. Il s’agit d’un algorithme\nd’apprentissage incr´emental (ou apprentissage online en anglais), ce qui signifie qu’il effectue\nune ou plusieurs op´erations `a chaque nouvelle observation qui lui est fournie, `a mettre en oppo-\nsition d’un apprentissage dit hors-ligne qui op`ere sur toute la base d’entraˆınement en mˆeme temps.\nDe plus cet algorithme est dirig´e par ses erreurs, c’est-`a-dire que, tant que les r´esultats obtenus\ndes diff´erentes composantes des donn´ees et le biais b qui permet de ”recentrer” la pr´ediction. L’algorithme\nparcourt la base de donn´ees D MaxIter fois et, pour chaque donn´ee x, calcule sa pr´ediction a avant\nde v´erifier que celle-ci est du mˆeme signe (et donc correcte puisqu’on se trouve dans un probl`eme\nde classification binaire) que la v´eritable classe y de x. Si la pr´ediction est bonne alors on ne change\nrien, si au contraire elle est erron´ee alors on modifie les poids et le biais afin que la pr´ediction a soit\nplus proche de y.\nEn r´ealit´e la Figure 4.3 ne pr´esente qu’un cas particulier d’un algorithme plus g´en´eral qui s’appuie",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "L'algorithme perceptron",
+      "page_range": [
+        77,
+        79
+      ],
+      "length": 1948
+    },
+    {
+      "chunk_id": "4.2.2.c3",
+      "content": "plus proche de y.\nEn r´ealit´e la Figure 4.3 ne pr´esente qu’un cas particulier d’un algorithme plus g´en´eral qui s’appuie\nsur la descente de gradient. En effet, on cherche en r´ealit´e `a minimiser le risque empirique et son\ngradient nous indique la direction `a prendre pour atteindre ce but. Ainsi pour chaque observation\n(xi, yi) ∈D on actualise les poids en utilisant ce gradient :\nMI201-ENSTA Paris\n78",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "L'algorithme perceptron",
+      "page_range": [
+        77,
+        79
+      ],
+      "length": 408
+    },
+    {
+      "chunk_id": "4.2.2.c4",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.2 Apprentissage des r´eseaux relu\n∀j ∈[|1, d|],\nωj ←ωj −η∂L(f(xi, ω), yi)\n∂ωj\nb ←b −η∂L(f(xi, ω), yi)\n∂b\n(4.1)\nIci η > 0 est un hyperparam`etre qui est le pas de l’algorithme du gradient est appel´e vitesse\nd’apprentissage. Toutefois il faut le choisir soigneusement car si cet hyperparam`etre est trop\ngrand, l’algorithme pourrait ne pas r´eussir `a affiner sa solution tandis que s’il est trop petit alors la\nconvergence sera tr`es lente. Dans le cas de la classification binaire on utilise souvent la fonction de\ncoˆut connue sous le nom de crit`ere du perceptron :\nL(f(xi, ω), yi) = max(0, −yi(ωT.xi))\nAvec cette fonction de coˆut la r`egle d’actualisation 4.1 devient :\n∂L\n∂ωj\n←\n(\n0\nsi yi(ωT.xi) > 0\n−yi(xi)j\nsinon\nMI201-ENSTA Paris\n79",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "L'algorithme perceptron",
+      "page_range": [
+        77,
+        79
+      ],
+      "length": 790
+    },
+    {
+      "chunk_id": "4.2.3.c2",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.2 Apprentissage des r´eseaux relu\nToutefois un ph´enom`ene de ”double descente” a ´et´e d´ecouvert tout r´ecemment par Mikhail\nBelkin et al. dans une publication qui date seulement de d´ecembre 2018.[29] Ce ph´enom`ene est\nillustr´e par la Figure 4.5 :\nFigure 4.5: Le nouveau paradigme des r´eseaux de neurones [29]\nCette ”double descente” montre qu’il est toujours pr´ef´erable de prendre le plus gros r´eseau pos-\nsible pour obtenir de meilleurs r´esultats. L’aspect positif de cette d´ecouverte est que l’on sait main-\ntenant que l’on peut obtenir des mod`eles de plus en plus performants. Cependant elle montre aussi\nque la puissance de calcul dont on dispose prime sur l’ing´eniosit´e et l’´el´egance du mod`ele cr´e´e, ce\nqui peut paraˆıtre injuste.\nL’origine de la double descente\nLa question qui vient apr`es cette d´ecouverte est : pourquoi observe-t-on une double descente ? Il\nsemblerait qu’en r´ealit´e, quand on apprend un r´eseau, on apprendrait en r´ealit´e un ensemble de\nsous-r´eseaux dont la complexit´e s’adapterait au probl`eme.\nSi on se place dans un cas o`u l’on utilise la m´ethode du bagging d´evelopp´ee au chapitre 2, c’est-\nil est possible de fusionner les diff´erents mod`eles et de tendre vers les performances d’un mod`ele\nmoyen f ∗qui, attention, n’est pas forc´ement optimal.\nLa complexit´e n’augmente pas avec le nombre de mod`eles mais seulement avec leur capacit´e.\nAinsi cr´eer plein de mod`eles ´equivalents n’augmente pas l’overfitting.\nDans l’ancien paradigme on cherchait `a cr´eer K r´eseaux de Q neurones, ce qui n’est pas la mˆeme\nchose que de cr´eer un seul r´eseau de KQ neurones. Ici K ne cr´ee pas d’overfitting et la qualit´e du\nmod`ele reposait grandement sur la valeur s´electionn´ee pour Q : si ce dernier ´etait trop petit, on\napprenait pas, et s’il ´etait trop grand on entrait dans un ´etat de sur-apprentissage.",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "Un nouveau paradigme",
+      "page_range": [
+        80,
+        81
+      ],
+      "length": 1916
+    },
+    {
+      "chunk_id": "4.2.3.c3",
+      "content": "mod`ele reposait grandement sur la valeur s´electionn´ee pour Q : si ce dernier ´etait trop petit, on\napprenait pas, et s’il ´etait trop grand on entrait dans un ´etat de sur-apprentissage.\nAvec la d´ecouverte de la double descente est apparu un nouveau paradigme qui assure qu’un\nr´eseau de H neurones va se d´ecomposer naturellement en K r´eseaux de H\nK neurones. Cette taille\nde r´eseau serait en plus adapt´ee au probl`eme trait´e.\nMI201-ENSTA Paris\n81",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "Apprentissage des réseaux relu",
+      "subsection": "Un nouveau paradigme",
+      "page_range": [
+        80,
+        81
+      ],
+      "length": 456
+    },
+    {
+      "chunk_id": "4.3.1.c1",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.3 La descente de gradient stochastique\nIl faut n´eanmoins garder `a l’esprit qu’il s’agit d’un ph´enom`ene que l’on observe dans un certain\nnombre d’exp´eriences dans un domaine born´e. Il ne s’agit pas d’une v´erit´e g´en´erale. Cette sp´ecificit´e\nvient de la fac¸on d’entraˆıner les r´eseaux de neurones : la descente de gradient stochastique.\n4.3\nLa descente de gradient stochastique\n4.3.1\nLa descente de gradient\nSoit F une fonction d´erivable de Rd dans R, le gradient de F en un point u not´e ∇F(u) est la\nfonction de Rd dans Rd telle que :\n∀u, h ∈Rd, F(u + h) = F(u) + (∇F(u))T.h + o(h)\nIl ressort de cette d´efinition que si ∇F(u) ̸= 0 alors il existe λ > 0 tel que F(u −λ∇F(u)) <\nF(u) (il suffit de ramplacer h par −λ∇F(u)). `A partir de ce constat on peut d´efinir l’algorithme\nde la descente de gradient qui permet de trouver un point u∗tel que ∇F(u∗) = 0 et d’ainsi trouver\nun minimum local de la fonction F, voire d’un minimum global si F est convexe. ´Etant donn´es un\npas λ > 0 et une tol´erance ϵ > 0, cet algorithme se r´esume `a :\nChoisir u ∈Rd\nTant que ∥∇F(u)∥2\n2 ≥ϵ :\nu ←u −λ∇F(u)\nRetourner u\nL’hyperparam`etre λ a une importance capitale dans cet algorithme car c’est lui qui va d´eterminer la\nvitesse de convergence de l’algorithme. S’il est choisi trop petit alors l’algorithme convergera tr`es lentement,\ncependant il ne suffit pas de le prendre trop grand non plus car l’actualisation de u ne serait alors pas assez\nfine pour converger vers le minimum et l’algorithme pourrait mˆeme diverger.\nPour palier `a ce probl`eme on peut utiliser un pas adaptatif qui sera de plus en plus petit `a mesure que\nl’on s’approche du minimum. Une deuxi`eme version de l’algorithme du gradient peut alors ˆetre :\nInput : F, u0, ϵ\n1. u = u0\n2. Calculer ∇F(u)\n3. Si ∥∇F(u)∥2\n2 < ϵ alors retourner u\n4. λ = 1\n5. Tant que F(u −λ∇F(u)) ≥F(u) faire λ = 0.5λ\n6. u = u −λ∇F(u)\n7. Retour `a l’´etape 2\nMI201-ENSTA Paris\n82",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La descente de gradient",
+      "page_range": [
+        82,
+        82
+      ],
+      "length": 1973
+    },
+    {
+      "chunk_id": "4.3.4.c1",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.3 La descente de gradient stochastique\n4.3.3\nL’algorithme du gradient stochastique\nIl s’agit d’une variante de l’algorithme du gradient visant `a r´esoudre le probl`eme de coˆut calculatoire prohibitif\nsur les bases de donn´ees cons´equentes. Toutefois cette am´elioration n’a pu ˆetre montr´ee math´ematiquement\nque dans le cas o`u L(f(ω)) =\nn\nX\ni=1\nli(f(ω)) est convexe (o`u li(f(ω)) = l(f(xi, ω), yi). Pour ce faire on va\nbien sˆur reprendre le principe d’une descente de gradient mais sur une sous somme des li tir´ee al´eatoirement.\nVoici le pseudo-code de l’algorithme du gradient stochastique avec un pas adaptatif λ et une tol´erance ϵ :\nChoisir u ∈Rd\nTant que ∥∇F(u)∥2\n2 ≥ϵ :\nλ = 1\nTant que F(u −λ∇F(u)) ≥F(u) faire λ = 0.5λ\nu ←u −λ∇F(u)\nRetourner u\n4.3.4\nLa m´ethode mini Batch SGD\nEn pratique, en Python, l’algorithme pr´esent´e ci-dessus n’est qu’un cas particulier de la m´ethode appel´ee\nmini Batch SGD dans laquelle la base de donn´ees est d´ecoup´ee en sous-ensembles appel´es Batch sur lesquels\non calcule la fonction de coˆut partielle partial L. On appelle une ´epoque une p´eriode pendant laquelle toute\nla base de donn´ees a ´et´e utilis´ee dans les calculs de partial L. Une fois une ´epoque pass´ee, on change les\nBatchs afin d’ajouter de la diversit´e dans chacun d’eux. L’algorithme du gradient stochastique n’est en fait\nqu’un algorithme mini Batch SGD dans lequel les Batchs sont de taille 1. L’actualisation des poids dans le cas\nde la fonction hinge loss devient alors :\npartial L(f(ω)) =\nX\ni∈Batch\nrelu(1 −yif(xi, ω))\nω = ω −λiter∇partial L(f(ω))\nO`u λiter est le pas adaptatif de l’algorithme.\nMI201-ENSTA Paris\n84",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La méthode mini Batch SGD",
+      "page_range": [
+        84,
+        88
+      ],
+      "length": 1695
+    },
+    {
+      "chunk_id": "4.3.4.c2",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.4 Le r´eseau neuronal convolutif\n4.4\nLe r´eseau neuronal convolutif\nDans cette section nous allons traiter d’une adaptation des r´eseaux de neurones au deep learning grˆace au\nmod`ele du r´eseau neuronal convolutif.\nNous avons jusqu’`a pr´esent trait´e des donn´ees vectorielles x ∈Rd. Toutefois il est possible d’appliquer\nles r´eseaux de neurones `a tout type de donn´ees `a condition de pouvoir les transformer en vecteurs.\nPar exemple on pourrait ˆetre int´eress´e par des donn´ees sous la forme d’images. On consid`ere que les\nimages sont compos´ees de trois matrices de dimensions H × L (hauteur × largeur) dans le cas g´en´eral :\nXr,g,b = [Xr, Xg, Xb] avec Xr ∈MH,L(R), Xg ∈MH,L(R) et Xb ∈MH,L(R). On consid`ere alors les\ndonn´ees `a traiter sous la forme x ∈R3×H×L.\nOn peut g´en´eraliser ce formalisme en posant que X ∈RC×H×L avec C = 3 si l’image est en format RGB\n(en couleur) ou encore C = 1 si elle est en niveau de gris. Le deep learning permet d’automatiser toutes les\n´etapes de l’apprentissage automatique :\nFigure 4.7: Comparaison de la d´emarche du machine learning avant et apr`es le deep learning\nMI201-ENSTA Paris\n85",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La méthode mini Batch SGD",
+      "page_range": [
+        84,
+        88
+      ],
+      "length": 1187
+    },
+    {
+      "chunk_id": "4.3.4.c3",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.4 Le r´eseau neuronal convolutif\n4.4.1\nLe neurone convolutif\nSoit une image entr´ee I ∈RC×H×L. On peut consid´erer la convolution de I avec un noyau K ∈RC×(2δH+1)×(2δL+1),\nles dimensions de K doivent ˆetre impaires pour que le noyau ait une case ”centrale” comme nous l’expliquerons\napr`es. Cette convolution sera not´ee I ⋆K ∈RH×L et d´efinie par :\n(I ⋆K)h∈[|1,H|],l∈[|1,L|] =\nC\nX\nc=1\n2δH\nX\nα=0\n2δL\nX\nβ=0\nIc,h−δH+α,l−δL+β × Kc,α,β\ndont on regroupe les sorties en une nouvelle image dans RQ×H×L. Pour illustrer cette d´efinition math´ematique\nqui peut sembler obscure, voici un sch´ema permettant de comprendre le principe de mani`ere plus visuelle :\nFigure 4.8: Sch´ema repr´esentant le principe du neurone convolutif [39]\nPour chaque pixel (h, l) de l’image I, on va ”placer” la case centrale du noyau sur ce pixel puis pour\nchaque case de K on va faire le produit de la valeur de cette case avec celle qui lui est superpos´ee dans I puis\nen faire la somme. Une fois ce r´esultat obtenu on le place dans la case (h, l) du r´esultat de la convolution. On\npeut se dire que cette d´efinition pose probl`eme pour les pixels situ´es aux extr´emit´es de l’image, mais on se\ncontente de consid´erer que les cases du noyau qui sont ”en dehors” de l’image sont superpos´ees `a du noir et\ndonc `a la valeur 0.\nComparons maintenant cette m´ethode avec les r´eseaux de neurones classiques. En effet si l’on consid`ere\nune valeur de I ⋆K, typiquement :\n(I ⋆K)h∈[|1,H|],l∈[|1,L|] =\nC\nX\nc=1\n2δH\nX\nα=0\n2δL\nX\nβ=0\nIc,h−δH+α,l−δL+β × Kc,α,β\nMI201-ENSTA Paris\n86",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La méthode mini Batch SGD",
+      "page_range": [
+        84,
+        88
+      ],
+      "length": 1594
+    },
+    {
+      "chunk_id": "4.3.4.c5",
+      "content": "capables d’apprendre mˆeme si l’on m´elange tous les pixels de l’image. Les mod`eles convolutifs quant `a eux\ntravaillent de mani`ere local et base leur d´ecision sur l’information locale.\n4.4.2\nLe pooling\nOn prend toujours une image entr´ee I ∈RC×H×L. Le pooling consiste en la cr´eation de pool(I) ∈RC× H\n2 × L\n2\ntel que :\npool(I)c∈[|1,C|],h∈[|1,H|],l∈[|1,L|] =\nmax\nα∈{2h,2h+1},β∈{2l,2l+1}Ic,α,β\nIci l’id´ee est de r´eduire la taille de l’image par 4 en s´electionnant pour chaque pixel et chaque canal de\nl’image r´esultat la valeur maximale parmi 4 pixels adjacents.\n4.4.3\nLes r´eseaux\nLes r´eseaux de neurones convolutifs sont quant `a eux issue de la concat´enation d’op´eration de convolution\nsuivie de non-lin´earit´e et d’op´eration de pooling qui concentre l’information. Une fois la repr´esentation\nconvolutif fini, vient souvent des fully connected qui permette de transformer l’image en un vecteur de\nprobabilit´e.\nL’acte de cr´eer une architecture consiste `a d´ecider quelle couche mettre ou cette tˆache est assez dure et\nsera vue plus en d´etails en troisi`eme ann´ee. Nous allons expliquer LeNet-5 qui est l’un des r´eseaux les plus\nsimple.\nL’architecture de LeNet-5 (Figure 4.10) se compose de deux couches convolutives et qui sont suivie cha-\ncune d’une fonction d’activation et d’une couche de pooling, apr`es ces deux couches il y a trois couches fully\nconnected (Perceptron) suivie chacune d’une fonction d’activation enfin d’un softmax.\nMI201-ENSTA Paris\n87",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La méthode mini Batch SGD",
+      "page_range": [
+        84,
+        88
+      ],
+      "length": 1481
+    },
+    {
+      "chunk_id": "4.3.4.c6",
+      "content": "Chapter 4 Introduction aux r´eseaux de neurones\n4.4 Le r´eseau neuronal convolutif\nFigure 4.9: Sch´ema de principe du pooling [38]\nFigure 4.10: Sch´ema de LeNet-5 [37]\nL’entr´ee de LeNet-5 est une image en niveaux de gris 32×32 (de la base de donn´ee MNIST) qui passe par la\npremi`ere couche (C1) convolutive avec 6 cartes de caract´eristiques (feature maps) ou filtres ayant une taille\nde 5×5 et un pas de un. Les dimensions de l’image passent de 32x32x1 `a 28x28x6. Ainsi `a la fin de la pr´emi`ere\ncouche une image est repr´esent´ee par 6 images.\nEnsuite, le LeNet-5 applique une couche de mise de pooling par la moyenne (S2) avec une taille de filtre\n2×2 et un stride de deux. Les dimensions de l’image r´esultante seront r´eduites `a 14x14x6.\nEnsuite, il y a une deuxi`eme couche convolutive (C3) avec 16 cartes de caract´eristiques et un filtre de\ntaille 5×5 et un stride de 1. Les dimensions de l’image r´esultante seront de 10x10x16.\nLa quatri`eme couche (S4) est `a nouveau une couche de pooling par la moyenne avec une taille de filtre 2×2\net un stride de 2. Cette couche est la mˆeme que la deuxi`eme couche sauf qu’elle a 16 cartes de caract´eristiques,\ndonc la sortie sera r´eduite `a 5x5x16. Enfin, on applique un reshape pour transformer ce tenseur de 5x5x16 en\nvecteur de taille 400.\nPuis, une cinqui`eme couche (C5) qui est une fully connected avec 120 cartes neurones de sortie est ap-\npliqu´e. Chacune des 120 neurones de C5 est connect´ee `a l’ensemble des 400 neurones (5x5x16) de la quatri`eme\ncouche S4.\nLa sixi`eme et septi`eme couche sont des respectivement des fully connected avec 84 et 10 cartes neurones\nde sortie\nUne couche de softmax est appliqu´e sur les 10 derniers neurones qu’on nomme logit permettant de pr´edire\nles classes entre 0 et 9 des images d’entr´ee.\nMI201-ENSTA Paris\n88",
+      "semantic_type": "text",
+      "chapter": "Introduction aux réseaux de neurones",
+      "section": "La descente de gradient stochastique",
+      "subsection": "La méthode mini Batch SGD",
+      "page_range": [
+        84,
+        88
+      ],
+      "length": 1816
+    },
+    {
+      "chunk_id": "5.1.1.c1",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\n5.1.1\nLa mal´ediction des grandes dimensions\nAvant d’aller plus loin et de d´etailler des m´ethodes permettant de r´eduire la dimension des donn´ees, int´eressons-\nnous `a une des principales motivations qui nous pousse `a vouloir le faire. Nous avons d´ej`a ´evoqu´e ce concept\nen 1.7.4 dans le cadre de la m´ethode des k plus proches voisins. Il s’agit d’un ph´enom`ene qui apparaˆıt lorsque\nl’on traite d’un probl`eme en grande dimension et qui rend les classes d’un probl`eme de plus en plus difficiles\n`a s´eparer `a mesure que la dimension augmente.\nFigure 5.2: Illustration de la mal´ediction des grandes dimensions pour d = 10\nLa Figure 5.2 (a) repr´esente la matrice de Gram des donn´ees d´efinie telle que ∀i, j ∈[|1, n|], la composante\nsitu´ee `a la i-`eme ligne et `a la j-`eme colonne correspond au produit scalaire xT\ni .xj. Ici cette matrice montre\nque les classes sont difficiles `a s´eparer, dans le cas contraire on aurait une diagonale de blocs sombres carr´es\net le reste de la matrice serait claire.\nCette difficult´e `a s´eparer les donn´ees se traduit par la Figure 5.2 (b) o`u l’on voit que les trois groupes de\ndonn´ees ne sont pas bien clusteris´es. Tous ces soucis sont dˆus `a la mal´ediction des grandes dimensions, d’o`u\nl’envie de cr´eer des m´ethodes de r´eduction de dimension pour ´eviter ces probl`emes.\nPour expliquer ce ph´enom`ene on peut ´etudier le rapport entre la distance maximale entre deux observa-\ntions et la distance minimale entre deux observations :\nR =\nmax\n(i,j) ∥xi −xj∥2\nmin\n(i,j)∥xi −xj∥2\nOn remarque que ce rapport tend vers 1 lorsque la dimension des donn´ees devient grande, comme illustr´e\nen Figure 5.3. C’est pourquoi il devient difficile pour l’algorithme de d´eterminer `a quelle classe appartient\nune observation, puisque ces derni`eres sont toutes situ´ees `a la mˆeme distance les unes des autres.\nMI201-ENSTA Paris\n90",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "La malédiction des grandes dimensions",
+      "page_range": [
+        90,
+        90
+      ],
+      "length": 1943
+    },
+    {
+      "chunk_id": "5.1.2.c2",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nEn effet, si on consid`ere que les donn´ees sont centr´ees, c’est-`a-dire que\nn\nX\ni=1\nxi = 0, alors on peut simplifier\n:\nvar(xT\ni .ωj) = 1\nn\nn\nX\ni=1\n(xT\ni .ωj)2\nOn peut r´e´ecrire le probl`eme sous forme matricielle en notant X ∈Mn,d(R) la matrice contenant les\nobservation :\n1\nn\nn\nX\ni=1\n(xT\ni .ωj)2 = 1\nn(Xωj)T (Xωj)\n= ωT\nj ( 1\nnXT X)ωj\n= ωT\nj V ωj\navec V = 1\nnXT X, V ∈Md,d(R) la covariance de X. Ainsi le probl`eme se r´e´ecris :\narg max\nωj,∥ω∥2=1\nωT\nj V ωj,\n∀j ∈[|1, d|]\n(5.2)\nPour pouvoir r´esoudre ce probl`eme, il est n´ecessaire d’introduire quelques notions qui nous permettrons `a\nterme d’utiliser le multiplicateur de Lagrange. Commenc¸ons par la notion d’extremum local sous contrainte.\nSoient f et g de fonctions de deux variables d´efinies respectivement sur Df et Dg. Soit P0 = (x0, y0) un\npoint appartenant `a Df ∩Dg tel que g(x0, y0) = 0. P0 est un maximum (respectivement minimum) local\nde f sur D = {(x, y)|g(x, y) = 0} s’il existe un voisinage V de P0 tel que pour tout (x, y) ∈V tel que\ng(x, y) = 0, f(x, y) ≤f(x0, y0) (respectivement f(x, y) ≥f(x0, y0)).\nApr`es cela on peut ´enoncer le th´eor`eme de la condition n´ecessaire sur l’extremum local. On a toujours f et\ng deux fonctions de deux variables mais qui sont cette fois-ci de classe C1 ainsi que P0 = (x0, y0) ∈Df ∩Dg\navec g(x0, y0) = 0. Si P0 est un extremum local de f sur D = {(x, y)|g(x, y) = 0} et ∇g(x0, y0) ̸= 0 alors\nil existe λ0 ∈R tel que :\n∇f(x0, y0) = λ0∇g(x0, y0)\nOn dit alors que P0 est un point stationnaire de f sur D et λ0 est appel´e multiplicateur de Lagrange\nassoci´e. Ce multiplicateur de Lagrange est utilis´e pour trouver les maximums et minimums locaux d’une\nfonction sooumise `a des contraintes.\nUne propri´et´e fondamentale du multiplicateur de Lagrange est la suivante. P0 est un extrema de f sur D\nassoci´e au multiplicateur de Lagrange λ0 ∈R si et seulement si (x0, y0, λ0) est solution de :\n\n\n\n\n\n∂L\n∂x (x, y, λ) = 0\n∂L",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Analyse en composantes principales (ou Principal Component Analysis)",
+      "page_range": [
+        91,
+        93
+      ],
+      "length": 1992
+    },
+    {
+      "chunk_id": "5.1.2.c3",
+      "content": "associ´e au multiplicateur de Lagrange λ0 ∈R si et seulement si (x0, y0, λ0) est solution de :\n\n\n\n\n\n∂L\n∂x (x, y, λ) = 0\n∂L\n∂y (x, y, λ) = 0\n∂L\n∂λ(x, y, λ) = 0\navec L = f + λg.\nUne fois ces notions introduites on peut les appliquer au probl`eme (5.2) en r´e´ecrivant la fonction objectif:\nMI201-ENSTA Paris\n92",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Analyse en composantes principales (ou Principal Component Analysis)",
+      "page_range": [
+        91,
+        93
+      ],
+      "length": 313
+    },
+    {
+      "chunk_id": "5.1.2.c4",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nL(ωj, λ) = ωT\nj V ωj −λ(ωT\nj ωj −1)\nOn veut maximiser cette fonction, il faut donc la d´eriver et trouver le point en lequel cette d´eriv´ee est\nnulle :\n∂L\n∂ωj\n(ωj, λ) = 2V ωj −2λωj = 0\nOn obtient alors la solution :\nV ωj = λω\nAinsi la composante principale qui satisfait la fonction souhait´ee est un vecteur propre de la matrice de\ncovariance V . De plus celle qui maximise L(ω, λ) est celle ayant la plus grande valeur propre. On peut donc\ntrouver tous les ωj en d´ecomposant V en valeurs singuli`eres (ou SVD en anglais).\n´Ecrivons maintenant la matrice de covariance V . Pour ce faire on notera xi,j la j-`eme composante de xi\n:\nV =\n\n\n\n\n\n\n\nV ar(x.,1)\nCovar(x.,1, x.,2)\n· · ·\nCovar(x.,1, x.,d)\nCovar(x.,2, x.,1)\nV ar(x.,2)\n· · ·\nCovar(x.,2, x.,d)\nCovar(x.,d−1, x.,1)\n· · ·\nV ar(x.,d−1)\nCovar(x.,d−1, x.,d)\nCovar(x.,d, x.,1)\n· · ·\nCovar(x.,d, x.,d−1)\nV ar(x.,d)\n\n\n\n\n\n\n\nAvec\nV ar(x.,j) = 1\nn\nn\nX\ni=1\nx2\ni,j −\n \n1\nn\nn\nX\ni=1\nxi,j\n!2\nEt\nCovar(x.,j1, x.,j2) = 1\nn\nn\nX\ni=1\nxi,j1xi,j2 −\n \n1\nn\nn\nX\ni=1\nxi,j1\n!  \n1\nn\nn\nX\ni=1\nxi,j2\n!\nIl existe plusieurs approches pour choisir la dimension r´eduite d′, qui correspond `a la composante prin-\ncipale que l’on conserve. Une m´ethode courante s’appuie sur le constat suivant : si on conserve des donn´ees\nde dimension d′, alors les d −d′ valeurs propres qui ne sont pas retenues doivent ˆetre relativement petites\npar rapport au probl`eme. On utilise alors comme crit`ere le rapport :\nProp =\nd′\nX\ni=1\nλi\nd\nX\ni=1\nλi\nCe rapport donne la proportion de variance que l’on conserve en r´eduisant la dimension des donn´ees.\nOn ´ecrit Ωd′ ∈Md(R) la matrice carr´ee de taille d qui contient les d′ vecteurs propres correspondant aux\nvaleurs propres les plus ´elev´ees et dont les d−d′ colonnes restantes sont nulles. Le th´eor`eme d’Eckart-Young\n[31] nous permet alors de d´eterminer l’erreur de la r´eduction de dimension :\nMI201-ENSTA Paris\n93",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Analyse en composantes principales (ou Principal Component Analysis)",
+      "page_range": [
+        91,
+        93
+      ],
+      "length": 1949
+    },
+    {
+      "chunk_id": "5.1.3.c2",
+      "content": "d’´element de cette espace converge dans cet espace.\nOn dispose du th´eor`eme de Moore-Aronszajn qui stipule qu’un kernel K est d´efini positif si et seulement\nsi il existe un espace de Hilbert H et une fonction ϕ : X →H telle que\nK(xi, xj) =< ϕ(xi), ϕ(xj) >H\nO`u < ., . >H est le produit scalaire de l’espace H.\nMI201-ENSTA Paris\n94",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Utilisation de noyaux (kernels)",
+      "page_range": [
+        94,
+        96
+      ],
+      "length": 333
+    },
+    {
+      "chunk_id": "5.1.3.c3",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nD´efinissons maintenant un espace de Hilbert `a noyau reproduisant (abr´eg´e en RKHS en anglais). Soit\n(H, < ., . >H) un espace de Hilbert de fonctions de X dans C. La fonction K : X × X →C est le noyau\nreproduisant de H, en supposant qu’il en admette un, si et seulement si on a les propri´et´es suivantes :\n• Pour tout x ∈X, la fonction k(x, .) : t →K(x, t) appartient `a H\n• Pour tout x ∈X, g ∈H, la propri´et´e reproduisante est v´erifi´ee c’est `a dire: g(x) =< g, k(x, .) >H\nSi un noyau reproduisant existe, alors H est dit espace de Hilbert `a noyau reproduisant (RKHS).\nUne fois cette notion d´efinie on peut ´enoncer le th´eor`eme du repr´esentant (Representer theorem). Soient\npoints. Soit ψ : Rn+1 →R une fonction de n + 1 variables strictement croissante par rapport `a la derni`ere\nvariable. Alors toute solution du probl`eme d’optimisation :\nmin\nAdmet une repr´esentation de la forme :\n∀x ∈X,\ng(x) =\nn\nX\ni=1\nαiK(xi, x)\nO`u ∥g∥HK = √< g, g >HK.\nCe th´eor`eme est tr`es important, car il permet d’approximer n’importe quelle fonction dans le RKHS.\nLe kernel PCA\nOn consid`ere toujours un jeu de donn´ees D = {xi}n\ni=1. On peut utiliser une fonction de mapping vers un\nRKHS H, qui peut avoir des propri´et´es int´eressantes :\nϕ =\n(\nRd\n→H\nxi\n→ϕ(xi)\nLa fonction ϕ peut ˆetre non-lin´eaire et d´epend du choix du noyau utilis´e. En supposant que l’on ait choisi\nun kernel, le but du kernel PCA (KPCA) est de trouver l’ensemble {ωj}d\nj=1 qui minimise la quantit´e :\n∀j ∈[|1, P|],\n1\nn\nn\nX\ni=1\n∥ϕ(xi)−< ϕ(xi), ωj >HK\nωj\n∥ωj∥2\nHK\n∥2\nHK\nEn faisant un calcul similaire `a celui effectu´e pour le PCA on finit par obtenir :\nL(ωj, λ = 1\nn\nn\nX\ni=1\n< ϕ(xi), ωj >2\nHK −λ(∥ωj∥2\nHK −1)\nAvec λ ∈R. Le th´eor`eme du repr´esentant nous permet d’´ecrire :\nωj =\nn\nX\nq=1\nαq,jϕ(xq)\nMI201-ENSTA Paris\n95",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Utilisation de noyaux (kernels)",
+      "page_range": [
+        94,
+        96
+      ],
+      "length": 1850
+    },
+    {
+      "chunk_id": "5.1.3.c4",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nD’o`u\nL(αj, λ) = 1\nn\nn\nX\ni=1\n\n\nn\nX\nq=1\nαq,j < ϕ(xi), ϕ(xq) >HK\n\n\n2\n−λ\n\n\nX\n(k,q)∈[|1,n|]2\nαq,jαk,jK(xq, xk) −1\n\n\nOn peut le r´e´ecrire sous forme matricielle avec la notation K = (K(xi, xj))i,j∈[|1,n|] :\nL(αj, λ) = 1\nnαT\nj K2αj −λ(αT\nj Kαj −1)\nLe principal avantage du kernel trick vient du fait que l’on peut utiliser diff´erents kernels sans avoir `a\nd´eterminer explicitement la fonction de mapping ϕ. Grˆace `a cela on peut utiliser une tr`es grande vari´et´e de\nkernels. Parmi les plus populaires on peut citer :\n• les noyaux polynomiaux : K(xi, xj) = (< xi, xj >Rd +c)P avec P le degr´e du noyau et c une constante.\n• les noyaux rbf, ou gaussiens : K(xi, xj) = exp\n\u0012\n−\n∥xi−xj∥2\nRd\n2σ2\n\u0013\navec un param`etre σ. `A noter que ce noyau\nam`ene les donn´ees dans un espace de dimension infinie.\nFigure 5.4: (a) Donn´ees class´ees en 2 sph`eres concentiques, (b) KPCA polynomial avec p = 5, (c) KPCA\ngaussien avec σ, (d) KPCA gaussien avec 5.σ, (e) KPCA gaussien avec 8.σ, (f) KPCA gaussien avec 15.σ\nLa Figure 5.4 montre bien l’importance du choix du KPCA utilis´e. En effet, les donn´ees initiales sont\ndifficiles `a s´eparer `a cause de la forme sph´erique des deux classes et il semble alors judicieux de les transformer.\nToufois tous les KPCA n’ont pas la mˆeme efficacit´e sur ces donn´ees et les noyaux utilis´es en (b) et (f) n’offrent\naucune aide `a la s´eparation des donn´ees. Sur cet exemple il serait judicieux de choisir un des KPCA utilis´es\nen (d) ou (e) car les donn´ees y sont clairement s´epar´ees.\nMI201-ENSTA Paris\n96",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Utilisation de noyaux (kernels)",
+      "page_range": [
+        94,
+        96
+      ],
+      "length": 1603
+    },
+    {
+      "chunk_id": "5.1.4.c2",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nDans la suite on indiquera qu’une matrice M est centr´ee ainsi : Mc. Les trois propri´et´es pr´ec´edentes sur\nH nous permettent de dire que, pour une matrice de donn´ees Xc de matrice de Gram associ´ee Gc, on a :\nH × Gc × H = Gc\n(5.3)\nLa preuve tient en une ligne : Gc = (Xc)T Xc = H(Xc)T XcH = HGcH.\nApr`es c¸a on peut montrer en utilisant que ∥xi −xj∥2 = ∥(xi −moyenne(X)) −(xj −moyenne(X))∥2:\nDi,j =\nq\nGc\ni,i + Gc\nj,j −2Gc\ni,j\n(5.4)\nMontrons maintenant la relation entre la matrice Gc et la matrice Sc :\nGc = −1\n2 .Sc = −1\n2 .HS\n(5.5)\nPour le prouver on traduit matriciellement la relation (5.3) :\nH × Gc × H = (I −1\nn · 11T ) × Gc × (I −1\nn · 11T )\nAinsi H × Gc × H = Gc −1\nn · 11T × Gc −1\nn · Gc × 11T + 1\nn2 · 11T × Gc × 11T = Gc\nDonc, 11T × Gc + Gc × 11T −1\nn · 11T × Gc × 11T = 0\nCependant on a :\n11T × Gc =\n\n\n\n1\n1\n1\n1\n\n\n×\n\n\n\nGc\n11\nGc\n1n\nGc\nn1\nGc\nnn\n\n\n\nPuis par produit on a 11T × Gc =\n\n\n\nPn\ni=1 Gc\ni1\nPn\ni=1 Gc\nin\nPn\ni=1 Gc\ni1\nPn\ni=1 Gc\nin\n\n\n\nDe la mˆeme fac¸on : Gc × 11T =\n\n\n\nPn\nj=1 Gc\n1j\nPn\nj=1 Gc\n1j\nPn\nj=1 Gc\nnj\nPn\nj=1 Gc\nnj\n\n\n\nEt alors : 11T × Gc × 11T =\n\n\n\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\n\n\n\nMI201-ENSTA Paris\n98",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Positionnement multidimensionnel (MDS)",
+      "page_range": [
+        97,
+        100
+      ],
+      "length": 1262
+    },
+    {
+      "chunk_id": "5.1.4.c3",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nOn obtient finalement:\n\n\n\nPn\ni=1 Gc\ni1\nPn\ni=1 Gc\nin\nPn\ni=1 Gc\ni1\nPn\ni=1 Gc\nin\n\n\n+\n\n\n\nPn\nj=1 Gc\n1j\nPn\nj=1 Gc\n1j\nPn\nj=1 Gc\nnj\nPn\nj=1 Gc\nnj\n\n\n\n−1\nn ·\n\n\n\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\n\n\n= 0n(R)\nEn multipliant cette ´equation `a droite par 1 on a:\n\n\n\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\n\n\n+ n ·\n\n\n\nPn\nj=1 Gc\n1j\nPn\nj=1 Gc\nnj\n\n\n−\n\n\n\nP\ni,j∈[1,n]2 Gc\nij\nP\ni,j∈[1,n]2 Gc\nij\n\n\n= 0n,1(R)\nDonc ∀i ∈[1, n] on a Pn\nj=1 Gc\nij = 0 et grˆace `a la sym´etrie de Gc, ∀j ∈[1, n] on a Pn\ni=1 Gc\nij = 0.\nCependant on a D2\ni,j = Gc\ni,i + Gc\nj,j −2Gc\ni,j grˆace `a (5.4) donc finalement,\nn\nX\ni=1\nD2\ni,j =\nn\nX\ni=1\nGc\ni,i + n · Gc\nj,j\n(5.6)\nn\nX\nj=1\nD2\ni,j = n · Gc\ni,i +\nn\nX\nj=1\nGc\nj,j\n(5.7)\nMais on a aussi\nSc = H × S × H = (I −1\nn · 11T ) × S × (I −1\nn · 11T )\nSc = S −1\nn · 11T × S −1\nn · S × 11T −1\nn2 · 11T × S × 11T\nEn r´e´ecrivant matriciellement, et en utilisant S = {D2\nij}i,j∈[1,n]2 ainsi que toutes les op´erations matricielles\nque l’on a effectu´ees pr´ec´edemment on a :\nSc\nij = D2\nij −1\nn ·\nn\nX\ni=1\nD2\ni,j −1\nn ·\nn\nX\nj=1\nD2\ni,j + 1\nn2 ·\nX\ni,j∈[1,n]2\nD2\nij\n(5.8)\nMI201-ENSTA Paris\n99",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Positionnement multidimensionnel (MDS)",
+      "page_range": [
+        97,
+        100
+      ],
+      "length": 1213
+    },
+    {
+      "chunk_id": "5.1.4.c4",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nEn utilisant 5.6 et en mettant ces ´equations dans 5.8 on a la nouvelle ´equation :\nSc\nij = D2\nij −1\nn · (\nn\nX\ni=1\nGc\ni,i + n · Gc\nj,j −n · Gc\ni,i +\nn\nX\nj=1\nGc\nj,j −1\nn ·\nX\ni,j∈[1,n]2\nD2\nij)\nSc\nij = D2\nij −Gc\nii −Gc\njj\nGrˆace `a (5.4) on a :\nSc\nij = −2 · Gc\nij\n(5.9)\nMaintenant que l’on dispose de cette relation, intoduisons la norme Froebenius pour les matrices A =\n{aij}i,j∈[1,n]2 ∈Mn(R) :\n∥A∥F =\ns\nX\ni,j∈[1,n]2\n|aij|2\n(5.10)\nCette norme a la propri´et´e suivante : si on a A,U ∈Mn(R)2 tel que ∥U∥F = 1, alors on a :\n∥A × U∥F = ∥U × A∥F = ∥A∥F\n(5.11)\nRevenons `a notre probl`eme qui consiste en la minimisation de\nϕ(D′) =\nX\ni,j∈[1,n]2\n(∥x′\ni −x′\nj∥2 −∥xi −xj∥2)\nOn note X la matrice associ´ee au jeu de donn´ees {xi}i∈[1,n] ∈Rd, X′ celle associ´ee `a {x′\ni}i∈[1,n] ∈Rd′,\nS et S′ les matrices des distances euclidiennes au carr´e de X et X′, G et G′ les matrices de Gram associ´ees.\nUn autre point de vue pour chercher S′ est de minimiser\nϕ(S′) =\nX\ni,j∈[1,n]2\n(S′\nij −Sij) avec rang(S′) = d′\nX\ni,j∈[1,n]2\n(S′\nij −Sij) ≤\nX\ni,j∈[1,n]2\n|S′\nij −Sij|\nGrˆace `a l’´equivalence des normes dans Mn(R), on a :\n∃α ∈R+∥S′ −S∥1 =\nX\ni,j∈[1,n]2\n|S′\nij −Sij| ≤α · ∥S′ −S∥F\nAinsi notre but est maintenant de minimiser\nΦ(S′) = ∥S′ −S∥F avec rang(S′) = d′\n(5.12)\nMI201-ENSTA Paris\n100",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Positionnement multidimensionnel (MDS)",
+      "page_range": [
+        97,
+        100
+      ],
+      "length": 1328
+    },
+    {
+      "chunk_id": "5.1.6.c1",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nPremi`ere ´etape\nOn dispose d’une base de donn´ees D = {xi}n\ni=1 ∈Rd. La premi`ere ´etape consiste `a calculer les probabilit´es\npij qui expriment la similarit´e des donn´ees xi et xj. Pour i ̸= j on a :\npj|i =\nexp\n\u0000−∥xi −xj∥2\n2/2σ2\u0001\nX\nk̸=i\nexp\n\u0000−∥xi −xk∥2\n2/2σ2\u0001\nOn en d´eduit chaque pij :\npij = pi|j + pj|i\n2n\nLe param`etre σ du noyau gaussien est appel´e la perplexit´e et est `a d´efinir.\nDeuxi`eme ´etape\nLe but du t-SNE est d’apprendre un mapping D′ = {x′\ni}n\ni=1 ∈Rd′ qui refl`ete au mieux les similarit´es pij.\nEn r`egle g´en´erale, d′ vaut 2 ou 3 puique l’on veut utiliser la r´eduction de dimension pour pouvoir visualiser\nles donn´ees. De mani`ere analogue `a la premi`ere ´etape, on calcule les similarit´es qij des points dans l’espace\nnouvellement cr´e´e en utilisant une loi de Student au lieu d’une gaussienne. On obtient donc :\nqij =\n(1 + ∥x′\ni −x′\nj∥2\n2)−1\nn\nX\nk=1\nX\nl̸=k\n(1 + ∥x′\nk −x′\nl∥2\n2)−1\nTroisi`eme ´etape\nOn utilise la divergence de Kullback-Leiber pour faire en sorte que la distribution de probabilit´e jointe des\nnouvelles donn´ees x′\ni soit aussi similaire que possible `a celle de l’ancienne base de donn´ees. Ainsi on minimise\nla divergence de Kullback-Leiber entre les distributions P et Q :\nKL (P∥Q) =\nX\ni̸=j\npij log pij\nqij\nCe probl`eme de minimisation se r´esout en utilisant l’algorithme de la descente de gradient. Attention\ncontrairement `a la PCA cette technique est juste une technique de visualisation.\n5.1.6\nAuto-encodeur\nUn auto-encodeur est un r´eseau de neurones cr´e´e dans le but d’apprendre une fonction d’identit´e de mani`ere\nnon supervis´ee pour reconstruire les donn´ees entr´ees initialement tout en les compressant pendant le pro-\ncessus.\nDans cette m´ethode on cherche encore `a passer d’une base D = {xi}n\ni=1 ∈Rd `a une base D′ = {x′\ni}n\ni=1 ∈\nRd. On notera gϕ l’encodeur DNN (par exemple Deep Neural Network). ϕ repr´esente les poids du r´eseau de",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Auto-encodeur",
+      "page_range": [
+        102,
+        110
+      ],
+      "length": 1967
+    },
+    {
+      "chunk_id": "5.1.6.c2",
+      "content": "i=1 ∈Rd `a une base D′ = {x′\ni}n\ni=1 ∈\nRd. On notera gϕ l’encodeur DNN (par exemple Deep Neural Network). ϕ repr´esente les poids du r´eseau de\nneurones. De mˆeme on note fθ le d´ecodeur DNN o`u θ repr´esente les poids du r´eseau de neurones. On a alors\nque ∀i ∈[|1, n|], x′\ni = fθ(gϕ(xi)).\nMI201-ENSTA Paris\n102",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Auto-encodeur",
+      "page_range": [
+        102,
+        110
+      ],
+      "length": 312
+    },
+    {
+      "chunk_id": "5.1.6.c3",
+      "content": "Chapter 5 Unsupervised Learning\n5.1 R´eduction de dimension\nFigure 5.5: Sch´ema de fonctionnement d’un auto-encodeur [32]\nIl existe beaucoup de m´etriques diff´erentes pour quantifier la diff´erence entre deux vecteurs, comme\nl’entropie crois´ee quand la fonction d’activation est une sigmo¨ıde (une fonction de la forme f(x) =\n1\n1−exp(−λx)).\nOn peut aussi utiliser la fonction de coˆut des moindres carr´es :\nL(ϕ, θ) = 1\nn\nn\nX\ni=1\n∥xi −fθ(gϕ(xi))∥2\n2\nMI201-ENSTA Paris\n103\n\nChapter 5 Unsupervised Learning\n5.2 Clustering\nIl existe une variante des auto-encodeurs qui sont dits ”robustes”. En effet il est possible qu’un auto-\nencodeur rencontre un probl`eme de sur-apprentissage lorsqu’il y a plus de param`etres pour le r´eseau de\nneurones que de donn´ees. Une solution `a ce probl`eme peut-ˆetre de corrompre partiellement l’entr´ee en\najoutant du bruit ou en masquant al´eatoirement certaines valeurs par exemple.\nFigure 5.6: Sch´ema de fonctionnement d’un auto-encodeur robuste [32]\n5.2\nClustering\nUne autre application de l’apprentissage non supervis´e est le clustering. On consid`ere cette fois une base de\ndonn´ees D = {xi}n\ni=1 ∈Rd et on consid`ere qu’il existe un jeu de K distributions Ck avec k ∈[|1, K|]. On\nconsid`ere ´egalement que tous les xi sont une r´ealisation de l’un des Ck. Toutefois, dans le cas g´en´eral, on ne\ndispose pas d’information sur K et les Ck.\nLe but du clustering va alors ˆetre de d´eterminer le nombre de clusters (ou au moins avoir un nombre qui\nfait sens) et de r´epartir les donn´ees de D sans avoir aucune information.\n5.2.1\nAlgorithme K-means\nSupposons que nous ayons choisi une valeur pour K. Construisons maintenant une nouvelle variable zi avec\ni ∈[|1, n|], qui assigne `a chaque xi un cluster.\n∀i ∈[|1, n|], zi = k si l’on assigne xi `a la classe k\nL’objectif de l’algorithme K-means peut ˆetre d´ecrit ainsi :\nL(z, µ) = arg min\nz,µ\n∥xi −µzi∥2\n2\nAvec µk =\n1\n|Ck|\nX\ni∈Ck\nvi\nAvec Ck = {xi, ∀i ∈[|1, n|] | zi = k}\nMI201-ENSTA Paris\n104",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Auto-encodeur",
+      "page_range": [
+        102,
+        110
+      ],
+      "length": 1981
+    },
+    {
+      "chunk_id": "5.1.6.c5",
+      "content": "Chapter 5 Unsupervised Learning\n5.2 Clustering\nFigure 5.8: Exemple de mauvaise initialisation [33]\nNous avons ici illustr´e l’algorithme K-means avec la distance euclidienne, on peut n´eanmoins utiliser\nd’autre mesures de dissimilarit´es :\n• La distance cosinus d´etermine l’angle entre les vecteurs form´es par deux points avec l’origine :\nd(x, y) = 1 −\nxT .y\n∥x∥.∥y∥\n• La distance de Manhattan qui somme les diff´erences entre chaque coordonn´ee des deux points :\nd(x, y) =\nd\nX\ni=1\n|xi −yi|\n• La distance de Minkowski, aussi connue sous le nom de m´etrique de distance g´en´eralis´ee :\nd(x, y) =\n d\nX\ni=1\n|xi −yi|\n1\np\n!p\nMI201-ENSTA Paris\n106",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Auto-encodeur",
+      "page_range": [
+        102,
+        110
+      ],
+      "length": 644
+    },
+    {
+      "chunk_id": "5.1.6.c6",
+      "content": "Chapter 5 Unsupervised Learning\n5.2 Clustering\n5.2.2\nDBSCAN\nCette m´ethode part du constat que, dans un probl`eme de clustering, les clusters correspondent aux r´egions\no`u la densit´e de donn´ees est ´elev´ee. Ces clusters sont s´epar´es par des zones o`u cette densit´e est faible. Un\ncluster est d´efini comme ´etant un jeu maximal de points connect´es par densit´e. Cette m´ethode permet de\nd´ecouvrir un nombre arbitraire de clusters de n’importe quelle forme.\nPour pouvoir mesurer la densit´e d’un point il faut d´efinir ce qu’est un voisinage. Le ϵ-voisinage d’un\npoint x pour une distance d est l’ensemble des points situ´es `a une distance inf´erieure `a ϵ de x.\nVϵ(x) = {y, d(x, y) ≤ϵ}\nLa m´ethode DBSCAN va, pour un ϵ et un entier MinPts, classer les points dans trois cat´egories distinctes.\nLa premi`ere est appel´ee points cœur, un point est cat´egoris´e comme tel s’il y a plus de MinPts situ´es dans\nson ϵ-voisinage :\nx est un point cœur si Vϵ > MinPts\nUn point cœur est un point situ´e `a l’int´erieur d’un cluster.\n`A partir de cette notion on peut d´efinir\nl’accessibilit´e par densit´e. On dit qu’un objet p est directement accessible par densit´e `a partir d’un objet\nq si ce dernier est un point cœur et que p est dans le ϵ-voisinage de q.\nFigure 5.9: p est directement accessible par densit´e par q mais pas l’inverse car p n’est pas un point cœur [34]\nOn remarque que cette relation n’est pas sym´etrique. On dit qu’un point p est accessible par densit´e par\nun point q s’il existe une chaˆıne de points directement accessibles par densit´e qui relie q `a p.\nMI201-ENSTA Paris\n107",
+      "semantic_type": "text",
+      "chapter": "Unsupervised Learning",
+      "section": "Réduction de dimension",
+      "subsection": "Auto-encodeur",
+      "page_range": [
+        102,
+        110
+      ],
+      "length": 1604
+    },
+    {
+      "chunk_id": "1.7.2.c2",
+      "content": "exemple. Dans ce cas on ´ecrit:\ny∗= arg max\ny\nk\nX\ni=1\nK(x, xi)δ(y, yi)\nObservons les effets de cette nouvelle approche sur l’exemple de tout `a l’heure en utilisant les cinq voisins\nles plus proches de chaque point de l’espace:\nFigure 1.22: Reprise de l’exemple pr´esent´e en Figure 1.14 en prenant cette fois-ci en compte les 5 plus proches\nvoisins [10]\nMI201-ENSTA Paris\n30",
+      "semantic_type": "example",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "La classification Plus Proche Voisin (PPV)",
+      "subsection": "L'approche des k-plus proches voisins (dite \"k-NN\")",
+      "page_range": [
+        29,
+        30
+      ],
+      "length": 375
+    },
+    {
+      "chunk_id": "2.1.7.c3",
+      "content": "exemple une pomme peut ˆetre d´ecrite comme rouge et grande ou comme jaune et ronde, c’est ce que l’on\nappelle une classe multi-modale.\nLes arbres de d´ecision n´ecessitent, pour leur part, de multiples tests conditionnels qui vont permettre de clas-\nsifier les donn´ees, chacun de ces tests d´ependant de ses ant´ec´edents. Cette s´erie de tests place les arbres de\nd´ecision dans la cat´egorie des mod`eles hi´erarchiques. On en arrive alors `a la d´efinition suivante d’un arbre de\nd´ecision :\nOn appelle arbre de d´ecision un mod`ele de pr´ediction qui peut ˆetre repr´esent´e sous la forme d’un ar-\nbre. Chaque nœud de l’arbre teste une condition sur une variable et chacun de ses enfants correspond `a\nune r´eponse possible `a cette condition. Les feuilles de l’arbre correspondent `a une ´etiquette. Pour pr´edire\nl’´etiquette d’une observation, on ”suit” les r´eponses aux tests depuis la racine de l’arbre, et on retourne\nl’´etiquette de la feuille `a laquelle on arrive.[13]\nMI201-ENSTA Paris\n36",
+      "semantic_type": "example",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Apprentissage hiérarchique",
+      "page_range": [
+        36,
+        36
+      ],
+      "length": 1005
+    },
+    {
+      "chunk_id": "2.3.c3",
+      "content": "exemple de la base ne soit pas s´electionn´e lors de la cr´eation d’un sous-´echantillon se traduit par :\nP =\n\u0012\n1 −1\nn\n\u0013n\nlim\nN→∞P = 1\ne ≈0.3679\nUne fois ces K jeux de donn´ees g´en´er´es, on entraˆıne le mˆeme algorithme sur chaque ˜Dk ce qui\nnous permettra d’obtenir K classifieurs fk qui seront tous diff´erents `a cause de cet apprentissage\nsur des bases diff´erentes malgr´e un code identique en tout autre point. Une fois cela fait on agr`ege\nces K classifieurs soit par vote majoritaire soit par moyenne :\nfmaj(x) = arg max\ny\nK\nX\nk=1\nδ(fk(x), y)\nfmoy(x) = 1\nK\nK\nX\nk=1\nfk(x)\nLa cons´equence d’un tel agr´egat est que chaque classifieur commet des erreurs diff´erentes `a\ncause des sous-´echantillon ˜Dk qui sont diff´erents et moins riches en information que D. Ces diff´erences\nentre les erreurs commises par les fk vont assurer une variance d’apprentissage plus faible au clas-\nsifieur agr´eg´e. Ainsi la m´ethode du bagging permet de r´egulariser le processus de pr´ediction.\nFigure 2.9: Sch´ema de principe du Bagging [16])\nMI201-ENSTA Paris\n43",
+      "semantic_type": "example",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Bagging",
+      "subsection": "",
+      "page_range": [
+        42,
+        43
+      ],
+      "length": 1054
+    },
+    {
+      "chunk_id": "2.1.2.c2",
+      "content": "Definition 2.1 (Graphe). Un graphe que l’on note G = (V, E) est constitu´e d’un ensemble non vide V de\nsommets (ou noeuds) et d’un ensemble E d’arˆetes qui relient les sommets. Chaque arˆete a soit un ou deux\nsommets qui lui sont associ´es, appel´es ses points d’extr´emit´e.\nFigure 2.1: Exemple d’un graphe avec 5 sommets et 7 arrˆetes.\nDans la Figure 2.1 on a represent´e un graphe simple.\nDefinition 2.2 (Arbre). Un arbre est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par exactement un chemin, ou de mani`ere ´equivalente un graphe non orient´e acyclique connect´e.\nDefinition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 1188
+    },
+    {
+      "chunk_id": "2.1.2.c3",
+      "content": "Definition 2.1 (Graphe). Un graphe que l’on note G = (V, E) est constitu´e d’un ensemble non vide V de\nsommets (ou noeuds) et d’un ensemble E d’arˆetes qui relient les sommets. Chaque arˆete a soit un ou deux\nsommets qui lui sont associ´es, appel´es ses points d’extr´emit´e.\nFigure 2.1: Exemple d’un graphe avec 5 sommets et 7 arrˆetes.\nDans la Figure 2.1 on a represent´e un graphe simple.\nDefinition 2.2 (Arbre). Un arbre est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par exactement un chemin, ou de mani`ere ´equivalente un graphe non orient´e acyclique connect´e.\nDefinition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 1188
+    },
+    {
+      "chunk_id": "2.1.2.c4",
+      "content": "Definition 2.1 (Graphe). Un graphe que l’on note G = (V, E) est constitu´e d’un ensemble non vide V de\nsommets (ou noeuds) et d’un ensemble E d’arˆetes qui relient les sommets. Chaque arˆete a soit un ou deux\nsommets qui lui sont associ´es, appel´es ses points d’extr´emit´e.\nFigure 2.1: Exemple d’un graphe avec 5 sommets et 7 arrˆetes.\nDans la Figure 2.1 on a represent´e un graphe simple.\nDefinition 2.2 (Arbre). Un arbre est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par exactement un chemin, ou de mani`ere ´equivalente un graphe non orient´e acyclique connect´e.\nDefinition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 1188
+    },
+    {
+      "chunk_id": "2.1.2.c6",
+      "content": "Definition 2.2 (Arbre). Un arbre est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par exactement un chemin, ou de mani`ere ´equivalente un graphe non orient´e acyclique connect´e.\nDefinition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 796
+    },
+    {
+      "chunk_id": "2.1.2.c7",
+      "content": "Definition 2.2 (Arbre). Un arbre est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par exactement un chemin, ou de mani`ere ´equivalente un graphe non orient´e acyclique connect´e.\nDefinition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 796
+    },
+    {
+      "chunk_id": "2.1.2.c8",
+      "content": "Definition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 585
+    },
+    {
+      "chunk_id": "2.1.2.c10",
+      "content": "Definition 2.3 (Foret). Une forˆet est un graphe non orient´e dans lequel deux sommets quelconques sont\nconnect´es par au plus un chemin.\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 585
+    },
+    {
+      "chunk_id": "2.1.2.c11",
+      "content": "Definition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33\n\nDefinition 2.4 (Arbre enracin´e). Un arbre enracin´e est un arbre dans lequel un sommet a ´et´e d´esign´e comme\n´etant la racine et chaque arˆete est dirig´ee `a partir de la racine\n2.1.2\nPr´esentation de la structure d’arbre\nAvant d’entrer dans la partie Machine Learning de cette section, il est n´ecessaire de pr´esenter ce que l’on\nentend par ”arbre de d´ecision” dans le domaine de l’informatique en g´en´eral. Il s’agit d’une structure de\n33",
+      "semantic_type": "definition",
+      "chapter": "Arbres de décision et méthodes ensemblistes",
+      "section": "Les arbres de décision",
+      "subsection": "Présentation de la structure d'arbre",
+      "page_range": [
+        33,
+        33
+      ],
+      "length": 896
+    },
+    {
+      "chunk_id": "1.3.2.c2",
+      "content": "Y est l’espace des ´etiquettes, l’objectif principal de l’apprentissage automatique supervis´e est de d´eterminer\nune fonction f : X →Y telle que ∀(xi, yi) ∈X × Y ayant la mˆeme relation que les paires observ´ees,\njeu d’apprentissage.\nComme indiqu´e pr´ec´edemment, les donn´ees peuvent ˆetre de types tr`es diff´erents et il est n´ecessaire\nde faire un travail de mod´elisation de ces derni`eres en amont pour chaque probl`eme diff´erent. Dans de\nnombreuses situations on se ram`enera n´eanmoins au cas o`u X = Rp et on dira que les observations sont\nrepr´esent´ees par p variables. Dans ce cas on appellera matrice de donn´ees ou matrice de design la matrice\nX ∈Rn×p telle que Xij = xij, c’est-`a-dire la j-`eme composante de la i-`eme observation.\nCe que l’on d´ecrit comme pr´ediction peut ˆetre tout aussi vari´e. Il peut s’agir d’une d´ecision, d’une ac-\ntion, d’une r´eponse, d’un groupe, d’une commande, d’une valeur, d’une pr´ef´erence, etc… Ainsi la phase de\nmod´elisation de cette pr´ediction est tout aussi importante que celle des donn´ees et d´epend ´egalement du\nprobl`eme trait´e.\nMI201-ENSTA Paris\n8",
+      "semantic_type": "text",
+      "chapter": "Apprentissage automatique: introduction",
+      "section": "Problématique générale",
+      "subsection": "Formalisation mathématique",
+      "page_range": [
+        8,
+        10
+      ],
+      "length": 1116
+    }
+  ]
+}

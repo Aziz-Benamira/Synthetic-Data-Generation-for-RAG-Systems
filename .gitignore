@@ -18,12 +18,18 @@ dist/
 *.swo
 
 # Data
+data/pdfs/*.pdf
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
 outputs/logs/*
 !outputs/logs/.gitkeep
+
+# Large outputs
+sog/outputs/
+sog/inputs/
+multimodal/output/
 
 # Environment
 .env

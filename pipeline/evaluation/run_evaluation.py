@@ -1,0 +1,531 @@
+"""
+RAG Evaluation Runner
+======================
+
+Script principal d'évaluation du pipeline RAG classique
+sur notre Gold Dataset synthétique (MI201).
+
+Architecture :
+  1. Charge les 100 chunks sémantiques dans ChromaDB
+  2. Charge le Gold Dataset (85 paires QA)
+  3. Pour chaque QA :
+     a. Retrieve top-k chunks
+     b. Génère une réponse RAG avec Qwen2.5-32B
+     c. Évalue : retrieval metrics + generation metrics + LLM-as-Judge
+  4. Agrège tout et sauvegarde les résultats
+
+Usage :
+  python evaluation/run_evaluation.py                          # défaut
+  python evaluation/run_evaluation.py --top_k 3                # top-3
+  python evaluation/run_evaluation.py --no-judge               # sans LLM judge
+  python evaluation/run_evaluation.py --limit 10               # 10 premières QA
+"""
+
+import argparse
+import json
+import logging
+import os
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
+
+import numpy as np
+
+# Ajouter le projet au path
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+from evaluation.rag_retriever import SemanticRetriever
+from evaluation.rag_generator import RAGGenerator
+from evaluation.metrics import evaluate_single_qa, compute_aggregate_metrics
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Configuration par défaut
+# ──────────────────────────────────────────────────────────────────────────────
+
+DEFAULT_CONFIG = {
+    # Chemins
+    "chunks_path": str(PROJECT_ROOT / "experiments/critic_v2_baseline/data/chunks_mi201.json"),
+    "gold_dataset_path": str(PROJECT_ROOT / "réunion/gold_dataset_v4_full.jsonl"),
+    "output_dir": str(PROJECT_ROOT / "evaluation/results"),
+    
+    # Modèles
+    "rag_llm_path": os.path.expanduser(
+        "~/models/qwen2.5-32b-instruct/Qwen2.5-32B-Instruct-Q4_K_M.gguf"
+    ),
+    "judge_llm_path": os.path.expanduser(
+        "~/models/deepseek-r1-distill-qwen-32b/DeepSeek-R1-Distill-Qwen-32B-IQ3_M.gguf"
+    ),
+    
+    # Embedding
+    # BAAI/bge-m3 : SOTA multilingue FR+EN, 570M params, 1024-dim
+    # Bien meilleur que all-MiniLM-L6-v2 (EN only, 22M) pour notre polycopié FR
+    # Chemin local pour éviter le problème de chargement .bin (torch 2.5 + CVE-2025-32434)
+    "embedding_model": os.path.expanduser("~/models/bge-m3"),
+    "embedding_device": "cuda",  # GPU L40S disponible → ~5x plus rapide
+    
+    # Retrieval
+    "top_k": 5,
+    
+    # LLM
+    "n_gpu_layers": -1,
+    "n_ctx": 8192,       # 5 chunks × ~1274 chars avg ÷ 4 ≈ 1600 tokens + overhead + 1024 génération
+    "temperature": 0.3,
+    "max_tokens": 1024,
+    
+    # Evaluation
+    "use_llm_judge": True,
+    "bert_device": "cuda",  # GPU L40S dispo, BERTScore ~2x plus rapide
+}
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Logging
+# ──────────────────────────────────────────────────────────────────────────────
+
+def setup_logging(output_dir: str):
+    """Configure le logging avec fichier + console."""
+    os.makedirs(output_dir, exist_ok=True)
+    
+    log_file = os.path.join(output_dir, "evaluation.log")
+    
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.FileHandler(log_file, mode='w', encoding='utf-8'),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+
+logger = logging.getLogger(__name__)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Data Loading
+# ──────────────────────────────────────────────────────────────────────────────
+
+def load_gold_dataset(path: str) -> list:
+    """Charge le Gold Dataset JSONL."""
+    entries = []
+    with open(path, 'r', encoding='utf-8') as f:
+        for i, line in enumerate(f):
+            line = line.replace('\x00', '').strip()  # strip null bytes (NFS artefact)
+            if not line:
+                continue
+            try:
+                entries.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                logger.warning(f"Ligne {i+1} ignorée (JSON invalide): {repr(line[:60])} — {e}")
+    logger.info(f"Loaded {len(entries)} Gold QA pairs from {path}")
+    return entries
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Main Evaluation Pipeline
+# ──────────────────────────────────────────────────────────────────────────────
+
+def run_evaluation(config: dict):
+    """
+    Pipeline d'évaluation complet.
+    
+    Étapes :
+    1. Indexation des chunks sémantiques dans ChromaDB
+    2. Chargement du LLM RAG (Qwen2.5-32B)
+    3. Pour chaque question Gold :
+       - Retrieval → top-k chunks
+       - Génération → réponse RAG
+       - Évaluation → toutes les métriques
+    4. Agrégation et sauvegarde
+    """
+    start_time = time.time()
+    output_dir = config["output_dir"]
+    os.makedirs(output_dir, exist_ok=True)
+    
+    logger.info("=" * 70)
+    logger.info("  RAG EVALUATION PIPELINE")
+    logger.info("=" * 70)
+    logger.info(f"  RAG LLM    : {Path(config['rag_llm_path']).name}")
+    logger.info(f"  Judge LLM  : {Path(config['judge_llm_path']).name if config['use_llm_judge'] else 'DISABLED'}")
+    logger.info(f"  Embedding  : {config['embedding_model']} (device: {config['embedding_device']})")
+    logger.info(f"  Top-k      : {config['top_k']}")
+    logger.info(f"  Output     : {output_dir}")
+    logger.info("=" * 70)
+    
+    # ── Étape 1 : Indexation des chunks ──
+    logger.info("\n[1/4] Indexing semantic chunks in ChromaDB...")
+    retriever = SemanticRetriever(
+        embedding_model=config["embedding_model"],
+        collection_name="mi201_semantic",
+        device=config["embedding_device"]
+    )
+    num_indexed = retriever.load_chunks(config["chunks_path"])
+    logger.info(f"  → {num_indexed} chunks indexed")
+    
+    # ── Étape 2 : Chargement du LLM RAG ──
+    logger.info("\n[2/4] Loading RAG LLM (Qwen2.5-32B-Instruct)...")
+    rag_generator = RAGGenerator(
+        model_path=config["rag_llm_path"],
+        n_gpu_layers=config["n_gpu_layers"],
+        n_ctx=config["n_ctx"]
+    )
+    
+    # LLM Judge — DeepSeek R1 chargé séparément pour éviter le biais self-evaluation
+    # VRAM : Qwen Q4 (19GB) + DeepSeek IQ3 (14GB) + bge-m3 (2GB) + xlm-roberta (2GB) ≈ 37GB / 46GB L40S ✅
+    judge_llm = None
+    if config["use_llm_judge"]:
+        from llama_cpp import Llama
+        judge_path = config["judge_llm_path"]
+        logger.info(f"\n  Loading Judge LLM (DeepSeek-R1-32B)...")
+        logger.info(f"    Path: {judge_path}")
+        # n_ctx=2048 suffit pour le juge : question (~50) + gold (~150) + generated (~200) + context excerpt (~750) + output (~200)
+        judge_llm = Llama(
+            model_path=judge_path,
+            n_gpu_layers=config["n_gpu_layers"],
+            n_ctx=3072,  # 2048 trop court pour questions avec formules LaTeX longues
+            verbose=False,
+            chat_format="chatml"
+        )
+        logger.info("  → LLM-as-Judge: DeepSeek-R1-32B loaded (modèle distinct de Qwen RAG, sans biais self-eval)")
+    
+    # ── Étape 3 : Évaluation QA par QA ──
+    logger.info("\n[3/4] Running evaluation on Gold Dataset...")
+    gold_data = load_gold_dataset(config["gold_dataset_path"])
+    
+    # Limite optionnelle
+    limit = config.get("limit")
+    if limit and limit < len(gold_data):
+        logger.info(f"  ⚠ Limited to {limit} questions (out of {len(gold_data)})")
+        gold_data = gold_data[:limit]
+    
+    all_results = []
+    all_detailed = []
+
+    # Sauvegarde progressive : un fichier JSONL écrit au fur et à mesure
+    # → si timeout, les résultats déjà calculés sont préservés
+    incremental_path = os.path.join(output_dir, "incremental_results.jsonl")
+    incremental_file = open(incremental_path, 'w', encoding='utf-8')
+    logger.info(f"  Sauvegarde progressive : {incremental_path}")
+    
+    for i, qa in enumerate(gold_data, 1):
+        question = qa["question"]
+        gold_answer = qa["answer"]
+        gold_chunk_id = qa["chunk_id"]
+        gold_score = qa.get("global_score", 0)
+        chapter = qa.get("chapter", "")
+        section = qa.get("section", "")
+        
+        logger.info(f"\n  [{i}/{len(gold_data)}] {question[:80]}...")
+        logger.info(f"    Gold chunk: {gold_chunk_id} | Gold score: {gold_score}")
+        
+        # Récupérer le contenu du chunk gold
+        gold_chunk = retriever.get_chunk_by_id(gold_chunk_id)
+        gold_chunk_content = gold_chunk["content"] if gold_chunk else ""
+        
+        # a) Retrieval
+        t0 = time.time()
+        retrieved = retriever.retrieve(question, top_k=config["top_k"])
+        retrieval_time = time.time() - t0
+        
+        retrieved_ids = [c["chunk_id"] for c in retrieved]
+        hit = "✅" if gold_chunk_id in retrieved_ids else "❌"
+        logger.info(f"    Retrieval: {hit} top-{config['top_k']} = {retrieved_ids}")
+        logger.info(f"    Similarities: {[c['similarity'] for c in retrieved]}")
+        
+        # b) Generation
+        t0 = time.time()
+        gen_result = rag_generator.generate_answer(
+            question=question,
+            retrieved_chunks=retrieved,
+            temperature=config["temperature"],
+            max_tokens=config["max_tokens"]
+        )
+        generation_time = time.time() - t0
+        
+        generated_answer = gen_result["answer"]
+        logger.info(f"    Generated ({gen_result['tokens_used']} tokens, {generation_time:.1f}s): {generated_answer[:100]}...")
+        
+        # c) Evaluation
+        t0 = time.time()
+        eval_result = evaluate_single_qa(
+            question=question,
+            gold_answer=gold_answer,
+            gold_chunk_id=gold_chunk_id,
+            gold_chunk_content=gold_chunk_content,
+            generated_answer=generated_answer,
+            retrieved_chunks=retrieved,
+            context_used=gen_result["context_used"],
+            llm_judge=judge_llm,
+            top_k=config["top_k"],
+            bert_device=config["bert_device"]
+        )
+        eval_time = time.time() - t0
+        
+        # Log key metrics
+        ret = eval_result["retrieval"]
+        gen = eval_result["generation"]
+        logger.info(f"    Metrics: Hit@5={ret['hit_rate_at_5']:.0f} MRR={ret['mrr']:.2f} "
+                     f"ROUGE-L={gen['rouge_l']['f1']:.3f} Faithful={gen['faithfulness']:.3f}")
+        
+        if "llm_judge" in eval_result:
+            judge = eval_result["llm_judge"]
+            logger.info(f"    Judge: {judge['score_moyen']}/5 "
+                         f"(exact={judge['exactitude']} compl={judge['completude']} "
+                         f"fidel={judge['fidelite']} clair={judge['clarte']})")
+        
+        all_results.append(eval_result)
+        
+        # Détail complet pour sauvegarde
+        detail_entry = {
+            "index": i,
+            "question": question,
+            "gold_answer": gold_answer,
+            "generated_answer": generated_answer,
+            "gold_chunk_id": gold_chunk_id,
+            "gold_score": gold_score,
+            "chapter": chapter,
+            "section": section,
+            "retrieved_chunk_ids": retrieved_ids,
+            "retrieval_time": round(retrieval_time, 3),
+            "generation_time": round(generation_time, 3),
+            "evaluation_time": round(eval_time, 3),
+            "metrics": eval_result
+        }
+        all_detailed.append(detail_entry)
+
+        # Sauvegarde immédiate après chaque QA → résultats préservés même en cas de timeout
+        incremental_file.write(json.dumps(detail_entry, ensure_ascii=False) + "\n")
+        incremental_file.flush()
+
+    incremental_file.close()
+    logger.info(f"  ✅ {len(all_detailed)} QA sauvegardées en continu")
+    
+    # ── Étape 4 : Agrégation ──
+    logger.info("\n[4/4] Aggregating results...")
+    aggregate = compute_aggregate_metrics(all_results)
+    
+    total_time = time.time() - start_time
+    
+    # Résumé final
+    logger.info("\n" + "=" * 70)
+    logger.info("  RÉSULTATS FINAUX")
+    logger.info("=" * 70)
+    logger.info(f"  Questions évaluées : {aggregate['total_questions']}")
+    logger.info(f"  Temps total        : {total_time:.0f}s ({total_time/60:.1f}min)")
+    logger.info("")
+    logger.info("  RETRIEVAL :")
+    logger.info(f"    Hit Rate @5  : {aggregate['retrieval']['hit_rate@5']:.1%}")
+    logger.info(f"    Hit Rate @3  : {aggregate['retrieval']['hit_rate@3']:.1%}")
+    logger.info(f"    Hit Rate @1  : {aggregate['retrieval']['hit_rate@1']:.1%}")
+    logger.info(f"    MRR          : {aggregate['retrieval']['mrr']:.4f}")
+    logger.info(f"    Avg Similarity: {aggregate['retrieval']['avg_similarity']:.4f}")
+    logger.info("")
+    logger.info("  GENERATION :")
+    logger.info(f"    ROUGE-L F1   : {aggregate['generation']['rouge_l_f1_mean']:.4f}")
+    logger.info(f"    Word Overlap : {aggregate['generation']['word_overlap_mean']:.4f}")
+    logger.info(f"    Faithfulness : {aggregate['generation']['faithfulness_mean']:.4f}")
+    if "bert_score_f1_mean" in aggregate["generation"]:
+        logger.info(f"    BERTScore F1 : {aggregate['generation']['bert_score_f1_mean']:.4f}")
+    if "llm_judge" in aggregate:
+        logger.info(f"    LLM Judge    : {aggregate['llm_judge']['score_moyen_mean']:.2f}/5")
+    logger.info("=" * 70)
+    
+    # ── Sauvegarde ──
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # Résumé
+    summary = {
+        "timestamp": timestamp,
+        "config": {
+            "rag_llm": Path(config["rag_llm_path"]).name,
+            "embedding_model": config["embedding_model"],
+            "top_k": config["top_k"],
+            "chunks_indexed": num_indexed,
+            "questions_evaluated": len(gold_data),
+        },
+        "aggregate_metrics": aggregate,
+        "total_time_seconds": round(total_time, 1)
+    }
+    
+    summary_path = os.path.join(output_dir, f"summary_{timestamp}.json")
+    with open(summary_path, 'w', encoding='utf-8') as f:
+        json.dump(summary, f, indent=2, ensure_ascii=False)
+    logger.info(f"\nSummary saved: {summary_path}")
+    
+    # Détail par QA (JSON complet)
+    detailed_path = os.path.join(output_dir, f"detailed_{timestamp}.json")
+    with open(detailed_path, 'w', encoding='utf-8') as f:
+        json.dump(all_detailed, f, indent=2, ensure_ascii=False)
+    logger.info(f"Detailed results saved: {detailed_path}")
+
+    # Rapport lisible à la main (.txt)
+    report_path = os.path.join(output_dir, f"rapport_lisible_{timestamp}.txt")
+    _write_human_report(report_path, all_detailed, aggregate, config, total_time)
+    logger.info(f"Rapport lisible  : {report_path}")
+
+    return summary
+
+
+def _write_human_report(
+    path: str,
+    all_detailed: list,
+    aggregate: dict,
+    config: dict,
+    total_time: float
+):
+    """Écrit un rapport texte formaté pour relecture manuelle."""
+    sep  = "=" * 80
+    sep2 = "-" * 80
+
+    lines = []
+    lines.append(sep)
+    lines.append("  RAPPORT D'ÉVALUATION RAG — LECTURE MANUELLE")
+    lines.append(sep)
+    lines.append(f"  Modèle RAG : {Path(config['rag_llm_path']).name}")
+    lines.append(f"  Embedder   : {Path(config['embedding_model']).name}")
+    lines.append(f"  Top-k      : {config['top_k']}")
+    lines.append(f"  Questions  : {len(all_detailed)}")
+    lines.append(f"  Temps total: {total_time:.0f}s ({total_time/60:.1f} min)")
+    lines.append(sep)
+
+    for d in all_detailed:
+        ret = d["metrics"]["retrieval"]
+        gen = d["metrics"]["generation"]
+        judge = d["metrics"].get("llm_judge", None)
+
+        lines.append("")
+        lines.append(f"╔══ QUESTION {d['index']:02d}/{len(all_detailed)} {'═' * 60}")
+        lines.append(f"║  Chapitre : {d['chapter']}")
+        lines.append(f"║  Section  : {d['section']}")
+        lines.append(f"║  Gold chunk: {d['gold_chunk_id']}  (gold score pipeline: {d['gold_score']:.3f})")
+        lines.append("╚" + "═" * 70)
+
+        lines.append("")
+        lines.append("▶ QUESTION :")
+        lines.append(f"  {d['question']}")
+
+        lines.append("")
+        lines.append("▶ RÉPONSE GOLD (référence) :")
+        lines.append(f"  {d['gold_answer']}")
+
+        lines.append("")
+        lines.append("▶ RÉPONSE GÉNÉRÉE PAR LE RAG :")
+        lines.append(f"  {d['generated_answer']}")
+
+        lines.append("")
+        lines.append("▶ RETRIEVAL :")
+        hit_sym = "✅" if ret["hit_rate_at_5"] == 1.0 else "❌"
+        lines.append(f"  Chunks récupérés (top-5) : {ret['retrieved_ids']}")
+        lines.append(f"  Gold chunk trouvé (@5)   : {hit_sym}  MRR={ret['mrr']:.3f}  "
+                     f"Hit@3={ret['hit_rate_at_3']:.0f}  Hit@1={ret['hit_rate_at_1']:.0f}")
+        lines.append(f"  Similarité moy. top-5    : {ret['avg_similarity']:.4f}")
+        lines.append(f"  Precision contextuelle   : {ret['contextual_precision']:.3f}")
+
+        lines.append("")
+        lines.append("▶ MÉTRIQUES GÉNÉRATION :")
+        lines.append(f"  ROUGE-L F1   : {gen['rouge_l']['f1']:.4f}  "
+                     f"(P={gen['rouge_l']['precision']:.3f}  R={gen['rouge_l']['recall']:.3f})")
+        bs = gen.get("bert_score", {})
+        if bs.get("f1", -1) >= 0:
+            lines.append(f"  BERTScore F1 : {bs['f1']:.4f}  "
+                         f"(P={bs['precision']:.3f}  R={bs['recall']:.3f})")
+        lines.append(f"  Word Overlap : {gen['word_overlap']:.4f}")
+        lines.append(f"  Faithfulness : {gen['faithfulness']:.4f}  "
+                     f"({'ancré dans contexte' if gen['faithfulness'] > 0.5 else 'possibles hallucinations'})")
+
+        if judge and judge.get("score_moyen", -1) >= 0:
+            lines.append("")
+            lines.append("▶ LLM-AS-JUDGE :")
+            lines.append(f"  Score moyen  : {judge['score_moyen']:.2f}/5")
+            lines.append(f"  Exactitude   : {judge['exactitude']}/5")
+            lines.append(f"  Complétude   : {judge['completude']}/5")
+            lines.append(f"  Fidélité     : {judge['fidelite']}/5")
+            lines.append(f"  Clarté       : {judge['clarte']}/5")
+            lines.append(f"  Commentaire  : {judge['commentaire']}")
+
+        lines.append(f"  ⏱  Retrieval: {d['retrieval_time']:.2f}s  "
+                     f"Génération: {d['generation_time']:.1f}s  "
+                     f"Évaluation: {d['evaluation_time']:.1f}s")
+        lines.append(sep2)
+
+    # Résumé agrégé
+    lines.append("")
+    lines.append(sep)
+    lines.append("  RÉSUMÉ AGRÉGÉ")
+    lines.append(sep)
+    r = aggregate["retrieval"]
+    g = aggregate["generation"]
+    lines.append(f"  Hit Rate @5   : {r['hit_rate@5']:.1%}")
+    lines.append(f"  Hit Rate @3   : {r['hit_rate@3']:.1%}")
+    lines.append(f"  Hit Rate @1   : {r['hit_rate@1']:.1%}")
+    lines.append(f"  MRR           : {r['mrr']:.4f}")
+    lines.append(f"  Avg Similarity: {r['avg_similarity']:.4f}")
+    lines.append("")
+    lines.append(f"  ROUGE-L F1    : {g['rouge_l_f1_mean']:.4f}  (médiane: {g['rouge_l_f1_median']:.4f})")
+    lines.append(f"  Word Overlap  : {g['word_overlap_mean']:.4f}")
+    lines.append(f"  Faithfulness  : {g['faithfulness_mean']:.4f}")
+    if "bert_score_f1_mean" in g:
+        lines.append(f"  BERTScore F1  : {g['bert_score_f1_mean']:.4f}  (médiane: {g['bert_score_f1_median']:.4f})")
+    if "llm_judge" in aggregate:
+        j = aggregate["llm_judge"]
+        lines.append(f"  LLM Judge     : {j['score_moyen_mean']:.2f}/5  (médiane: {j['score_moyen_median']:.2f}/5, n={j['count']})")
+    lines.append(sep)
+
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write("\n".join(lines))
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# CLI
+# ──────────────────────────────────────────────────────────────────────────────
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="RAG Evaluation Pipeline")
+    
+    parser.add_argument("--top_k", type=int, default=5,
+                        help="Number of chunks to retrieve (default: 5)")
+    parser.add_argument("--limit", type=int, default=None,
+                        help="Limit number of QA pairs to evaluate")
+    parser.add_argument("--no-judge", action="store_true",
+                        help="Disable LLM-as-Judge (faster)")
+    parser.add_argument("--rag-model", type=str, default=None,
+                        help="Override RAG LLM path")
+    parser.add_argument("--output-dir", type=str, default=None,
+                        help="Override output directory")
+    parser.add_argument("--n-ctx", type=int, default=4096,
+                        help="LLM context size")
+    
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    
+    config = DEFAULT_CONFIG.copy()
+    
+    if args.top_k:
+        config["top_k"] = args.top_k
+    if args.limit:
+        config["limit"] = args.limit
+    if args.no_judge:
+        config["use_llm_judge"] = False
+    if args.rag_model:
+        config["rag_llm_path"] = args.rag_model
+    if args.output_dir:
+        config["output_dir"] = args.output_dir
+    if args.n_ctx:
+        config["n_ctx"] = args.n_ctx
+    
+    setup_logging(config["output_dir"])
+    
+    summary = run_evaluation(config)
+    
+    print("\n✅ Evaluation complete!")
+    print(f"   Results in: {config['output_dir']}")
+    
+    return summary
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,25 @@
+{
+    "course_code": "MI201",
+    "course_title": "Regularization and Support Vector Machines",
+    "institution": "ENSTA Paris",
+    "instructors": [
+        "Gianni Franchi",
+        "Stephane Herbin",
+        "Adrien Chan Hon Tong"
+    ],
+    "language": "french",
+    "chapter": "Chapter 3: Regularization and Support Vector Machines",
+    "topic": "Ch3_SVM",
+    "keywords": [
+        "SVM",
+        "kernel",
+        "regularization",
+        "L1",
+        "L2",
+        "support vectors",
+        "margin",
+        "hyperplane"
+    ],
+    "pages": "pages 51-70",
+    "content_summary": "limitation de la profondeur de l’arbre, minoration du gain en homogénéité, ajout d’une pénalisation de complexité dans le co ût ou encore en garantissant une bonne estimation des co ûts en imposant un nombre minimal d’échantillons par nœud. 2.1.9 Résumé concernant les arbres de décision Nous avons vu dans cette partie que les arbres de décision constituaient une approche extr êmement facile à interpréter d’un point de vue visuel et logique. En effet la représentation graphique d’un arbre permet"
+}

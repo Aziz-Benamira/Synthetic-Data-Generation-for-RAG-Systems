@@ -1,0 +1,23 @@
+{
+    "course_code": "MI201",
+    "course_title": "Introduction to Neural Networks",
+    "institution": "ENSTA Paris",
+    "instructors": [
+        "Gianni Franchi",
+        "Stephane Herbin",
+        "Adrien Chan Hon Tong"
+    ],
+    "language": "french",
+    "chapter": "Chapter 4: Introduction to Neural Networks",
+    "topic": "Ch4_Neural_Networks",
+    "keywords": [
+        "neural network",
+        "backpropagation",
+        "activation function",
+        "gradient descent",
+        "deep learning",
+        "perceptron"
+    ],
+    "pages": "pages 71-88",
+    "content_summary": "linéairement séparables. En effet il n’est pas rare de se retrouver dans un cas o ù séparer linéairement les données n’est pas possible à cause de leur forme. Dans de tels cas on peut alors modifier les données gr âceà une transformation polynomiale ou polaire afin de pouvoir les séparer : Figure 3.13: Exemple de transformation polynomiale Figure 3.14: Exemple de transformation polaire 3.3.7 Les noyaux dans les SVM Si on revient sur la formulation duale 3.2 du SVM, on peut utiliser ce que l’on a"
+}

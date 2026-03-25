@@ -1,0 +1,6 @@
+openai
+sentence-transformers
+pypdf
+numpy
+rouge-score      # evaluate_sog.py — ROUGE-L F1
+bert-score       # evaluate_sog.py — BERTScore F1

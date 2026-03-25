@@ -1,0 +1,13 @@
+# Logs SLURM
+logs/
+*.out
+*.err
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Env
+.env
+.venv/
