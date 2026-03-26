@@ -280,7 +280,7 @@ def run_rag_evaluation(chunks_path: str, gold_dataset_path: str, eval_output_dir
 
     from evaluation.rag_retriever import SemanticRetriever
     from evaluation.rag_generator import RAGGenerator
-    from evaluation.metrics import evaluate_single_qa, compute_aggregate_metrics
+    from metrics.metrics import evaluate_single_qa, compute_aggregate_metrics
 
     # Config évaluation
     config = {

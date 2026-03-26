@@ -20,7 +20,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from evaluation.metrics import llm_judge_score, compute_aggregate_metrics, evaluate_single_qa
+from metrics.metrics import llm_judge_score, compute_aggregate_metrics, evaluate_single_qa
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)

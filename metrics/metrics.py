@@ -7,6 +7,7 @@ Métriques d'évaluation adaptées à notre projet :
 RETRIEVAL (le retriever trouve-t-il les bons chunks ?) :
   - Hit Rate (Recall@k)  : Le chunk source (gold) est-il dans le top-k ?
   - MRR (Mean Reciprocal Rank) : À quel rang apparaît le chunk gold ?
+  - NDCG : à quel point est-ce que l'ordre est cohérent?
   - Contextual Precision  : Proportion de chunks pertinents dans le top-k
 
 GENERATION (la réponse générée est-elle bonne ?) :
@@ -86,6 +87,42 @@ def retrieval_similarity_score(retrieved_chunks: List[Dict], k: int = 5) -> floa
     """Score moyen de similarité cosine des top-k chunks."""
     similarities = [c.get("similarity", 0) for c in retrieved_chunks[:k]]
     return float(np.mean(similarities)) if similarities else 0.0
+
+
+def normalized_discounted_cumulative_gain(
+    gold_chunk_id: str,
+    retrieved_chunks: List[Dict],
+    k: int = 5
+) -> float:
+    """
+    NDCG@k : Normalized Discounted Cumulative Gain.
+    
+    Mesure la qualité du ranking en tenant compte de l'ordre des résultats.
+    Plus la position du chunk gold est haute, plus le score est élevé.
+    
+    DCG = sum(rel_i / log2(i+1)) where rel_i = 1 if chunk i is gold chunk, 0 else
+    IDCG = 1 / log2(2) (ideal: gold chunk at position 1)
+    NDCG = DCG / IDCG
+    
+    Returns: NDCG score between 0 and 1
+    """
+    # Calculer DCG
+    dcg = 0.0
+    gold_found = False
+    
+    for i, chunk in enumerate(retrieved_chunks[:k]):
+        if chunk.get("chunk_id", "") == gold_chunk_id:
+            # Relevance = 1 pour le gold chunk
+            dcg += 1.0 / np.log2(i + 2)  # i+2 car position est 1-indexed
+            gold_found = True
+            break  # On s'arrête au premier match
+    
+    # IDCG : cas idéal où le gold chunk est au rang 1
+    idcg = 1.0 / np.log2(2)  # log2(1+1) = log2(2) = 1, donc 1.0
+    
+    # NDCG
+    ndcg = (dcg / idcg) if gold_found else 0.0
+    return float(ndcg)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -377,6 +414,8 @@ def evaluate_single_qa(
         "hit_rate_at_3": hit_rate_at_k(gold_chunk_id, retrieved_chunks, k=3),
         "hit_rate_at_1": hit_rate_at_k(gold_chunk_id, retrieved_chunks, k=1),
         "mrr": reciprocal_rank(gold_chunk_id, retrieved_chunks),
+        "ndcg_at_5": normalized_discounted_cumulative_gain(gold_chunk_id, retrieved_chunks, k=5),
+        "ndcg_at_3": normalized_discounted_cumulative_gain(gold_chunk_id, retrieved_chunks, k=3),
         "contextual_precision": contextual_precision_at_k(
             gold_chunk_id, retrieved_chunks, gold_chunk_content, k=top_k
         ),
@@ -427,6 +466,7 @@ def compute_aggregate_metrics(all_results: List[Dict]) -> Dict[str, Any]:
     hit3 = [r["retrieval"]["hit_rate_at_3"] for r in all_results]
     hit1 = [r["retrieval"]["hit_rate_at_1"] for r in all_results]
     mrrs = [r["retrieval"]["mrr"] for r in all_results]
+    ndcg5 = [r["retrieval"]["ndcg_at_5"] for r in all_results]
     avg_sims = [r["retrieval"]["avg_similarity"] for r in all_results]
     
     # Generation
@@ -443,13 +483,9 @@ def compute_aggregate_metrics(all_results: List[Dict]) -> Dict[str, Any]:
             "hit_rate@5": round(np.mean(hit5), 4),
             "hit_rate@3": round(np.mean(hit3), 4),
             "hit_rate@1": round(np.mean(hit1), 4),
-            "mrr": round(np.mean(mrrs), 4),
-            "avg_similarity": round(np.mean(avg_sims), 4),
+            "ndcg@5": round(np.mean(ndcg5), 4),
         },
         "generation": {
-            "rouge_l_f1_mean": round(np.mean(rouge_f1s), 4),
-            "rouge_l_f1_median": round(np.median(rouge_f1s), 4),
-            "word_overlap_mean": round(np.mean(word_overlaps), 4),
             "faithfulness_mean": round(np.mean(faiths), 4),
         }
     }

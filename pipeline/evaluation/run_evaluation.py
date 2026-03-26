@@ -38,7 +38,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from evaluation.rag_retriever import SemanticRetriever
 from evaluation.rag_generator import RAGGenerator
-from evaluation.metrics import evaluate_single_qa, compute_aggregate_metrics
+from metrics.metrics import evaluate_single_qa, compute_aggregate_metrics
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Configuration par défaut
